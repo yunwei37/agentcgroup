@@ -1,0 +1,25 @@
+# LaTeX generated files
+*.aux
+*.log
+*.bbl
+*.blg
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+comment.cut
+
+# PDF output
+*.pdf
+
+# Editor files
+*.swp
+*.swo
+*~
+.DS_Store

@@ -1,0 +1,326 @@
+%%
+%% This is file `main.tex',
+%% Multikernel Paper
+%%
+
+\documentclass[sigconf,review,anonymous]{acmart}
+
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+\begin{document}
+
+\title{Rethinking Multikernel Architecture: From Replica to Isolation}
+
+\author{Anonymous Author(s)}
+\affiliation{%
+  \institution{Anonymous Institution}
+  \city{Anonymous City}
+  \country{Anonymous Country}
+}
+\email{anonymous@example.com}
+
+\begin{abstract}
+Unlike traditional multikernel operating systems (Barrelfish, Popcorn Linux) that use replica to create a single system image, we use multikernels to achieve \textbf{isolation, high customization, and dynamic resource management}. This architectural shift transforms multikernels from academic experimental projects into practical infrastructure suitable for cloud computing. We address a critical design issue in traditional multikernel systems: dynamic resource management. By leveraging device trees, existing Linux hotplug implementations, and novel approaches to I/O sharing, we have designed a multikernel system that supports elastic resource allocation---essential for modern cloud computing. Furthermore, our parallel kernel execution model enables a completely new approach to zero-downtime kernel updates that promises to surpass Google's Live Update Orchestrator (LUO) framework by eliminating downtime entirely.
+\end{abstract}
+
+\begin{CCSXML}
+<ccs2012>
+   <concept>
+       <concept_id>10010520.10010521.10010537</concept_id>
+       <concept_desc>Computer systems organization~Multicore architectures</concept_desc>
+       <concept_significance>500</concept_significance>
+   </concept>
+   <concept>
+       <concept_id>10011007.10011006.10011008.10011009.10011015</concept_id>
+       <concept_desc>Software and its engineering~Operating systems</concept_desc>
+       <concept_significance>500</concept_significance>
+   </concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Computer systems organization~Multicore architectures}
+\ccsdesc[500]{Software and its engineering~Operating systems}
+
+\keywords{multikernel, operating systems, resource management, kernel update, cloud computing}
+
+\maketitle
+
+\section{Introduction}
+
+Unlike the traditional multikernel operating systems (Barrelfish, Popcorn Linux) that use replica to create a single system image, we use multikernels to achieve \textbf{isolation, high customization, and dynamic resource management}. This architectural shift transforms multikernels from academic experimental projects into practical infrastructure suitable for cloud computing.
+
+We address a critical design issue in traditional multikernel systems: \textbf{dynamic resource management}. By leveraging device trees, existing Linux hotplug implementations, and novel approaches to I/O sharing, we have designed a multikernel system that supports elastic resource allocation---essential for modern cloud computing. Furthermore, our parallel kernel execution model enables a completely new approach to zero-downtime kernel updates that promises to surpass Google's Live Update Orchestrator (LUO) framework by eliminating downtime entirely.
+
+\section{Resource Management}
+
+\subsection{Static Resource Management}
+
+A key issue plaguing multikernel systems is probably not the architectural concept itself, but the inability to dynamically manage resources. This is one of the reasons preventing their widespread adoption.
+
+\textbf{Barrelfish}~\cite{barrelfish} was primarily designed for research exploring distributed operating system concepts. While it demonstrated interesting CPU scalability characteristics and potential performance improvements, its main design uses replica to maintain state consistency. This runs counter to the goal of isolation.
+
+\textbf{Popcorn Linux}~\cite{popcorn} made progress in flexibility by supporting process and thread migration between kernel instances. However, its key use case was achieving transparent heterogeneous CPU computing, rather than isolation and elastic resource management. The system still requires pre-configured resource partitioning, with dynamic resource adjustment limited to migrating computational tasks rather than reallocating hardware resources like CPUs, memory, or I/O devices.
+
+\textbf{Jailhouse}~\cite{jailhouse}, developed by Siemens and released in 2013, is the quintessential example of static partitioning. As its documentation states, Jailhouse is ``a static partitioning hypervisor'' that ``does not support resource overcommitment of CPU, RAM, or devices. It performs no scheduling and only virtualizes in software those resources essential to the platform that cannot be partitioned in hardware.''
+
+Jailhouse creates isolated cells with fixed resource allocations. While excellent for real-time and safety-critical applications, this approach has fundamental limitations for general-purpose cloud computing:
+
+\begin{enumerate}
+    \item \textbf{Resource underutilization}: Kernels with idle CPUs cannot transfer them to other busy kernels
+    \item \textbf{Lack of flexibility}: Workload changes require dynamic and flexible resource allocation
+    \item \textbf{Mismatch with cloud computing}: Modern cloud infrastructure requires elastic resource allocation based on real-time demand, and in fact, traditional virtualization is also improving in this direction (e.g., virtio-balloon)
+\end{enumerate}
+
+\subsection{Key Insight}
+
+From our perspective, \textbf{static partitioning is merely the default state of dynamic resource allocation, but the reverse is not true.} A design capable of dynamic allocation can easily achieve static partitioning by choosing never to reallocate, which is also its default state. Conversely, systems built only for static partitioning cannot add dynamic capabilities without fundamental architectural changes.
+
+This key insight fundamentally transformed our multikernel design: for any multikernel system targeting modern cloud infrastructure, \textbf{dynamic resource management is not optional, but essential}. The key challenge here is how to achieve this dynamism while maintaining isolation and stability.
+
+\section{Device Tree-Based Resource Management}
+
+\subsection{Device Tree to Rescue}
+
+Our solution leverages the existing device tree mechanism in the Linux kernel to solve the resource management problem. Device trees provide a platform-independent way to describe system hardware resources and are already widely used in embedded devices. Each spawn kernel receives a device tree describing its allocated resources through KHO (Kexec HandOver), including CPU cores, memory regions, and PCI devices. The advantage of this approach is that the Linux kernel already has solid device tree support, we're simply reusing this mature technology in a novel way.
+
+The following device tree configuration example demonstrates the multikernel resource allocation mechanism:
+
+\begin{verbatim}
+/multikernel-v1/;
+
+/ {
+    compatible = "linux,multikernel";
+
+    instances {
+        web-server {
+            id = <1>;
+            resources {
+                cpus = <1>;
+                memory-bytes = <0x20000000>;   // 512MB size
+                devices = <&enp9s0_dev>;
+            };
+        };
+    };
+
+    enp9s0_dev: ethernet@0 {
+        pci-id = "0000:09:00.0";
+        vendor-id = <0x1af4>;
+        device-id = <0x1041>;
+    };
+};
+\end{verbatim}
+
+\subsection{Device Tree Overlays}
+
+For dynamic resource adjustment after kernel startup, we use \textbf{device tree overlays}. This mechanism was originally designed for embedded systems to describe hardware changes at runtime and is perfectly applicable to multikernel scenarios. Device tree overlays represent \textbf{changes} to the running system configuration.
+
+When the host kernel decides to allocate additional resources to a spawn kernel, it leverages a generated device tree overlay describing the resource changes, ultimately translates it into the corresponding resource update messages and sends to the target kernel through IPI inter-kernel communication. The spawn kernel applies the changes via hotplug operations for the corresponding hardware resources.
+
+The following overlay example shows how to allocate CPUs 2 and 3 from the host kernel to a spawn kernel:
+
+\begin{verbatim}
+/multikernel-v1/;
+/plugin/;
+
+/ {
+    fragment@0 {
+        target-path = "/";
+        __overlay__ {
+            multikernel-resources {
+                #address-cells = <2>;
+                #size-cells = <2>;
+
+                cpu-remove {
+                    mk,instance = "/";
+                    #address-cells = <1>;
+                    #size-cells = <0>;
+                    cpu@2 { reg = <2>; };
+                    cpu@3 { reg = <3>; };
+                };
+
+                cpu-add {
+                    mk,instance = "web-server";
+                    #address-cells = <1>;
+                    #size-cells = <0>;
+                    cpu@2 { reg = <2>; numa-node = <0>; };
+                    cpu@3 { reg = <3>; numa-node = <0>; };
+                };
+            };
+        };
+    };
+};
+\end{verbatim}
+
+This differs from the initial device tree file passed through KHO at kernel startup. The device tree passed by KHO provides \textbf{static initial configuration}, while overlays handle \textbf{dynamic updates} to that configuration. This separation provides a \textbf{standardized, upstream-acceptable mechanism} for both initial configuration and runtime resource changes, avoiding the invention of new protocols or interfaces.
+
+\section{Leveraging Existing Linux Infrastructure}
+
+As shown above, a key principle in designing our multikernel architecture is to \textbf{reuse existing Linux kernel infrastructure as much as possible} rather than reinventing the wheel. This approach reduces development complexity, improves reliability, and significantly increases upstream community acceptance. Beyond the previously mentioned device trees, we also reuse the following Linux kernel features.
+
+\subsection{kexec\_file\_load()}
+
+For loading spawn kernels, we reuse \texttt{kexec\_file\_load()}, the Linux system call used for kexec fast reboot. It also provides Linux kernel signature verification support and has been thoroughly battle-tested in production systems. We achieve the isolation by loading kernel images into different memory regions, requiring only minor modifications for the multikernel scenario. By leveraging kexec, we avoid implementing new kernel loading and booting from scratch, while automatically inheriting security features like kernel signature verification.
+
+\subsection{Kexec HandOver}
+
+The introduction of KHO laid a good foundation for implementing LUO. The existing KHO is built on three core components: \textbf{FDT (Flattened Device Tree) data}, \textbf{boot mechanism}, and \textbf{scratch memory management}. We reuse the KHO protocol to pass resource configuration information between the host kernel and spawn kernels.
+
+\textbf{KHO FDT Structure}: At the core of KHO is the FDT passed from the boot kernel to the new kernel. This FDT contains semi-structured driver data describing system configuration, as well as memory regions that must be preserved during kernel transitions. Importantly, only non-movable memory regions are marked as reserved; other memory need not be preserved during the switch.
+
+\textbf{Boot Integration}: KHO adapts to different CPU architectures through specific boot mechanisms. On ARM64, the KHO FDT is attached as a ``chosen'' node in the device tree, following ARM's standard device tree conventions. On x86, the KHO FDT location is added to the \texttt{setup\_data} linked list, integrating with x86's boot protocol. This architecture-specific approach ensures KHO seamlessly integrates with each platform's existing kernel boot infrastructure.
+
+\textbf{Scratch Memory Management}: A key aspect of KHO is how it preserves memory during kernel switches. The first kernel reserves a CMA (Contiguous Memory Allocator) range early in boot, designated as scratch memory. This scratch memory is specially configured to accept only movable allocations, ensuring it doesn't conflict with persistent memory regions that need to be preserved during kernel transitions. When a new kernel is launched via kexec, it initially has only this scratch memory available. After the new kernel reserves the persistent memory regions described in the KHO FDT, the scratch memory transitions to a standard CMA region for normal use.
+
+We fully leverage the existing KHO design, essentially preserving the FDT and its boot process completely, except that the scratch memory is not needed. On this foundation, we add our own innovation: \textbf{initial configuration through KHO}. When launching a spawn kernel, the host kernel passes a complete device tree describing the spawn kernel's initial resource allocation through KHO. This static device tree defines the CPUs, memory regions, and I/O devices available to the spawn kernel at boot time. The spawn kernel's early boot code parses this FDT and uses it to control its hardware configuration instead of traditional kernel parameters. Compared to passing kernel parameters, this approach is more flexible, universal, and better suited for programmatic interfaces.
+
+Maximum reuse of existing Linux code means spawn kernels require minimal modifications to standard Linux to achieve the resource configuration and management we want. By reusing the KHO framework, we provide an elegant, upstream-acceptable abstraction layer between the host kernel's resource management decisions and the spawn kernel's hardware configuration.
+
+\subsection{CPU and Memory Hotplug}
+
+When resources need to be added or removed, we rely entirely on Linux's existing built-in hotplug subsystems:
+
+\textbf{CPU Hotplug}: Already supports dynamically onlining and offlining CPUs. When a spawn kernel adds or removes CPU cores through device tree overlays, it directly uses standard CPU hotplug operations.
+
+\textbf{Memory Hotplug}: Linux supports hot-adding memory regions on many architectures. Our design also reuses this existing capability to expand or shrink kernel memory without requiring substantial additional development.
+
+\textbf{PCI Hotplug}: For I/O devices, we leverage PCI hotplug to dynamically allocate devices to kernels. Modern PCIe systems support hot-adding and removing devices, and Linux has mature infrastructure to handle these operations.
+
+Based on these well-validated Linux subsystems, we achieve dynamic resource management with minimal code modifications for maximum reliability and community acceptance.
+
+\section{Limited Hardware Resources}
+
+\subsection{The Single NIC Problem}
+
+Another major challenge the multikernel architecture faces is: how to allocate limited hardware resources. Modern servers typically have far more CPU cores and memory than I/O devices. For example, a system with 64 CPU cores but only one network interface, so how do we provide physical network access to multiple isolated spawn kernels? Traditional approaches require SR-IOV virtual functions, which need hardware support and corresponding OS virtualization, meaning virtualization overhead (like IOMMU).
+
+\subsection{Using Hardware Queue Isolation}
+
+We solve this problem by leveraging modern network interfaces' support for \textbf{multiple hardware queues}. Our approach is to allocate dedicated hardware queues to each spawn kernel, using XDP programs to route packets to appropriate queues, maintaining hardware-level isolation between kernels while sharing a single physical NIC. This approach provides \textbf{near-native network performance} for each kernel without requiring expensive SR-IOV hardware or introducing virtualization overhead.
+
+\subsection{Shared Memory Communication}
+
+To achieve efficient packet passing between the host kernel (which owns the NIC driver) and spawn kernels, we reuse the ring buffers from the existing AF\_XDP~\cite{afxdp} for shared memory and fully leverage its zero-copy characteristics to improve performance. The host kernel's XDP program places incoming packets into shared memory regions designated for specific spawn kernels, and spawn kernels process packets consumed from their designated regions through software NICs using the standard network stack. This design fully leverages the existing AF\_XDP framework and provides an efficient fast path for network packets to reach isolated kernels.
+
+\subsection{Storage Sharing via ublk}
+
+For storage devices, we face the same challenge: how to share a single physical storage device among multiple kernels. Our solution is to use \textbf{ublk (userspace block device)} in a completely new way, to connect different kernels rather than userspace processes.
+
+The host kernel runs a ublk server that manages physical storage devices, while spawn kernels run ublk clients and provide software-implemented block devices for their applications. I/O requests are passed through \texttt{io\_uring}'s~\cite{iouring} shared memory regions, the host kernel executes actual storage operations on behalf of spawn kernels, and provides each kernel with its own isolated storage view through LVM while effectively sharing physical devices. This maximally reuses the io\_uring framework.
+
+This design brings two additional benefits: 1) Whether AF\_XDP or io\_uring, their ring buffer layouts are guaranteed through UAPI, which provides stronger compatibility than we need for multikernel use case; 2) Spawn kernels would run completely without hardware drivers, requiring only hardware-independent software implementations, which greatly reduces the difficulty of deploying spawn kernels.
+
+\section{Cross-Kernel Communication}
+
+\subsection{IPI-Based Message Passing}
+
+While shared memory is well-suited for high-throughput data transfer, kernels also need mechanisms for control messages and coordination, for which we reuse Inter-Processor Interrupts (IPI). Each spawn kernel reserves specific IPI vectors for receiving messages from the host kernel, and the host kernel can send control messages by triggering these interrupts. This provides a \textbf{low-latency, hardware-supported messaging primitive}, primarily used for:
+
+\begin{itemize}
+    \item Notifying of new data in shared memory (doorbell)
+    \item Coordinating resource allocation and updates
+    \item Emergency notifications and error handling
+    \item Zero-downtime kernel update synchronization
+\end{itemize}
+
+On top of IPI and shared memory, we can establish more advanced cross-kernel communication channels and implement complex communication protocols.
+
+\section{Zero-Downtime Kernel Update}
+
+\subsection{Live Kernel Update}
+
+Kernel updates in production environments typically require system reboots, causing service interruptions ranging from seconds to minutes. Google's recently proposed Live Update Orchestrator (LUO)~\cite{luo} represents an advanced approach using kexec for fast reboots to minimize downtime. However, LUO still creates a \textbf{downtime window} during kernel transitions when all processes must stop executing while state is transferred to the new kernel.
+
+\subsection{Parallel Kernel Execution}
+
+The multikernel architecture provides a new paradigm for kernel updates: \textbf{old and new kernel versions execute in parallel, with applications gradually migrated}. This model completely eliminates the service downtime window by allowing two kernels to run simultaneously on independent CPU cores, with applications gradually transitioning between them.
+
+\textbf{Parallel Kernel Launch}: The original kernel launches a new kernel instance running the updated version on a dedicated set of CPU cores. The original kernel continues normal operations on its allocated cores. Both kernels maintain independent execution contexts with separate hardware resources, without interfering with each other.
+
+\textbf{Process-Level Migration}: Instead of migrating all system state in one atomic step, the multikernel gradually migrates individual processes. Each process migration involves checkpoint/restore operations, leveraging context switch opportunities to capture process state from the old kernel, including memory contents, open file descriptors, and CPU registers, and rebuild it in the new kernel. This fine-grained migration means most applications continue executing without interruption.
+
+\textbf{Network Connection Preservation}: TCP connection state requires special handling during migration. The system uses TCP repair mode (TCP\_REPAIR) to extract complete connection state from the old kernel, including sequence numbers, window sizes, congestion control parameters, and pending data, and rebuilds the same socket state in the new kernel. This approach achieves zero packet loss and maintains connection continuity while remote endpoints remain unaware of the migration.
+
+\textbf{Device Resource Switching}: Hardware devices transition between kernels through the kernel update protocol. The old kernel quiesces device activity by completing ongoing I/O operations and preventing new request submissions. Device state, including hardware registers, queue positions, and configuration parameters, is serialized and transferred to the new kernel. The new kernel remaps and updates device DMA access to target the new kernel's memory space, and restores device state before resuming I/O operations.
+
+\textbf{Rollback Capability}: The parallel execution model also provides potential rollback capability. If the new kernel encounters serious errors or health check failures during migration, the system aborts the entire migration process. The old kernel remains running throughout, resuming full operations. The new kernel performs an orderly shutdown and releases its resources. This rollback mechanism requires no complex recovery procedures---the old kernel simply continues running as if the update had never been attempted.
+
+\subsection{Comparison with LUO}
+
+The multikernel's kernel update approach differs fundamentally from LUO in several key ways:
+
+\textbf{Elimination of Downtime Window}: LUO requires all applications to pause during the kexec transition while state switches to the new kernel. The multikernel approach keeps applications continuously running, maintaining uninterrupted system-wide service availability.
+
+\textbf{Incremental Risk}: LUO performs all-or-nothing state transfer before executing kexec, meaning any failure during the critical transition phase affects the entire system. The multikernel approach migrates one process at a time, limiting failure impact to individual process migrations while the majority of the system continues operating normally.
+
+\textbf{Simplified Rollback}: LUO's rollback mechanism must handle scenarios where the new kernel fails in the FINISH phase after kexec has already executed, requiring complex recovery procedures to restore previous kernel state. The multikernel keeps the old kernel running throughout the migration process, achieving straightforward rollback by simply aborting migration and allowing the old kernel to continue.
+
+\textbf{Architecture Independence}: LUO requires extensive subsystem modifications, with each kernel subsystem needing to implement callback functions for state saving and restoration. The multikernel approach operates at the process level using established checkpoint/restore mechanisms, independent of specific kernel subsystem implementations.
+
+This fundamental capability of the multikernel architecture transforms the kernel update process from an atomic system-wide transition into a gradual, controlled migration process. This architecture addresses the kernel update problem through parallel execution rather than trying to minimize the duration of an inevitable transition period.
+
+\section{Auto-Healing from Kernel Crash}
+
+Kernel crashes in production environments can have catastrophic consequences. Traditional Linux uses the kexec crash kernel mechanism, but this approach has fundamental limitations: the system still needs to reboot into a crash kernel, which is minimally configured solely for saving vmcore files and cannot run real services in practice. The entire recovery process takes even longer, during which service is completely interrupted. For critical systems like financial trading platforms, telecommunications infrastructure, and medical devices, even a few seconds of interruption can cause significant losses or safety risks.
+
+\subsection{Kernel Auto-Healing}
+
+The parallel execution model of multikernel architecture provides a fundamentally new approach to kernel crash recovery: \textbf{running a backup kernel instance that achieves sub-second automatic switchover when the primary kernel crashes}.
+
+\textbf{Active-Backup Mode}: The system runs two identical kernel instances simultaneously: the primary kernel handles all workloads, while the backup kernel is configured with minimal resources, standing by as a backup. Both kernels are exactly the same version, eliminating version compatibility issues. The primary kernel continuously replicates critical state via the shared memory between them, while the backup kernel maintains shadow copies of this state and monitors primary kernel health through heartbeat mechanisms.
+
+\textbf{Automatic Failover}: When the backup kernel detects the primary kernel crash, it immediately initiates autonomous takeover procedures. Since the primary kernel is no longer responsive, the backup kernel uses the pre-replicated state information without needing to coordinate with the crashed primary kernel. The backup kernel forcibly takes over hardware devices, restores process execution using the latest state snapshot in shared memory, rebuilds TCP connection state to maintain network connections, and restores service in sub-second time.
+
+\textbf{Identical Kernel Versions}: The primary and backup kernels run exactly the same version. This eliminates the compatibility puzzles that exist in update scenarios. Data structure layouts are identical, requiring no conversion or translation. Memory can be directly copied, process state can be directly restored, and network connection state formats are fully compatible. This makes failure recovery actually simpler in many ways than kernel updates, despite needing to handle the challenge of sudden primary kernel failure.
+
+The multikernel architecture can transform kernel crashes from catastrophic events into controlled failures that can be automatically recovered in sub-second time through parallel execution and continuous state replica.
+
+\section{Security Model and Technical Challenges}
+
+\subsection{Kernel-Enforced Security}
+
+Our multikernel security model is based on \textbf{kernel-enforced isolation}. Each kernel is trusted to respect its resource boundaries and not illegally access physical memory or devices allocated to other kernels. This is fundamentally different from hardware-enforced isolation (as in virtual machines) or application-level isolation (as in containers).
+
+The implications of this model include:
+
+\begin{itemize}
+    \item \textbf{Trusted Kernel Assumption}: Untrusted kernels could violate our isolation principles
+    \item \textbf{Reduced Attack Surface}: Through trimming and customization, each kernel can run only the minimal code necessary for its workload
+    \item \textbf{High-Performance Fast Path}: No virtualization overhead for memory or I/O access
+\end{itemize}
+
+This security model is suitable for scenarios where kernel trust is acceptable, such as multi-tenant systems from the same organization, or dedicated devices where kernel configuration is strictly controlled.
+
+\subsection{Hardware Security Enhancements}
+
+At the same time, we recognize the limitations of the kernel-enforced security model. To address this issue, we suggest that hardware vendors provide the following enhanced CPU security features:
+
+\textbf{Hardware Memory Protection}: CHERI (Capability Hardware Enhanced RISC Instructions)~\cite{cheri} provides \textbf{fine-grained memory protection} through hardware capabilities. CHERI allows bounded pointers with enforced ranges, permission bits for fine-grained access control, and revocable capabilities for temporal safety, rather than flat address spaces with all-or-nothing access. With CHERI, even kernel vulnerabilities would not allow unrestricted memory access, as hardware would enforce capability bounds.
+
+Using CHERI, we can transform our kernel-enforced model into a \textbf{hardware-assisted security model} without requiring traditional virtualization technologies like EPT. This capability has been implemented on ARM, but still faces challenges on x86.
+
+\textbf{Hardware-Filtered IPI}: Currently, any CPU can send IPIs to any other CPU. In our multikernel system, we need more restrictions on IPI delivery. Spawn kernels should only receive certain specific IPIs they want, and kernels should not be able to send IPIs to arbitrary other kernels.
+
+Hardware-level IPI filtering can enforce these policies without software overhead. We call on CPU vendors to consider adding configurable IPI access control. We are optimistic about this, as historically, virtualization technology has also followed a pattern where hardware follows software.
+
+\section{Conclusion}
+
+Our multikernel design represents a fundamental rethinking of modern cloud computing systems. We abandon the replica-based design of early multikernel systems and instead use multikernels to achieve \textbf{isolation, high customization, and elastic resource management}. Our key innovations include:
+
+\begin{enumerate}
+    \item \textbf{Device Tree-Based Resource Management}: Solving the dynamic resource allocation problem that has plagued multikernel architectures
+    \item \textbf{Reusing Existing Infrastructure}: Leveraging kexec, KHO, and hotplug subsystems rather than inventing new wheels
+    \item \textbf{Hardware Queue Isolation}: Providing efficient I/O device access without SR-IOV or virtualization
+    \item \textbf{Zero-Downtime Updates}: Enabling zero-downtime kernel updates through parallel running kernels
+    \item \textbf{Kernel Auto-Healing}: A backup kernel automatically and rapidly replaces the crashed kernel
+\end{enumerate}
+
+This architecture is particularly well-suited for modern cloud computing. By providing isolation with near-bare-metal performance, our multikernel design offers a compelling third option between containers and traditional virtualization, while maintaining 100\% compatibility with the full Linux kernel and applications running on it. We believe this isolation-based multikernel design has the potential to reshape how we think about operating system design in the multi-core era, providing the flexibility and efficiency required by modern cloud infrastructure. We welcome industry and academia to jointly explore, develop, and advance the multikernel field.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
