@@ -1,12 +1,15 @@
 %%
 %% This is file `main.tex',
-%% AgentCgroup Paper
+%% \sys Paper
 %%
 
 \documentclass[sigconf,review,anonymous]{acmart}
 
 %% Disable microtype to avoid font expansion issues
 \PassOptionsToPackage{disable}{microtype}
+
+%% System name macro
+\newcommand{\sys}{\sys}
 
 %%
 %% \BibTeX command to typeset BibTeX logo in the docs
@@ -16,7 +19,7 @@
 
 \begin{document}
 
-\title{AgentCgroup: Kernel-Level Programmable Resource Isolation for Interactive Agent Sessions}
+\title{\sys: Kernel-Level Programmable Resource Isolation for Interactive Agent Sessions}
 
 \author{Anonymous Author(s)}
 \affiliation{%
@@ -29,9 +32,9 @@
 \begin{abstract}
 Interactive AI agents represent a distinct class of workloads characterized by short-lived, multi-stage executions with highly variable resource demands. Traditional Linux cgroup-based isolation mechanisms rely on static resource knobs, failing to provide the necessary granularity, reaction speed, and flexibility to effectively isolate and govern agent workloads, leading to poor latency control and severe resource contention issues.
 
-We present \textbf{AgentCgroup}, a kernel-level resource abstraction specifically designed to match the semantics and resource dynamics of interactive agent sessions. AgentCgroup defines hierarchical resource domains aligning precisely with agent lifecycles (sessions and steps), and implements structured budgeting, resource pressure event signaling, and soft-pause semantics. AgentCgroup leverages Linux eBPF to inject small, verifiable policy programs directly into kernel resource management paths (memory controller throttling and CPU scheduler decision points), enabling low-latency (microsecond-level) programmable policy enforcement that traditional cgroup configurations cannot provide.
+We present \textbf{\sys}, a kernel-level resource abstraction specifically designed to match the semantics and resource dynamics of interactive agent sessions. \sys defines hierarchical resource domains aligning precisely with agent lifecycles (sessions and steps), and implements structured budgeting, resource pressure event signaling, and soft-pause semantics. \sys leverages Linux eBPF to inject small, verifiable policy programs directly into kernel resource management paths (memory controller throttling and CPU scheduler decision points), enabling low-latency (microsecond-level) programmable policy enforcement that traditional cgroup configurations cannot provide.
 
-Experimental evaluation demonstrates that AgentCgroup improves multi-tenant isolation and tail latency management, reducing latency violations by up to 70\%, improving resource efficiency by 30\%, and preventing critical resource contention scenarios with minimal overhead. Our work demonstrates the necessity of kernel programmability via eBPF for adaptive, reactive, and agent-aware resource governance.
+Experimental evaluation demonstrates that \sys improves multi-tenant isolation and tail latency management, reducing latency violations by up to 70\%, improving resource efficiency by 30\%, and preventing critical resource contention scenarios with minimal overhead. Our work demonstrates the necessity of kernel programmability via eBPF for adaptive, reactive, and agent-aware resource governance.
 \end{abstract}
 
 \begin{CCSXML}
@@ -60,18 +63,18 @@ Experimental evaluation demonstrates that AgentCgroup improves multi-tenant isol
 
 Interactive agent workloads, an emerging class of cloud-native applications, exhibit highly variable, short-lived, bursty, and latency-sensitive resource utilization patterns that challenge traditional kernel-level resource governance mechanisms. Linux cgroups---the de facto kernel abstraction for resource isolation---relies on static resource configurations and coarse-grained policy semantics, making it inadequate for dynamic agent workloads.
 
-In this paper, we propose \textbf{AgentCgroup}, a structured kernel-level resource domain abstraction designed for agent-centric operating systems and precisely aligned with agent execution semantics (sessions and individual steps). AgentCgroup explicitly defines per-session and per-step hierarchical resource domains, provides precise resource accounting and budgeting semantics, and introduces kernel-level event signaling and soft-pause enforcement mechanisms, enabling agent workloads to adaptively respond to resource pressures.
+In this paper, we propose \textbf{\sys}, a structured kernel-level resource domain abstraction designed for agent-centric operating systems and precisely aligned with agent execution semantics (sessions and individual steps). \sys explicitly defines per-session and per-step hierarchical resource domains, provides precise resource accounting and budgeting semantics, and introduces kernel-level event signaling and soft-pause enforcement mechanisms, enabling agent workloads to adaptively respond to resource pressures.
 
-AgentCgroup leverages eBPF---a safe, dynamically loadable, in-kernel programmable execution mechanism---to embed lightweight policy functions directly into kernel enforcement points, such as memory throttling paths (\texttt{memcg\_bpf\_ops}) and CPU scheduling decision hooks (\texttt{sched\_ext}). This kernel-integrated programmability enables fine-grained, adaptive resource governance at microsecond-level granularity, which traditional knob-based isolation mechanisms cannot achieve.
+\sys leverages eBPF---a safe, dynamically loadable, in-kernel programmable execution mechanism---to embed lightweight policy functions directly into kernel enforcement points, such as memory throttling paths (\texttt{memcg\_bpf\_ops}) and CPU scheduling decision hooks (\texttt{sched\_ext}). This kernel-integrated programmability enables fine-grained, adaptive resource governance at microsecond-level granularity, which traditional knob-based isolation mechanisms cannot achieve.
 
 Our experimental evaluation on representative agent workloads shows reductions in tail latency violations, improved multi-tenant isolation under adversarial resource contention, and higher resource efficiency. This work demonstrates the value of in-kernel eBPF programmability for responsive, adaptive, and workload-aware kernel resource governance.
 
 \textbf{Key contributions:}
 \begin{itemize}
     \item Identifies fundamental shortcomings of traditional static cgroups for interactive agents.
-    \item Defines AgentCgroup as a minimal, structured, agent-aware kernel abstraction.
+    \item Defines \sys as a minimal, structured, agent-aware kernel abstraction.
     \item Demonstrates eBPF programmability as a kernel-level mechanism for dynamic resource enforcement.
-    \item Provides evaluation demonstrating isolation and performance improvements achieved by AgentCgroup.
+    \item Provides evaluation demonstrating isolation and performance improvements achieved by \sys.
 \end{itemize}
 
 \section{Background and Related Work}
@@ -100,7 +103,7 @@ On the CPU side, \texttt{sched\_ext} provides an explicit, upstream-supported pa
 
 On the memory side, recent work is pushing similar programmability into the memory controller. A patch series reported by LWN introduces \texttt{memcg\_bpf\_ops} as a BPF \texttt{struct\_ops} interface for the memory controller, with hooks such as \texttt{get\_high\_delay\_ms} (custom throttle delay for \texttt{memory.high} breaches) and \texttt{below\_low}/\texttt{below\_min} (overrides for low/min protection decisions), plus lifecycle hooks~\cite{memcg-bpf}. This direction is particularly relevant for agent sandboxes: it shifts memory governance from ``set a static boundary'' to ``define a control function,'' and it does so at enforcement time rather than via delayed user-space reconfiguration.
 
-The kernel is converging on a pattern: \textbf{cgroups define resource domains; eBPF defines domain-specific policy}. AgentCgroup adopts this pattern, treating agent sessions as resource domains and using eBPF to make enforcement fast and workload-aware.
+The kernel is converging on a pattern: \textbf{cgroups define resource domains; eBPF defines domain-specific policy}. \sys adopts this pattern, treating agent sessions as resource domains and using eBPF to make enforcement fast and workload-aware.
 
 \subsection{PSI (Pressure Stall Information)}
 
@@ -118,7 +121,7 @@ On the CPU scheduler side, \textbf{Mixture-of-Schedulers (ASA)} proposes dynamic
 
 For agent-specific serving, \textbf{Nalar} proposes a framework for serving agent workflows and emphasizes that agent workloads are evolving, multi-stage, and benefit from a two-level control architecture that combines global policy computation with local event-driven enforcement~\cite{nalar}. Nalar motivates why agent workloads need structured control loops, but it operates primarily at the runtime level rather than redefining the OS-level resource domain and enforcement semantics.
 
-AgentCgroup combines these approaches: it uses cgroup v2 as the \emph{domain} abstraction, PSI as the \emph{pressure} signal, and eBPF (via \texttt{sched\_ext} and \texttt{memcg\_bpf\_ops}) to make enforcement \textbf{low-latency and programmable inside the kernel}, rather than relying solely on user-space knob tuning.
+\sys combines these approaches: it uses cgroup v2 as the \emph{domain} abstraction, PSI as the \emph{pressure} signal, and eBPF (via \texttt{sched\_ext} and \texttt{memcg\_bpf\_ops}) to make enforcement \textbf{low-latency and programmable inside the kernel}, rather than relying solely on user-space knob tuning.
 
 \section{Motivation: Limitations of Static Cgroup Configurations}
 
@@ -132,13 +135,13 @@ Third, static knobs have \textbf{granularity and race limitations} that become v
 
 Cgroup v2 partially anticipates the need for external control: \texttt{memory.high} is explicitly positioned as a throttle boundary that ``never invokes the OOM killer'' and should be used when an external monitor can intervene~\cite{cgroupv2}. For agent sandboxes, however, the external monitor must be fast enough to keep up with phase changes and bursts, and it must reason in terms of agent semantics (session/step), not long-lived services. The limitation of static cgroups for agent workloads lies not in cgroup v2's primitives, but in the default programming model---static configuration with user-space reactive tuning---which does not match agent dynamics.
 
-This observation motivates AgentCgroup's design: the OS should expose an \textbf{agent-native resource domain} (session/step) and support \textbf{programmable, low-latency enforcement} inside kernel control paths, so that control reacts on the timescale of bursts rather than on the timescale of user-space monitoring.
+This observation motivates \sys's design: the OS should expose an \textbf{agent-native resource domain} (session/step) and support \textbf{programmable, low-latency enforcement} inside kernel control paths, so that control reacts on the timescale of bursts rather than on the timescale of user-space monitoring.
 
-\section{Design of AgentCgroup}
+\section{Design of \sys}
 
 \subsection{Overview and Key Design Principles}
 
-AgentCgroup defines an OS-level contract between an agent runtime and the kernel for resource governance. In this contract, the unit of governance is an \textbf{agent session}, optionally refined into \textbf{session steps} that correspond to tool invocations. Each session (and step) is represented as a cgroup v2 subtree, inheriting the hierarchical enforcement semantics of cgroup v2 (limits set higher in the tree cannot be overridden lower)~\cite{cgroupv2}.
+\sys defines an OS-level contract between an agent runtime and the kernel for resource governance. In this contract, the unit of governance is an \textbf{agent session}, optionally refined into \textbf{session steps} that correspond to tool invocations. Each session (and step) is represented as a cgroup v2 subtree, inheriting the hierarchical enforcement semantics of cgroup v2 (limits set higher in the tree cannot be overridden lower)~\cite{cgroupv2}.
 
 The design is guided by three principles.
 
@@ -146,49 +149,49 @@ First, \textbf{semantic alignment}: the resource domain should match the unit of
 
 Second, \textbf{fast-path enforcement}: when resource pressure is escalating, the policy must act at kernel enforcement points, not only via delayed knob writes. eBPF provides this capability by enabling policy execution directly within kernel control paths.
 
-Third, \textbf{fail-safe and portability}: policies must be safe to deploy and robust under errors. AgentCgroup relies on the kernel's eBPF verifier to constrain safety of in-kernel programs, and on \texttt{sched\_ext}'s fail-safe reversion semantics to ensure scheduling experiments cannot compromise system integrity~\cite{ebpf-verifier}.
+Third, \textbf{fail-safe and portability}: policies must be safe to deploy and robust under errors. \sys relies on the kernel's eBPF verifier to constrain safety of in-kernel programs, and on \texttt{sched\_ext}'s fail-safe reversion semantics to ensure scheduling experiments cannot compromise system integrity~\cite{ebpf-verifier}.
 
 \subsection{Structured Resource Domains Aligned with Agent Sessions/Steps}
 
-AgentCgroup maps each agent session to a cgroup v2 node, and each tool step to a child node. The parent session node represents the session's overall budget envelope; step nodes allow phase-appropriate constraints without polluting the entire session with the worst-case constraints of any step. This hierarchical structure leverages cgroup v2's guarantee that controller behaviors are hierarchical and restrictions closer to the root cannot be overridden by descendants~\cite{cgroupv2}.
+\sys maps each agent session to a cgroup v2 node, and each tool step to a child node. The parent session node represents the session's overall budget envelope; step nodes allow phase-appropriate constraints without polluting the entire session with the worst-case constraints of any step. This hierarchical structure leverages cgroup v2's guarantee that controller behaviors are hierarchical and restrictions closer to the root cannot be overridden by descendants~\cite{cgroupv2}.
 
-AgentCgroup also explicitly uses cgroup v2 lifecycle primitives to support agent-centric recovery. For example, when a step exceeds soft limits or triggers sustained pressure, AgentCgroup can freeze the step subtree to stop execution and allow the runtime to adapt (e.g., reduce parallelism, change tool choice, or request more budget). Freezing semantics, completion notification via \texttt{cgroup.events}, and the ability to later unfreeze are provided by \texttt{cgroup.freeze}~\cite{cgroupv2}. When termination is necessary (e.g., policy violations or timeouts), AgentCgroup uses \texttt{cgroup.kill} to kill the entire subtree and avoid fork races~\cite{cgroupv2}.
+\sys also explicitly uses cgroup v2 lifecycle primitives to support agent-centric recovery. For example, when a step exceeds soft limits or triggers sustained pressure, \sys can freeze the step subtree to stop execution and allow the runtime to adapt (e.g., reduce parallelism, change tool choice, or request more budget). Freezing semantics, completion notification via \texttt{cgroup.events}, and the ability to later unfreeze are provided by \texttt{cgroup.freeze}~\cite{cgroupv2}. When termination is necessary (e.g., policy violations or timeouts), \sys uses \texttt{cgroup.kill} to kill the entire subtree and avoid fork races~\cite{cgroupv2}.
 
 \subsection{Kernel Integration via sched\_ext and memcg\_bpf\_ops}
 
-AgentCgroup's central architectural choice is to treat the kernel as a programmable enforcement engine for agent domains.
+\sys's central architectural choice is to treat the kernel as a programmable enforcement engine for agent domains.
 
-On CPU scheduling, AgentCgroup relies on \texttt{sched\_ext} as the policy substrate. \texttt{sched\_ext} exposes a full scheduling interface to a set of BPF programs, can be turned on/off dynamically, and includes an explicit fail-safe: errors or runnable task stalls restore default scheduling~\cite{sched-ext}. AgentCgroup uses this to implement an agent-session-aware scheduling policy that prioritizes latency-sensitive session steps, enforces fairness across sessions, and protects the system from noisy neighbors without requiring kernel modifications.
+On CPU scheduling, \sys relies on \texttt{sched\_ext} as the policy substrate. \texttt{sched\_ext} exposes a full scheduling interface to a set of BPF programs, can be turned on/off dynamically, and includes an explicit fail-safe: errors or runnable task stalls restore default scheduling~\cite{sched-ext}. \sys uses this to implement an agent-session-aware scheduling policy that prioritizes latency-sensitive session steps, enforces fairness across sessions, and protects the system from noisy neighbors without requiring kernel modifications.
 
-On memory governance, AgentCgroup targets \texttt{memcg\_bpf\_ops} as the substrate for programmable memory control. The key hook is \texttt{get\_high\_delay\_ms}, which allows policy to compute a throttling delay when a cgroup breaches \texttt{memory.high}~\cite{memcg-bpf}. This changes the control model: instead of selecting a single static \texttt{memory.high} threshold and letting the kernel apply fixed semantics, AgentCgroup can define a \textbf{dynamic throttle function} that depends on agent step type, recent fault/reclaim behavior, and pressure signals. The \texttt{below\_low}/\texttt{below\_min} hooks provide a complementary mechanism to adjust protection semantics dynamically, enabling a policy that protects critical steps only when they exhibit evidence of working-set sensitivity (e.g., elevated fault rates), rather than statically reserving memory for the entire session~\cite{memcg-bpf}.
+On memory governance, \sys targets \texttt{memcg\_bpf\_ops} as the substrate for programmable memory control. The key hook is \texttt{get\_high\_delay\_ms}, which allows policy to compute a throttling delay when a cgroup breaches \texttt{memory.high}~\cite{memcg-bpf}. This changes the control model: instead of selecting a single static \texttt{memory.high} threshold and letting the kernel apply fixed semantics, \sys can define a \textbf{dynamic throttle function} that depends on agent step type, recent fault/reclaim behavior, and pressure signals. The \texttt{below\_low}/\texttt{below\_min} hooks provide a complementary mechanism to adjust protection semantics dynamically, enabling a policy that protects critical steps only when they exhibit evidence of working-set sensitivity (e.g., elevated fault rates), rather than statically reserving memory for the entire session~\cite{memcg-bpf}.
 
 \subsection{eBPF Programs for In-Kernel Resource Policy Enforcement}
 
-AgentCgroup uses eBPF in three distinct roles, each corresponding to a limitation of static cgroup knobs.
+\sys uses eBPF in three distinct roles, each corresponding to a limitation of static cgroup knobs.
 
-\textbf{1. Programmable controllers are already the cgroup direction.} The cgroup v2 device controller demonstrates that BPF is a first-class mechanism for implementing controller semantics: device access is governed by attached BPF programs, not static interface files~\cite{cgroupv2}. AgentCgroup extends this paradigm to agent-specific CPU and memory governance.
+\textbf{1. Programmable controllers are already the cgroup direction.} The cgroup v2 device controller demonstrates that BPF is a first-class mechanism for implementing controller semantics: device access is governed by attached BPF programs, not static interface files~\cite{cgroupv2}. \sys extends this paradigm to agent-specific CPU and memory governance.
 
 \textbf{2. Hot-path reaction without user-kernel round trips.} \texttt{memcg\_bpf\_ops} enables the kernel to compute throttle behavior at the point where a cgroup is breaching \texttt{memory.high}, rather than waiting for a user-space daemon to observe pressure and rewrite cgroup files~\cite{memcg-bpf}. This allows the system to react on the timescale of bursts that characterize tool invocations.
 
 \textbf{3. Safe deployment and fail-safe behavior.} eBPF's verifier-based model constrains what in-kernel policies can do, reducing operational risk compared with custom kernel modules~\cite{ebpf-verifier}. On the CPU side, \texttt{sched\_ext} restores default scheduling on error or stall, ensuring system stability when using programmable scheduling~\cite{sched-ext}.
 
-AgentCgroup still uses PSI as an essential signal, but it uses PSI to drive policy state rather than to implement all enforcement in user space. PSI quantifies performance loss under contention, enabling policies to distinguish ``high usage but healthy'' from ``moderate usage but stalling''~\cite{psi}.
+\sys still uses PSI as an essential signal, but it uses PSI to drive policy state rather than to implement all enforcement in user space. PSI quantifies performance loss under contention, enabling policies to distinguish ``high usage but healthy'' from ``moderate usage but stalling''~\cite{psi}.
 
 \section{Implementation}
 
-AgentCgroup consists of two components: a user-space control plane (library + daemon) and a kernel enforcement plane implemented in eBPF.
+\sys consists of two components: a user-space control plane (library + daemon) and a kernel enforcement plane implemented in eBPF.
 
 \subsection{Kernel-Side Implementation}
 
-On the kernel side, AgentCgroup uses \texttt{sched\_ext} as upstream-supported infrastructure. The BPF scheduler implements \texttt{struct sched\_ext\_ops} and maintains per-session and per-step metadata in BPF maps. The key property is that \texttt{sched\_ext} is a scheduler class whose behavior is defined by BPF programs, can be enabled/disabled dynamically, and automatically reverts to the fair-class scheduler upon internal errors or stalled runnable tasks~\cite{sched-ext}. In a systems implementation, this allows us to iterate on scheduling logic while bounding risk.
+On the kernel side, \sys uses \texttt{sched\_ext} as upstream-supported infrastructure. The BPF scheduler implements \texttt{struct sched\_ext\_ops} and maintains per-session and per-step metadata in BPF maps. The key property is that \texttt{sched\_ext} is a scheduler class whose behavior is defined by BPF programs, can be enabled/disabled dynamically, and automatically reverts to the fair-class scheduler upon internal errors or stalled runnable tasks~\cite{sched-ext}. In a systems implementation, this allows us to iterate on scheduling logic while bounding risk.
 
 For memory, we build on the \texttt{memcg\_bpf\_ops} interface described in recent kernel work. The implementation attaches a BPF \texttt{struct\_ops} program to the memory controller and implements at least \texttt{get\_high\_delay\_ms}, with optional overrides for \texttt{below\_low}/\texttt{below\_min} for dynamic protection semantics~\cite{memcg-bpf}. We use \texttt{memory.high} as the soft boundary, consistent with the kernel documentation's guidance that it is the main mechanism for controlling memory usage without immediately invoking the OOM killer~\cite{cgroupv2}. \texttt{memory.max} remains the hard containment boundary for buggy or malicious tools~\cite{cgroupv2}.
 
 \subsection{User-Space Implementation}
 
-On the user-space side, AgentCgroup provides an API to create and manage session/step cgroup subtrees, to attach per-session budgets, and to subscribe to events. The daemon consumes PSI and cgroup events as well as BPF-exported telemetry and updates shared BPF maps that parameterize policy functions. PSI is read from per-cgroup \texttt{cpu.pressure}/\texttt{memory.pressure}, aligning measurement with enforcement domains~\cite{psi}.
+On the user-space side, \sys provides an API to create and manage session/step cgroup subtrees, to attach per-session budgets, and to subscribe to events. The daemon consumes PSI and cgroup events as well as BPF-exported telemetry and updates shared BPF maps that parameterize policy functions. PSI is read from per-cgroup \texttt{cpu.pressure}/\texttt{memory.pressure}, aligning measurement with enforcement domains~\cite{psi}.
 
-AgentCgroup provides the following APIs for agent runtimes:
+\sys provides the following APIs for agent runtimes:
 
 \begin{verbatim}
 // Session lifecycle
@@ -213,25 +216,25 @@ int agentcg_policy_load(session_t *s, bpf_prog_t *p);
 
 \subsection{Portability and Safety}
 
-Portability across kernel versions is a practical concern for any eBPF-based system. AgentCgroup therefore uses libbpf and BPF CO-RE (Compile Once -- Run Everywhere). The kernel documentation describes CO-RE as a mechanism to address portability across kernel versions/configurations without embedding a compiler or incurring the overhead associated with approaches like BCC~\cite{libbpf}. CO-RE enables shipping AgentCgroup's BPF programs as artifacts that adapt to the target kernel's BTF at load time, assuming the required attach points and helpers are available.
+Portability across kernel versions is a practical concern for any eBPF-based system. \sys therefore uses libbpf and BPF CO-RE (Compile Once -- Run Everywhere). The kernel documentation describes CO-RE as a mechanism to address portability across kernel versions/configurations without embedding a compiler or incurring the overhead associated with approaches like BCC~\cite{libbpf}. CO-RE enables shipping \sys's BPF programs as artifacts that adapt to the target kernel's BTF at load time, assuming the required attach points and helpers are available.
 
-Finally, AgentCgroup constrains its in-kernel logic to remain verifiable and predictable. The verifier performs control-flow checks and path exploration to ensure safe execution, which translates into an engineering constraint: policy functions must be small, bounded, and avoid complex loops or unbounded state~\cite{ebpf-verifier}. This constraint shapes the system design: high-level policy decisions remain in user space while the kernel enforces fast-path, local control laws.
+Finally, \sys constrains its in-kernel logic to remain verifiable and predictable. The verifier performs control-flow checks and path exploration to ensure safe execution, which translates into an engineering constraint: policy functions must be small, bounded, and avoid complex loops or unbounded state~\cite{ebpf-verifier}. This constraint shapes the system design: high-level policy decisions remain in user space while the kernel enforces fast-path, local control laws.
 
 \section{Evaluation}
 
-Our evaluation is designed to answer three systems questions: (i) does AgentCgroup improve isolation and tail latency for multi-tenant agent workloads, (ii) does eBPF-based in-kernel enforcement provide benefits that static knobs and user-space control cannot match, and (iii) what is the overhead and operational risk of deploying such policies.
+Our evaluation is designed to answer three systems questions: (i) does \sys improve isolation and tail latency for multi-tenant agent workloads, (ii) does eBPF-based in-kernel enforcement provide benefits that static knobs and user-space control cannot match, and (iii) what is the overhead and operational risk of deploying such policies.
 
 \subsection{Methodology}
 
-\textbf{Workloads.} We evaluate AgentCgroup on representative agent workloads drawn from common agent sandboxes: a code-oriented workload with compiler/test bursts, a data-analysis workload with working-set swings and memory-intensive operations, and a web/tool workload with mixed CPU and I/O phases. The workloads are executed in a multi-tenant configuration where multiple sessions share the same host and contend for CPU and memory. We instrument each session/step cgroup to collect per-cgroup PSI, memory events, and scheduler statistics. PSI provides a workload-agnostic measure of contention-induced stall time and is available per cgroup in cgroup v2~\cite{psi}.
+\textbf{Workloads.} We evaluate \sys on representative agent workloads drawn from common agent sandboxes: a code-oriented workload with compiler/test bursts, a data-analysis workload with working-set swings and memory-intensive operations, and a web/tool workload with mixed CPU and I/O phases. The workloads are executed in a multi-tenant configuration where multiple sessions share the same host and contend for CPU and memory. We instrument each session/step cgroup to collect per-cgroup PSI, memory events, and scheduler statistics. PSI provides a workload-agnostic measure of contention-induced stall time and is available per cgroup in cgroup v2~\cite{psi}.
 
-\textbf{Baselines.} Baselines are chosen to isolate the role of programmability. The first baseline uses static cgroup v2 knobs: fixed \texttt{cpu.max}, fixed \texttt{memory.high}, fixed \texttt{memory.max}, relying on the default scheduler and standard memcg behavior. The second baseline adds a user-space controller similar in spirit to prior PSI-driven management approaches (e.g., TMO's Senpai), where PSI is monitored in user space and cgroup files are rewritten to induce reclaim or alter limits~\cite{tmo}. AgentCgroup is evaluated both with its full eBPF enforcement plane and in an ablation where eBPF enforcement is disabled and only user-space knob tuning remains; comparing these configurations isolates the contribution of in-kernel programmability.
+\textbf{Baselines.} Baselines are chosen to isolate the role of programmability. The first baseline uses static cgroup v2 knobs: fixed \texttt{cpu.max}, fixed \texttt{memory.high}, fixed \texttt{memory.max}, relying on the default scheduler and standard memcg behavior. The second baseline adds a user-space controller similar in spirit to prior PSI-driven management approaches (e.g., TMO's Senpai), where PSI is monitored in user space and cgroup files are rewritten to induce reclaim or alter limits~\cite{tmo}. \sys is evaluated both with its full eBPF enforcement plane and in an ablation where eBPF enforcement is disabled and only user-space knob tuning remains; comparing these configurations isolates the contribution of in-kernel programmability.
 
 \textbf{Metrics.} For latency and isolation, we report step-level and session-level tail latency (p95/p99), session completion rate under contention, and interference amplification measured as the performance degradation of a protected session under a noisy neighbor. For utilization, we measure CPU utilization, memory footprint, reclaim activity, and aggregate throughput under fixed hardware. Because \texttt{memory.high} is defined as a throttle boundary that never directly invokes OOM, we additionally interpret \texttt{memory.events} (high/max/oom/oom\_kill) to separate ``controlled throttling'' from ``hard failures''~\cite{cgroupv2}.
 
 \subsection{Isolation Effectiveness}
 
-AgentCgroup improves isolation under multi-tenant contention:
+\sys improves isolation under multi-tenant contention:
 \begin{itemize}
     \item 70\% reduction in tail latency violations compared to static cgroups
     \item Maintains isolation under adversarial noisy-neighbor scenarios
@@ -249,7 +252,7 @@ The eBPF-based policy enforcement achieves:
 
 \subsection{Resource Efficiency}
 
-AgentCgroup improves resource utilization:
+\sys improves resource utilization:
 \begin{itemize}
     \item 30\% improvement in resource efficiency
     \item Achieves better work conservation through adaptive policies
@@ -262,7 +265,7 @@ Robustness is evaluated under adversarial scenarios that mimic real tool failure
 
 \subsection{Overhead Analysis}
 
-AgentCgroup introduces minimal overhead:
+\sys introduces minimal overhead:
 \begin{itemize}
     \item eBPF verification: one-time cost at policy load
     \item Per-operation overhead: sub-microsecond
@@ -297,7 +300,7 @@ Our work demonstrates the following properties of eBPF for agent resource govern
 
 \subsection{Limitations}
 
-\textbf{Kernel Version Requirements}: AgentCgroup requires recent kernels with \texttt{sched\_ext} and \texttt{memcg\_bpf\_ops} support.
+\textbf{Kernel Version Requirements}: \sys requires recent kernels with \texttt{sched\_ext} and \texttt{memcg\_bpf\_ops} support.
 
 \textbf{Policy Complexity}: Writing correct eBPF policies requires kernel expertise.
 
@@ -316,9 +319,9 @@ Our work demonstrates the following properties of eBPF for agent resource govern
 
 \section{Conclusion}
 
-We presented AgentCgroup, a kernel-level resource abstraction designed for interactive AI agent workloads. By aligning resource domains with agent session semantics, implementing budget-based governance with soft-pause semantics, and leveraging eBPF for programmable policy enforcement, AgentCgroup improves isolation, latency, and resource efficiency.
+We presented \sys, a kernel-level resource abstraction designed for interactive AI agent workloads. By aligning resource domains with agent session semantics, implementing budget-based governance with soft-pause semantics, and leveraging eBPF for programmable policy enforcement, \sys improves isolation, latency, and resource efficiency.
 
-Our results indicate that traditional static cgroup mechanisms are inadequate for dynamic agent workloads, and that kernel programmability via eBPF enables adaptive, reactive resource governance. AgentCgroup represents a step toward operating systems that understand and optimize for the characteristics of interactive AI agent workloads.
+Our results indicate that traditional static cgroup mechanisms are inadequate for dynamic agent workloads, and that kernel programmability via eBPF enables adaptive, reactive resource governance. \sys represents a step toward operating systems that understand and optimize for the characteristics of interactive AI agent workloads.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
