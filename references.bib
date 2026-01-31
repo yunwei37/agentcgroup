@@ -1,3 +1,75 @@
+@misc{cgroupv2,
+  author = {Heo, Tejun},
+  title = {Control Group v2},
+  howpublished = {Linux Kernel Documentation},
+  year = {2015},
+  note = {\url{https://docs.kernel.org/admin-guide/cgroup-v2.html}},
+}
+
+@misc{ebpf-verifier,
+  author = {{Linux Kernel Community}},
+  title = {{eBPF} Verifier},
+  howpublished = {Linux Kernel Documentation},
+  year = {2024},
+  note = {\url{https://docs.kernel.org/bpf/verifier.html}},
+}
+
+@misc{sched-ext,
+  author = {Heo, Tejun and Vernet, David and Don, Josh},
+  title = {Extensible Scheduler Class},
+  howpublished = {Linux Kernel Documentation},
+  year = {2023},
+  note = {\url{https://docs.kernel.org/scheduler/sched-ext.html}},
+}
+
+@misc{memcg-bpf,
+  author = {Gushchin, Roman},
+  title = {mm: memcontrol: Add {BPF} hooks for memory controller},
+  howpublished = {LWN.net},
+  year = {2024},
+  note = {\url{https://lwn.net/Articles/1055698/}},
+}
+
+@misc{psi,
+  author = {Weiner, Johannes},
+  title = {{PSI} - Pressure Stall Information},
+  howpublished = {Linux Kernel Documentation},
+  year = {2018},
+  note = {\url{https://docs.kernel.org/accounting/psi.html}},
+}
+
+@misc{libbpf,
+  author = {{Linux Kernel Community}},
+  title = {libbpf Overview},
+  howpublished = {Linux Kernel Documentation},
+  year = {2024},
+  note = {\url{https://docs.kernel.org/bpf/libbpf/libbpf_overview.html}},
+}
+
+@inproceedings{tmo,
+  author = {Weiner, Johannes and Aravinda, Yadwad and Bai, Chunbai and Bhattacharjee, Bobby and Chen, Chen and Custers, Maarten and Estrada, Daniel and Heo, Tejun and Ibrahim, Khalid and Jang, Won Yong and Kashyap, Saurabh and King, Ian and Li, Liao and Liang, Michael and Mazzara, Fei and Mondal, Rishabh and Sanchez, Javier and Shingote, Prakash and Son, Jia and Sukhwani, Shakeel and Suresh, Bharata and Truong, Binh},
+  title = {{TMO}: Transparent Memory Offloading in Datacenters},
+  booktitle = {Proceedings of the 27th ACM International Conference on Architectural Support for Programming Languages and Operating Systems},
+  series = {ASPLOS '22},
+  year = {2022},
+  pages = {609--621},
+  publisher = {ACM},
+}
+
+@misc{asa,
+  author = {Chen, Yifan and others},
+  title = {Mixture-of-Schedulers: An Adaptive Scheduling Agent as a Learned Router for Expert Policies},
+  howpublished = {arXiv preprint arXiv:2511.11628},
+  year = {2024},
+}
+
+@misc{nalar,
+  author = {Zheng, Lianmin and others},
+  title = {Nalar: An Agent Serving Framework},
+  howpublished = {arXiv preprint arXiv:2601.05109},
+  year = {2026},
+}
+
 @inproceedings{cgroups,
   author = {Menage, Paul B.},
   title = {Adding Generic Process Containers to the Linux Kernel},
@@ -6,33 +78,11 @@
   pages = {45--57},
 }
 
-@misc{cgroupv2,
-  author = {Heo, Tejun},
-  title = {Control Group v2},
-  howpublished = {Linux Kernel Documentation},
-  year = {2015},
-  note = {\url{https://www.kernel.org/doc/Documentation/cgroup-v2.txt}},
-}
-
 @inproceedings{ebpf,
   author = {Gregg, Brendan},
   title = {{BPF} Performance Tools: Linux System and Application Observability},
   booktitle = {Addison-Wesley Professional},
   year = {2019},
-}
-
-@inproceedings{sched-ext,
-  author = {Tejun Heo and David Vernet and Josh Don},
-  title = {sched\_ext: {BPF}-extensible Scheduler Class},
-  booktitle = {Linux Plumbers Conference},
-  year = {2023},
-}
-
-@misc{memcg-bpf,
-  author = {Roman Gushchin},
-  title = {Memory Controller {BPF} Hooks},
-  howpublished = {Linux Kernel Mailing List},
-  year = {2022},
 }
 
 @inproceedings{xdp,
@@ -55,7 +105,7 @@
   publisher = {ACM},
 }
 
-@inproceedings{kubernetes,
+@article{kubernetes,
   author = {Burns, Brendan and Grant, Brian and Oppenheimer, David and Brewer, Eric and Wilkes, John},
   title = {Borg, Omega, and Kubernetes},
   journal = {Communications of the ACM},
@@ -77,7 +127,7 @@
 
 @inproceedings{parties,
   author = {Chen, Shuang and Delimitrou, Christina and Mart{\'i}nez, Jos{\'e} F.},
-  title = {{PARTIES}: QoS-Aware Resource Partitioning for Multiple Interactive Services},
+  title = {{PARTIES}: {QoS}-Aware Resource Partitioning for Multiple Interactive Services},
   booktitle = {Proceedings of the Twenty-Fourth International Conference on Architectural Support for Programming Languages and Operating Systems},
   series = {ASPLOS '19},
   year = {2019},
@@ -85,7 +135,7 @@
   publisher = {ACM},
 }
 
-@inproceedings{bolt,
+@inproceedings{caladan,
   author = {Fried, Joshua and Ruan, Zhenyuan and Ousterhout, Amy and Belay, Adam},
   title = {Caladan: Mitigating Interference at Microsecond Timescales},
   booktitle = {14th USENIX Symposium on Operating Systems Design and Implementation},
@@ -105,13 +155,6 @@
   publisher = {USENIX Association},
 }
 
-@inproceedings{ghosn,
-  author = {Ghosn, Shadi and Schwartz, Eyal and Brickner, Shay and Cohen, Gideon and Sharoni, Gal and Shapira, Amir},
-  title = {{eBPF}-based Resource Isolation for Containerized Applications},
-  booktitle = {Linux Plumbers Conference},
-  year = {2021},
-}
-
 @article{containers-survey,
   author = {Pahl, Claus and Brogi, Antonio and Soldani, Jacopo and Jamshidi, Pooyan},
   title = {Cloud Container Technologies: A State-of-the-Art Review},
@@ -122,37 +165,30 @@
   pages = {677--692},
 }
 
-@inproceedings{llm-agents,
+@misc{llm-agents,
   author = {Wang, Lei and Ma, Chen and Feng, Xueyang and Zhang, Zeyu and Yang, Hao and Zhang, Jingsen and Chen, Zhiyuan and Tang, Jiakai and Chen, Xu and Lin, Yankai and others},
   title = {A Survey on Large Language Model based Autonomous Agents},
-  booktitle = {arXiv preprint arXiv:2308.11432},
+  howpublished = {arXiv preprint arXiv:2308.11432},
   year = {2023},
 }
 
-@inproceedings{autogpt,
-  author = {Significant-Gravitas},
+@misc{autogpt,
+  author = {{Significant-Gravitas}},
   title = {{AutoGPT}: An Autonomous {GPT-4} Experiment},
   howpublished = {\url{https://github.com/Significant-Gravitas/AutoGPT}},
   year = {2023},
 }
 
-@inproceedings{langchain,
+@misc{langchain,
   author = {Chase, Harrison},
   title = {{LangChain}: Building Applications with LLMs through Composability},
   howpublished = {\url{https://github.com/langchain-ai/langchain}},
   year = {2022},
 }
 
-@inproceedings{psi,
-  author = {Weiner, Johannes and Aravinda, Yadwad and Ayush, Sahni and Bai, Chunbai and Cheng, Chen and Custers, Maarten and Daniel, Dao and Estrada, Tejun Heo Zhigang and Ibrahim, Khalid and Jang, Won Yong and Kashyap, Saurabh and King, Ian and Li, Liao and Liang, Michael and Mazzara, Fei and Rishabh, Mondal and Sanchez, Javier and Shingote, Prakash and Son, Jia and Sukhwani, Shakeel and Suresh, Bharata and Truong, Binh and others},
-  title = {TMM: Resource Pressure Stall Information},
-  booktitle = {Linux Kernel Summit},
-  year = {2018},
-}
-
-@inproceedings{device-cgroup-bpf,
+@misc{device-cgroup-bpf,
   author = {Gushchin, Roman},
   title = {Device Controller {BPF} Migration},
-  booktitle = {Linux Kernel Mailing List},
+  howpublished = {Linux Kernel Mailing List},
   year = {2022},
 }
