@@ -38,25 +38,25 @@ We present \sys, a kernel-level resource abstraction specifically designed to ma
 Experimental evaluation demonstrates that \sys improves multi-tenant isolation and tail latency management, reducing latency violations by up to 70\%, improving resource efficiency by 30\%, and preventing critical resource contention scenarios with minimal overhead. Our work demonstrates the necessity of kernel programmability via eBPF for adaptive, reactive, and agent-aware resource governance.
 \end{abstract}
 
-\begin{CCSXML}
-<ccs2012>
-   <concept>
-       <concept_id>10011007.10011006.10011008.10011009.10011015</concept_id>
-       <concept_desc>Software and its engineering~Operating systems</concept_desc>
-       <concept_significance>500</concept_significance>
-   </concept>
-   <concept>
-       <concept_id>10011007.10011006.10011008.10011024</concept_id>
-       <concept_desc>Software and its engineering~Language features</concept_desc>
-       <concept_significance>300</concept_significance>
-   </concept>
-</ccs2012>
-\end{CCSXML}
+% \begin{CCSXML}
+% <ccs2012>
+%    <concept>
+%        <concept_id>10011007.10011006.10011008.10011009.10011015</concept_id>
+%        <concept_desc>Software and its engineering~Operating systems</concept_desc>
+%        <concept_significance>500</concept_significance>
+%    </concept>
+%    <concept>
+%        <concept_id>10011007.10011006.10011008.10011024</concept_id>
+%        <concept_desc>Software and its engineering~Language features</concept_desc>
+%        <concept_significance>300</concept_significance>
+%    </concept>
+% </ccs2012>
+% \end{CCSXML}
 
-\ccsdesc[500]{Software and its engineering~Operating systems}
-\ccsdesc[300]{Software and its engineering~Language features}
+% \ccsdesc[500]{Software and its engineering~Operating systems}
+% \ccsdesc[300]{Software and its engineering~Language features}
 
-\keywords{cgroup, eBPF, resource isolation, AI agents, operating systems}
+% \keywords{cgroup, eBPF, resource isolation, AI agents, operating systems}
 
 \maketitle
 
@@ -86,15 +86,7 @@ Linux cgroup v2 provides a hierarchical resource governance abstraction where th
 
 \subsection{Programmable Kernel via eBPF}
 
-A core tension in resource isolation is that static interfaces are easy to standardize but too inflexible for highly dynamic workloads. Linux increasingly addresses this tension by introducing programmable enforcement points through eBPF, providing a safe and dynamically loadable mechanism to execute small policy functions inside the kernel. The eBPF verifier performs control-flow validation and path-sensitive simulation to ensure programs satisfy safety constraints before they run~\cite{ebpf-verifier}.
-
-This programmability is now part of the cgroup v2 design surface. For example, the cgroup v2 device controller has ``no interface files and is implemented on top of cgroup BPF.'' Access checks are performed by attaching a \texttt{BPF\_PROG\_TYPE\_CGROUP\_DEVICE} program to a cgroup; on each device access attempt, the BPF program runs and its return value determines allow/deny. This precedent shows that Linux treats ``cgroup + BPF'' as a first-class mechanism for implementing controller behavior when a static file interface is insufficient.
-
-On the CPU side, \texttt{sched\_ext} provides an explicit, upstream-supported path to make scheduling policies programmable. The kernel documentation describes \texttt{sched\_ext} as ``a scheduler class whose behavior can be defined by a set of BPF programs,'' exporting a full scheduling interface and allowing the BPF scheduler to be turned on/off dynamically. The system is designed to be fail-safe: on error or stalled runnable tasks, the kernel restores default scheduling behavior~\cite{sched-ext}. This combination of full interface, dynamic enablement, and fail-safe reversion provides a substrate for implementing scheduling policies without requiring kernel rewrites.
-
-On the memory side, recent work is pushing similar programmability into the memory controller. A patch series reported by LWN introduces \texttt{memcg\_bpf\_ops} as a BPF \texttt{struct\_ops} interface for the memory controller, with hooks such as \texttt{get\_high\_delay\_ms} for custom throttle delays on \texttt{memory.high} breaches and \texttt{below\_low}/\texttt{below\_min} for overriding low/min protection decisions~\cite{memcg-bpf}. This direction is relevant for agent sandboxes: it shifts memory governance from ``set a static boundary'' to ``define a control function,'' performing enforcement at kernel time rather than via delayed user-space reconfiguration.
-
-The kernel is converging on a pattern: cgroups define resource domains; eBPF defines domain-specific policy. \sys adopts this pattern, treating agent sessions as resource domains and using eBPF to make enforcement fast and workload-aware.
+Linux increasingly addresses the tension between standardized interfaces and dynamic workloads by introducing programmable enforcement points through eBPF, a safe and dynamically loadable mechanism for executing policy functions inside the kernel~\cite{ebpf-verifier}. This programmability extends to cgroup v2: the device controller is implemented entirely via BPF programs rather than static interface files. On the CPU side, \texttt{sched\_ext} allows scheduling policies to be defined by BPF programs with fail-safe reversion to default behavior on errors~\cite{sched-ext}. On the memory side, \texttt{memcg\_bpf\_ops} introduces hooks such as \texttt{get\_high\_delay\_ms} for custom throttle delays on \texttt{memory.high} breaches~\cite{memcg-bpf}. The kernel is converging on a pattern where cgroups define resource domains and eBPF defines domain-specific policy; \sys adopts this pattern for agent-aware resource governance.
 
 \subsection{Recent Related Systems}
 
