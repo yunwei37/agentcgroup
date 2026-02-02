@@ -3,10 +3,14 @@
 %% AgentCgroup Paper
 %%
 
-\documentclass[sigconf,review,anonymous]{acmart}
+\documentclass[sigconf,review,anonymous,nonacm]{acmart}
 
 %% Disable microtype to avoid font expansion issues
 \PassOptionsToPackage{disable}{microtype}
+
+%% Disable ACM-specific requirements for draft
+\settopmatter{printacmref=false}
+\renewcommand\footnotetextcopyrightpermission[1]{}
 
 %% System name macro
 \usepackage{xspace}
@@ -105,9 +109,9 @@ These mismatches motivate in-kernel enforcement: control logic must support dyna
 
 \subsection{Dynamic Resource Domains}
 
-\sys organizes resources using a hierarchical cgroup v2 structure that reflects agent workload boundaries. Each agent workload maps to a cgroup node, with tool calls represented as child nodes. This hierarchy enables fine-grained, per-tool-call resource constraints while maintaining overall workload budgets.
+\sys organizes resources using a hierarchical cgroup v2 structure. Each agent workload maps to a cgroup node, with tool calls as child nodes. This enables per-tool-call resource constraints while maintaining overall workload budgets.
 
-\sys uses cgroup v2 lifecycle primitives for workload-aware recovery. When a tool call exceeds soft limits, \sys can freeze the subtree via \texttt{cgroup.freeze} to allow the runtime to adapt. When termination is necessary, \sys uses \texttt{cgroup.kill} to kill the entire subtree atomically.
+For recovery, \sys uses cgroup v2 lifecycle primitives. When a tool call exceeds soft limits, \sys freezes the subtree to allow adaptation. When termination is necessary, \sys kills the subtree atomically.
 
 \subsection{In-Kernel Enforcement via eBPF}
 
@@ -115,7 +119,7 @@ These mismatches motivate in-kernel enforcement: control logic must support dyna
 
 On CPU scheduling, \sys uses \texttt{sched\_ext}, which exposes a full scheduling interface to BPF programs~\cite{sched-ext}. The BPF scheduler maintains per-workload and per-tool-call metadata in BPF maps, prioritizing latency-sensitive tool calls and enforcing fairness. The scheduler automatically reverts to the fair-class scheduler on errors.
 
-On memory governance, \sys uses \texttt{memcg\_bpf\_ops} hooks~\cite{memcg-bpf}. The implementation attaches a BPF \texttt{struct\_ops} program to the memory controller, implementing \texttt{get\_high\_delay\_ms} to compute dynamic throttling delays when a cgroup breaches \texttt{memory.high}. We use \texttt{memory.high} as the soft boundary and \texttt{memory.max} as the hard containment boundary~\cite{cgroupv2}.
+On memory governance, \sys uses \texttt{memcg\_bpf\_ops} hooks~\cite{memcg-bpf}. A BPF program implements custom throttling delays when a cgroup breaches its soft limit. We use \texttt{memory.high} as the soft boundary and \texttt{memory.max} as the hard limit~\cite{cgroupv2}.
 
 A user-space daemon provides APIs to manage cgroup subtrees and subscribes to events. The daemon updates shared BPF maps that parameterize policy functions. For portability, \sys uses libbpf and BPF CO-RE~\cite{libbpf}.
 
