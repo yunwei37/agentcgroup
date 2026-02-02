@@ -35,7 +35,7 @@ Interactive AI agents represent a distinct class of workloads characterized by s
 
 We present \sys, a kernel-level resource abstraction specifically designed to match the semantics and resource dynamics of interactive agent sessions. \sys defines hierarchical resource domains aligning precisely with agent lifecycles, including sessions and steps, and implements structured budgeting, resource pressure event signaling, and soft-pause semantics. \sys leverages Linux eBPF to inject small, verifiable policy programs directly into kernel resource management paths such as memory controller throttling and CPU scheduler decision points, enabling microsecond-level programmable policy enforcement that traditional cgroup configurations cannot provide.
 
-Experimental evaluation demonstrates that \sys improves multi-tenant isolation and tail latency management, reducing latency violations by up to 70\%, improving resource efficiency by 30\%, and preventing critical resource contention scenarios with minimal overhead. Our work demonstrates the necessity of kernel programmability via eBPF for adaptive, reactive, and agent-aware resource governance.
+Experimental evaluation demonstrates that \sys improves multi-tenant isolation and tail latency management while preventing critical resource contention scenarios with minimal overhead. Our work demonstrates the necessity of kernel programmability via eBPF for adaptive, reactive, and agent-aware resource governance.
 \end{abstract}
 
 % \begin{CCSXML}
@@ -62,7 +62,7 @@ Experimental evaluation demonstrates that \sys improves multi-tenant isolation a
 
 \section{Introduction}
 
-Interactive agent workloads, an emerging class of cloud-native applications, exhibit highly variable, short-lived, bursty, and latency-sensitive resource utilization patterns that challenge traditional kernel-level resource governance mechanisms. Linux cgroups, the de facto kernel abstraction for resource isolation, relies on static resource configurations and coarse-grained policy semantics, making it inadequate for dynamic agent workloads.
+Interactive agent workloads, an emerging class of cloud-native applications, exhibit highly variable, short-lived, bursty, and latency-sensitive resource utilization patterns that challenge traditional kernel-level resource governance mechanisms. A single agent session alternates between reasoning phases, tool executions such as compilation or data processing, and interactive phases, each with distinct CPU and memory footprints. When multiple sessions share a host, a memory-intensive compilation burst in one session can trigger reclaim storms that inflate tail latency for neighbors, while fork-heavy tool invocations can exhaust CPU before static limits react. Linux cgroups, the de facto kernel abstraction for resource isolation, relies on static resource configurations and user-space reactive tuning, leaving a mismatch between the millisecond-scale dynamics of agent workloads and the coarse-grained, slow-reacting policy model of traditional cgroup configurations.
 
 In this paper, we propose \sys, a structured kernel-level resource domain abstraction designed for agent-centric operating systems and precisely aligned with agent execution semantics including sessions and individual steps. \sys explicitly defines per-session and per-step hierarchical resource domains, provides precise resource accounting and budgeting semantics, and introduces kernel-level event signaling and soft-pause enforcement mechanisms, enabling agent workloads to adaptively respond to resource pressures.
 
@@ -112,7 +112,16 @@ Third, static knobs have granularity and race limitations that become visible un
 
 Cgroup v2 partially anticipates the need for external control: \texttt{memory.high} is positioned as a throttle boundary that ``never invokes the OOM killer'' and should be used when an external monitor can intervene. For agent sandboxes, however, the external monitor must be fast enough to keep up with phase changes and bursts, and it must reason in terms of agent semantics at session and step granularity, not long-lived services. The limitation of static cgroups for agent workloads lies not in cgroup v2's primitives, but in the default programming model of static configuration with user-space reactive tuning, which does not match agent dynamics.
 
-This observation motivates \sys's design: the OS should expose an agent-native resource domain at session and step granularity and support programmable, low-latency enforcement inside kernel control paths, so that control reacts on the timescale of bursts rather than on the timescale of user-space monitoring.
+These observations lead to the following design requirements:
+
+\begin{itemize}
+    \item[R1] Domain alignment: resource domains should match agent session and step boundaries.
+    \item[R2] Fast-path enforcement: policy must execute in kernel control paths for microsecond-level reaction.
+    \item[R3] Integrity semantics: atomic kill and cleanup to avoid partial session state.
+    \item[R4] Graduated response: throttling, soft-pause, and termination as escalating responses.
+    \item[R5] Compatibility: build on existing cgroup v2 infrastructure without kernel modifications.
+    \item[R6] Safe deployment: leverage eBPF verification and fail-safe mechanisms.
+\end{itemize}
 
 \section{Design of \sys}
 
@@ -126,7 +135,7 @@ First, semantic alignment: the resource domain should match the unit of fault co
 
 Second, fast-path enforcement: when resource pressure is escalating, the policy must act at kernel enforcement points, not only via delayed knob writes. eBPF provides this capability by enabling policy execution directly within kernel control paths.
 
-Third, fail-safe and portability: policies must be safe to deploy and robust under errors. \sys relies on the kernel's eBPF verifier to constrain safety of in-kernel programs, and on \texttt{sched\_ext}'s fail-safe reversion semantics to ensure scheduling experiments cannot compromise system integrity~\cite{ebpf-verifier}.
+Third, fail-safe and portability: policies must be safe to deploy and robust under errors. \sys relies on the kernel's eBPF verifier to constrain safety of in-kernel programs~\cite{ebpf-verifier}, and on \texttt{sched\_ext}'s fail-safe reversion semantics to ensure scheduling experiments cannot compromise system integrity~\cite{sched-ext}.
 
 \subsection{Structured Resource Domains Aligned with Agent Sessions/Steps}
 
@@ -148,10 +157,9 @@ On memory governance, \sys targets \texttt{memcg\_bpf\_ops} as the substrate for
 
 First, programmable controllers are already the cgroup direction. The cgroup v2 device controller demonstrates that BPF is a first-class mechanism for implementing controller semantics: device access is governed by attached BPF programs, not static interface files. \sys extends this paradigm to agent-specific CPU and memory governance.
 
-Second, hot-path reaction without user-kernel round trips. \texttt{memcg\_bpf\_ops} enables the kernel to compute throttle behavior at the point where a cgroup is breaching \texttt{memory.high}, rather than waiting for a user-space daemon to observe pressure and rewrite cgroup files~\cite{memcg-bpf}. This allows the system to react on the timescale of bursts that characterize tool invocations.
+Second, eBPF enables hot-path reaction without user-kernel round trips. \texttt{memcg\_bpf\_ops} allows the kernel to compute throttle behavior at the point where a cgroup is breaching \texttt{memory.high}, rather than waiting for a user-space daemon to observe pressure and rewrite cgroup files~\cite{memcg-bpf}. This allows the system to react on the timescale of bursts that characterize tool invocations.
 
-Third, safe deployment and fail-safe behavior. eBPF's verifier-based model constrains what in-kernel policies can do, reducing operational risk compared with custom kernel modules~\cite{ebpf-verifier}. On the CPU side, \texttt{sched\_ext} restores default scheduling on error or stall, ensuring system stability when using programmable scheduling~\cite{sched-ext}.
-
+Third, eBPF provides safe deployment and fail-safe behavior. The verifier-based model constrains what in-kernel policies can do, reducing operational risk compared with custom kernel modules~\cite{ebpf-verifier}. On the CPU side, \texttt{sched\_ext} restores default scheduling on error or stall, ensuring system stability when using programmable scheduling~\cite{sched-ext}.
 
 \section{Implementation}
 
@@ -161,7 +169,7 @@ Third, safe deployment and fail-safe behavior. eBPF's verifier-based model const
 
 On the kernel side, \sys uses \texttt{sched\_ext} as upstream-supported infrastructure. The BPF scheduler implements \texttt{struct sched\_ext\_ops} and maintains per-session and per-step metadata in BPF maps. The key property is that \texttt{sched\_ext} is a scheduler class whose behavior is defined by BPF programs, can be enabled/disabled dynamically, and automatically reverts to the fair-class scheduler upon internal errors or stalled runnable tasks~\cite{sched-ext}. This property enables iterating on scheduling logic while maintaining system stability.
 
-For memory, we build on the \texttt{memcg\_bpf\_ops} interface described in recent kernel work. The implementation attaches a BPF \texttt{struct\_ops} program to the memory controller and implements at least \texttt{get\_high\_delay\_ms}, with optional overrides for \texttt{below\_low}/\texttt{below\_min} for dynamic protection semantics~\cite{memcg-bpf}. We use \texttt{memory.high} as the soft boundary, consistent with the kernel documentation's guidance that it is the main mechanism for controlling memory usage without immediately invoking the OOM killer~\cite{cgroupv2}. \texttt{memory.max} remains the hard containment boundary for buggy or malicious tools~\cite{cgroupv2}.
+For memory, we build on the \texttt{memcg\_bpf\_ops} interface described in recent kernel work. The implementation attaches a BPF \texttt{struct\_ops} program to the memory controller and implements at least \texttt{get\_high\_delay\_ms}, with optional overrides for \texttt{below\_low}/\texttt{below\_min} for dynamic protection semantics~\cite{memcg-bpf}. We use \texttt{memory.high} as the soft boundary and \texttt{memory.max} as the hard containment boundary for buggy or malicious tools~\cite{cgroupv2}.
 
 \subsection{User-Space Implementation}
 
@@ -210,30 +218,15 @@ For latency and isolation, we report step-level and session-level tail latency (
 
 \subsection{Isolation Effectiveness}
 
-\sys improves isolation under multi-tenant contention:
-\begin{itemize}
-    \item 70\% reduction in tail latency violations compared to static cgroups
-    \item Maintains isolation under adversarial noisy-neighbor scenarios
-    \item Provides predictable performance across varying load conditions
-\end{itemize}
+We measure isolation under multi-tenant contention by comparing tail latency violations across configurations. The evaluation assesses whether \sys maintains isolation under adversarial noisy-neighbor scenarios and provides predictable performance across varying load conditions.
 
 \subsection{Latency Improvements}
 
-The eBPF-based policy enforcement achieves:
-\begin{itemize}
-    \item Microsecond-level policy reaction latency
-    \item 10--100x faster response than user-space monitoring approaches
-    \item Consistent low-latency enforcement under load
-\end{itemize}
+We compare policy reaction latency between \sys's in-kernel enforcement and user-space monitoring approaches. The key metric is the time from resource pressure detection to policy action, measured under varying load conditions.
 
 \subsection{Resource Efficiency}
 
-\sys improves resource utilization:
-\begin{itemize}
-    \item 30\% improvement in resource efficiency
-    \item Achieves better work conservation through adaptive policies
-    \item Reduces resource waste from over-provisioning
-\end{itemize}
+We measure resource utilization by comparing aggregate throughput and memory footprint across configurations. The evaluation assesses whether adaptive policies achieve better work conservation and reduce resource waste from static over-provisioning.
 
 \subsection{Robustness and Fail-Safe Evaluation}
 
@@ -241,25 +234,16 @@ Robustness is evaluated under adversarial scenarios that mimic real tool failure
 
 \subsection{Overhead Analysis}
 
-\sys introduces minimal overhead:
-\begin{itemize}
-    \item eBPF verification: one-time cost at policy load
-    \item Per-operation overhead: sub-microsecond
-    \item Memory overhead: negligible per-session state
-\end{itemize}
-
-We also measure verifier complexity and load time, guided by the kernel's description of the verifier's path-exploration and safety checks~\cite{ebpf-verifier}. On the CPU side, we explicitly validate \texttt{sched\_ext}'s fail-safe behavior by injecting scheduler errors and confirming that tasks revert to the fair-class scheduler as documented~\cite{sched-ext}.
+We measure three categories of overhead: eBPF verification cost at policy load time, per-operation overhead on scheduling and memory control paths, and memory overhead for per-session BPF map state. We also measure verifier complexity and load time~\cite{ebpf-verifier}. On the CPU side, we validate \texttt{sched\_ext}'s fail-safe behavior by injecting scheduler errors and confirming that tasks revert to the fair-class scheduler~\cite{sched-ext}.
 
 \subsection{Ablation Studies}
 
-We evaluate the contribution of individual components:
+We evaluate the contribution of individual components by disabling them in isolation:
 \begin{itemize}
-    \item Without eBPF: Latency increases, indicating the necessity of in-kernel enforcement
-    \item Without soft-pause: Higher termination rates and reduced agent adaptation
-    \item Without step hierarchy: Coarser isolation and reduced efficiency
+    \item Without eBPF: user-space knob tuning only, to isolate the benefit of in-kernel enforcement
+    \item Without soft-pause: direct termination on limit breach, to evaluate graduated response
+    \item Without step hierarchy: session-level cgroups only, to evaluate fine-grained domain alignment
 \end{itemize}
-
-These results support the use of eBPF as a mechanism for agent-native resource governance with enforcement at kernel decision points, providing reaction times and granularity that static cgroups and user-space controllers cannot match.
 
 \section{Discussion and Limitations}
 
