@@ -58,9 +58,9 @@ Interactive AI agents dynamically execute diverse tool calls within sandboxed en
 
 \section{Introduction}
 
-Interactive AI agents dynamically execute diverse tool calls—compilers, interpreters, browsers, data processors—within sandboxed environments. Each tool call exhibits distinct resource demands with millisecond-scale bursts. When multiple agent workloads share a host, a memory-intensive compilation burst can trigger reclaim storms that inflate tail latency for neighbors, while fork-heavy tool invocations can exhaust CPU before controls react.
+Interactive AI agents dynamically execute diverse tool calls within sandboxed environments. These tool calls include compilers, interpreters, browsers, and data processors, each exhibiting distinct resource demands with millisecond-scale bursts. Consider an agent session that first invokes a compiler consuming large amounts of memory, followed by a browser invocation demanding substantial CPU resources. Traditional static controls set at sandbox granularity become either overly conservative, wasting resources during idle periods, or overly aggressive, causing OOM kills or tail latency spikes during bursts.
 
-Traditional resource management faces two fundamental mismatches with agent workloads. First, a \textbf{domain mismatch}: existing controls operate at environment granularity with static budgets, but agent workloads require dynamic, fine-grained control at the tool-call level. Second, a \textbf{timescale mismatch}: user-space controllers reacting in tens of milliseconds cannot keep pace with sub-millisecond resource fluctuations.
+We identify two fundamental mismatches between existing resource controls and agent workloads. First, \textbf{Domain mismatch.} Current controls set static resource limits at coarse-grained container or sandbox boundaries. In contrast, agent workloads execute rapid sequences of tool calls with varying resource profiles. Each tool call requires fine-grained resource governance, and the transitions between tool calls require dynamic, phase-aware policies rather than fixed budgets. Second, \textbf{Timescale mismatch.} User-space controllers typically operate at 10--100ms timescales, significantly lagging behind sub-millisecond resource fluctuations caused by tool call bursts. By the time a controller observes pressure and adjusts limits, interference has already formed.
 
 We present \sys, an eBPF-based resource controller that addresses both mismatches. \sys uses eBPF (sched\_ext for CPU scheduling, memcg\_bpf\_ops for memory throttling) to execute control logic at kernel enforcement points, enabling microsecond-level reaction and dynamic, fine-grained decisions aligned with agent workload demands.
 
@@ -68,8 +68,8 @@ Experimental evaluation shows improved multi-tenant isolation, reduced tail late
 
 Key contributions:
 \begin{itemize}
-    \item Identifies two fundamental mismatches between traditional resource controls and agent workloads: domain mismatch (environment-level vs. tool-call-level) and timescale mismatch (user-space latency vs. sub-millisecond bursts).
-    \item Presents \sys, which uses eBPF to achieve dynamic, fine-grained control with microsecond-level reaction at kernel enforcement points.
+    \item Identifies two fundamental mismatches: domain mismatch (coarse-grained static limits vs. fine-grained, phase-aware control) and timescale mismatch (user-space latency vs. sub-millisecond bursts).
+    \item Presents \sys, which uses eBPF to execute dynamic, phase-aware policies at kernel enforcement points with microsecond-level reaction.
     \item Provides evaluation demonstrating improved isolation and tail latency under multi-tenant agent workloads.
 \end{itemize}
 
@@ -93,7 +93,15 @@ These mismatches motivate in-kernel enforcement: control logic must support dyna
 
 \subsection{Overview}
 
-\sys addresses the two mismatches through complementary mechanisms: a hierarchical cgroup structure that aligns resource domains with agent workload boundaries (addressing domain mismatch), and eBPF-based enforcement that executes control logic at kernel enforcement points (addressing timescale mismatch). The design builds on existing cgroup v2 infrastructure without kernel modifications, leveraging eBPF verification~\cite{ebpf-verifier} and \texttt{sched\_ext}'s fail-safe reversion~\cite{sched-ext} for safe deployment.
+\sys is designed around three goals derived from the two mismatches:
+
+\begin{itemize}
+    \item \textbf{Dynamic, fine-grained resource alignment} (addressing domain mismatch): Resource domains must align with tool-call boundaries, and policies must adapt to phase transitions rather than applying static limits.
+    \item \textbf{Microsecond-level responsiveness} (addressing timescale mismatch): Control logic must react to resource pressure at sub-millisecond timescales, before interference forms.
+    \item \textbf{Safety and compatibility}: The system must build on existing cgroup v2 infrastructure without kernel modifications, using eBPF verification~\cite{ebpf-verifier} and fail-safe mechanisms~\cite{sched-ext}.
+\end{itemize}
+
+\sys achieves these goals through two complementary mechanisms: a hierarchical cgroup structure that organizes resources around agent workloads and tool calls, and eBPF-based enforcement that executes control logic at kernel enforcement points.
 
 \subsection{Dynamic Resource Domains}
 
