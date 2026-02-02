@@ -112,30 +112,13 @@ Third, static knobs have granularity and race limitations that become visible un
 
 Cgroup v2 partially anticipates the need for external control: \texttt{memory.high} is positioned as a throttle boundary that ``never invokes the OOM killer'' and should be used when an external monitor can intervene. For agent sandboxes, however, the external monitor must be fast enough to keep up with phase changes and bursts, and it must reason in terms of agent semantics at session and step granularity, not long-lived services. The limitation of static cgroups for agent workloads lies not in cgroup v2's primitives, but in the default programming model of static configuration with user-space reactive tuning, which does not match agent dynamics.
 
-These observations lead to the following design requirements:
-
-\begin{itemize}
-    \item[R1] Domain alignment: resource domains should match agent session and step boundaries.
-    \item[R2] Fast-path enforcement: policy must execute in kernel control paths for microsecond-level reaction.
-    \item[R3] Integrity semantics: atomic kill and cleanup to avoid partial session state.
-    \item[R4] Graduated response: throttling, soft-pause, and termination as escalating responses.
-    \item[R5] Compatibility: build on existing cgroup v2 infrastructure without kernel modifications.
-    \item[R6] Safe deployment: leverage eBPF verification and fail-safe mechanisms.
-\end{itemize}
-
 \section{Design of \sys}
 
-\subsection{Overview and Key Design Principles}
+\subsection{Overview and Design Principles}
 
 \sys defines an OS-level contract between an agent runtime and the kernel for resource governance. In this contract, the unit of governance is an agent session, optionally refined into session steps that correspond to tool invocations. Each session and step is represented as a cgroup v2 subtree, inheriting cgroup v2's hierarchical enforcement semantics where limits set higher in the tree cannot be overridden by descendants.
 
-The design is guided by three principles.
-
-First, semantic alignment: the resource domain should match the unit of fault containment and recovery. For agents, this is the session and often the individual step. This alignment enables meaningful actions such as pausing a misbehaving step while allowing the session to recover, or killing the whole session atomically on irrecoverable failure.
-
-Second, fast-path enforcement: when resource pressure is escalating, the policy must act at kernel enforcement points, not only via delayed knob writes. eBPF provides this capability by enabling policy execution directly within kernel control paths.
-
-Third, fail-safe and portability: policies must be safe to deploy and robust under errors. \sys relies on the kernel's eBPF verifier to constrain safety of in-kernel programs~\cite{ebpf-verifier}, and on \texttt{sched\_ext}'s fail-safe reversion semantics to ensure scheduling experiments cannot compromise system integrity~\cite{sched-ext}.
+The design addresses the limitations identified above through six principles: (1) domain alignment, where resource domains match agent session and step boundaries; (2) fast-path enforcement, where policy executes in kernel control paths for microsecond-level reaction rather than user-space knob writes; (3) integrity semantics, providing atomic kill and cleanup to avoid partial session state; (4) graduated response, supporting throttling, soft-pause, and termination as escalating responses; (5) compatibility, building on existing cgroup v2 infrastructure without kernel modifications; and (6) safe deployment, leveraging eBPF verification~\cite{ebpf-verifier} and \texttt{sched\_ext}'s fail-safe reversion semantics~\cite{sched-ext}.
 
 \subsection{Structured Resource Domains Aligned with Agent Sessions/Steps}
 
@@ -143,23 +126,15 @@ Third, fail-safe and portability: policies must be safe to deploy and robust und
 
 \sys also uses cgroup v2 lifecycle primitives to support agent-centric recovery. For example, when a step exceeds soft limits or triggers sustained pressure, \sys can freeze the step subtree to stop execution and allow the runtime to adapt by reducing parallelism, changing tool choice, or requesting more budget. Freezing semantics, completion notification via \texttt{cgroup.events}, and the ability to later unfreeze are provided by \texttt{cgroup.freeze}. When termination is necessary due to policy violations or timeouts, \sys uses \texttt{cgroup.kill} to kill the entire subtree and avoid fork races.
 
-\subsection{Kernel Integration via sched\_ext and memcg\_bpf\_ops}
+\subsection{eBPF-Based Kernel Enforcement}
 
-\sys's central architectural choice is to treat the kernel as a programmable enforcement engine for agent domains.
+\sys treats the kernel as a programmable enforcement engine for agent domains, using eBPF to enable hot-path reaction without user-kernel round trips. This follows the direction established by cgroup v2's device controller, which is implemented entirely via BPF programs rather than static interface files.
 
-On CPU scheduling, \sys relies on \texttt{sched\_ext} as the policy substrate. \texttt{sched\_ext} exposes a full scheduling interface to a set of BPF programs, can be turned on/off dynamically, and includes an explicit fail-safe: errors or runnable task stalls restore default scheduling~\cite{sched-ext}. \sys uses this to implement an agent-session-aware scheduling policy that prioritizes latency-sensitive session steps, enforces fairness across sessions, and protects the system from noisy neighbors without requiring kernel modifications.
+On CPU scheduling, \sys relies on \texttt{sched\_ext}, which exposes a full scheduling interface to BPF programs with fail-safe reversion to default behavior on errors~\cite{sched-ext}. \sys uses this to implement an agent-session-aware scheduling policy that prioritizes latency-sensitive steps and enforces fairness across sessions.
 
-On memory governance, \sys targets \texttt{memcg\_bpf\_ops} as the substrate for programmable memory control. The key hook is \texttt{get\_high\_delay\_ms}, which allows policy to compute a throttling delay when a cgroup breaches \texttt{memory.high}~\cite{memcg-bpf}. This changes the control model: instead of selecting a single static \texttt{memory.high} threshold and letting the kernel apply fixed semantics, \sys can define a dynamic throttle function that depends on agent step type, recent fault/reclaim behavior, and pressure signals. The \texttt{below\_low}/\texttt{below\_min} hooks provide a complementary mechanism to adjust protection semantics dynamically, enabling a policy that protects critical steps only when they exhibit evidence of working-set sensitivity such as elevated fault rates, rather than statically reserving memory for the entire session~\cite{memcg-bpf}.
+On memory governance, \sys uses \texttt{memcg\_bpf\_ops} hooks. The key hook \texttt{get\_high\_delay\_ms} allows policy to compute a throttling delay when a cgroup breaches \texttt{memory.high}, enabling dynamic throttle functions that depend on step type and pressure signals rather than static thresholds~\cite{memcg-bpf}. The \texttt{below\_low}/\texttt{below\_min} hooks adjust protection semantics dynamically, protecting critical steps only when they exhibit working-set sensitivity.
 
-\subsection{eBPF Programs for In-Kernel Resource Policy Enforcement}
-
-\sys uses eBPF in three distinct roles, each corresponding to a limitation of static cgroup knobs.
-
-First, programmable controllers are already the cgroup direction. The cgroup v2 device controller demonstrates that BPF is a first-class mechanism for implementing controller semantics: device access is governed by attached BPF programs, not static interface files. \sys extends this paradigm to agent-specific CPU and memory governance.
-
-Second, eBPF enables hot-path reaction without user-kernel round trips. \texttt{memcg\_bpf\_ops} allows the kernel to compute throttle behavior at the point where a cgroup is breaching \texttt{memory.high}, rather than waiting for a user-space daemon to observe pressure and rewrite cgroup files~\cite{memcg-bpf}. This allows the system to react on the timescale of bursts that characterize tool invocations.
-
-Third, eBPF provides safe deployment and fail-safe behavior. The verifier-based model constrains what in-kernel policies can do, reducing operational risk compared with custom kernel modules~\cite{ebpf-verifier}. On the CPU side, \texttt{sched\_ext} restores default scheduling on error or stall, ensuring system stability when using programmable scheduling~\cite{sched-ext}.
+The eBPF verifier constrains what in-kernel policies can do, reducing operational risk compared with kernel modules~\cite{ebpf-verifier}. Combined with \texttt{sched\_ext}'s fail-safe semantics, this ensures system stability when deploying programmable policies.
 
 \section{Implementation}
 
@@ -216,17 +191,9 @@ Baselines are chosen to isolate the role of programmability. The first baseline 
 
 For latency and isolation, we report step-level and session-level tail latency (p95/p99), session completion rate under contention, and interference amplification measured as the performance degradation of a protected session under a noisy neighbor. For utilization, we measure CPU utilization, memory footprint, reclaim activity, and aggregate throughput under fixed hardware. Because \texttt{memory.high} is defined as a throttle boundary that never directly invokes OOM, we additionally interpret \texttt{memory.events} (high/max/oom/oom\_kill) to separate ``controlled throttling'' from ``hard failures''~\cite{cgroupv2}.
 
-\subsection{Isolation Effectiveness}
+\subsection{Isolation, Latency, and Efficiency}
 
-We measure isolation under multi-tenant contention by comparing tail latency violations across configurations. The evaluation assesses whether \sys maintains isolation under adversarial noisy-neighbor scenarios and provides predictable performance across varying load conditions.
-
-\subsection{Latency Improvements}
-
-We compare policy reaction latency between \sys's in-kernel enforcement and user-space monitoring approaches. The key metric is the time from resource pressure detection to policy action, measured under varying load conditions.
-
-\subsection{Resource Efficiency}
-
-We measure resource utilization by comparing aggregate throughput and memory footprint across configurations. The evaluation assesses whether adaptive policies achieve better work conservation and reduce resource waste from static over-provisioning.
+We measure isolation under multi-tenant contention by comparing tail latency violations across configurations, assessing whether \sys maintains isolation under adversarial noisy-neighbor scenarios. For latency, we compare policy reaction time between in-kernel enforcement and user-space monitoring, measuring the time from resource pressure detection to policy action. For efficiency, we compare aggregate throughput and memory footprint, assessing whether adaptive policies achieve better work conservation than static over-provisioning.
 
 \subsection{Robustness and Fail-Safe Evaluation}
 
@@ -235,41 +202,6 @@ Robustness is evaluated under adversarial scenarios that mimic real tool failure
 \subsection{Overhead Analysis}
 
 We measure three categories of overhead: eBPF verification cost at policy load time, per-operation overhead on scheduling and memory control paths, and memory overhead for per-session BPF map state. We also measure verifier complexity and load time~\cite{ebpf-verifier}. On the CPU side, we validate \texttt{sched\_ext}'s fail-safe behavior by injecting scheduler errors and confirming that tasks revert to the fair-class scheduler~\cite{sched-ext}.
-
-\subsection{Ablation Studies}
-
-We evaluate the contribution of individual components by disabling them in isolation:
-\begin{itemize}
-    \item Without eBPF: user-space knob tuning only, to isolate the benefit of in-kernel enforcement
-    \item Without soft-pause: direct termination on limit breach, to evaluate graduated response
-    \item Without step hierarchy: session-level cgroups only, to evaluate fine-grained domain alignment
-\end{itemize}
-
-\section{Discussion and Limitations}
-
-\subsection{Role of eBPF}
-
-Our work demonstrates the following properties of eBPF for agent resource governance:
-
-\begin{itemize}
-    \item Microsecond-level policy reaction latency, which user-space mechanisms cannot achieve
-    \item Safe, verifiable, and dynamically loadable kernel policy injection
-    \item Programmable kernel-level enforcement as an alternative to static knobs
-    \item Alignment with kernel community direction: devices cgroup via BPF, \texttt{sched\_ext}, memcg hooks
-\end{itemize}
-
-\subsection{Limitations}
-
-\sys requires recent kernels with \texttt{sched\_ext} and \texttt{memcg\_bpf\_ops} support. Writing correct eBPF policies requires kernel expertise, and complex policies may face verifier limitations. The current implementation targets Linux; other kernels would require different approaches.
-
-\subsection{Future Work}
-
-\begin{itemize}
-    \item Automatic policy generation from workload profiles
-    \item Cross-node agent session resource management
-    \item Integration with container orchestration systems
-    \item Hardware acceleration for policy enforcement
-\end{itemize}
 
 \section{Conclusion}
 
