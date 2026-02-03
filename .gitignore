@@ -23,3 +23,11 @@ comment.cut
 *.swo
 *~
 .DS_Store
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Data files (traces)
+data/
