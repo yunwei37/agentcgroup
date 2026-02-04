@@ -1,17 +1,17 @@
 # Batch SWE-bench Test Report
 
-Generated: 2026-02-04T22:24:00.186542
+Generated: 2026-02-04T23:01:52.531528
 
 ## Summary
 
 - **Total Tasks**: 1
-- **Successful**: 1
-- **Failed**: 0
-- **Success Rate**: 100.0%
-- **Total Time**: 1084.0s
+- **Successful**: 0
+- **Failed**: 1
+- **Success Rate**: 0.0%
+- **Total Time**: 1529.8s
 
 ## Results by Task
 
 | Category | Difficulty | Instance ID | Success | Attempts | Time (s) |
 |----------|------------|-------------|---------|----------|----------|
-| DevOps/Build | Hard | iterative__dvc-777 | Yes | 3 | 1084.0 |
+| ML/Scientific | Hard | numba__numba-5721 | No | 3 | 1529.8 |

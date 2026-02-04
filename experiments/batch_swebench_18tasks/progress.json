@@ -14,7 +14,8 @@
     "Medical_Bio_Medium",
     "SQL_Data_Hard",
     "Web_Network_Hard",
-    "DevOps_Build_Hard"
+    "DevOps_Build_Hard",
+    "ML_Scientific_Hard"
   ],
   "results": {
     "Web_Network_Easy": {
@@ -92,6 +93,11 @@
       "success": true,
       "attempts": 3,
       "total_time": 1083.95294
+    },
+    "ML_Scientific_Hard": {
+      "success": false,
+      "attempts": 3,
+      "total_time": 1529.777308
     }
   }
 }
