@@ -11,7 +11,9 @@
     "DevOps_Build_Medium",
     "ML_Scientific_Medium",
     "CLI_Tools_Medium",
-    "Medical_Bio_Medium"
+    "Medical_Bio_Medium",
+    "SQL_Data_Hard",
+    "Web_Network_Hard"
   ],
   "results": {
     "Web_Network_Easy": {
@@ -74,6 +76,16 @@
       "success": true,
       "attempts": 2,
       "total_time": 802.059104
+    },
+    "SQL_Data_Hard": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 425.345955
+    },
+    "Web_Network_Hard": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 229.524551
     }
   }
 }
