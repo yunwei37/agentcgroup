@@ -140,14 +140,15 @@ class ResourceMonitor:
 class SWEBenchRunner:
     """Run Claude Code on SWE-bench tasks with monitoring."""
 
-    def __init__(self, image_name: str, memory_limit: str = "4g", cpu_limit: str = "2"):
+    def __init__(self, image_name: str, memory_limit: Optional[str] = "4g", cpu_limit: Optional[str] = "2",
+                 output_dir: Optional[Path] = None):
         self.image_name = image_name
-        self.memory_limit = memory_limit
-        self.cpu_limit = cpu_limit
+        self.memory_limit = memory_limit  # None means no limit
+        self.cpu_limit = cpu_limit  # None means no limit
         self.home = os.environ.get("HOME", f"/home/{os.environ.get('USER', 'user')}")
         self.fixed_image_name: Optional[str] = None
         self.container_id: Optional[str] = None
-        self.output_dir: Optional[Path] = None
+        self.output_dir: Optional[Path] = output_dir
 
     def run(self, prompt: Optional[str] = None, run_tests: bool = False) -> dict:
         """Run the complete workflow."""
@@ -173,7 +174,8 @@ class SWEBenchRunner:
 
             # Step 3: Prepare output directory
             print(f"[3/6] Preparing output directory...")
-            self.output_dir = self._prepare_output_dir()
+            if self.output_dir is None:
+                self.output_dir = self._prepare_output_dir()
             results["output_dir"] = str(self.output_dir)
 
             # Step 4: Run Claude Code with monitoring
@@ -313,11 +315,16 @@ git diff
             "-w", "/testbed",
             "-e", f"HOME={self.home}",
             "-e", "PATH=/usr/local/bin:/usr/bin:/bin",
-            f"--memory={self.memory_limit}",
-            f"--cpus={self.cpu_limit}",
+        ]
+        # Add resource limits only if specified
+        if self.memory_limit:
+            container_cmd.extend([f"--memory={self.memory_limit}"])
+        if self.cpu_limit:
+            container_cmd.extend([f"--cpus={self.cpu_limit}"])
+        container_cmd.extend([
             self.fixed_image_name,
             "bash", "-c", cmd_script
-        ]
+        ])
 
         result = subprocess.run(container_cmd, capture_output=True, text=True)
         if result.returncode != 0:
