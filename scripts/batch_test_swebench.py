@@ -285,6 +285,14 @@ class BatchSWEBenchRunner:
     def _check_success(self, result: dict) -> bool:
         """Check if the attempt was successful."""
         output = result.get('claude_output', {}).get('stdout', '')
+        stderr = result.get('claude_output', {}).get('stderr', '')
+
+        # Check for Claude Code CLI crash
+        crash_indicators = ['No messages returned', 'UnhandledPromiseRejection', 'SIGKILL', 'SIGTERM']
+        is_crash = any(indicator in stderr or indicator in output for indicator in crash_indicators)
+        if is_crash:
+            print(f"  Detected Claude Code crash!")
+            return False
 
         has_diff = 'diff --git' in output
 
@@ -296,7 +304,7 @@ class BatchSWEBenchRunner:
         has_fail_indicator = any(kw in output_end for kw in fail_indicators)
 
         success = has_diff and has_pass_indicator and not has_fail_indicator
-        print(f"  Success check: diff={has_diff}, pass={has_pass_indicator}, fail={has_fail_indicator}")
+        print(f"  Success check: diff={has_diff}, pass={has_pass_indicator}, fail={has_fail_indicator}, crash={is_crash}")
         return success
 
     def _load_progress(self) -> set:

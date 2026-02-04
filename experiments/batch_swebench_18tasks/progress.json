@@ -1,7 +1,9 @@
 {
   "completed": [
     "Web_Network_Easy",
-    "SQL_Data_Easy"
+    "SQL_Data_Easy",
+    "CLI_Tools_Easy",
+    "DevOps_Build_Easy"
   ],
   "results": {
     "Web_Network_Easy": {
@@ -13,6 +15,16 @@
       "success": true,
       "attempts": 1,
       "total_time": 305.789627
+    },
+    "CLI_Tools_Easy": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 238.183015
+    },
+    "DevOps_Build_Easy": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 2381.967775
     }
   }
 }

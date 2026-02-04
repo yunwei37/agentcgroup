@@ -1,0 +1,74 @@
+Perfect! Let me create a comprehensive summary:
+
+## Summary
+
+I've successfully fixed the issue where pyupgrade was too eagerly transforming `"<separator>".join(shlex.quote(...))` to `shlex.join(...)` even when the separator was not a single space.
+
+### The Problem
+The original code was transforming:
+```python
+"garbage".join(shlex.quote(a) for a in ["some", "quotable strings"])
+```
+to:
+```python
+shlex.join(["some", "quotable strings"])
+```
+
+This is incorrect because `shlex.join()` always uses a space as the separator, while the original code uses `"garbage"` as the separator. These are not equivalent.
+
+### The Solution
+Added a single check in `/testbed/pyupgrade/_plugins/shlex_join.py` (line 43) to verify that the join separator is exactly a single space `" "`:
+
+```python
+node.func.value.value == ' ' and
+```
+
+This ensures the transformation only occurs when it's semantically valid.
+
+### Testing
+- ✅ All 8 shlex_join tests pass (including 2 new test cases)
+- ✅ Full test suite passes: 978 passed, 4 xfailed
+- ✅ Verified the fix with the exact example from the issue
+- ✅ Verified that valid transformations (with space separator) still work correctly
+
+### Changes Made
+1. **pyupgrade/_plugins/shlex_join.py**: Added condition `node.func.value.value == ' '` to check that the separator is a single space
+2. **tests/features/shlex_join_test.py**: Added 2 test cases to prevent regression:
+   - Non-space separator case: `"garbage".join(shlex.quote(...))`
+   - Comma-space separator case: `", ".join(shlex.quote(...))`
+=== GIT DIFF ===
+diff --git a/pyupgrade/_plugins/shlex_join.py b/pyupgrade/_plugins/shlex_join.py
+index 1406756..1de91fd 100644
+--- a/pyupgrade/_plugins/shlex_join.py
++++ b/pyupgrade/_plugins/shlex_join.py
+@@ -40,6 +40,7 @@ def visit_Call(
+             isinstance(node.func, ast.Attribute) and
+             isinstance(node.func.value, ast.Constant) and
+             isinstance(node.func.value.value, str) and
++            node.func.value.value == ' ' and
+             node.func.attr == 'join' and
+             not node.keywords and
+             len(node.args) == 1 and
+diff --git a/tests/features/shlex_join_test.py b/tests/features/shlex_join_test.py
+index fc6abe5..6529306 100644
+--- a/tests/features/shlex_join_test.py
++++ b/tests/features/shlex_join_test.py
+@@ -21,6 +21,18 @@ from pyupgrade._main import _fix_plugins
+             (3, 7),
+             id='3.8+ feature',
+         ),
++        pytest.param(
++            'import shlex\n'
++            '"garbage".join(shlex.quote(arg) for arg in cmd)\n',
++            (3, 8),
++            id='non-space separator should not transform',
++        ),
++        pytest.param(
++            'import shlex\n'
++            '", ".join(shlex.quote(arg) for arg in cmd)\n',
++            (3, 8),
++            id='comma space separator should not transform',
++        ),
+     ),
+ )
+ def test_shlex_join_noop(s, version):
