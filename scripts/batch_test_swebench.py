@@ -150,7 +150,24 @@ DO NOT stop until you have:
 - Run the tests and confirmed they pass
 - Shown the final git diff
 
-If you encounter test failures, debug and fix them. Keep trying until successful.'''
+If you encounter test failures, debug and fix them. Keep trying until successful.
+
+CRITICAL REQUIREMENTS FOR TESTING:
+- You MUST run the project's ORIGINAL test suite (pytest, unittest, tox, etc.)
+- Do NOT write custom test scripts or verification scripts to bypass tests
+- Do NOT claim success based on your own "All checks passed" output
+- The test output MUST show real pytest format: "X passed, Y failed in Z seconds"
+- If tests fail with ImportError or collection errors, fix the environment/import issue first
+- Success means the project's actual test suite passes, not custom verification
+
+WHAT COUNTS AS SUCCESS:
+- Real pytest/unittest output showing tests passed
+- Example: "===== 150 passed, 0 failed in 10.5s ====="
+
+WHAT DOES NOT COUNT:
+- Your own verification scripts saying "All checks passed"
+- Manual testing or print statements
+- Skipping tests due to import errors'''
 
 
 # Default output directory name (fixed, for auto-resume)
