@@ -1,0 +1,144 @@
+## Summary
+
+I've successfully added a `disabled` trait to the `DatePicker` widget. The implementation allows users to easily enable/disable the datepicker by setting `self.disabled = True/False` instead of manually accessing the menu and slots.
+
+### Changes Made:
+
+1. **`/testbed/sepal_ui/sepalwidgets/inputs.py`**:
+   - Added `Bool` to imports
+   - Added `disabled` trait as a class attribute: `disabled = Bool(False).tag(sync=True)`
+   - Modified `__init__` to accept and set the `disabled` parameter
+   - Added `@observe("disabled")` decorator to monitor trait changes
+   - Implemented `_on_disabled_change()` method to update both the menu and slots
+
+2. **`/testbed/tests/test_DatePicker.py`**:
+   - Added `test_disabled()` method to verify the functionality
+
+### Usage:
+
+**Before:**
+```python
+self.w_start = sw.DatePicker(label="start", v_model=None)
+self.w_start.menu.v_slots[0]["children"].disabled = True
+self.w_start.menu.disabled = True
+```
+
+**After:**
+```python
+self.w_start = sw.DatePicker(label="start", v_model=None, disabled=True)
+# or
+self.w_start.disabled = True
+```
+
+The code compiles successfully without syntax errors and follows the existing pattern used in other widgets (like `Btn`).
+=== GIT DIFF ===
+diff --git a/sepal_ui/sepalwidgets/inputs.py b/sepal_ui/sepalwidgets/inputs.py
+index 3ad7f1a9..c0acf5d7 100644
+--- a/sepal_ui/sepalwidgets/inputs.py
++++ b/sepal_ui/sepalwidgets/inputs.py
+@@ -1,7 +1,7 @@
+ from pathlib import Path
+ 
+ import ipyvuetify as v
+-from traitlets import link, Int, Any, List, observe, Dict, Unicode
++from traitlets import link, Int, Any, List, observe, Dict, Unicode, Bool
+ from ipywidgets import jslink
+ import pandas as pd
+ import ee
+@@ -33,15 +33,17 @@ class DatePicker(v.Layout, SepalWidget):
+ 
+     Args:
+         label (str, optional): the label of the datepicker field
++        disabled (bool, optional): whether or not to disable the datepicker. default to False
+         kwargs (optional): any parameter from a v.Layout abject. If set, 'children' will be overwritten.
+ 
+     """
+ 
+     menu = None
+     "v.Menu: the menu widget to display the datepicker"
++    disabled = Bool(False).tag(sync=True)
++    "bool: whether or not the datepicker is disabled"
+ 
+     def __init__(self, label="Date", **kwargs):
+-
+         # create the widgets
+         date_picker = v.DatePicker(no_title=True, v_model=None, scrollable=True)
+ 
+@@ -71,6 +73,9 @@ class DatePicker(v.Layout, SepalWidget):
+             ],
+         )
+ 
++        # set the disabled state - set it to the instance using the trait name
++        self.set_trait("disabled", kwargs.pop("disabled", False))
++
+         # set the default parameter
+         kwargs["v_model"] = kwargs.pop("v_model", None)
+         kwargs["row"] = kwargs.pop("row", True)
+@@ -84,6 +89,9 @@ class DatePicker(v.Layout, SepalWidget):
+         jslink((date_picker, "v_model"), (date_text, "v_model"))
+         jslink((date_picker, "v_model"), (self, "v_model"))
+ 
++        # observe disabled trait
++        self.observe(self._on_disabled_change, "disabled")
++
+     @observe("v_model")
+     def close_menu(self, change):
+         """A method to close the menu of the datepicker programatically"""
+@@ -93,6 +101,19 @@ class DatePicker(v.Layout, SepalWidget):
+ 
+         return
+ 
++    @observe("disabled")
++    def _on_disabled_change(self, change):
++        """Update the disabled state of the menu and slots"""
++
++        # disable the menu
++        self.menu.disabled = change["new"]
++
++        # disable both slots (hidden to everyone) and the children
++        if self.menu.v_slots:
++            self.menu.v_slots[0]["children"].disabled = change["new"]
++
++        return
++
+ 
+ class FileInput(v.Flex, SepalWidget):
+     """
+diff --git a/tests/test_DatePicker.py b/tests/test_DatePicker.py
+index f4c6d40e..2032f7be 100644
+--- a/tests/test_DatePicker.py
++++ b/tests/test_DatePicker.py
+@@ -40,3 +40,33 @@ class TestDatePicker:
+         """create a default datepicker"""
+ 
+         return sw.DatePicker()
++
++    def test_disabled(self):
++        """test the disabled trait"""
++
++        # test disabled=True
++        datepicker = sw.DatePicker(disabled=True)
++        assert datepicker.disabled is True
++        assert datepicker.menu.disabled is True
++        if datepicker.menu.v_slots:
++            assert datepicker.menu.v_slots[0]["children"].disabled is True
++
++        # test disabled=False (default)
++        datepicker = sw.DatePicker(disabled=False)
++        assert datepicker.disabled is False
++        assert datepicker.menu.disabled is False
++        if datepicker.menu.v_slots:
++            assert datepicker.menu.v_slots[0]["children"].disabled is False
++
++        # test toggling disabled
++        datepicker.disabled = True
++        assert datepicker.disabled is True
++        assert datepicker.menu.disabled is True
++        if datepicker.menu.v_slots:
++            assert datepicker.menu.v_slots[0]["children"].disabled is True
++
++        datepicker.disabled = False
++        assert datepicker.disabled is False
++        assert datepicker.menu.disabled is False
++        if datepicker.menu.v_slots:
++            assert datepicker.menu.v_slots[0]["children"].disabled is False

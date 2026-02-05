@@ -1,0 +1,18 @@
+{
+  "image": "swerebench/sweb.eval.x86_64.0b01001001_1776_spectree-64",
+  "start_time": "2026-02-04T21:01:31.911851",
+  "memory_limit": null,
+  "cpu_limit": null,
+  "model": "qwen3",
+  "pull_time": 0.8416526317596436,
+  "permission_fix_time": 12.379015684127808,
+  "image_info": {
+    "size_bytes": 3633497551,
+    "size_mb": 3465.17,
+    "image_id": "97c5893c7cef"
+  },
+  "output_dir": "/home/yunwei37/agentcgroup/experiments/all_images_qwen3_20260204_210111/task_1_0b01001001__spectree-64/attempt_1",
+  "error": "Failed to start container: Error: creating container storage: creating an ID-mapped copy of layer \"95f9a205a905263728ddc9f85f208927acce8ca5b9653d19da84d3d004d037af\": error during chown: lstat usr/share/doc/mount/examples/filesystems: no such file or directory: exit status 1\n",
+  "total_time": 120.47361373901367,
+  "end_time": "2026-02-04T21:03:32.385467"
+}

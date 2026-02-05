@@ -275,13 +275,14 @@ def main():
 
     args = parser.parse_args()
 
-    # Setup output directory
-    home = Path.home()
+    # Setup output directory - use script's parent directory (agentcgroup)
+    script_dir = Path(__file__).parent.parent
     if args.output_dir:
         output_dir = Path(args.output_dir)
     else:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_dir = home / "agentcgroup" / "experiments" / f"all_images_{args.model}_{timestamp}"
+        # Use "local" suffix for local models like qwen3
+        model_suffix = "local" if args.model in ["qwen3"] else args.model
+        output_dir = script_dir / "experiments" / f"all_images_{model_suffix}"
 
     output_dir.mkdir(parents=True, exist_ok=True)
     progress_file = output_dir / "progress.json"

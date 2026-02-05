@@ -1,0 +1,18 @@
+{
+  "completed": [
+    "0b01001001__spectree-64",
+    "12rambau__sepal_ui-411"
+  ],
+  "results": {
+    "0b01001001__spectree-64": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 120.473877
+    },
+    "12rambau__sepal_ui-411": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 850.394823
+    }
+  }
+}

@@ -369,22 +369,19 @@ git diff
 '''
 
         # Start container
-        # Note: Don't mount /etc as it conflicts with podman's resolv.conf
+        # Minimal mounts: claude binary + config, system libs for compatibility
         container_cmd = [
             "podman", "run", "-d",
             "--userns=keep-id",
             "--network=host",
-            "-v", "/usr:/usr:ro",
-            "-v", "/lib:/lib:ro",
-            "-v", "/lib64:/lib64:ro",
-            "-v", "/bin:/bin:ro",
-            "-v", "/sbin:/sbin:ro",
-            "-v", "/home:/home",
+            "-v", f"{self.home}/.local:{self.home}/.local:ro",  # claude binary
+            "-v", f"{self.home}/.claude:{self.home}/.claude:ro",  # claude config
+            "-v", "/lib:/lib:ro",      # libc for claude binary
+            "-v", "/lib64:/lib64:ro",  # 64-bit libs
             "-v", "/tmp:/tmp",
-            "-v", "/var:/var",
             "-w", "/testbed",
             "-e", f"HOME={self.home}",
-            "-e", "PATH=/usr/local/bin:/usr/bin:/bin",
+            "-e", f"PATH={self.home}/.local/bin:/usr/local/bin:/usr/bin:/bin",
         ]
 
         # Add extra environment variables
