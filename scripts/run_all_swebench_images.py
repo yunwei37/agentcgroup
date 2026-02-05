@@ -19,6 +19,7 @@ Usage:
 import argparse
 import json
 import os
+import random
 import subprocess
 import sys
 import time
@@ -293,8 +294,9 @@ def main():
         completed = load_progress(progress_file)
         print(f"Resuming from progress: {len(completed)} tasks already completed")
 
-    # Fetch all tasks
+    # Fetch all tasks and shuffle to randomize order
     tasks = fetch_all_images_from_dataset(limit=args.limit)
+    random.shuffle(tasks)
 
     print(f"\n{'='*60}")
     print(f"Batch All SWE-bench Images Runner")

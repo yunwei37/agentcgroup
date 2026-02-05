@@ -73,7 +73,8 @@
     "Azure__azure-functions-durable-python-494",
     "Azure__iotedgedev-173",
     "Azure__iotedgedev-349",
-    "Azure__msrest-for-python-167"
+    "Azure__msrest-for-python-167",
+    "Azure__msrest-for-python-189"
   ],
   "results": {
     "0b01001001__spectree-64": {
@@ -445,6 +446,11 @@
       "success": true,
       "attempts": 1,
       "total_time": 387.445671
+    },
+    "Azure__msrest-for-python-189": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 490.385336
     }
   }
 }

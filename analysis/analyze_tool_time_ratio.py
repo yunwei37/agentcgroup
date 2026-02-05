@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 
 BASE_DIR = "/home/yunwei37/workspace/agentcgroup/experiments/all_images_local"
-CHART_DIR = os.path.dirname(os.path.abspath(__file__))
+CHART_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "charts")
 CHART_DPI = 150
 COLORS = {"success": "#2ecc71", "failure": "#e74c3c", "neutral": "#3498db"}
 
@@ -119,7 +119,8 @@ def categorize_bash_command(cmd):
 
 
 def save_chart(fig, name):
-    """Save a matplotlib figure to the analysis directory."""
+    """Save a matplotlib figure to the analysis/charts directory."""
+    os.makedirs(CHART_DIR, exist_ok=True)
     path = os.path.join(CHART_DIR, name)
     fig.savefig(path, dpi=CHART_DPI, bbox_inches="tight", facecolor="white")
     plt.close(fig)
