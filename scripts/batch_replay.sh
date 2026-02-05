@@ -38,9 +38,16 @@ for attempt_dir in $ATTEMPTS; do
         continue
     fi
 
+    # Check if already completed (checkpoint/resume)
+    output_dir="${OUTPUT_BASE}/${task_name}"
+    if [ -f "$output_dir/resources.json" ]; then
+        echo "  SKIP: Already completed (found $output_dir/resources.json)"
+        continue
+    fi
+
     # Run replay (unbuffered output)
     python -u scripts/replay_trace.py "$attempt_dir" \
-        --output-dir "${OUTPUT_BASE}/${task_name}"
+        --output-dir "$output_dir"
 
     echo ""
     echo "[$current/$total] $task_name completed"
