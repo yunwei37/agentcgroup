@@ -355,7 +355,7 @@ class BatchSWEBenchRunner:
         try:
             # Remove fixed image
             safe_name = image_name.replace("/", "_").replace(":", "_")
-            fixed_image = f"swebench-fixed-{safe_name}"
+            fixed_image = f"localhost/swebench-fixed-{safe_name}"
             subprocess.run(["podman", "rmi", "-f", fixed_image],
                           capture_output=True, timeout=30)
 
