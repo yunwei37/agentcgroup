@@ -2,20 +2,19 @@
 """
 Trace Replay Tool for SWE-bench Experiments
 
-Replays Bash commands from a Claude Code trace file in a container,
+Replays ALL tool calls from a Claude Code trace file in a container,
 strictly matching the original timing, and records CPU/memory usage.
 
-This helps understand resource consumption patterns without running Claude Code.
+Supported tools:
+- Bash: execute commands
+- Read: read files
+- Edit: apply file edits
+- Write: write files
+- Glob: search for files
+- Grep: search in files
 
 Usage:
-    # Replay with original timing (default)
     python scripts/replay_trace.py experiments/batch_swebench_18tasks/Web_Network_Easy/attempt_1
-
-    # Speed up replay (2x faster)
-    python scripts/replay_trace.py <attempt_dir> --speed 2.0
-
-    # No delay (run commands as fast as possible)
-    python scripts/replay_trace.py <attempt_dir> --no-delay
 """
 
 import argparse
@@ -23,107 +22,75 @@ import json
 import subprocess
 import sys
 import time
+import os
 from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Optional
 
-# Import from run_swebench.py
 from run_swebench import ResourceMonitor
 from plot_resources import plot_from_attempt_dir
 
 
 class TraceParser:
-    """Parse Claude Code trace files to extract Bash commands."""
+    """Parse Claude Code trace files to extract ALL tool calls."""
+
+    # Tools we can replay
+    REPLAYABLE_TOOLS = {'Bash', 'Read', 'Edit', 'Write', 'Glob', 'Grep'}
 
     def __init__(self, trace_file: Path):
         self.trace_file = trace_file
-        self.commands: List[Dict] = []
-        self.all_tool_calls: List[Dict] = []  # All tool calls for plotting
+        self.tool_calls: List[Dict] = []
         self.start_timestamp: Optional[str] = None
 
     def parse(self) -> List[Dict]:
-        """Parse trace file and extract Bash commands with timing."""
-        tool_uses = {}  # tool_use_id -> command info
-        tool_results = {}  # tool_use_id -> result info
+        """Parse trace file and extract all replayable tool calls."""
+        tool_uses = {}  # tool_use_id -> tool info
 
         with open(self.trace_file, "r") as f:
             for line in f:
                 try:
                     entry = json.loads(line)
-                    self._process_entry(entry, tool_uses, tool_results)
+                    self._process_entry(entry, tool_uses)
                 except json.JSONDecodeError:
                     continue
 
-        # Match tool_use with tool_result to get execution time
-        for tool_id, cmd_info in tool_uses.items():
-            if tool_id in tool_results:
-                cmd_info['end_timestamp'] = tool_results[tool_id].get('timestamp')
-                cmd_info['result'] = tool_results[tool_id].get('result', {})
-            self.commands.append(cmd_info)
+        # Convert to list and sort by timestamp
+        self.tool_calls = list(tool_uses.values())
+        self.tool_calls.sort(key=lambda x: x.get('timestamp', ''))
 
-        # Sort by timestamp
-        self.commands.sort(key=lambda x: x.get('timestamp', ''))
+        if self.tool_calls:
+            self.start_timestamp = self.tool_calls[0].get('timestamp')
 
-        if self.commands:
-            self.start_timestamp = self.commands[0].get('timestamp')
+        return self.tool_calls
 
-        return self.commands
-
-    def _process_entry(self, entry: dict, tool_uses: dict, tool_results: dict):
+    def _process_entry(self, entry: dict, tool_uses: dict):
         """Process a single trace entry."""
         entry_type = entry.get('type')
 
-        # Tool use (command invocation)
         if entry_type == 'assistant' and 'message' in entry:
             msg = entry['message']
             if 'content' in msg:
                 for block in msg['content']:
                     if block.get('type') == 'tool_use':
-                        tool_id = block.get('id')
                         tool_name = block.get('name')
-                        cmd_input = block.get('input', {})
-
-                        # Record all tool calls for plotting
-                        self.all_tool_calls.append({
-                            'timestamp': entry.get('timestamp'),
-                            'tool': tool_name,
-                            'id': tool_id
-                        })
-
-                        # Only extract Bash commands for replay
-                        if tool_name == 'Bash':
+                        if tool_name in self.REPLAYABLE_TOOLS:
+                            tool_id = block.get('id')
                             tool_uses[tool_id] = {
                                 'tool_use_id': tool_id,
+                                'tool': tool_name,
                                 'timestamp': entry.get('timestamp'),
-                                'command': cmd_input.get('command', ''),
-                                'description': cmd_input.get('description', ''),
-                                'timeout': cmd_input.get('timeout'),
-                            }
-
-        # Tool result (command output)
-        elif entry_type == 'user' and 'message' in entry:
-            msg = entry['message']
-            if 'content' in msg:
-                content = msg['content']
-                if isinstance(content, list):
-                    for block in content:
-                        if isinstance(block, dict) and block.get('type') == 'tool_result':
-                            tool_id = block.get('tool_use_id')
-                            tool_results[tool_id] = {
-                                'timestamp': entry.get('timestamp'),
-                                'result': entry.get('toolUseResult', {}),
+                                'input': block.get('input', {}),
                             }
 
 
 class TraceReplayer:
-    """Replay Bash commands in a container with timing."""
+    """Replay all tool calls in a container with timing."""
 
-    def __init__(self, image_name: str, commands: List[Dict], all_tool_calls: List[Dict],
+    def __init__(self, image_name: str, tool_calls: List[Dict],
                  output_dir: Path, speed: float = 1.0, no_delay: bool = False,
                  task_name: str = ""):
         self.image_name = image_name
-        self.commands = commands
-        self.all_tool_calls = all_tool_calls
+        self.tool_calls = tool_calls
         self.output_dir = output_dir
         self.speed = speed
         self.no_delay = no_delay
@@ -131,7 +98,7 @@ class TraceReplayer:
         self.home = Path.home()
         self.container_id: Optional[str] = None
         self.fixed_image_name: Optional[str] = None
-        self.replay_tool_calls: List[Dict] = []  # Tool calls with replay timestamps
+        self.replay_tool_calls: List[Dict] = []
 
     def run(self) -> dict:
         """Run the replay."""
@@ -139,7 +106,7 @@ class TraceReplayer:
         results = {
             "image": self.image_name,
             "start_time": datetime.now().isoformat(),
-            "command_count": len(self.commands),
+            "tool_call_count": len(self.tool_calls),
             "speed": self.speed,
             "no_delay": self.no_delay,
             "task_name": self.task_name,
@@ -147,22 +114,18 @@ class TraceReplayer:
 
         resource_data = None
         try:
-            # Step 1: Setup container
             print(f"[1/5] Setting up container for image: {self.image_name}")
             self._setup_container()
 
-            # Step 2: Start resource monitoring
             print(f"[2/5] Starting resource monitoring...")
             monitor = ResourceMonitor(self.container_id, interval=1.0)
             monitor.start()
 
-            # Step 3: Replay commands with timing
-            print(f"[3/5] Replaying {len(self.commands)} Bash commands (speed: {self.speed}x)...")
+            print(f"[3/5] Replaying {len(self.tool_calls)} tool calls (speed: {self.speed}x)...")
             replay_start = time.time()
-            replay_results = self._replay_commands(replay_start)
+            replay_results = self._replay_all(replay_start)
             results["replay_results"] = replay_results
 
-            # Step 4: Collect results
             print(f"[4/5] Collecting results...")
             monitor.stop()
 
@@ -172,13 +135,11 @@ class TraceReplayer:
             }
             results["resource_samples"] = resource_data
 
-            # Print summary
             summary = resource_data["summary"]
             print(f"  Collected {len(monitor.samples)} resource samples")
             print(f"  Memory: avg={summary['memory_mb']['avg']:.1f}MB, max={summary['memory_mb']['max']:.1f}MB")
             print(f"  CPU: avg={summary['cpu_percent']['avg']:.1f}%, max={summary['cpu_percent']['max']:.1f}%")
 
-            # Step 5: Save and generate plot
             print(f"[5/5] Saving results and generating plot...")
             self._save_results(results, resource_data)
             self._generate_plot()
@@ -198,13 +159,9 @@ class TraceReplayer:
 
     def _setup_container(self):
         """Setup the container with fixed permissions."""
-        import os
-
-        # Create fixed image name
         safe_name = self.image_name.replace("/", "_").replace(":", "_")
         self.fixed_image_name = f"swebench-fixed-{safe_name}"
 
-        # Check if fixed image exists, if not create it
         result = subprocess.run(
             ["podman", "image", "exists", self.fixed_image_name],
             capture_output=True
@@ -216,7 +173,6 @@ class TraceReplayer:
         else:
             print(f"  Using existing fixed image: {self.fixed_image_name}")
 
-        # Start container (keep running with sleep)
         container_cmd = [
             "podman", "run", "-d",
             "--userns=keep-id",
@@ -244,7 +200,6 @@ class TraceReplayer:
         self.container_id = result.stdout.strip()
         print(f"  Container started: {self.container_id[:12]}")
 
-        # Initialize git config
         subprocess.run(
             ["podman", "exec", self.container_id, "bash", "-c",
              "git config user.email 'test@test.com' && git config user.name 'Test' && git config --add safe.directory /testbed"],
@@ -253,17 +208,14 @@ class TraceReplayer:
 
     def _fix_permissions(self):
         """Create a modified image with fixed /testbed permissions."""
-        import os
         uid = os.getuid()
         gid = os.getgid()
 
-        # Pull original image if needed
         subprocess.run(
             ["podman", "pull", f"docker.io/{self.image_name}"],
             capture_output=True
         )
 
-        # Create temp container
         result = subprocess.run(
             ["podman", "run", "-d", f"docker.io/{self.image_name}", "sleep", "120"],
             capture_output=True, text=True
@@ -274,13 +226,10 @@ class TraceReplayer:
         temp_container = result.stdout.strip()
 
         try:
-            # Fix permissions
             subprocess.run(
                 ["podman", "exec", temp_container, "chown", "-R", f"{uid}:{gid}", "/testbed"],
                 check=True, capture_output=True
             )
-
-            # Commit as new image
             subprocess.run(
                 ["podman", "commit", temp_container, self.fixed_image_name],
                 check=True, capture_output=True
@@ -290,94 +239,262 @@ class TraceReplayer:
             subprocess.run(["podman", "stop", temp_container], capture_output=True)
             subprocess.run(["podman", "rm", temp_container], capture_output=True)
 
-    def _replay_commands(self, replay_start: float) -> List[Dict]:
-        """Replay commands with timing matching original trace."""
+    def _replay_all(self, replay_start: float) -> List[Dict]:
+        """Replay all tool calls with timing."""
         results = []
 
-        if not self.commands:
+        if not self.tool_calls:
             return results
 
-        # Calculate original start time
-        first_ts = self.commands[0].get('timestamp', '')
+        first_ts = self.tool_calls[0].get('timestamp', '')
         try:
             original_start = datetime.fromisoformat(first_ts.replace('Z', '+00:00')).timestamp()
         except:
             original_start = 0
 
-        # Create mapping of original tool call times to replay times
-        tool_call_index = 0
+        for i, tool_call in enumerate(self.tool_calls):
+            tool_ts = tool_call.get('timestamp', '')
+            tool_name = tool_call.get('tool')
+            tool_input = tool_call.get('input', {})
 
-        for i, cmd_info in enumerate(self.commands):
-            cmd_ts = cmd_info.get('timestamp', '')
-
-            # Calculate when this command should run relative to start
+            # Calculate timing
             try:
-                cmd_original_time = datetime.fromisoformat(cmd_ts.replace('Z', '+00:00')).timestamp()
-                relative_time = cmd_original_time - original_start
+                tool_original_time = datetime.fromisoformat(tool_ts.replace('Z', '+00:00')).timestamp()
+                relative_time = tool_original_time - original_start
             except:
                 relative_time = 0
 
-            # Wait until it's time to run this command
+            # Wait for correct timing
             if not self.no_delay:
                 target_time = replay_start + (relative_time / self.speed)
-                current_time = time.time()
-                wait_time = target_time - current_time
-
+                wait_time = target_time - time.time()
                 if wait_time > 0:
                     if wait_time > 1:
-                        print(f"  Waiting {wait_time:.1f}s (t={relative_time:.1f}s in original)...")
+                        print(f"  Waiting {wait_time:.1f}s (t={relative_time:.1f}s)...")
                     time.sleep(wait_time)
 
-            # Record tool call with replay timestamp
+            # Record tool call
             self.replay_tool_calls.append({
                 'timestamp': datetime.now().isoformat(),
-                'tool': 'Bash',
-                'id': cmd_info.get('tool_use_id', f'replay_{i}')
+                'tool': tool_name,
+                'id': tool_call.get('tool_use_id', f'replay_{i}')
             })
 
-            # Execute command
-            command = cmd_info['command']
-            desc = cmd_info.get('description', '')[:50]
-            print(f"  [{i+1}/{len(self.commands)}] {desc or command[:50]}...")
+            # Execute tool
+            desc = self._get_tool_description(tool_name, tool_input)
+            print(f"  [{i+1}/{len(self.tool_calls)}] {tool_name}: {desc[:50]}...")
 
             exec_start = time.time()
-            try:
-                result = subprocess.run(
-                    ["podman", "exec", self.container_id, "bash", "-c", command],
-                    capture_output=True, text=True, timeout=300
-                )
-                exec_result = {
-                    "index": i,
-                    "command": command[:200],
-                    "description": cmd_info.get('description', ''),
-                    "original_timestamp": cmd_ts,
-                    "replay_timestamp": datetime.now().isoformat(),
-                    "exit_code": result.returncode,
-                    "stdout_len": len(result.stdout),
-                    "stderr_len": len(result.stderr),
-                    "execution_time": time.time() - exec_start,
-                    "success": result.returncode == 0
-                }
-            except subprocess.TimeoutExpired:
-                exec_result = {
-                    "index": i,
-                    "command": command[:200],
-                    "error": "timeout",
-                    "execution_time": time.time() - exec_start,
-                    "success": False
-                }
-            except Exception as e:
-                exec_result = {
-                    "index": i,
-                    "command": command[:200],
-                    "error": str(e),
-                    "execution_time": time.time() - exec_start,
-                    "success": False
-                }
+            exec_result = self._execute_tool(tool_name, tool_input)
+            exec_result['index'] = i
+            exec_result['tool'] = tool_name
+            exec_result['original_timestamp'] = tool_ts
+            exec_result['replay_timestamp'] = datetime.now().isoformat()
+            exec_result['execution_time'] = time.time() - exec_start
 
             results.append(exec_result)
 
         return results
+
+    def _get_tool_description(self, tool_name: str, tool_input: dict) -> str:
+        """Get a short description of the tool call."""
+        if tool_name == 'Bash':
+            return tool_input.get('description', tool_input.get('command', '')[:50])
+        elif tool_name == 'Read':
+            return tool_input.get('file_path', '')
+        elif tool_name == 'Edit':
+            return f"edit {tool_input.get('file_path', '')}"
+        elif tool_name == 'Write':
+            return f"write {tool_input.get('file_path', '')}"
+        elif tool_name == 'Glob':
+            return f"glob {tool_input.get('pattern', '')}"
+        elif tool_name == 'Grep':
+            return f"grep {tool_input.get('pattern', '')}"
+        return str(tool_input)[:50]
+
+    def _execute_tool(self, tool_name: str, tool_input: dict) -> dict:
+        """Execute a tool call in the container."""
+        try:
+            if tool_name == 'Bash':
+                return self._exec_bash(tool_input)
+            elif tool_name == 'Read':
+                return self._exec_read(tool_input)
+            elif tool_name == 'Edit':
+                return self._exec_edit(tool_input)
+            elif tool_name == 'Write':
+                return self._exec_write(tool_input)
+            elif tool_name == 'Glob':
+                return self._exec_glob(tool_input)
+            elif tool_name == 'Grep':
+                return self._exec_grep(tool_input)
+            else:
+                return {'success': False, 'error': f'Unknown tool: {tool_name}'}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+    def _exec_bash(self, tool_input: dict) -> dict:
+        """Execute a Bash command."""
+        command = tool_input.get('command', '')
+        timeout = tool_input.get('timeout', 300000) / 1000  # ms to seconds
+
+        try:
+            result = subprocess.run(
+                ["podman", "exec", self.container_id, "bash", "-c", command],
+                capture_output=True, text=True, timeout=min(timeout, 300)
+            )
+            return {
+                'success': result.returncode == 0,
+                'exit_code': result.returncode,
+                'stdout_len': len(result.stdout),
+                'stderr_len': len(result.stderr),
+            }
+        except subprocess.TimeoutExpired:
+            return {'success': False, 'error': 'timeout'}
+
+    def _exec_read(self, tool_input: dict) -> dict:
+        """Execute a Read (cat file)."""
+        file_path = tool_input.get('file_path', '')
+        offset = tool_input.get('offset', 0)
+        limit = tool_input.get('limit', 2000)
+
+        # Use head/tail to simulate offset/limit
+        if offset > 0:
+            cmd = f"tail -n +{offset} '{file_path}' | head -n {limit}"
+        else:
+            cmd = f"head -n {limit} '{file_path}'"
+
+        try:
+            result = subprocess.run(
+                ["podman", "exec", self.container_id, "bash", "-c", cmd],
+                capture_output=True, text=True, timeout=30
+            )
+            return {
+                'success': result.returncode == 0,
+                'exit_code': result.returncode,
+                'stdout_len': len(result.stdout),
+            }
+        except subprocess.TimeoutExpired:
+            return {'success': False, 'error': 'timeout'}
+
+    def _exec_edit(self, tool_input: dict) -> dict:
+        """Execute an Edit (string replacement)."""
+        file_path = tool_input.get('file_path', '')
+        old_string = tool_input.get('old_string', '')
+        new_string = tool_input.get('new_string', '')
+        replace_all = tool_input.get('replace_all', False)
+
+        # Read file, do replacement, write back
+        # Using Python inside container for reliable string replacement
+        escape_old = old_string.replace("'", "'\"'\"'")
+        escape_new = new_string.replace("'", "'\"'\"'")
+
+        if replace_all:
+            py_cmd = f"""python3 -c "
+import sys
+with open('{file_path}', 'r') as f:
+    content = f.read()
+old = '''{escape_old}'''
+new = '''{escape_new}'''
+content = content.replace(old, new)
+with open('{file_path}', 'w') as f:
+    f.write(content)
+print('OK')
+"
+"""
+        else:
+            py_cmd = f"""python3 -c "
+import sys
+with open('{file_path}', 'r') as f:
+    content = f.read()
+old = '''{escape_old}'''
+new = '''{escape_new}'''
+content = content.replace(old, new, 1)
+with open('{file_path}', 'w') as f:
+    f.write(content)
+print('OK')
+"
+"""
+
+        try:
+            result = subprocess.run(
+                ["podman", "exec", self.container_id, "bash", "-c", py_cmd],
+                capture_output=True, text=True, timeout=30
+            )
+            return {
+                'success': result.returncode == 0 and 'OK' in result.stdout,
+                'exit_code': result.returncode,
+            }
+        except subprocess.TimeoutExpired:
+            return {'success': False, 'error': 'timeout'}
+
+    def _exec_write(self, tool_input: dict) -> dict:
+        """Execute a Write (write file)."""
+        file_path = tool_input.get('file_path', '')
+        content = tool_input.get('content', '')
+
+        # Write content using heredoc
+        # Escape content for shell
+        import base64
+        b64_content = base64.b64encode(content.encode()).decode()
+
+        cmd = f"echo '{b64_content}' | base64 -d > '{file_path}'"
+
+        try:
+            result = subprocess.run(
+                ["podman", "exec", self.container_id, "bash", "-c", cmd],
+                capture_output=True, text=True, timeout=30
+            )
+            return {
+                'success': result.returncode == 0,
+                'exit_code': result.returncode,
+            }
+        except subprocess.TimeoutExpired:
+            return {'success': False, 'error': 'timeout'}
+
+    def _exec_glob(self, tool_input: dict) -> dict:
+        """Execute a Glob (find files)."""
+        pattern = tool_input.get('pattern', '')
+        path = tool_input.get('path', '/testbed')
+
+        # Use find with -name pattern
+        cmd = f"find '{path}' -name '{pattern}' 2>/dev/null | head -100"
+
+        try:
+            result = subprocess.run(
+                ["podman", "exec", self.container_id, "bash", "-c", cmd],
+                capture_output=True, text=True, timeout=30
+            )
+            return {
+                'success': result.returncode == 0,
+                'exit_code': result.returncode,
+                'stdout_len': len(result.stdout),
+            }
+        except subprocess.TimeoutExpired:
+            return {'success': False, 'error': 'timeout'}
+
+    def _exec_grep(self, tool_input: dict) -> dict:
+        """Execute a Grep (search in files)."""
+        pattern = tool_input.get('pattern', '')
+        path = tool_input.get('path', '/testbed')
+        glob_filter = tool_input.get('glob', '')
+
+        if glob_filter:
+            cmd = f"grep -r --include='{glob_filter}' '{pattern}' '{path}' 2>/dev/null | head -100"
+        else:
+            cmd = f"grep -r '{pattern}' '{path}' 2>/dev/null | head -100"
+
+        try:
+            result = subprocess.run(
+                ["podman", "exec", self.container_id, "bash", "-c", cmd],
+                capture_output=True, text=True, timeout=60
+            )
+            return {
+                'success': True,  # grep returns 1 if no match, but that's not an error
+                'exit_code': result.returncode,
+                'stdout_len': len(result.stdout),
+            }
+        except subprocess.TimeoutExpired:
+            return {'success': False, 'error': 'timeout'}
 
     def _cleanup(self):
         """Clean up container."""
@@ -390,16 +507,13 @@ class TraceReplayer:
         """Save results to output directory."""
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-        # Save main results
         with open(self.output_dir / "results.json", "w") as f:
             json.dump(results, f, indent=2)
 
-        # Save resource data
         if resource_data:
             with open(self.output_dir / "resources.json", "w") as f:
                 json.dump(resource_data, f, indent=2)
 
-        # Save tool calls for plotting
         with open(self.output_dir / "tool_calls.json", "w") as f:
             json.dump(self.replay_tool_calls, f, indent=2)
 
@@ -429,18 +543,17 @@ def get_image_from_attempt(attempt_dir: Path) -> Optional[str]:
 
 def get_task_name_from_path(attempt_dir: Path) -> str:
     """Extract task name from attempt directory path."""
-    # e.g., experiments/batch_swebench_18tasks/Web_Network_Easy/attempt_1
     parts = attempt_dir.parts
     for i, part in enumerate(parts):
         if part.startswith("batch_swebench"):
             if i + 1 < len(parts):
-                return parts[i + 1]  # e.g., "Web_Network_Easy"
+                return parts[i + 1]
     return attempt_dir.parent.name
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Replay Bash commands from a Claude Code trace with original timing",
+        description="Replay ALL tool calls from a Claude Code trace",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -448,20 +561,18 @@ Examples:
   python scripts/replay_trace.py experiments/batch_swebench_18tasks/Web_Network_Easy/attempt_1
 
   # Replay at 2x speed
-  python scripts/replay_trace.py experiments/batch_swebench_18tasks/Web_Network_Easy/attempt_1 --speed 2.0
+  python scripts/replay_trace.py <attempt_dir> --speed 2.0
 
-  # Replay with no delay (fast as possible)
-  python scripts/replay_trace.py experiments/batch_swebench_18tasks/Web_Network_Easy/attempt_1 --no-delay
-
-Output is saved to: experiments/replays/<task_name>/
+  # No delay (as fast as possible)
+  python scripts/replay_trace.py <attempt_dir> --no-delay
 """
     )
     parser.add_argument("attempt_dir", help="Path to attempt directory containing trace.jsonl")
     parser.add_argument("--output-dir", help="Custom output directory")
     parser.add_argument("--speed", type=float, default=1.0,
-                        help="Speed multiplier for delays (default: 1.0, original timing)")
+                        help="Speed multiplier (default: 1.0)")
     parser.add_argument("--no-delay", action="store_true",
-                        help="Run commands without delays (as fast as possible)")
+                        help="Run without delays")
     parser.add_argument("--image", help="Override Docker image name")
 
     args = parser.parse_args()
@@ -476,26 +587,22 @@ Output is saved to: experiments/replays/<task_name>/
         print(f"Error: Trace file not found: {trace_file}")
         return 1
 
-    # Get image name
     image_name = args.image or get_image_from_attempt(attempt_dir)
     if not image_name:
         print("Error: Could not determine Docker image. Use --image to specify.")
         return 1
 
-    # Get task name
     task_name = get_task_name_from_path(attempt_dir)
 
-    # Setup output directory (separate from original attempt)
     if args.output_dir:
         output_dir = Path(args.output_dir)
     else:
-        # Default: experiments/replays/<task_name>/
         base_dir = Path.home() / "agentcgroup" / "experiments" / "replays"
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_dir = base_dir / f"{task_name}_{timestamp}"
 
     print("=" * 70)
-    print("Trace Replay Tool")
+    print("Trace Replay Tool (ALL operations)")
     print("=" * 70)
     print(f"Source: {attempt_dir}")
     print(f"Task: {task_name}")
@@ -504,38 +611,40 @@ Output is saved to: experiments/replays/<task_name>/
     print(f"Speed: {args.speed}x {'(no delay)' if args.no_delay else '(original timing)'}")
     print("=" * 70)
 
-    # Parse trace
     print("\nParsing trace file...")
     trace_parser = TraceParser(trace_file)
-    commands = trace_parser.parse()
-    print(f"Found {len(commands)} Bash commands")
-    print(f"Found {len(trace_parser.all_tool_calls)} total tool calls")
+    tool_calls = trace_parser.parse()
 
-    if not commands:
-        print("No Bash commands found in trace")
+    # Count by tool type
+    from collections import Counter
+    tool_counts = Counter(tc['tool'] for tc in tool_calls)
+    print(f"Found {len(tool_calls)} replayable tool calls:")
+    for tool, count in sorted(tool_counts.items(), key=lambda x: -x[1]):
+        print(f"  {tool}: {count}")
+
+    if not tool_calls:
+        print("No replayable tool calls found")
         return 1
 
-    # Calculate expected duration
-    if len(commands) > 1:
-        first_ts = commands[0].get('timestamp', '')
-        last_ts = commands[-1].get('timestamp', '')
+    # Calculate duration
+    if len(tool_calls) > 1:
+        first_ts = tool_calls[0].get('timestamp', '')
+        last_ts = tool_calls[-1].get('timestamp', '')
         try:
             first_dt = datetime.fromisoformat(first_ts.replace('Z', '+00:00'))
             last_dt = datetime.fromisoformat(last_ts.replace('Z', '+00:00'))
             original_duration = (last_dt - first_dt).total_seconds()
             expected_duration = original_duration / args.speed if not args.no_delay else 0
-            print(f"Original trace duration: {original_duration:.1f}s")
+            print(f"Original duration: {original_duration:.1f}s")
             if not args.no_delay:
                 print(f"Expected replay duration: {expected_duration:.1f}s")
         except:
             pass
 
-    # Run replay
     print("\nStarting replay...")
     replayer = TraceReplayer(
         image_name=image_name,
-        commands=commands,
-        all_tool_calls=trace_parser.all_tool_calls,
+        tool_calls=tool_calls,
         output_dir=output_dir,
         speed=args.speed,
         no_delay=args.no_delay,
@@ -548,7 +657,7 @@ Output is saved to: experiments/replays/<task_name>/
     print("Replay Summary")
     print("=" * 70)
     print(f"Total time: {results.get('total_time', 0):.1f}s")
-    print(f"Commands executed: {len(commands)}")
+    print(f"Tool calls executed: {len(tool_calls)}")
 
     if "resource_samples" in results:
         summary = results["resource_samples"].get("summary", {})
