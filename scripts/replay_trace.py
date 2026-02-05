@@ -446,38 +446,33 @@ class TraceReplayer:
 
     def _exec_edit(self, tool_input: dict) -> dict:
         """Execute an Edit (string replacement)."""
+        import base64
+
         file_path = tool_input.get('file_path', '')
         old_string = tool_input.get('old_string', '')
         new_string = tool_input.get('new_string', '')
         replace_all = tool_input.get('replace_all', False)
 
-        # Read file, do replacement, write back
-        # Using Python inside container for reliable string replacement
-        escape_old = old_string.replace("'", "'\"'\"'")
-        escape_new = new_string.replace("'", "'\"'\"'")
+        # Use base64 encoding to avoid escaping issues
+        b64_old = base64.b64encode(old_string.encode()).decode()
+        b64_new = base64.b64encode(new_string.encode()).decode()
+        replace_count = "" if replace_all else ", 1"
 
-        if replace_all:
-            py_cmd = f"""python3 -c "
-import sys
-with open('{file_path}', 'r') as f:
+        py_cmd = f"""python3 -c "
+import base64
+file_path = '{file_path}'
+old = base64.b64decode('{b64_old}').decode()
+new = base64.b64decode('{b64_new}').decode()
+with open(file_path, 'r') as f:
     content = f.read()
-old = '''{escape_old}'''
-new = '''{escape_new}'''
-content = content.replace(old, new)
-with open('{file_path}', 'w') as f:
-    f.write(content)
-print('OK')
-"
-"""
-        else:
-            py_cmd = f"""python3 -c "
-import sys
-with open('{file_path}', 'r') as f:
-    content = f.read()
-old = '''{escape_old}'''
-new = '''{escape_new}'''
-content = content.replace(old, new, 1)
-with open('{file_path}', 'w') as f:
+if old not in content:
+    print('ERROR: old_string not found')
+    exit(1)
+if content.count(old) > 1 and {repr(not replace_all)}:
+    print('ERROR: old_string not unique')
+    exit(2)
+content = content.replace(old, new{replace_count})
+with open(file_path, 'w') as f:
     f.write(content)
 print('OK')
 "
@@ -491,6 +486,8 @@ print('OK')
             return {
                 'success': result.returncode == 0 and 'OK' in result.stdout,
                 'exit_code': result.returncode,
+                'stdout': result.stdout,
+                'stderr': result.stderr,
             }
         except subprocess.TimeoutExpired:
             return {'success': False, 'error': 'timeout'}
