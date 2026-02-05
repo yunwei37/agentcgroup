@@ -51,7 +51,17 @@
     "AspenWeb__pando.py-586",
     "AzureAD__azure-activedirectory-library-for-python-227",
     "AzureAD__microsoft-authentication-library-for-python-186",
-    "AzureAD__microsoft-authentication-library-for-python-280"
+    "AzureAD__microsoft-authentication-library-for-python-280",
+    "AzureAD__microsoft-authentication-library-for-python-315",
+    "AzureAD__microsoft-authentication-library-for-python-530",
+    "AzureAD__microsoft-authentication-library-for-python-723",
+    "AzureAD__microsoft-authentication-library-for-python-730",
+    "AzureAD__microsoft-authentication-library-for-python-77",
+    "AzureAD__microsoft-authentication-library-for-python-795",
+    "Azure__autorest.python-475",
+    "Azure__autorest.python-545",
+    "Azure__azure-cli-1876",
+    "Azure__azure-cli-2053"
   ],
   "results": {
     "0b01001001__spectree-64": {
@@ -313,6 +323,56 @@
       "success": true,
       "attempts": 1,
       "total_time": 241.053997
+    },
+    "AzureAD__microsoft-authentication-library-for-python-315": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 923.891329
+    },
+    "AzureAD__microsoft-authentication-library-for-python-530": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 681.388493
+    },
+    "AzureAD__microsoft-authentication-library-for-python-723": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 428.91236
+    },
+    "AzureAD__microsoft-authentication-library-for-python-730": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 497.925659
+    },
+    "AzureAD__microsoft-authentication-library-for-python-77": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 332.475314
+    },
+    "AzureAD__microsoft-authentication-library-for-python-795": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 359.180972
+    },
+    "Azure__autorest.python-475": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 362.769257
+    },
+    "Azure__autorest.python-545": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 365.952329
+    },
+    "Azure__azure-cli-1876": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 401.65862
+    },
+    "Azure__azure-cli-2053": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 388.376274
     }
   }
 }
