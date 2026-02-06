@@ -105,6 +105,7 @@ start_swebench() {
 
     nohup .venv/bin/python scripts/run_all_swebench_images.py \
         --model qwen3 \
+        --task-list task_list.json \
         --resume \
         > "$SWEBENCH_LOG" 2>&1 &
 

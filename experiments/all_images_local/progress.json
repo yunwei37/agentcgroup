@@ -74,7 +74,9 @@
     "Azure__iotedgedev-173",
     "Azure__iotedgedev-349",
     "Azure__msrest-for-python-167",
-    "Azure__msrest-for-python-189"
+    "Azure__msrest-for-python-189",
+    "iterative__dvc-745",
+    "lovasoa__marshmallow_dataclass-121"
   ],
   "results": {
     "0b01001001__spectree-64": {
@@ -451,6 +453,16 @@
       "success": true,
       "attempts": 1,
       "total_time": 490.385336
+    },
+    "iterative__dvc-745": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 771.572333
+    },
+    "lovasoa__marshmallow_dataclass-121": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 187.159833
     }
   }
 }

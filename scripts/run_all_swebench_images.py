@@ -10,10 +10,10 @@ This script:
 - Generates resource plots using plot_from_attempt_dir from plot_resources.py
 
 Usage:
-    python scripts/run_all_swebench_images.py                    # Use haiku model
-    python scripts/run_all_swebench_images.py --model qwen3      # Use local model
-    python scripts/run_all_swebench_images.py --limit 10         # Run only first 10
-    python scripts/run_all_swebench_images.py --resume           # Resume from progress
+    python scripts/run_all_swebench_images.py --generate-task-list          # Generate task_list.json
+    python scripts/run_all_swebench_images.py --generate-task-list --prioritize-dir experiments/batch_swebench_18tasks
+    python scripts/run_all_swebench_images.py --task-list task_list.json    # Run from saved list
+    python scripts/run_all_swebench_images.py --task-list task_list.json --resume
 """
 
 import argparse
@@ -25,7 +25,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 # Import from run_swebench.py
 from run_swebench import SWEBenchRunner
@@ -263,6 +263,60 @@ def fetch_all_images_from_dataset(limit: Optional[int] = None) -> List[dict]:
     return tasks_with_images
 
 
+def collect_priority_images(prioritize_dir: Path) -> Set[str]:
+    """Scan an experiment directory to collect docker_image names from results.json files."""
+    priority_images = set()
+    if not prioritize_dir.is_dir():
+        print(f"Warning: prioritize directory does not exist: {prioritize_dir}")
+        return priority_images
+
+    for results_file in prioritize_dir.rglob("results.json"):
+        try:
+            with open(results_file, "r") as f:
+                data = json.load(f)
+            image = data.get("image")
+            if image:
+                priority_images.add(image)
+        except Exception:
+            pass
+
+    return priority_images
+
+
+def generate_task_list(tasks: List[dict], output_file: Path,
+                       priority_images: Optional[Set[str]] = None) -> List[dict]:
+    """
+    Shuffle tasks, optionally putting priority images first, and save to a JSON file.
+    Returns the ordered task list.
+    """
+    if priority_images:
+        priority_tasks = [t for t in tasks if t['docker_image'] in priority_images]
+        other_tasks = [t for t in tasks if t['docker_image'] not in priority_images]
+        random.shuffle(priority_tasks)
+        random.shuffle(other_tasks)
+        ordered = priority_tasks + other_tasks
+        print(f"Priority tasks (from previous experiments): {len(priority_tasks)}")
+        print(f"Other tasks: {len(other_tasks)}")
+    else:
+        ordered = list(tasks)
+        random.shuffle(ordered)
+
+    with open(output_file, "w") as f:
+        json.dump(ordered, f, indent=2)
+
+    print(f"Task list saved to: {output_file}")
+    print(f"Total tasks: {len(ordered)}")
+    return ordered
+
+
+def load_task_list(task_list_file: Path) -> List[dict]:
+    """Load task list from a JSON file."""
+    with open(task_list_file, "r") as f:
+        tasks = json.load(f)
+    print(f"Loaded {len(tasks)} tasks from {task_list_file}")
+    return tasks
+
+
 def main():
     parser = argparse.ArgumentParser(description="Run All SWE-bench Images Runner")
     parser.add_argument("--max-retries", type=int, default=1, help="Max retries per task")
@@ -273,6 +327,14 @@ def main():
                         help="Resume from progress (skip completed tasks)")
     parser.add_argument("--model", default="qwen3", choices=["haiku", "qwen3"],
                         help="Model to use: haiku (default) or qwen3 (local llama-server)")
+
+    # Task list options
+    parser.add_argument("--generate-task-list", metavar="FILE",
+                        help="Generate a shuffled task list and save to FILE (e.g. task_list.json), then exit")
+    parser.add_argument("--prioritize-dir", metavar="DIR",
+                        help="When generating task list, prioritize docker images that appeared in this experiment directory")
+    parser.add_argument("--task-list", metavar="FILE",
+                        help="Run tasks from a previously saved task list file instead of fetching from dataset")
 
     args = parser.parse_args()
 
@@ -288,15 +350,41 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     progress_file = output_dir / "progress.json"
 
+    # --- Mode 1: Generate task list and exit ---
+    if args.generate_task_list:
+        tasks = fetch_all_images_from_dataset(limit=args.limit)
+
+        priority_images = None
+        if args.prioritize_dir:
+            prioritize_path = Path(args.prioritize_dir)
+            if not prioritize_path.is_absolute():
+                prioritize_path = script_dir / prioritize_path
+            priority_images = collect_priority_images(prioritize_path)
+            print(f"Found {len(priority_images)} priority images from {prioritize_path}")
+
+        task_list_path = Path(args.generate_task_list)
+        if not task_list_path.is_absolute():
+            task_list_path = script_dir / task_list_path
+        generate_task_list(tasks, task_list_path, priority_images)
+        return 0
+
+    # --- Mode 2: Run tasks ---
+
     # Load completed tasks if resuming
     completed = set()
     if args.resume:
         completed = load_progress(progress_file)
         print(f"Resuming from progress: {len(completed)} tasks already completed")
 
-    # Fetch all tasks and shuffle to randomize order
-    tasks = fetch_all_images_from_dataset(limit=args.limit)
-    random.shuffle(tasks)
+    # Get tasks: from saved list or from dataset
+    if args.task_list:
+        task_list_path = Path(args.task_list)
+        if not task_list_path.is_absolute():
+            task_list_path = script_dir / task_list_path
+        tasks = load_task_list(task_list_path)
+    else:
+        tasks = fetch_all_images_from_dataset(limit=args.limit)
+        random.shuffle(tasks)
 
     print(f"\n{'='*60}")
     print(f"Batch All SWE-bench Images Runner")
