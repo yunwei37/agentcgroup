@@ -1,0 +1,93 @@
+{
+  "image": "swerebench/sweb.eval.x86_64.textualize_1776_textual-2987",
+  "start_time": "2026-02-06T15:40:03.020547",
+  "memory_limit": null,
+  "cpu_limit": null,
+  "model": "haiku",
+  "pull_time": 0.8893849849700928,
+  "permission_fix_time": 59.64056754112244,
+  "image_info": {
+    "size_bytes": 4956850102,
+    "size_mb": 4727.22,
+    "image_id": "aad9a033fdcf"
+  },
+  "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/all_images_haiku/Textualize__textual-2987/attempt_1",
+  "claude_time": 185.83595633506775,
+  "claude_output": {
+    "stdout": "I apologize, but there's no issue text provided for me to read and understand. Could you please share the specific issue details that you'd like me to investigate and fix? Without the issue description, I cannot proceed with the workflow you've outlined.\n\nTo help you effectively, I'll need:\n1. A clear description of the issue\n2. Any error messages or symptoms you're experiencing\n3. Ideally, the context of where this issue occurs in the codebase\n\nCould you provide more information about the issue you want me to address?\n=== GIT DIFF ===\n=== DISK USAGE ===\n405\t/testbed\n",
+    "stderr": "cat: /issue.md: No such file or directory\n",
+    "exit_code": 0
+  },
+  "resource_samples": {
+    "samples": [
+      {
+        "timestamp": "2026-02-06T15:44:03.123347",
+        "epoch": 1770421443.1233585,
+        "mem_usage": "11.68MB / 134.5GB",
+        "mem_percent": "0.01%",
+        "cpu_percent": "106.28%"
+      },
+      {
+        "timestamp": "2026-02-06T15:44:04.173180",
+        "epoch": 1770421444.1731884,
+        "mem_usage": "185.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "61.89%"
+      },
+      {
+        "timestamp": "2026-02-06T15:44:05.216221",
+        "epoch": 1770421445.2162294,
+        "mem_usage": "191.3MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "46.23%"
+      },
+      {
+        "timestamp": "2026-02-06T15:44:06.260916",
+        "epoch": 1770421446.2609267,
+        "mem_usage": "193MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "31.96%"
+      },
+      {
+        "timestamp": "2026-02-06T15:44:07.307715",
+        "epoch": 1770421447.3077261,
+        "mem_usage": "193.2MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "24.44%"
+      },
+      {
+        "timestamp": "2026-02-06T15:44:08.351921",
+        "epoch": 1770421448.3519304,
+        "mem_usage": "193.2MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "19.93%"
+      }
+    ],
+    "summary": {
+      "sample_count": 6,
+      "duration_seconds": 5.228571891784668,
+      "memory_mb": {
+        "min": 11.68,
+        "max": 193.2,
+        "avg": 161.38
+      },
+      "cpu_percent": {
+        "min": 19.93,
+        "max": 106.28,
+        "avg": 48.455000000000005
+      }
+    }
+  },
+  "disk_usage": {
+    "testbed_mb": 405
+  },
+  "traces": {
+    "files": [
+      "/home/yunwei37/workspace/agentcgroup/experiments/all_images_haiku/Textualize__textual-2987/attempt_1/trace.jsonl"
+    ],
+    "tool_calls": []
+  },
+  "cleaned": true,
+  "total_time": 246.6203784942627,
+  "end_time": "2026-02-06T15:44:09.640929"
+}

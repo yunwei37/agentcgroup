@@ -1,0 +1,15 @@
+I have fixed the issue with square brackets in query parameters:
+1. Added tests to verify the behavior for different scenarios of square bracket params
+2. Modified the `QueryParams` constructor in `httpx/_urls.py` to preserve URL-encoded square brackets
+3. Ensured all tests pass
+4. Committed the changes
+
+The fix ensures that:
+- Square-bracket array parameters like `arr[]=1&arr[]=2` work correctly
+- Single parameters with square brackets like `arr[index]=value` are handled properly
+- Existing tests continue to pass
+
+Is there anything else you would like me to clarify about the fix?
+=== GIT DIFF ===
+=== DISK USAGE ===
+13	/testbed

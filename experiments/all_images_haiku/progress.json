@@ -1,12 +1,30 @@
 {
   "completed": [
-    "beeware__briefcase-1525"
+    "beeware__briefcase-1525",
+    "Textualize__textual-2987",
+    "encode__httpx-2701",
+    "tobymao__sqlglot-1177"
   ],
   "results": {
     "beeware__briefcase-1525": {
       "success": false,
       "attempts": 1,
       "total_time": 215.996525
+    },
+    "Textualize__textual-2987": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 246.801162
+    },
+    "encode__httpx-2701": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 262.05562
+    },
+    "tobymao__sqlglot-1177": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 410.262092
     }
   }
 }
