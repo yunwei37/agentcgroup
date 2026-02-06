@@ -1,17 +1,17 @@
 # Batch SWE-bench Test Report
 
-Generated: 2026-02-04T23:20:31.140154
+Generated: 2026-02-06T22:04:41.188587
 
 ## Summary
 
-- **Total Tasks**: 1
-- **Successful**: 1
+- **Total Tasks**: 0
+- **Successful**: 0
 - **Failed**: 0
-- **Success Rate**: 100.0%
-- **Total Time**: 731.2s
+- **Success Rate**: 0.0%
+- **Total Time**: 0.0s
+- **Model**: haiku
 
 ## Results by Task
 
-| Category | Difficulty | Instance ID | Success | Attempts | Time (s) |
-|----------|------------|-------------|---------|----------|----------|
-| Medical/Bio | Hard | pydicom__pydicom-2065 | Yes | 1 | 731.2 |
+| Category | Difficulty | Task# | Instance ID | Success | Attempts | Time (s) |
+|----------|------------|-------|-------------|---------|----------|----------|

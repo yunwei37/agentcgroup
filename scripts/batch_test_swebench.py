@@ -332,12 +332,16 @@ class BatchSWEBenchRunner:
             if len(task_key_tuple) == 3:
                 category, difficulty, task_num = task_key_tuple
                 task_key = f"{category}_{difficulty}_{task_num}".replace("/", "_")
+                # For Task 1, also check old format without _1 suffix for backwards compatibility
+                old_task_key = f"{category}_{difficulty}".replace("/", "_") if task_num == 1 else None
             else:
                 category, difficulty = task_key_tuple
                 task_num = 1
                 task_key = f"{category}_{difficulty}".replace("/", "_")
+                old_task_key = None
 
-            if task_key in completed:
+            # Check both new and old key formats
+            if task_key in completed or (old_task_key and old_task_key in completed):
                 print(f"[{i}/{len(tasks)}] Skipping {task_key} (already completed)")
                 continue
 
