@@ -152,7 +152,7 @@ def check_success(result: dict) -> bool:
 def run_single_task(task: dict, task_index: int, output_dir: Path,
                    max_retries: int = 1, model: str = "haiku") -> dict:
     """Run a single SWE-bench task using SWEBenchRunner."""
-    task_dir = output_dir / f"task_{task_index}_{task['instance_id'].replace('/', '_')}"
+    task_dir = output_dir / task['instance_id'].replace('/', '_')
     task_dir.mkdir(parents=True, exist_ok=True)
 
     result = {
@@ -374,7 +374,21 @@ def main():
     completed = set()
     if args.resume:
         completed = load_progress(progress_file)
-        print(f"Resuming from progress: {len(completed)} tasks already completed")
+        # Also scan output directory for existing task directories with results
+        for entry in output_dir.iterdir():
+            if entry.is_dir():
+                # Check if any attempt directory has results (claude_output or error)
+                has_results = any(
+                    (attempt / "results.json").exists() or (attempt / "error.txt").exists()
+                    for attempt in entry.iterdir()
+                    if attempt.is_dir() and attempt.name.startswith("attempt_")
+                )
+                if has_results:
+                    # Convert directory name back to instance_id format (replace _ with /)
+                    # But instance_ids may contain underscores too, so we use the dir name directly
+                    # and match against task instance_ids by converting them the same way
+                    completed.add(entry.name)
+        print(f"Resuming: {len(completed)} tasks already completed")
 
     # Get tasks: from saved list or from dataset
     if args.task_list:
@@ -400,8 +414,9 @@ def main():
     results = []
     for i, task in enumerate(tasks, 1):
         task_key = task['instance_id']
+        task_dir_name = task_key.replace('/', '_')
 
-        if task_key in completed:
+        if task_key in completed or task_dir_name in completed:
             print(f"[{i}/{len(tasks)}] Skipping {task_key} (already completed)")
             continue
 
