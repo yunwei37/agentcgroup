@@ -2,9 +2,14 @@
 """
 Analyze the proportion of tool call time in total execution time.
 Reads tool_calls.json, results.json, and resources.json from each task directory.
-Generates text report + 14 PNG charts in the analysis/ directory.
+Generates text report + 14 PNG charts.
+
+Usage:
+    python analyze_tool_time_ratio.py                          # defaults: all_images_local -> qwen3_figures
+    python analyze_tool_time_ratio.py --data-dir /path/to/exp --figures-dir /path/to/figs
 """
 
+import argparse
 import json
 import glob
 import os
@@ -19,8 +24,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 
-BASE_DIR = "/home/yunwei37/workspace/agentcgroup/experiments/all_images_local"
-CHART_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "charts")
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CHART_DPI = 150
 COLORS = {"success": "#2ecc71", "failure": "#e74c3c", "neutral": "#3498db"}
 
@@ -50,10 +54,13 @@ def load_json(path):
 
 
 def get_task_name_from_dir(dirname):
-    """Extract task identifier like '12rambau__sepal_ui-814' from dir name."""
-    parts = dirname.split("_", 2)
-    if len(parts) >= 3:
-        return parts[2]
+    """Extract task identifier from dir name.
+    Handles 'task_N_instance_id' -> 'instance_id' and plain dir names like 'CLI_Tools_Easy'.
+    """
+    if re.match(r"^task_\d+_", dirname):
+        parts = dirname.split("_", 2)
+        if len(parts) >= 3:
+            return parts[2]
     return dirname
 
 
@@ -118,13 +125,21 @@ def categorize_bash_command(cmd):
     return "Other"
 
 
-def save_chart(fig, name):
-    """Save a matplotlib figure to the analysis/charts directory."""
-    os.makedirs(CHART_DIR, exist_ok=True)
-    path = os.path.join(CHART_DIR, name)
+def save_chart(fig, name, chart_dir):
+    """Save a matplotlib figure to the specified directory."""
+    os.makedirs(chart_dir, exist_ok=True)
+    path = os.path.join(chart_dir, name)
     fig.savefig(path, dpi=CHART_DPI, bbox_inches="tight", facecolor="white")
     plt.close(fig)
     print(f"  [CHART] Saved: {path}")
+
+
+def find_best_attempt_dir(task_dir):
+    """Find the best attempt directory (highest numbered) for a task."""
+    attempts = sorted(glob.glob(os.path.join(task_dir, "attempt_*")))
+    if attempts:
+        return attempts[-1]
+    return os.path.join(task_dir, "attempt_1")
 
 
 # ---------------------------------------------------------------------------
@@ -132,10 +147,26 @@ def save_chart(fig, name):
 # ---------------------------------------------------------------------------
 
 def main():
+    parser = argparse.ArgumentParser(description="Analyze tool call time ratios from SWE-bench experiments")
+    parser.add_argument("--data-dir", default=None,
+                        help="Experiment data directory (default: experiments/all_images_local)")
+    parser.add_argument("--figures-dir", default=None,
+                        help="Output directory for charts (default: analysis/qwen3_figures)")
+    args = parser.parse_args()
+
+    base_dir = args.data_dir or os.path.join(SCRIPT_DIR, "..", "experiments", "all_images_local")
+    base_dir = os.path.abspath(base_dir)
+    chart_dir = args.figures_dir or os.path.join(SCRIPT_DIR, "qwen3_figures")
+    chart_dir = os.path.abspath(chart_dir)
+
+    print(f"  Data directory:    {base_dir}")
+    print(f"  Figures directory: {chart_dir}")
+    print()
+
     # -------------------------------------------------------------------------
     # 1. Load progress.json for success/failure mapping
     # -------------------------------------------------------------------------
-    progress = load_json(os.path.join(BASE_DIR, "progress.json"))
+    progress = load_json(os.path.join(base_dir, "progress.json"))
     success_map = {}
     if progress and "results" in progress:
         for task_name, info in progress["results"].items():
@@ -144,7 +175,15 @@ def main():
     # -------------------------------------------------------------------------
     # 2. Discover all task directories and load data
     # -------------------------------------------------------------------------
-    task_dirs = sorted(glob.glob(os.path.join(BASE_DIR, "task_*")))
+    # Support both task_N_* pattern and plain directory names
+    all_entries = sorted(os.listdir(base_dir))
+    task_dirs = []
+    for entry in all_entries:
+        full = os.path.join(base_dir, entry)
+        if os.path.isdir(full) and entry not in ("__pycache__",):
+            # Check if it has an attempt_* subdirectory
+            if glob.glob(os.path.join(full, "attempt_*")):
+                task_dirs.append(full)
 
     all_data = []
     tasks_loaded = 0
@@ -154,9 +193,10 @@ def main():
         dir_name = os.path.basename(task_dir)
         task_name = get_task_name_from_dir(dir_name)
 
-        tool_calls_path = os.path.join(task_dir, "attempt_1", "tool_calls.json")
-        results_path = os.path.join(task_dir, "attempt_1", "results.json")
-        resources_path = os.path.join(task_dir, "attempt_1", "resources.json")
+        attempt_dir = find_best_attempt_dir(task_dir)
+        tool_calls_path = os.path.join(attempt_dir, "tool_calls.json")
+        results_path = os.path.join(attempt_dir, "results.json")
+        resources_path = os.path.join(attempt_dir, "resources.json")
 
         tool_calls = load_json(tool_calls_path)
         results = load_json(results_path)
@@ -655,7 +695,7 @@ def main():
     print(sep)
     print("  GENERATING CHARTS")
     print(sep)
-    generate_charts(all_data, successful_tasks, failed_tasks)
+    generate_charts(all_data, successful_tasks, failed_tasks, chart_dir)
 
     print()
     print(sep)
@@ -667,7 +707,7 @@ def main():
 # Chart generation
 # ---------------------------------------------------------------------------
 
-def generate_charts(all_data, successful_tasks, failed_tasks):
+def generate_charts(all_data, successful_tasks, failed_tasks, chart_dir):
     """Generate all analysis charts."""
 
     # --- Chart 1: Per-Repo Success Rate ---
@@ -697,7 +737,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
             ax.text(rate + 1, i, f"{p}/{total}", va="center", fontsize=8)
         ax.grid(axis="x", alpha=0.3)
         fig.tight_layout()
-        save_chart(fig, "chart_01_repo_success_rate.png")
+        save_chart(fig, "chart_01_repo_success_rate.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 1 failed: {e}")
 
@@ -718,7 +758,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
         ax.legend(fontsize=11)
         ax.yaxis.set_major_locator(MaxNLocator(integer=True))
         ax.grid(alpha=0.3)
-        save_chart(fig, "chart_02_time_distribution.png")
+        save_chart(fig, "chart_02_time_distribution.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 2 failed: {e}")
 
@@ -741,7 +781,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
         ax.legend(fontsize=11)
         ax.yaxis.set_major_locator(MaxNLocator(integer=True))
         ax.grid(alpha=0.3)
-        save_chart(fig, "chart_03_tool_ratio_distribution.png")
+        save_chart(fig, "chart_03_tool_ratio_distribution.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 3 failed: {e}")
 
@@ -775,7 +815,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
 
         fig.suptitle("Tool Usage Breakdown", fontsize=14, y=1.02)
         fig.tight_layout()
-        save_chart(fig, "chart_04_tool_usage_breakdown.png")
+        save_chart(fig, "chart_04_tool_usage_breakdown.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 4 failed: {e}")
 
@@ -810,7 +850,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
         ax.set_title("Tool Usage Over Execution Timeline", fontsize=14)
         ax.legend(loc="upper right", fontsize=9)
         ax.grid(alpha=0.3)
-        save_chart(fig, "chart_05_tool_timeline.png")
+        save_chart(fig, "chart_05_tool_timeline.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 5 failed: {e}")
 
@@ -858,7 +898,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
 
         fig.suptitle("Bash Command Analysis", fontsize=14, y=1.02)
         fig.tight_layout()
-        save_chart(fig, "chart_06_bash_categories.png")
+        save_chart(fig, "chart_06_bash_categories.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 6 failed: {e}")
 
@@ -891,7 +931,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
 
         fig.suptitle("Resource Usage: Success vs Failure", fontsize=14)
         fig.tight_layout()
-        save_chart(fig, "chart_07_resource_boxplots.png")
+        save_chart(fig, "chart_07_resource_boxplots.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 7 failed: {e}")
 
@@ -918,7 +958,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
         ax.grid(axis="x", alpha=0.3)
         ax.invert_yaxis()
         fig.tight_layout()
-        save_chart(fig, "chart_08_time_breakdown.png")
+        save_chart(fig, "chart_08_time_breakdown.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 8 failed: {e}")
 
@@ -951,7 +991,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
 
         fig.suptitle("Container Infrastructure Overhead", fontsize=14, y=1.02)
         fig.tight_layout()
-        save_chart(fig, "chart_09_overhead_analysis.png")
+        save_chart(fig, "chart_09_overhead_analysis.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 9 failed: {e}")
 
@@ -985,7 +1025,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
             ax.set_title(f"Aggregated Memory Trajectory (n={len(all_mem_interp)} tasks)", fontsize=14)
             ax.legend(fontsize=10)
             ax.grid(alpha=0.3)
-            save_chart(fig, "chart_10_memory_trajectory.png")
+            save_chart(fig, "chart_10_memory_trajectory.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 10 failed: {e}")
 
@@ -1032,7 +1072,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
 
         fig.suptitle("CPU Utilization Analysis", fontsize=14, y=1.02)
         fig.tight_layout()
-        save_chart(fig, "chart_11_cpu_utilization.png")
+        save_chart(fig, "chart_11_cpu_utilization.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 11 failed: {e}")
 
@@ -1059,7 +1099,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
             ax.text(v + 5, i, f"{v:.0f}s ({pct:.1f}%)", va="center", fontsize=9)
         ax.grid(axis="x", alpha=0.3)
         fig.tight_layout()
-        save_chart(fig, "chart_12_bash_time_by_category.png")
+        save_chart(fig, "chart_12_bash_time_by_category.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 12 failed: {e}")
 
@@ -1079,7 +1119,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
         ax.legend(fontsize=11)
         ax.yaxis.set_major_locator(MaxNLocator(integer=True))
         ax.grid(alpha=0.3)
-        save_chart(fig, "chart_13_memory_peak_timing.png")
+        save_chart(fig, "chart_13_memory_peak_timing.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 13 failed: {e}")
 
@@ -1100,7 +1140,7 @@ def generate_charts(all_data, successful_tasks, failed_tasks):
         ax.set_ylabel("Tool Time Ratio (%)", fontsize=12)
         ax.set_title("Execution Time vs Tool Ratio (size = peak memory)", fontsize=14)
         ax.grid(alpha=0.3)
-        save_chart(fig, "chart_14_scatter_time_ratio.png")
+        save_chart(fig, "chart_14_scatter_time_ratio.png", chart_dir)
     except Exception as e:
         print(f"  [WARN] Chart 14 failed: {e}")
 
