@@ -261,9 +261,16 @@ def detect_bursts(samples: List[ResourceSample]) -> List[BurstEvent]:
 
 
 def load_task_data(task_dir: Path, task_name: str, task_info: Dict,
-                   category: str = "unknown", difficulty: str = "unknown") -> Optional[TaskData]:
+                   category: str = "unknown", difficulty: str = "unknown",
+                   force_attempt_1: bool = False) -> Optional[TaskData]:
     """Load data for a single task."""
-    attempts = task_info.get("attempts", 1)
+    if force_attempt_1:
+        attempts = 1
+        # For attempt_1, success is True only if total attempts == 1 (no retry needed)
+        success = task_info.get("attempts", 1) == 1 and task_info.get("success", False)
+    else:
+        attempts = task_info.get("attempts", 1)
+        success = task_info.get("success", False)
     attempt_dir = task_dir / f"attempt_{attempts}"
 
     resources_data = load_json(attempt_dir / "resources.json")
@@ -315,7 +322,7 @@ def load_task_data(task_dir: Path, task_name: str, task_info: Dict,
         name=task_name,
         category=category,
         difficulty=difficulty,
-        success=task_info.get("success", False),
+        success=success,
         attempts=attempts,
         total_time=task_info.get("total_time", 0.0),
         claude_time=claude_time,
@@ -356,7 +363,9 @@ def load_haiku_data() -> Tuple[Dict[str, TaskData], Dict]:
         task_info = results_map.get(task_name, {})
         task_dir = BASE_DIR / task_name
 
-        task = load_task_data(task_dir, task_name, task_info, category, difficulty)
+        # Always use attempt_1 for haiku dataset
+        task = load_task_data(task_dir, task_name, task_info, category, difficulty,
+                             force_attempt_1=True)
         if task:
             tasks[task_name] = task
 
