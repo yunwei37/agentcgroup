@@ -16,6 +16,10 @@
 \usepackage{xspace}
 \newcommand{\sys}{\mbox{AgentCgroup}\xspace}
 
+%% Graphics support
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+
 %%
 %% \BibTeX command to typeset BibTeX logo in the docs
 \AtBeginDocument{%
@@ -35,7 +39,7 @@
 \email{anonymous@example.com}
 
 \begin{abstract}
-Interactive AI agents dynamically execute diverse tool calls within sandboxed environments, each with distinct resource demands and millisecond-scale bursts. Existing resource controls operate at environment granularity with static budgets, unable to provide the dynamic, fine-grained control that agent workloads require. User-space controllers reacting in tens of milliseconds cannot keep pace with sub-millisecond resource fluctuations, allowing interference to form before control actions take effect. We present \sys, an eBPF-based resource controller that executes control logic at kernel enforcement points via sched\_ext and memcg\_bpf\_ops, enabling microsecond-level reaction and dynamic, fine-grained decisions aligned with agent workload demands. Evaluation demonstrates improved multi-tenant isolation and tail latency management with minimal overhead.
+Interactive AI agents dynamically execute diverse tool calls within sandboxed environments, each with distinct resource demands and rapid fluctuations. We present the first systematic characterization of resource usage patterns in production AI coding agents, analyzing 18 SWE-bench tasks across two models. Our measurements reveal severe mismatches: memory usage fluctuates by up to 3GB within single-second intervals, resource requirements vary by 147\% (CV) across task categories, and CPU utilization differs by 3.9$\times$ between agents on identical tasks. These findings expose two fundamental gaps: \textbf{domain mismatch} (static container-level limits cannot accommodate phase-varying tool calls) and \textbf{timescale mismatch} (user-space controllers at 10--100ms cannot react to second-scale bursts). We present \sys, an eBPF-based resource controller that executes control logic at kernel enforcement points via sched\_ext and memcg\_bpf\_ops, enabling microsecond-level reaction and dynamic, fine-grained decisions aligned with agent workload demands. Evaluation demonstrates improved multi-tenant isolation and reduced resource waste from 76--93\% to significantly lower levels.
 \end{abstract}
 
 % \begin{CCSXML}
@@ -62,19 +66,21 @@ Interactive AI agents dynamically execute diverse tool calls within sandboxed en
 
 \section{Introduction}
 
-Interactive AI agents dynamically execute diverse tool calls within sandboxed environments. These tool calls include compilers, interpreters, browsers, and data processors, each exhibiting distinct resource demands with millisecond-scale bursts. Consider an agent session that first invokes a compiler consuming large amounts of memory, followed by a browser invocation demanding substantial CPU resources. Traditional static controls set at sandbox granularity become either overly conservative, wasting resources during idle periods, or overly aggressive, causing OOM kills or tail latency spikes during bursts.
+Interactive AI agents dynamically execute diverse tool calls within sandboxed environments, including compilers, interpreters, test runners, and data processors. To understand their resource behavior, we conducted the first systematic measurement study of production AI coding agents, analyzing 18 SWE-bench tasks executed by two models (Claude Code with Haiku and a local Qwen-based agent). Our findings reveal dramatic resource dynamics: in a single ML task, memory usage changed by 2.9GB within one second; across all tasks, peak memory requirements ranged from 197MB to 4GB, yielding a coefficient of variation (CV) of 147\%. Furthermore, the same tasks exhibited 3.9$\times$ CPU utilization differences between the two agents, demonstrating that resource demands depend not only on the task but also on the agent architecture.
 
-We identify two fundamental mismatches between existing resource controls and agent workloads. First, \textbf{Domain mismatch.} Current controls set static resource limits at coarse-grained container or sandbox boundaries. In contrast, agent workloads execute rapid sequences of tool calls with varying resource profiles. Each tool call requires fine-grained resource governance, and the transitions between tool calls require dynamic, phase-aware policies rather than fixed budgets. Second, \textbf{Timescale mismatch.} User-space controllers typically operate at 10--100ms timescales, significantly lagging behind sub-millisecond resource fluctuations caused by tool call bursts. By the time a controller observes pressure and adjusts limits, interference has already formed.
+These measurements expose two fundamental mismatches between existing resource controls and agent workloads:
+
+\textbf{Domain mismatch.} Current controls set static resource limits at coarse-grained container or sandbox boundaries. However, agent workloads execute rapid sequences of tool calls with varying resource profiles---our data shows resource requirements varying by up to 147\% across task categories. Each tool call requires fine-grained resource governance, and transitions between phases require dynamic, phase-aware policies rather than fixed budgets. Static limits set to peak requirements waste 76--93\% of allocated CPU during normal operation.
+
+\textbf{Timescale mismatch.} User-space controllers typically operate at 10--100ms timescales, but our measurements show memory changes of up to 3GB and CPU changes exceeding 50\% within single-second sampling intervals. By the time a user-space controller observes pressure and adjusts limits, interference has already formed.
 
 We present \sys, an eBPF-based resource controller that addresses both mismatches. \sys uses eBPF (sched\_ext for CPU scheduling, memcg\_bpf\_ops for memory throttling) to execute control logic at kernel enforcement points, enabling microsecond-level reaction and dynamic, fine-grained decisions aligned with agent workload demands.
 
-Experimental evaluation shows improved multi-tenant isolation, reduced tail latency violations, and effective containment of resource contention with minimal overhead.
-
 Key contributions:
 \begin{itemize}
-    \item Identifies two fundamental mismatches: domain mismatch (coarse-grained static limits vs. fine-grained, phase-aware control) and timescale mismatch (user-space latency vs. sub-millisecond bursts).
-    \item Presents \sys, which uses eBPF to execute dynamic, phase-aware policies at kernel enforcement points with microsecond-level reaction.
-    \item Provides evaluation demonstrating improved isolation and tail latency under multi-tenant agent workloads.
+    \item \textbf{Characterization:} First systematic measurement study of resource usage patterns in production AI coding agents, quantifying the severity of domain and timescale mismatches (memory changes up to 3GB/second, resource requirement CV of 147\%, 3.9$\times$ CPU difference between agents).
+    \item \textbf{System design:} \sys, an eBPF-based resource controller using sched\_ext and memcg\_bpf\_ops to execute dynamic, phase-aware policies at kernel enforcement points with microsecond-level reaction.
+    \item \textbf{Evaluation:} Comprehensive evaluation on SWE-bench tasks demonstrating improved multi-tenant isolation and significant reduction in resource waste.
 \end{itemize}
 
 \section{Background}
@@ -85,13 +91,64 @@ Key contributions:
 
 \section{Motivation}
 
-Traditional resource management for agent workloads faces two fundamental mismatches.
+We conducted a systematic study of resource usage patterns in production AI coding agents, analyzing 18 SWE-bench tasks across six categories (CLI, DevOps, ML, Medical, SQL, Web) and three difficulty levels, executed by two different agent implementations. Our measurements reveal two fundamental mismatches.
 
-\textbf{Domain mismatch.} Existing resource controls operate at environment granularity with static budgets, but agent workloads dynamically execute diverse tool calls with distinct resource demands~\cite{nalar}. A static budget applied uniformly is either conservative, wasting resources, or aggressive, causing failures during bursty tool calls. Mixture-of-Schedulers (ASA) shows that \texttt{sched\_ext} enables dynamic scheduling~\cite{asa}, and Nalar proposes two-level control for agent workflows~\cite{nalar}, but neither addresses the OS-level domain gap: resource controls must align with the dynamic, fine-grained nature of agent workloads rather than static environment boundaries.
+\subsection{Timescale Mismatch}
 
-\textbf{Timescale mismatch.} Agent workloads create short-lived, bursty tool calls such as compilers, interpreters, and browser engines, with resource demands that change at millisecond timescales. User-space controllers that monitor pressure and rewrite cgroup files operate at 10--100ms timescales: by the time the controller observes memory pressure and adjusts limits, the burst has already caused reclaim storms or runqueue inflation. TMO demonstrates pressure-driven memory control at datacenter scale~\cite{tmo}, but its user-space Senpai component cannot react fast enough for agent bursts. This timing gap is fundamental: any approach based on user-space monitoring and cgroup file writes will be too slow.
+Agent workloads create short-lived, bursty tool calls with resource demands that change rapidly. Figure~\ref{fig:timeseries} shows a representative example: during a single ML task, memory usage changed by up to 2.9GB within a one-second sampling interval. Across all 18 tasks, we observed maximum memory changes of 3GB/second and CPU utilization changes exceeding 50\%/second (Figure~\ref{fig:changerate}).
+
+User-space controllers that monitor pressure and rewrite cgroup files operate at 10--100ms timescales~\cite{tmo}: by the time the controller observes memory pressure and adjusts limits, the burst has already caused reclaim storms or runqueue inflation. This timing gap is fundamental---any approach based on user-space monitoring and cgroup file writes will be too slow for agent workloads.
+
+\subsection{Domain Mismatch}
+
+Existing resource controls operate at container granularity with static budgets, but agent workloads execute diverse tool calls with vastly different resource demands. Our measurements reveal:
+
+\begin{itemize}
+    \item \textbf{Cross-task variance:} Peak memory requirements ranged from 197MB to 4GB across tasks, with a coefficient of variation (CV) of 147\% (Figure~\ref{fig:categories}).
+    \item \textbf{Cross-agent variance:} The same 18 tasks showed 3.9$\times$ CPU utilization difference between Haiku (30.6\% avg) and Qwen (7.9\% avg) agents (Figure~\ref{fig:cpudiff}).
+    \item \textbf{Overprovisioning waste:} If static CPU limits are set to peak requirements, actual utilization is only 7--24\%, wasting 76--93\% of allocated resources (Figure~\ref{fig:overprovisioning}).
+\end{itemize}
+
+A static budget applied uniformly is either conservative (wasting resources) or aggressive (causing failures during bursts). Mixture-of-Schedulers shows that \texttt{sched\_ext} enables dynamic scheduling~\cite{asa}, and Nalar proposes two-level control for agent workflows~\cite{nalar}, but neither addresses the OS-level domain gap.
+
+\subsection{Implications}
 
 These mismatches motivate in-kernel enforcement: control logic must support dynamic, fine-grained decisions (addressing domain mismatch) and execute at kernel enforcement points to achieve microsecond-level reaction (addressing timescale mismatch).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig1_timeseries}
+\caption{Resource usage during an ML task showing rapid memory fluctuations. Memory changed by up to 2.9GB within single-second intervals.}
+\label{fig:timeseries}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig2_change_rate}
+\caption{Distribution of resource change rates across all tasks. Significant changes occur within 1-second intervals, exceeding user-space controller reaction times.}
+\label{fig:changerate}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig3_categories}
+\caption{Resource requirements vary significantly across task categories (CV=147\%), demonstrating domain mismatch.}
+\label{fig:categories}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig4_cpu_diff}
+\caption{CPU utilization differs by 3.9$\times$ between agents on identical tasks, showing that resource demands depend on agent architecture.}
+\label{fig:cpudiff}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig5_overprovisioning}
+\caption{Static resource limits set to peak requirements waste 76--93\% of CPU allocation during normal operation.}
+\label{fig:overprovisioning}
+\end{figure}
 
 \section{Design and Implementation}
 
