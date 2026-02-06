@@ -49,21 +49,21 @@ SAMPLE_TASKS = {
         'repo': 'reata/sqllineage',
         'docker_image': 'swerebench/sweb.eval.x86_64.reata_1776_sqllineage-438',
     },
-    # SQL/Data - Task 2
+    # SQL/Data - Task 2 (from all_images_local)
     ('SQL/Data', 'Easy', 2): {
-        'instance_id': 'sqlfluff__sqlfluff-4994',
-        'repo': 'sqlfluff/sqlfluff',
-        'docker_image': 'swerebench/sweb.eval.x86_64.sqlfluff_1776_sqlfluff-4994',
+        'instance_id': 'tobymao__sqlglot-1642',
+        'repo': 'tobymao/sqlglot',
+        'docker_image': 'swerebench/sweb.eval.x86_64.tobymao_1776_sqlglot-1642',
     },
     ('SQL/Data', 'Medium', 2): {
-        'instance_id': 'tobymao__sqlglot-2323',
-        'repo': 'tobymao/sqlglot',
-        'docker_image': 'swerebench/sweb.eval.x86_64.tobymao_1776_sqlglot-2323',
+        'instance_id': '0b01001001__spectree-64',
+        'repo': '0b01001001/spectree',
+        'docker_image': 'swerebench/sweb.eval.x86_64.0b01001001_1776_spectree-64',
     },
     ('SQL/Data', 'Hard', 2): {
-        'instance_id': 'sqlfluff__sqlfluff-5593',
-        'repo': 'sqlfluff/sqlfluff',
-        'docker_image': 'swerebench/sweb.eval.x86_64.sqlfluff_1776_sqlfluff-5593',
+        'instance_id': 'facelessuser__soupsieve-147',
+        'repo': 'facelessuser/soupsieve',
+        'docker_image': 'swerebench/sweb.eval.x86_64.facelessuser_1776_soupsieve-147',
     },
 
     # DevOps/Build - Task 1
@@ -82,21 +82,21 @@ SAMPLE_TASKS = {
         'repo': 'iterative/dvc',
         'docker_image': 'swerebench/sweb.eval.x86_64.iterative_1776_dvc-777',
     },
-    # DevOps/Build - Task 2
+    # DevOps/Build - Task 2 (from all_images_local)
     ('DevOps/Build', 'Easy', 2): {
-        'instance_id': 'pre-commit__pre-commit-3217',
-        'repo': 'pre-commit/pre-commit',
-        'docker_image': 'swerebench/sweb.eval.x86_64.pre-commit_1776_pre-commit-3217',
+        'instance_id': 'iterative__dvc-745',
+        'repo': 'iterative/dvc',
+        'docker_image': 'swerebench/sweb.eval.x86_64.iterative_1776_dvc-745',
     },
     ('DevOps/Build', 'Medium', 2): {
-        'instance_id': 'beeware__briefcase-1298',
-        'repo': 'beeware/briefcase',
-        'docker_image': 'swerebench/sweb.eval.x86_64.beeware_1776_briefcase-1298',
+        'instance_id': 'ARMmbed__mbed-tools-138',
+        'repo': 'ARMmbed/mbed-tools',
+        'docker_image': 'swerebench/sweb.eval.x86_64.armmbed_1776_mbed-tools-138',
     },
     ('DevOps/Build', 'Hard', 2): {
-        'instance_id': 'iterative__dvc-1765',
-        'repo': 'iterative/dvc',
-        'docker_image': 'swerebench/sweb.eval.x86_64.iterative_1776_dvc-1765',
+        'instance_id': 'Azure__azure-cli-2214',
+        'repo': 'Azure/azure-cli',
+        'docker_image': 'swerebench/sweb.eval.x86_64.azure_1776_azure-cli-2214',
     },
 
     # ML/Scientific - Task 1
@@ -115,21 +115,21 @@ SAMPLE_TASKS = {
         'repo': 'numba/numba',
         'docker_image': 'swerebench/sweb.eval.x86_64.numba_1776_numba-5721',
     },
-    # ML/Scientific - Task 2
+    # ML/Scientific - Task 2 (from all_images_local)
     ('ML/Scientific', 'Easy', 2): {
-        'instance_id': 'dask__dask-6818',
-        'repo': 'dask/dask',
-        'docker_image': 'swerebench/sweb.eval.x86_64.dask_1776_dask-6818',
+        'instance_id': 'AI4S2S__lilio-49',
+        'repo': 'AI4S2S/lilio',
+        'docker_image': 'swerebench/sweb.eval.x86_64.ai4s2s_1776_lilio-49',
     },
     ('ML/Scientific', 'Medium', 2): {
-        'instance_id': 'dask__dask-8578',
-        'repo': 'dask/dask',
-        'docker_image': 'swerebench/sweb.eval.x86_64.dask_1776_dask-8578',
+        'instance_id': 'numba__numba-9636',
+        'repo': 'numba/numba',
+        'docker_image': 'swerebench/sweb.eval.x86_64.numba_1776_numba-9636',
     },
     ('ML/Scientific', 'Hard', 2): {
-        'instance_id': 'numba__numba-8548',
-        'repo': 'numba/numba',
-        'docker_image': 'swerebench/sweb.eval.x86_64.numba_1776_numba-8548',
+        'instance_id': 'spacetelescope__poppy-411',
+        'repo': 'spacetelescope/poppy',
+        'docker_image': 'swerebench/sweb.eval.x86_64.spacetelescope_1776_poppy-411',
     },
 
     # Web/Network - Task 1
@@ -148,21 +148,21 @@ SAMPLE_TASKS = {
         'repo': 'streamlink/streamlink',
         'docker_image': 'swerebench/sweb.eval.x86_64.streamlink_1776_streamlink-2160',
     },
-    # Web/Network - Task 2
+    # Web/Network - Task 2 (from all_images_local)
     ('Web/Network', 'Easy', 2): {
-        'instance_id': 'encode__httpx-1872',
-        'repo': 'encode/httpx',
-        'docker_image': 'swerebench/sweb.eval.x86_64.encode_1776_httpx-1872',
+        'instance_id': 'AspenWeb__pando.py-586',
+        'repo': 'AspenWeb/pando.py',
+        'docker_image': 'swerebench/sweb.eval.x86_64.aspenweb_1776_pando.py-586',
     },
     ('Web/Network', 'Medium', 2): {
-        'instance_id': 'encode__starlette-1147',
-        'repo': 'encode/starlette',
-        'docker_image': 'swerebench/sweb.eval.x86_64.encode_1776_starlette-1147',
+        'instance_id': 'redis__redis-py-3264',
+        'repo': 'redis/redis-py',
+        'docker_image': 'swerebench/sweb.eval.x86_64.redis_1776_redis-py-3264',
     },
     ('Web/Network', 'Hard', 2): {
-        'instance_id': 'streamlink__streamlink-5786',
-        'repo': 'streamlink/streamlink',
-        'docker_image': 'swerebench/sweb.eval.x86_64.streamlink_1776_streamlink-5786',
+        'instance_id': 'libp2p__py-libp2p-533',
+        'repo': 'libp2p/py-libp2p',
+        'docker_image': 'swerebench/sweb.eval.x86_64.libp2p_1776_py-libp2p-533',
     },
 
     # CLI/Tools - Task 1
@@ -181,21 +181,21 @@ SAMPLE_TASKS = {
         'repo': 'joke2k/faker',
         'docker_image': 'swerebench/sweb.eval.x86_64.joke2k_1776_faker-1520',
     },
-    # CLI/Tools - Task 2
+    # CLI/Tools - Task 2 (from all_images_local)
     ('CLI/Tools', 'Easy', 2): {
-        'instance_id': 'asottile__pyupgrade-706',
-        'repo': 'asottile/pyupgrade',
-        'docker_image': 'swerebench/sweb.eval.x86_64.asottile_1776_pyupgrade-706',
+        'instance_id': 'simonw__files-to-prompt-44',
+        'repo': 'simonw/files-to-prompt',
+        'docker_image': 'swerebench/sweb.eval.x86_64.simonw_1776_files-to-prompt-44',
     },
     ('CLI/Tools', 'Medium', 2): {
-        'instance_id': 'Textualize__textual-1682',
-        'repo': 'Textualize/textual',
-        'docker_image': 'swerebench/sweb.eval.x86_64.textualize_1776_textual-1682',
+        'instance_id': 'wemake-services__wemake-python-styleguide-3117',
+        'repo': 'wemake-services/wemake-python-styleguide',
+        'docker_image': 'swerebench/sweb.eval.x86_64.wemake-services_1776_wemake-python-styleguide-3117',
     },
     ('CLI/Tools', 'Hard', 2): {
-        'instance_id': 'joke2k__faker-1780',
-        'repo': 'joke2k/faker',
-        'docker_image': 'swerebench/sweb.eval.x86_64.joke2k_1776_faker-1780',
+        'instance_id': 'lovasoa__marshmallow_dataclass-121',
+        'repo': 'lovasoa/marshmallow_dataclass',
+        'docker_image': 'swerebench/sweb.eval.x86_64.lovasoa_1776_marshmallow_dataclass-121',
     },
 
     # Medical/Bio - Task 1
@@ -214,21 +214,21 @@ SAMPLE_TASKS = {
         'repo': 'pydicom/pydicom',
         'docker_image': 'swerebench/sweb.eval.x86_64.pydicom_1776_pydicom-2065',
     },
-    # Medical/Bio - Task 2
+    # Medical/Bio - Task 2 (from all_images_local)
     ('Medical/Bio', 'Easy', 2): {
-        'instance_id': 'pydicom__pydicom-1139',
-        'repo': 'pydicom/pydicom',
-        'docker_image': 'swerebench/sweb.eval.x86_64.pydicom_1776_pydicom-1139',
+        'instance_id': '12rambau__sepal_ui-411',
+        'repo': '12rambau/sepal_ui',
+        'docker_image': 'swerebench/sweb.eval.x86_64.12rambau_1776_sepal_ui-411',
     },
     ('Medical/Bio', 'Medium', 2): {
-        'instance_id': 'pydicom__pydicom-1256',
-        'repo': 'pydicom/pydicom',
-        'docker_image': 'swerebench/sweb.eval.x86_64.pydicom_1776_pydicom-1256',
+        'instance_id': 'cneud__alto-tools-29',
+        'repo': 'cneud/alto-tools',
+        'docker_image': 'swerebench/sweb.eval.x86_64.cneud_1776_alto-tools-29',
     },
     ('Medical/Bio', 'Hard', 2): {
-        'instance_id': 'pydicom__pydicom-1694',
-        'repo': 'pydicom/pydicom',
-        'docker_image': 'swerebench/sweb.eval.x86_64.pydicom_1776_pydicom-1694',
+        'instance_id': 'Aarhus-Psychiatry-Research__timeseriesflattener-186',
+        'repo': 'Aarhus-Psychiatry-Research/timeseriesflattener',
+        'docker_image': 'swerebench/sweb.eval.x86_64.aarhus-psychiatry-research_1776_timeseriesflattener-186',
     },
 }
 
@@ -270,7 +270,8 @@ WHAT DOES NOT COUNT:
 
 
 # Default output directory name (fixed, for auto-resume)
-DEFAULT_OUTPUT_DIR = "batch_swebench_36tasks"
+# Keep using 18tasks folder to allow resuming from existing progress
+DEFAULT_OUTPUT_DIR = "batch_swebench_18tasks"
 
 
 class BatchSWEBenchRunner:
