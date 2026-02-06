@@ -76,7 +76,18 @@
     "Azure__msrest-for-python-167",
     "Azure__msrest-for-python-189",
     "iterative__dvc-745",
-    "lovasoa__marshmallow_dataclass-121"
+    "lovasoa__marshmallow_dataclass-121",
+    "beeware__briefcase-1525",
+    "Textualize__textual-2987",
+    "encode__httpx-2701",
+    "tobymao__sqlglot-1177",
+    "sqlfluff__sqlfluff-5362",
+    "streamlink__streamlink-2160",
+    "pydicom__pydicom-1000",
+    "pydicom__pydicom-2065",
+    "streamlink__streamlink-3485",
+    "iterative__dvc-777",
+    "numba__numba-5721"
   ],
   "results": {
     "0b01001001__spectree-64": {
@@ -463,6 +474,61 @@
       "success": false,
       "attempts": 1,
       "total_time": 187.159833
+    },
+    "beeware__briefcase-1525": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 617.844635
+    },
+    "Textualize__textual-2987": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 823.514155
+    },
+    "encode__httpx-2701": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 889.291389
+    },
+    "tobymao__sqlglot-1177": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 551.950713
+    },
+    "sqlfluff__sqlfluff-5362": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 1146.568769
+    },
+    "streamlink__streamlink-2160": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 634.916901
+    },
+    "pydicom__pydicom-1000": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 400.125725
+    },
+    "pydicom__pydicom-2065": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 796.04028
+    },
+    "streamlink__streamlink-3485": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 1066.203194
+    },
+    "iterative__dvc-777": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 425.772052
+    },
+    "numba__numba-5721": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 644.541499
     }
   }
 }
