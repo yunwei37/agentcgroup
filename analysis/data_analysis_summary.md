@@ -1,7 +1,11 @@
 # AgentCgroup 实验数据分析总结
 
 **生成时间**: 2026-02-06
-**分析脚本**: `analyze_rq_validation.py`, `analyze_tool_time_ratio.py`
+**分析脚本**:
+- `analyze_rq_validation.py` - RQ1-RQ4 基础验证
+- `analyze_tool_time_ratio.py` - 工具时间占比分析
+- `analyze_haiku_vs_qwen.py` - 模型对比分析
+- `analyze_extended_insights.py` - 扩展洞察分析（磁盘、启动开销、瞬态突发、CPU-Memory相关性、重试循环、本地推理等）
 
 ## 数据集概览
 
