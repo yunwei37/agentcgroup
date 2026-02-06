@@ -94,7 +94,17 @@
     "reata__sqllineage-438",
     "asottile__pyupgrade-939",
     "dask__dask-5510",
-    "dask__dask-11628"
+    "dask__dask-11628",
+    "numba__numba-9636",
+    "cneud__alto-tools-29",
+    "redis__redis-py-3264",
+    "simonw__files-to-prompt-44",
+    "NVIDIA__nv-ingest-71",
+    "spacetelescope__poppy-411",
+    "wemake-services__wemake-python-styleguide-3117",
+    "prefab-cloud__prefab-cloud-python-62",
+    "libp2p__py-libp2p-533",
+    "tobymao__sqlglot-1642"
   ],
   "results": {
     "0b01001001__spectree-64": {
@@ -571,6 +581,56 @@
       "success": false,
       "attempts": 1,
       "total_time": 349.161568
+    },
+    "numba__numba-9636": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 946.712627
+    },
+    "cneud__alto-tools-29": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 323.35435
+    },
+    "redis__redis-py-3264": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 745.502795
+    },
+    "simonw__files-to-prompt-44": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 416.277367
+    },
+    "NVIDIA__nv-ingest-71": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 612.991368
+    },
+    "spacetelescope__poppy-411": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 800.02528
+    },
+    "wemake-services__wemake-python-styleguide-3117": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 684.07763
+    },
+    "prefab-cloud__prefab-cloud-python-62": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 504.357164
+    },
+    "libp2p__py-libp2p-533": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 1684.305405
+    },
+    "tobymao__sqlglot-1642": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 778.165695
     }
   }
 }
