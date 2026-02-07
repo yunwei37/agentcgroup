@@ -28,7 +28,10 @@
     "prefab-cloud__prefab-cloud-python-62",
     "libp2p__py-libp2p-533",
     "tobymao__sqlglot-1642",
-    "facelessuser__soupsieve-147"
+    "facelessuser__soupsieve-147",
+    "ansible__ansible-builder-486",
+    "tobymao__sqlglot-570",
+    "matrix-org__synapse-6145"
   ],
   "results": {
     "beeware__briefcase-1525": {
@@ -175,6 +178,21 @@
       "success": false,
       "attempts": 1,
       "total_time": 258.239584
+    },
+    "ansible__ansible-builder-486": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 189.596452
+    },
+    "tobymao__sqlglot-570": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 421.520568
+    },
+    "matrix-org__synapse-6145": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 247.557709
     }
   }
 }

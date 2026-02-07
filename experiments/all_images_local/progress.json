@@ -122,7 +122,8 @@
     "unt-libraries__edtf-validate-29",
     "PennyLaneAI__pennylane-5455",
     "RDFLib__rdflib-1117",
-    "beetbox__mediafile-64"
+    "beetbox__mediafile-64",
+    "scrapy__scrapy-6347"
   ],
   "results": {
     "0b01001001__spectree-64": {
@@ -739,6 +740,11 @@
       "success": true,
       "attempts": 1,
       "total_time": 1078.068687
+    },
+    "scrapy__scrapy-6347": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 107.289252
     }
   }
 }

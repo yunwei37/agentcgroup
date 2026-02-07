@@ -1,0 +1,14 @@
+Let me summarize the solution:
+
+1. I added support for the `NOTNULL` keyword in SQLGlot
+2. Modified `tokens.py` to recognize `NOTNULL` and map it to the `IS` token type
+3. Updated the `_parse_is` method in `parser.py` to handle `NOTNULL` by treating it like `IS NULL`, but negating the result
+4. Tested the changes by parsing a query that uses `NOTNULL`
+5. Committed the changes to the repository
+
+The key changes ensure that `NOTNULL` is now a valid keyword in SQLGlot, equivalent to `IS NOT NULL`, which maintains the original semantics while expanding parsing flexibility.
+
+Is there anything else you would like me to do with this implementation?
+=== GIT DIFF ===
+=== DISK USAGE ===
+513	/testbed
