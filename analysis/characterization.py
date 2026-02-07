@@ -494,7 +494,138 @@ def step_phase_comparison_chart(haiku_results, local_results):
 
 
 # ============================================================================
-# Step 7: Setup overhead charts (image size + execution time + perm fix)
+# Step 7: Tool & Bash breakdown pie charts (all tasks combined)
+# ============================================================================
+
+def _load_bash_categories(base_dir):
+    """Load bash command category time from tool_calls.json for each valid task."""
+    import re as _re
+    from filter_valid_tasks import get_valid_task_names
+    from collections import defaultdict
+
+    def _categorize(cmd):
+        cl = cmd.strip().lower()
+        if _re.search(r"\bpytest\b|\bpython\s+-m\s+pytest\b|\btox\b|\bnose\b|\bunittest\b", cl):
+            return "Test Execution"
+        if _re.search(r"\bgit\s+(diff|log|status|show|add|commit|checkout|stash|branch|reset)\b", cl):
+            return "Git Operations"
+        if _re.search(r"\bpip\s+install\b|\bconda\s+install\b|\bapt\b|\byum\b", cl):
+            return "Package Install"
+        if _re.search(r"\bls\b|\bfind\b|\btree\b|\bwc\b|\bdu\b|\bdf\b", cl):
+            return "File Exploration"
+        if _re.search(r"\bpython\s+-c\b|\bpython3\s+-c\b", cl):
+            return "Python Snippet"
+        if _re.search(r"\bpython\b|\bpython3\b", cl):
+            return "Python Run"
+        if _re.search(r"\bcat\b|\bhead\b|\btail\b|\bgrep\b|\bsed\b|\bawk\b", cl):
+            return "Text Processing"
+        if _re.search(r"\bcd\b|\bsource\b|\bexport\b|\bchmod\b|\bmkdir\b", cl):
+            return "Shell/Environment"
+        return "Other"
+
+    from analyze_tool_time_ratio import parse_iso
+    valid = get_valid_task_names(base_dir)
+    cat_time = defaultdict(float)
+
+    for name in valid:
+        attempt = os.path.join(base_dir, name, "attempt_1")
+        tc_path = os.path.join(attempt, "tool_calls.json")
+        if not os.path.exists(tc_path):
+            continue
+        with open(tc_path) as f:
+            calls = _json.load(f)
+        for call in calls:
+            if call.get("tool") != "Bash":
+                continue
+            cmd = call.get("input", {}).get("command", "")
+            cat = _categorize(cmd)
+            ts_s = parse_iso(call.get("timestamp"))
+            ts_e = parse_iso(call.get("end_timestamp"))
+            if ts_s and ts_e:
+                dur = (ts_e - ts_s).total_seconds()
+                if dur >= 0:
+                    cat_time[cat] += dur
+    return dict(cat_time)
+
+
+def step_tool_and_bash_pie_chart(haiku_results, local_results):
+    """Generate a single figure with 2 pie subplots (Haiku only).
+
+    (a) Tool usage breakdown by total time
+    (b) Bash command category breakdown by total time
+
+    Saved to comparison_figures/tool_bash_breakdown.png
+    """
+    _section("Tool & Bash Breakdown Pie Charts (Haiku)")
+
+    # ---- Use Haiku tool_stats only ----
+    from collections import defaultdict
+    merged_tool = defaultdict(lambda: {"count": 0, "total_time": 0.0})
+    for tname, stats in haiku_results.get("tools", {}).get("tool_stats", {}).items():
+        merged_tool[tname]["count"] += stats["count"]
+        merged_tool[tname]["total_time"] += stats["total_time"]
+
+    # ---- Haiku bash categories only ----
+    merged_bash = _load_bash_categories(HAIKU_DIR)
+
+    if not merged_tool and not merged_bash:
+        print("  WARNING: No data — skipping")
+        return
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 7))
+    cmap = plt.cm.Set3
+
+    # ---- (a) Tool usage pie ----
+    sorted_tools = sorted(merged_tool.items(),
+                          key=lambda x: x[1]["total_time"], reverse=True)
+    # Filter out near-zero tools
+    sorted_tools = [(n, s) for n, s in sorted_tools if s["total_time"] > 0]
+    total_tool_time = sum(s["total_time"] for _, s in sorted_tools)
+
+    tool_names = [n for n, _ in sorted_tools]
+    tool_sizes = [s["total_time"] for _, s in sorted_tools]
+    tool_labels = [
+        f"{n}\n({s['total_time']/total_tool_time*100:.1f}%)"
+        for n, s in sorted_tools
+    ]
+    colors_a = [cmap(i) for i in range(len(tool_names))]
+    ax1.pie(tool_sizes, labels=tool_labels, colors=colors_a, startangle=90,
+            textprops={"fontsize": 9})
+    ax1.set_title("(a) Tool Usage by Time", fontsize=13)
+
+    # ---- (b) Bash category pie ----
+    cats = sorted(merged_bash.keys(), key=lambda c: merged_bash[c], reverse=True)
+    total_bash = sum(merged_bash[c] for c in cats)
+    bash_sizes = [merged_bash[c] for c in cats]
+    bash_labels = [f"{c}\n({merged_bash[c]/total_bash*100:.1f}%)" for c in cats]
+    colors_b = [cmap(i) for i in range(len(cats))]
+    ax2.pie(bash_sizes, labels=bash_labels, colors=colors_b, startangle=90,
+            textprops={"fontsize": 9})
+    ax2.set_title("(b) Bash Command Time by Category", fontsize=13)
+
+    plt.tight_layout()
+    os.makedirs(COMPARISON_FIGURES, exist_ok=True)
+    out_path = os.path.join(COMPARISON_FIGURES, "tool_bash_breakdown.png")
+    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    print(f"  Saved: {out_path}")
+
+    # ---- Print numerical summary ----
+    print(f"\n  Tool usage (combined, total {total_tool_time:.0f}s):")
+    for n, s in sorted_tools:
+        pct = s["total_time"] / total_tool_time * 100
+        avg = s["total_time"] / s["count"] if s["count"] > 0 else 0
+        print(f"    {n:<15} {s['total_time']:>9.1f}s  ({pct:5.1f}%)  "
+              f"n={s['count']:<5}  avg={avg:.2f}s")
+
+    print(f"\n  Bash categories (combined, total {total_bash:.0f}s):")
+    for c in cats:
+        pct = merged_bash[c] / total_bash * 100
+        print(f"    {c:<20} {merged_bash[c]:>8.1f}s  ({pct:5.1f}%)")
+
+
+# ============================================================================
+# Step 8: Setup overhead charts (image size + execution time)
 # ============================================================================
 
 def _scan_setup_data(base_dir):
@@ -699,7 +830,13 @@ def main():
         step_phase_comparison_chart(haiku_results, local_results)
 
     # ------------------------------------------------------------------
-    # 1c. Setup overhead charts (image size, exec time, perm fix)
+    # 1c. Tool & bash breakdown pie charts (combined)
+    # ------------------------------------------------------------------
+    if haiku_results and local_results:
+        step_tool_and_bash_pie_chart(haiku_results, local_results)
+
+    # ------------------------------------------------------------------
+    # 1d. Setup overhead charts (image size, exec time)
     # ------------------------------------------------------------------
     step_setup_overhead_chart()
 
