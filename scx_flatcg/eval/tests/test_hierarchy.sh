@@ -148,21 +148,21 @@ main() {
 
     for cg in "${LEAF_CGROUPS[@]}"; do
         local exp="${expected["${cg}"]}"
-        local actual=0
+        local actual="0.00"
         if [[ ${total_usage} -gt 0 ]]; then
-            actual=$(echo "scale=4; ${delta_usage["${cg}"]} / ${total_usage} * 100" | bc)
+            actual=$(awk "BEGIN {printf \"%.2f\", ${delta_usage["${cg}"]} / ${total_usage} * 100}")
         fi
-        local deviation=$(echo "scale=2; ${actual} - ${exp}" | bc)
-        local abs_deviation=${deviation#-}
+        local deviation=$(awk "BEGIN {printf \"%.2f\", ${actual} - ${exp}}")
+        local abs_deviation=$(awk "BEGIN {d=${deviation}; if(d<0) d=-d; printf \"%.2f\", d}")
 
-        printf "%-15s %15d %11.2f%% %11.2f%% %9.2f%%\n" \
+        printf "%-15s %15d %11s%% %11s%% %9s%%\n" \
             "${cg}" "${delta_usage["${cg}"]}" "${exp}" "${actual}" "${deviation}" | tee -a "${RESULT_FILE}"
 
-        if (( $(echo "${abs_deviation} > ${max_deviation}" | bc -l) )); then
+        if (( $(awk "BEGIN {print (${abs_deviation} > ${max_deviation})}") )); then
             max_deviation=${abs_deviation}
         fi
         # Allow 15% deviation for hierarchy test (more complex)
-        if (( $(echo "${abs_deviation} > 15" | bc -l) )); then
+        if (( $(awk "BEGIN {print (${abs_deviation} > 15)}") )); then
             pass=false
         fi
     done

@@ -95,12 +95,20 @@ Test results are saved to `results/` directory with timestamps.
 - Root privileges
 - gcc, make, bc
 
+## Documentation
+
+- [Bug Analysis](docs/bug_analysis.md) - 详细分析了 possible vs online CPU 不匹配导致的权重调度失效问题
+- [Evaluation Results](docs/evaluation_results.md) - 完整的评估报告和测试结果
+
 ## Directory Structure
 
 ```
 eval/
 ├── README.md           # This file
 ├── setup.sh            # Environment setup
+├── docs/
+│   ├── bug_analysis.md    # Bug 分析文档
+│   └── evaluation_results.md  # 评估结果
 ├── workload/
 │   ├── cpu_burn.c      # CPU-intensive workload
 │   ├── latency_test.c  # Latency measurement
