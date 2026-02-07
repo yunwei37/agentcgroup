@@ -22,7 +22,9 @@
     "cneud__alto-tools-29",
     "redis__redis-py-3264",
     "simonw__files-to-prompt-44",
-    "NVIDIA__nv-ingest-71"
+    "NVIDIA__nv-ingest-71",
+    "spacetelescope__poppy-411",
+    "wemake-services__wemake-python-styleguide-3117"
   ],
   "results": {
     "beeware__briefcase-1525": {
@@ -139,6 +141,16 @@
       "success": false,
       "attempts": 1,
       "total_time": 804.513492
+    },
+    "spacetelescope__poppy-411": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 445.255232
+    },
+    "wemake-services__wemake-python-styleguide-3117": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 331.726293
     }
   }
 }
