@@ -1,0 +1,3 @@
+[submodule "third_party/scx"]
+	path = third_party/scx
+	url = https://github.com/sched-ext/scx.git
