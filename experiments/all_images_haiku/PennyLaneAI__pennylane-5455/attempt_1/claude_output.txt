@@ -1,0 +1,14 @@
+The issue is related to how Hamiltonians are constructed and evolved in PennyLane version 0.35.1. The key differences are:
+1. `qml.dot()` seems to queue gates correctly
+2. Direct operator arithmetic (`+`) queues extra gates 
+3. The problem can be fixed by `qml.operation.enable_new_opmath()`
+
+Let's investigate the PennyLane source code:
+
+<function_calls>
+<invoke name="WebSearch">
+<parameter name="query">PennyLane github repository operator arithmetic Hamiltonian</parameter>
+</invoke>
+=== GIT DIFF ===
+=== DISK USAGE ===
+176	/testbed

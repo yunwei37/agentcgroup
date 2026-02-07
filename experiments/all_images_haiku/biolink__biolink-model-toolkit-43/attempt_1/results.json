@@ -1,0 +1,18 @@
+{
+  "image": "swerebench/sweb.eval.x86_64.biolink_1776_biolink-model-toolkit-43",
+  "start_time": "2026-02-07T01:08:21.270191",
+  "memory_limit": null,
+  "cpu_limit": null,
+  "model": "haiku",
+  "pull_time": 2.0512075424194336,
+  "permission_fix_time": 22.91213846206665,
+  "image_info": {
+    "size_bytes": 3785404375,
+    "size_mb": 3610.04,
+    "image_id": "3ccf2460be58"
+  },
+  "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/all_images_haiku/biolink__biolink-model-toolkit-43/attempt_1",
+  "error": "Failed to start container: Error: creating container storage: creating an ID-mapped copy of layer \"b595d12f47c9acbcc3f06ef9670e78348b7dd93cc1db7b84678609a7587d972e\": error during chown: lstat usr/share/doc/mount/examples/filesystems: no such file or directory: exit status 1\n",
+  "total_time": 178.53865933418274,
+  "end_time": "2026-02-07T01:11:19.808853"
+}

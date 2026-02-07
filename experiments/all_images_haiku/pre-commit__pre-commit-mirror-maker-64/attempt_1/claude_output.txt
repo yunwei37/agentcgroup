@@ -1,0 +1,122 @@
+I'll add a few notes to summarize the changes:
+
+Now users can optionally specify a custom hook ID using the `--hook-id` flag. If not provided, it will default to the entry point (or package name if no entry point is specified).
+
+Example usage:
+```bash
+# Default behavior (hook ID will be 'clevercsv')
+pre-commit-mirror mirrors-CleverCSV --language python --package-name clevercsv --entry "clevercsv standardize --in-place" --types csv
+
+# With custom hook ID
+pre-commit-mirror mirrors-CleverCSV --language python --package-name clevercsv --entry "clevercsv standardize --in-place" --types csv --hook-id custom-standardize
+```
+
+This solves the problem by allowing more flexible hook ID configuration while maintaining backwards compatibility.
+=== GIT DIFF ===
+diff --git a/pre_commit_mirror_maker/all/.pre-commit-hooks.yaml b/pre_commit_mirror_maker/all/.pre-commit-hooks.yaml
+index a582766..e65cf1b 100644
+--- a/pre_commit_mirror_maker/all/.pre-commit-hooks.yaml
++++ b/pre_commit_mirror_maker/all/.pre-commit-hooks.yaml
+@@ -1,4 +1,4 @@
+--   id: {entry}
++-   id: {hook_id}
+     name: {name}
+     entry: {entry}
+     language: {language}
+diff --git a/pre_commit_mirror_maker/main.py b/pre_commit_mirror_maker/main.py
+index f44fc0d..bb1b250 100644
+--- a/pre_commit_mirror_maker/main.py
++++ b/pre_commit_mirror_maker/main.py
+@@ -69,20 +69,27 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
+         '--pass-filenames', action='store_true',
+         help='Set `pass_filenames: true` for the hook',
+     )
++    parser.add_argument(
++        '--hook-id',
++        help='Explicitly set the hook id. If not provided, defaults to the entry point.',
++    )
+ 
+     args = parser.parse_args(argv)
+ 
+-    make_repo(
+-        args.repo_path,
+-        name=args.package_name,
+-        language=args.language,
+-        entry=args.entry or args.package_name,
+-        match_key='types' if args.types else 'files',
+-        match_val=f'[{args.types}]' if args.types else args.files_regex,
+-        args=json.dumps(split_by_commas(args.args)),
+-        require_serial=json.dumps(args.require_serial),
+-        pass_filenames=json.dumps(args.pass_filenames),
+-    )
++    kwargs = {
++        'name': args.package_name,
++        'language': args.language,
++        'entry': args.entry or args.package_name,
++        'match_key': 'types' if args.types else 'files',
++        'match_val': f'[{args.types}]' if args.types else args.files_regex,
++        'args': json.dumps(split_by_commas(args.args)),
++        'require_serial': json.dumps(args.require_serial),
++        'pass_filenames': json.dumps(args.pass_filenames),
++    }
++    if args.hook_id is not None:
++        kwargs['hook_id'] = args.hook_id
++
++    make_repo(args.repo_path, **kwargs)
+     return 0
+ 
+ 
+diff --git a/pre_commit_mirror_maker/make_repo.py b/pre_commit_mirror_maker/make_repo.py
+index 3010186..7001e3c 100644
+--- a/pre_commit_mirror_maker/make_repo.py
++++ b/pre_commit_mirror_maker/make_repo.py
+@@ -47,11 +47,29 @@ def _commit_version(
+         repo: str, *,
+         language: str,
+         version: str,
++        name: str,
++        hook_id: str = None,
++        entry: str = None,
+         **fmt_vars: str,
+ ) -> None:
+     # 'all' writes the .version and .pre-commit-hooks.yaml files
+     for lang in ('all', language):
+         src = pkg_resources.resource_filename('pre_commit_mirror_maker', lang)
++
++        # Handle hook_id and entry
++        if hook_id is None:
++            hook_id = entry or name
++
++        if entry is None:
++            entry = name
++
++        # Ensure parameters are in fmt_vars
++        fmt_vars.update({
++            'name': name,
++            'hook_id': hook_id,
++            'entry': entry
++        })
++
+         format_files(src, repo, language=language, version=version, **fmt_vars)
+ 
+     hooks_yaml = os.path.join(repo, 'hooks.yaml')
+@@ -67,7 +85,7 @@ def _commit_version(
+     git('tag', f'v{version}')
+ 
+ 
+-def make_repo(repo: str, *, language: str, name: str, **fmt_vars: str) -> None:
++def make_repo(repo: str, *, language: str, name: str, hook_id: str = None, entry: str = None, **fmt_vars: str) -> None:
+     assert os.path.exists(os.path.join(repo, '.git')), repo
+ 
+     package_versions = LIST_VERSIONS[language](name)
+@@ -93,6 +111,8 @@ def make_repo(repo: str, *, language: str, name: str, **fmt_vars: str) -> None:
+             name=name,
+             language=language,
+             version=version,
++            hook_id=hook_id,
++            entry=fmt_vars.get('entry'),
+             additional_dependencies=json.dumps(additional_dependencies),
+             **fmt_vars,
+         )
+=== DISK USAGE ===
+1	/testbed

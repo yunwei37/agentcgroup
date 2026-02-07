@@ -1,0 +1,18 @@
+{
+  "image": "swerebench/sweb.eval.x86_64.xonsh_1776_xonsh-4610",
+  "start_time": "2026-02-07T02:26:00.194934",
+  "memory_limit": null,
+  "cpu_limit": null,
+  "model": "haiku",
+  "pull_time": 0.900397539138794,
+  "permission_fix_time": 46.04706358909607,
+  "image_info": {
+    "size_bytes": 3769016781,
+    "size_mb": 3594.41,
+    "image_id": "c1b0521c1310"
+  },
+  "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/all_images_haiku/xonsh__xonsh-4610/attempt_1",
+  "error": "Failed to start container: Error: creating container storage: creating an ID-mapped copy of layer \"935dd8105097491d70a6e2c1942024d504c1b4bf89f4a3e9eb501b38ce3fc832\": error during chown: lstat usr/share/doc/mount/examples/filesystems: no such file or directory: exit status 1\n",
+  "total_time": 188.450199842453,
+  "end_time": "2026-02-07T02:29:08.645137"
+}

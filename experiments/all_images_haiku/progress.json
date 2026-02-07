@@ -31,7 +31,33 @@
     "facelessuser__soupsieve-147",
     "ansible__ansible-builder-486",
     "tobymao__sqlglot-570",
-    "matrix-org__synapse-6145"
+    "matrix-org__synapse-6145",
+    "beeware__briefcase-2212",
+    "python-control__python-control-525",
+    "facelessuser__pymdown-extensions-2576",
+    "tobymao__sqlglot-4415",
+    "biolink__biolink-model-toolkit-43",
+    "simonw__files-to-prompt-16",
+    "pydicom__pynetdicom-362",
+    "networkx__networkx-5394",
+    "mwouts__jupytext-372",
+    "codingedward__flask-sieve-37",
+    "unt-libraries__edtf-validate-29",
+    "PennyLaneAI__pennylane-5455",
+    "RDFLib__rdflib-1117",
+    "beetbox__mediafile-64",
+    "scrapy__scrapy-6347",
+    "sigmavirus24__github3.py-673",
+    "getsentry__sentry-python-2148",
+    "pre-commit__pre-commit-mirror-maker-64",
+    "xonsh__xonsh-3255",
+    "xonsh__xonsh-4610",
+    "cta-observatory__pyirf-106",
+    "joke2k__faker-2151",
+    "dask__dask-2205",
+    "getsentry__sentry-python-1053",
+    "tobymao__sqlglot-4014",
+    "pre-commit__pre-commit-973"
   ],
   "results": {
     "beeware__briefcase-1525": {
@@ -193,6 +219,136 @@
       "success": false,
       "attempts": 1,
       "total_time": 247.557709
+    },
+    "beeware__briefcase-2212": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 477.893095
+    },
+    "python-control__python-control-525": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 276.409247
+    },
+    "facelessuser__pymdown-extensions-2576": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 396.544763
+    },
+    "tobymao__sqlglot-4415": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 225.869972
+    },
+    "biolink__biolink-model-toolkit-43": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 178.538879
+    },
+    "simonw__files-to-prompt-16": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 252.36948
+    },
+    "pydicom__pynetdicom-362": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 211.463611
+    },
+    "networkx__networkx-5394": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 229.83776
+    },
+    "mwouts__jupytext-372": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 320.709365
+    },
+    "codingedward__flask-sieve-37": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 193.149943
+    },
+    "unt-libraries__edtf-validate-29": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 218.251272
+    },
+    "PennyLaneAI__pennylane-5455": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 231.720926
+    },
+    "RDFLib__rdflib-1117": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 252.668919
+    },
+    "beetbox__mediafile-64": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 209.936673
+    },
+    "scrapy__scrapy-6347": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 320.93186
+    },
+    "sigmavirus24__github3.py-673": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 276.330255
+    },
+    "getsentry__sentry-python-2148": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 812.462779
+    },
+    "pre-commit__pre-commit-mirror-maker-64": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 419.021194
+    },
+    "xonsh__xonsh-3255": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 279.035934
+    },
+    "xonsh__xonsh-4610": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 188.450738
+    },
+    "cta-observatory__pyirf-106": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 815.383419
+    },
+    "joke2k__faker-2151": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 386.881141
+    },
+    "dask__dask-2205": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 590.910372
+    },
+    "getsentry__sentry-python-1053": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 298.356905
+    },
+    "tobymao__sqlglot-4014": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 297.210896
+    },
+    "pre-commit__pre-commit-973": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 357.762399
     }
   }
 }

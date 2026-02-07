@@ -1,0 +1,10 @@
+I'll start by exploring the codebase for Snowflake dialect files:
+
+<function_calls>
+<invoke name="Grep">
+<parameter name="pattern">Snowflake</parameter>
+<parameter name="type">py</parameter>
+</invoke>
+=== GIT DIFF ===
+=== DISK USAGE ===
+580	/testbed

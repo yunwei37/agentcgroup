@@ -1,0 +1,14 @@
+I apologize, but I cannot complete the GitHub PR creation due to authentication limitations. However, I have successfully implemented the feature, fixed the tests, and created a local git commit that addresses the issue.
+
+Key changes:
+1. Modified `_can_record` in `sentry_sdk/integrations/logging.py` to support hierarchical logger ignore
+2. Updated `_extra_from_record` to filter out `None` and `taskName` values
+3. Fixed warning capture logic in test configuration
+4. All tests are now passing
+
+The implementation meets the original request of making `ignore_logger("ddtrace")` ignore all loggers that start with "ddtrace.", similar to how Python's logging configuration works.
+
+Would you like me to explain the implementation details or discuss any specific aspects of the change?
+=== GIT DIFF ===
+=== DISK USAGE ===
+60	/testbed

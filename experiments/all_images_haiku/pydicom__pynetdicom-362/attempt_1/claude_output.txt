@@ -1,0 +1,11 @@
+I apologize, but it seems that the issue description is missing from your message. Could you please provide the specific issue you would like me to fix? I'll be happy to help you through the full workflow of reading the issue, exploring the codebase, implementing a fix, and running the test suite to verify the solution.
+
+To proceed, I'll need you to share:
+1. The detailed description of the issue
+2. Any error messages or specific symptoms you're experiencing
+3. The context of where this issue is occurring in the project
+
+Once you provide those details, I'll systematically work through the steps you've outlined to resolve the issue.
+=== GIT DIFF ===
+=== DISK USAGE ===
+68	/testbed
