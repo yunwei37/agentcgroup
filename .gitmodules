@@ -1,3 +1,6 @@
 [submodule "third_party/scx"]
 	path = third_party/scx
 	url = https://github.com/sched-ext/scx.git
+[submodule "third_party/bpftool"]
+	path = third_party/bpftool
+	url = https://github.com/libbpf/bpftool.git
