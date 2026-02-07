@@ -1,0 +1,18 @@
+
+=== GIT DIFF ===
+diff --git a/sqlglot/dialects/mysql.py b/sqlglot/dialects/mysql.py
+index d7a2d926..d1a7f1d6 100644
+--- a/sqlglot/dialects/mysql.py
++++ b/sqlglot/dialects/mysql.py
+@@ -173,7 +173,8 @@ class MySQL(Dialect):
+         "%k": "%-H",
+         "%l": "%-I",
+         "%T": "%H:%M:%S",
+-        "%W": "%a",
++        "%W": "%W",
++        "%a": "%W",
+     }
+ 
+     class Tokenizer(tokens.Tokenizer):
+=== DISK USAGE ===
+582	/testbed

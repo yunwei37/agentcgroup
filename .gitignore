@@ -30,3 +30,6 @@ __pycache__/
 
 # Data files (traces)
 data/
+
+# Linux kernel source/build (too large for GitHub)
+memcg/linux/

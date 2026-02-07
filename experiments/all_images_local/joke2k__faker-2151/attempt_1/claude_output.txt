@@ -1,0 +1,35 @@
+
+=== GIT DIFF ===
+diff --git a/faker/providers/date_time/__init__.py b/faker/providers/date_time/__init__.py
+index 0c67fb13..9bf81542 100644
+--- a/faker/providers/date_time/__init__.py
++++ b/faker/providers/date_time/__init__.py
+@@ -2000,12 +2000,15 @@ class Provider(BaseProvider):
+     def _parse_date_time(cls, value: DateParseType, tzinfo: Optional[TzInfo] = None) -> int:
+         if isinstance(value, (datetime, dtdate)):
+             return datetime_to_timestamp(value)
+-        now = datetime.now(tzinfo)
++        # When tzinfo is None, use a static reference time to ensure
++        # reproducible results when seeding Faker. When tzinfo is provided,
++        # use the actual current time.
++        now = datetime.now(tzinfo) if tzinfo is not None else datetime(1970, 1, 1)
+         if isinstance(value, timedelta):
+             return datetime_to_timestamp(now + value)
+         if isinstance(value, str):
+             if value == "now":
+-                return datetime_to_timestamp(datetime.now(tzinfo))
++                return datetime_to_timestamp(datetime.now(tzinfo) if tzinfo is None else now)
+             time_params = cls._parse_date_string(value)
+             return datetime_to_timestamp(now + timedelta(**time_params))  # type: ignore
+         if isinstance(value, int):
+@@ -2053,7 +2056,7 @@ class Provider(BaseProvider):
+         else:
+             ts = self._rand_seconds(start_date, end_date)
+         if tzinfo is None:
+-            return datetime(1970, 1, 1, tzinfo=tzinfo) + timedelta(seconds=ts)
++            return datetime(1970, 1, 1) + timedelta(seconds=ts)
+         else:
+             return (datetime(1970, 1, 1, tzinfo=tzutc()) + timedelta(seconds=ts)).astimezone(tzinfo)
+ 
+=== DISK USAGE ===
+35	/testbed

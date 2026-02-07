@@ -1,0 +1,5198 @@
+{
+  "samples": [
+    {
+      "timestamp": "2026-02-06T21:16:21.713794",
+      "epoch": 1770441381.7138042,
+      "mem_usage": "12.02MB / 134.5GB",
+      "mem_percent": "0.01%",
+      "cpu_percent": "103.79%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:22.748216",
+      "epoch": 1770441382.7482264,
+      "mem_usage": "185.4MB / 134.5GB",
+      "mem_percent": "0.14%",
+      "cpu_percent": "60.89%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:23.792505",
+      "epoch": 1770441383.7925138,
+      "mem_usage": "193.2MB / 134.5GB",
+      "mem_percent": "0.14%",
+      "cpu_percent": "44.91%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:24.839032",
+      "epoch": 1770441384.8390427,
+      "mem_usage": "193.4MB / 134.5GB",
+      "mem_percent": "0.14%",
+      "cpu_percent": "31.53%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:25.874570",
+      "epoch": 1770441385.874581,
+      "mem_usage": "192.1MB / 134.5GB",
+      "mem_percent": "0.14%",
+      "cpu_percent": "24.89%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:26.925691",
+      "epoch": 1770441386.9257026,
+      "mem_usage": "192.1MB / 134.5GB",
+      "mem_percent": "0.14%",
+      "cpu_percent": "20.30%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:27.969722",
+      "epoch": 1770441387.9697387,
+      "mem_usage": "194MB / 134.5GB",
+      "mem_percent": "0.14%",
+      "cpu_percent": "17.67%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:29.022007",
+      "epoch": 1770441389.0220196,
+      "mem_usage": "196.5MB / 134.5GB",
+      "mem_percent": "0.15%",
+      "cpu_percent": "16.29%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:30.062688",
+      "epoch": 1770441390.0626967,
+      "mem_usage": "197.7MB / 134.5GB",
+      "mem_percent": "0.15%",
+      "cpu_percent": "16.70%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:31.103617",
+      "epoch": 1770441391.1036272,
+      "mem_usage": "197.7MB / 134.5GB",
+      "mem_percent": "0.15%",
+      "cpu_percent": "14.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:32.145123",
+      "epoch": 1770441392.1451416,
+      "mem_usage": "199.1MB / 134.5GB",
+      "mem_percent": "0.15%",
+      "cpu_percent": "14.14%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:33.193451",
+      "epoch": 1770441393.1934621,
+      "mem_usage": "199.1MB / 134.5GB",
+      "mem_percent": "0.15%",
+      "cpu_percent": "13.26%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:34.245388",
+      "epoch": 1770441394.2453995,
+      "mem_usage": "206.8MB / 134.5GB",
+      "mem_percent": "0.15%",
+      "cpu_percent": "13.12%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:35.287628",
+      "epoch": 1770441395.2876377,
+      "mem_usage": "211.8MB / 134.5GB",
+      "mem_percent": "0.16%",
+      "cpu_percent": "13.00%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:36.335662",
+      "epoch": 1770441396.335678,
+      "mem_usage": "219.2MB / 134.5GB",
+      "mem_percent": "0.16%",
+      "cpu_percent": "12.67%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:37.382669",
+      "epoch": 1770441397.3826797,
+      "mem_usage": "221.7MB / 134.5GB",
+      "mem_percent": "0.16%",
+      "cpu_percent": "12.45%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:38.419540",
+      "epoch": 1770441398.419565,
+      "mem_usage": "285.5MB / 134.5GB",
+      "mem_percent": "0.21%",
+      "cpu_percent": "14.50%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:39.461126",
+      "epoch": 1770441399.4611363,
+      "mem_usage": "285.5MB / 134.5GB",
+      "mem_percent": "0.21%",
+      "cpu_percent": "13.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:40.495587",
+      "epoch": 1770441400.495597,
+      "mem_usage": "285.5MB / 134.5GB",
+      "mem_percent": "0.21%",
+      "cpu_percent": "12.91%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:41.540096",
+      "epoch": 1770441401.5401103,
+      "mem_usage": "285.5MB / 134.5GB",
+      "mem_percent": "0.21%",
+      "cpu_percent": "12.24%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:42.574712",
+      "epoch": 1770441402.5747228,
+      "mem_usage": "285.6MB / 134.5GB",
+      "mem_percent": "0.21%",
+      "cpu_percent": "11.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:43.619972",
+      "epoch": 1770441403.619982,
+      "mem_usage": "286.8MB / 134.5GB",
+      "mem_percent": "0.21%",
+      "cpu_percent": "11.44%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:44.658596",
+      "epoch": 1770441404.6586063,
+      "mem_usage": "289.7MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "11.14%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:45.703248",
+      "epoch": 1770441405.7032573,
+      "mem_usage": "314.3MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "12.22%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:46.743761",
+      "epoch": 1770441406.7437716,
+      "mem_usage": "314.3MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "11.72%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:47.791181",
+      "epoch": 1770441407.7911904,
+      "mem_usage": "314.3MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "11.25%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:48.823774",
+      "epoch": 1770441408.823784,
+      "mem_usage": "314.3MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "10.83%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:49.865022",
+      "epoch": 1770441409.8650322,
+      "mem_usage": "314.3MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "10.43%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:50.908372",
+      "epoch": 1770441410.908388,
+      "mem_usage": "314.3MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "10.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:51.947104",
+      "epoch": 1770441411.9471142,
+      "mem_usage": "314.3MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "9.72%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:52.988098",
+      "epoch": 1770441412.9881086,
+      "mem_usage": "314.3MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "9.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:54.027594",
+      "epoch": 1770441414.0276098,
+      "mem_usage": "314.3MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "9.29%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:55.067074",
+      "epoch": 1770441415.0670857,
+      "mem_usage": "330.1MB / 134.5GB",
+      "mem_percent": "0.25%",
+      "cpu_percent": "9.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:56.108831",
+      "epoch": 1770441416.1088512,
+      "mem_usage": "390.6MB / 134.5GB",
+      "mem_percent": "0.29%",
+      "cpu_percent": "10.43%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:57.152863",
+      "epoch": 1770441417.152872,
+      "mem_usage": "390.8MB / 134.5GB",
+      "mem_percent": "0.29%",
+      "cpu_percent": "10.30%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:58.197828",
+      "epoch": 1770441418.1978369,
+      "mem_usage": "390.8MB / 134.5GB",
+      "mem_percent": "0.29%",
+      "cpu_percent": "10.09%"
+    },
+    {
+      "timestamp": "2026-02-06T21:16:59.241553",
+      "epoch": 1770441419.2415638,
+      "mem_usage": "391.2MB / 134.5GB",
+      "mem_percent": "0.29%",
+      "cpu_percent": "9.95%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:00.281484",
+      "epoch": 1770441420.2814953,
+      "mem_usage": "452.5MB / 134.5GB",
+      "mem_percent": "0.34%",
+      "cpu_percent": "10.21%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:01.325219",
+      "epoch": 1770441421.3252304,
+      "mem_usage": "452.5MB / 134.5GB",
+      "mem_percent": "0.34%",
+      "cpu_percent": "9.99%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:02.362817",
+      "epoch": 1770441422.3628268,
+      "mem_usage": "338.8MB / 134.5GB",
+      "mem_percent": "0.25%",
+      "cpu_percent": "10.24%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:03.402633",
+      "epoch": 1770441423.402644,
+      "mem_usage": "338.8MB / 134.5GB",
+      "mem_percent": "0.25%",
+      "cpu_percent": "10.02%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:04.435445",
+      "epoch": 1770441424.4354544,
+      "mem_usage": "341.5MB / 134.5GB",
+      "mem_percent": "0.25%",
+      "cpu_percent": "9.89%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:05.474139",
+      "epoch": 1770441425.4741502,
+      "mem_usage": "391.7MB / 134.5GB",
+      "mem_percent": "0.29%",
+      "cpu_percent": "9.85%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:06.516103",
+      "epoch": 1770441426.5161145,
+      "mem_usage": "391.7MB / 134.5GB",
+      "mem_percent": "0.29%",
+      "cpu_percent": "9.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:07.554296",
+      "epoch": 1770441427.5543067,
+      "mem_usage": "391.8MB / 134.5GB",
+      "mem_percent": "0.29%",
+      "cpu_percent": "9.57%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:08.597134",
+      "epoch": 1770441428.597145,
+      "mem_usage": "391.8MB / 134.5GB",
+      "mem_percent": "0.29%",
+      "cpu_percent": "9.44%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:09.639094",
+      "epoch": 1770441429.639106,
+      "mem_usage": "402.1MB / 134.5GB",
+      "mem_percent": "0.30%",
+      "cpu_percent": "10.16%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:10.686488",
+      "epoch": 1770441430.686502,
+      "mem_usage": "402.6MB / 134.5GB",
+      "mem_percent": "0.30%",
+      "cpu_percent": "9.97%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:11.730762",
+      "epoch": 1770441431.7307723,
+      "mem_usage": "402.6MB / 134.5GB",
+      "mem_percent": "0.30%",
+      "cpu_percent": "9.76%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:12.775192",
+      "epoch": 1770441432.775202,
+      "mem_usage": "402.6MB / 134.5GB",
+      "mem_percent": "0.30%",
+      "cpu_percent": "9.57%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:13.821486",
+      "epoch": 1770441433.8214965,
+      "mem_usage": "402.6MB / 134.5GB",
+      "mem_percent": "0.30%",
+      "cpu_percent": "9.37%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:14.862653",
+      "epoch": 1770441434.8626633,
+      "mem_usage": "402.6MB / 134.5GB",
+      "mem_percent": "0.30%",
+      "cpu_percent": "9.19%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:15.897618",
+      "epoch": 1770441435.8976295,
+      "mem_usage": "402.6MB / 134.5GB",
+      "mem_percent": "0.30%",
+      "cpu_percent": "9.02%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:16.945524",
+      "epoch": 1770441436.9455342,
+      "mem_usage": "402.6MB / 134.5GB",
+      "mem_percent": "0.30%",
+      "cpu_percent": "8.85%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:17.990139",
+      "epoch": 1770441437.990151,
+      "mem_usage": "402.6MB / 134.5GB",
+      "mem_percent": "0.30%",
+      "cpu_percent": "8.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:19.029396",
+      "epoch": 1770441439.0294054,
+      "mem_usage": "236.8MB / 134.5GB",
+      "mem_percent": "0.18%",
+      "cpu_percent": "8.65%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:20.071459",
+      "epoch": 1770441440.0714693,
+      "mem_usage": "233.9MB / 134.5GB",
+      "mem_percent": "0.17%",
+      "cpu_percent": "8.59%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:21.110705",
+      "epoch": 1770441441.1107159,
+      "mem_usage": "234.9MB / 134.5GB",
+      "mem_percent": "0.17%",
+      "cpu_percent": "8.52%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:22.156382",
+      "epoch": 1770441442.1563933,
+      "mem_usage": "234.7MB / 134.5GB",
+      "mem_percent": "0.17%",
+      "cpu_percent": "8.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:23.195422",
+      "epoch": 1770441443.1954312,
+      "mem_usage": "234.9MB / 134.5GB",
+      "mem_percent": "0.17%",
+      "cpu_percent": "8.35%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:24.233574",
+      "epoch": 1770441444.2335854,
+      "mem_usage": "234.8MB / 134.5GB",
+      "mem_percent": "0.17%",
+      "cpu_percent": "8.22%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:25.270461",
+      "epoch": 1770441445.2704709,
+      "mem_usage": "369.4MB / 134.5GB",
+      "mem_percent": "0.27%",
+      "cpu_percent": "8.44%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:26.321369",
+      "epoch": 1770441446.3213804,
+      "mem_usage": "369.9MB / 134.5GB",
+      "mem_percent": "0.28%",
+      "cpu_percent": "8.39%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:27.366082",
+      "epoch": 1770441447.3661063,
+      "mem_usage": "370.2MB / 134.5GB",
+      "mem_percent": "0.28%",
+      "cpu_percent": "8.30%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:28.416877",
+      "epoch": 1770441448.416891,
+      "mem_usage": "381.1MB / 134.5GB",
+      "mem_percent": "0.28%",
+      "cpu_percent": "8.53%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:29.460660",
+      "epoch": 1770441449.4606712,
+      "mem_usage": "449.3MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "8.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:30.501441",
+      "epoch": 1770441450.5014505,
+      "mem_usage": "481.6MB / 134.5GB",
+      "mem_percent": "0.36%",
+      "cpu_percent": "8.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:31.539351",
+      "epoch": 1770441451.5393615,
+      "mem_usage": "583MB / 134.5GB",
+      "mem_percent": "0.43%",
+      "cpu_percent": "8.82%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:32.585684",
+      "epoch": 1770441452.585697,
+      "mem_usage": "583MB / 134.5GB",
+      "mem_percent": "0.43%",
+      "cpu_percent": "8.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:33.624751",
+      "epoch": 1770441453.6247609,
+      "mem_usage": "661.9MB / 134.5GB",
+      "mem_percent": "0.49%",
+      "cpu_percent": "8.84%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:34.677126",
+      "epoch": 1770441454.677137,
+      "mem_usage": "795.4MB / 134.5GB",
+      "mem_percent": "0.59%",
+      "cpu_percent": "9.11%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:35.721201",
+      "epoch": 1770441455.7212217,
+      "mem_usage": "795.4MB / 134.5GB",
+      "mem_percent": "0.59%",
+      "cpu_percent": "8.99%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:36.762563",
+      "epoch": 1770441456.7625735,
+      "mem_usage": "795.4MB / 134.5GB",
+      "mem_percent": "0.59%",
+      "cpu_percent": "8.86%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:37.801419",
+      "epoch": 1770441457.8014271,
+      "mem_usage": "795.4MB / 134.5GB",
+      "mem_percent": "0.59%",
+      "cpu_percent": "8.75%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:38.849199",
+      "epoch": 1770441458.8492095,
+      "mem_usage": "795.4MB / 134.5GB",
+      "mem_percent": "0.59%",
+      "cpu_percent": "8.63%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:39.882667",
+      "epoch": 1770441459.8826776,
+      "mem_usage": "795.4MB / 134.5GB",
+      "mem_percent": "0.59%",
+      "cpu_percent": "8.52%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:40.921953",
+      "epoch": 1770441460.9219635,
+      "mem_usage": "795.4MB / 134.5GB",
+      "mem_percent": "0.59%",
+      "cpu_percent": "8.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:41.963945",
+      "epoch": 1770441461.9639585,
+      "mem_usage": "255MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.41%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:43.005983",
+      "epoch": 1770441463.0059938,
+      "mem_usage": "252.4MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.44%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:44.045816",
+      "epoch": 1770441464.0458267,
+      "mem_usage": "252.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.33%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:45.087223",
+      "epoch": 1770441465.087234,
+      "mem_usage": "252.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.23%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:46.130799",
+      "epoch": 1770441466.1308103,
+      "mem_usage": "252.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.13%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:47.176346",
+      "epoch": 1770441467.1763568,
+      "mem_usage": "252.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.03%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:48.215755",
+      "epoch": 1770441468.2157707,
+      "mem_usage": "252.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.04%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:49.254586",
+      "epoch": 1770441469.254597,
+      "mem_usage": "433.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "8.24%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:50.297985",
+      "epoch": 1770441470.2979972,
+      "mem_usage": "433.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "8.24%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:51.340421",
+      "epoch": 1770441471.3404343,
+      "mem_usage": "420.9MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "8.47%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:52.384840",
+      "epoch": 1770441472.3848524,
+      "mem_usage": "420.9MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "8.37%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:53.418361",
+      "epoch": 1770441473.418372,
+      "mem_usage": "420.9MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "8.28%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:54.448123",
+      "epoch": 1770441474.4481313,
+      "mem_usage": "421.2MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "8.24%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:55.496858",
+      "epoch": 1770441475.4968677,
+      "mem_usage": "421.4MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "8.19%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:56.530872",
+      "epoch": 1770441476.530886,
+      "mem_usage": "421.7MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "8.16%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:57.573645",
+      "epoch": 1770441477.5736578,
+      "mem_usage": "421.9MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "8.09%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:58.617184",
+      "epoch": 1770441478.6171978,
+      "mem_usage": "421.9MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "8.01%"
+    },
+    {
+      "timestamp": "2026-02-06T21:17:59.651503",
+      "epoch": 1770441479.6515129,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.04%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:00.697688",
+      "epoch": 1770441480.6976962,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.00%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:01.737296",
+      "epoch": 1770441481.7373066,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.92%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:02.784044",
+      "epoch": 1770441482.784055,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.84%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:03.826980",
+      "epoch": 1770441483.8269904,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.76%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:04.858854",
+      "epoch": 1770441484.8588643,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:05.905326",
+      "epoch": 1770441485.9053364,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.60%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:06.938470",
+      "epoch": 1770441486.9384775,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.53%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:07.981989",
+      "epoch": 1770441487.9819996,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.45%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:09.020917",
+      "epoch": 1770441489.0209272,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.38%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:10.058460",
+      "epoch": 1770441490.0584705,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:11.095642",
+      "epoch": 1770441491.0956516,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.24%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:12.140125",
+      "epoch": 1770441492.1401355,
+      "mem_usage": "252.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.17%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:13.177468",
+      "epoch": 1770441493.1774774,
+      "mem_usage": "253MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.16%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:14.211614",
+      "epoch": 1770441494.2116244,
+      "mem_usage": "419.6MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "7.36%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:15.253103",
+      "epoch": 1770441495.253115,
+      "mem_usage": "428MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.58%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:16.283628",
+      "epoch": 1770441496.2836401,
+      "mem_usage": "428.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.56%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:17.322948",
+      "epoch": 1770441497.3229601,
+      "mem_usage": "428.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.53%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:18.363981",
+      "epoch": 1770441498.363992,
+      "mem_usage": "428.9MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.49%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:19.416740",
+      "epoch": 1770441499.4167516,
+      "mem_usage": "429.1MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.46%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:20.462736",
+      "epoch": 1770441500.4627473,
+      "mem_usage": "429.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.45%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:21.509481",
+      "epoch": 1770441501.509492,
+      "mem_usage": "429.7MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:22.543892",
+      "epoch": 1770441502.543906,
+      "mem_usage": "389.5MB / 134.5GB",
+      "mem_percent": "0.29%",
+      "cpu_percent": "7.52%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:23.594076",
+      "epoch": 1770441503.594089,
+      "mem_usage": "423.2MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "7.59%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:24.629643",
+      "epoch": 1770441504.629654,
+      "mem_usage": "423.2MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "7.54%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:25.677010",
+      "epoch": 1770441505.677033,
+      "mem_usage": "424MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:26.734670",
+      "epoch": 1770441506.7346845,
+      "mem_usage": "424MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.47%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:27.777517",
+      "epoch": 1770441507.7775307,
+      "mem_usage": "498.8MB / 134.5GB",
+      "mem_percent": "0.37%",
+      "cpu_percent": "7.56%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:28.821985",
+      "epoch": 1770441508.8219965,
+      "mem_usage": "423MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "7.61%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:29.858294",
+      "epoch": 1770441509.8583047,
+      "mem_usage": "423.3MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "7.56%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:30.910606",
+      "epoch": 1770441510.9106324,
+      "mem_usage": "499.3MB / 134.5GB",
+      "mem_percent": "0.37%",
+      "cpu_percent": "7.63%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:31.953277",
+      "epoch": 1770441511.9532874,
+      "mem_usage": "560.7MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "7.67%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:32.990886",
+      "epoch": 1770441512.9909003,
+      "mem_usage": "697.3MB / 134.5GB",
+      "mem_percent": "0.52%",
+      "cpu_percent": "7.78%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:34.040471",
+      "epoch": 1770441514.0404818,
+      "mem_usage": "697.3MB / 134.5GB",
+      "mem_percent": "0.52%",
+      "cpu_percent": "7.72%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:35.087128",
+      "epoch": 1770441515.0871367,
+      "mem_usage": "697.4MB / 134.5GB",
+      "mem_percent": "0.52%",
+      "cpu_percent": "7.70%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:36.129367",
+      "epoch": 1770441516.1293764,
+      "mem_usage": "834.2MB / 134.5GB",
+      "mem_percent": "0.62%",
+      "cpu_percent": "7.81%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:37.175572",
+      "epoch": 1770441517.1755807,
+      "mem_usage": "971MB / 134.5GB",
+      "mem_percent": "0.72%",
+      "cpu_percent": "7.92%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:38.218400",
+      "epoch": 1770441518.218409,
+      "mem_usage": "971MB / 134.5GB",
+      "mem_percent": "0.72%",
+      "cpu_percent": "7.87%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:39.259124",
+      "epoch": 1770441519.2591326,
+      "mem_usage": "971MB / 134.5GB",
+      "mem_percent": "0.72%",
+      "cpu_percent": "7.82%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:40.302125",
+      "epoch": 1770441520.302135,
+      "mem_usage": "971MB / 134.5GB",
+      "mem_percent": "0.72%",
+      "cpu_percent": "7.77%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:41.340240",
+      "epoch": 1770441521.340252,
+      "mem_usage": "971.4MB / 134.5GB",
+      "mem_percent": "0.72%",
+      "cpu_percent": "7.73%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:42.376983",
+      "epoch": 1770441522.3769922,
+      "mem_usage": "426MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.90%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:43.421956",
+      "epoch": 1770441523.421967,
+      "mem_usage": "426MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.84%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:44.464249",
+      "epoch": 1770441524.4642572,
+      "mem_usage": "562.8MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "7.96%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:45.516022",
+      "epoch": 1770441525.516035,
+      "mem_usage": "562.8MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "7.91%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:46.554150",
+      "epoch": 1770441526.55416,
+      "mem_usage": "699.4MB / 134.5GB",
+      "mem_percent": "0.52%",
+      "cpu_percent": "8.03%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:47.598549",
+      "epoch": 1770441527.598558,
+      "mem_usage": "699.4MB / 134.5GB",
+      "mem_percent": "0.52%",
+      "cpu_percent": "7.98%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:48.637697",
+      "epoch": 1770441528.6377063,
+      "mem_usage": "836.3MB / 134.5GB",
+      "mem_percent": "0.62%",
+      "cpu_percent": "8.10%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:49.673145",
+      "epoch": 1770441529.6731572,
+      "mem_usage": "876MB / 134.5GB",
+      "mem_percent": "0.65%",
+      "cpu_percent": "8.14%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:50.719545",
+      "epoch": 1770441530.7195537,
+      "mem_usage": "972.8MB / 134.5GB",
+      "mem_percent": "0.72%",
+      "cpu_percent": "8.17%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:51.765139",
+      "epoch": 1770441531.7651505,
+      "mem_usage": "972.8MB / 134.5GB",
+      "mem_percent": "0.72%",
+      "cpu_percent": "8.11%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:52.806224",
+      "epoch": 1770441532.8062332,
+      "mem_usage": "972.8MB / 134.5GB",
+      "mem_percent": "0.72%",
+      "cpu_percent": "8.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:53.847061",
+      "epoch": 1770441533.8470726,
+      "mem_usage": "972.8MB / 134.5GB",
+      "mem_percent": "0.72%",
+      "cpu_percent": "8.03%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:54.890066",
+      "epoch": 1770441534.8900776,
+      "mem_usage": "972.8MB / 134.5GB",
+      "mem_percent": "0.72%",
+      "cpu_percent": "7.99%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:55.941114",
+      "epoch": 1770441535.9411252,
+      "mem_usage": "258MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.03%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:56.981843",
+      "epoch": 1770441536.981855,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.07%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:58.030394",
+      "epoch": 1770441538.0304055,
+      "mem_usage": "255.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "8.03%"
+    },
+    {
+      "timestamp": "2026-02-06T21:18:59.067368",
+      "epoch": 1770441539.067379,
+      "mem_usage": "256.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.99%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:00.112708",
+      "epoch": 1770441540.112719,
+      "mem_usage": "256.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.95%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:01.156441",
+      "epoch": 1770441541.1564527,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.91%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:02.205832",
+      "epoch": 1770441542.2058427,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.86%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:03.249783",
+      "epoch": 1770441543.2497957,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:04.295478",
+      "epoch": 1770441544.2954924,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.75%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:05.340204",
+      "epoch": 1770441545.3402245,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.70%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:06.374111",
+      "epoch": 1770441546.374124,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:07.419352",
+      "epoch": 1770441547.4193826,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.61%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:08.479068",
+      "epoch": 1770441548.4790802,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.56%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:09.517237",
+      "epoch": 1770441549.5172462,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:10.558580",
+      "epoch": 1770441550.5585904,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.47%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:11.599039",
+      "epoch": 1770441551.599048,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.42%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:12.647508",
+      "epoch": 1770441552.6475198,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.38%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:13.684254",
+      "epoch": 1770441553.6842651,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.33%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:14.725004",
+      "epoch": 1770441554.725015,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.29%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:15.766501",
+      "epoch": 1770441555.7665114,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.24%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:16.819682",
+      "epoch": 1770441556.8196929,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.20%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:17.861757",
+      "epoch": 1770441557.8617682,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.16%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:18.908481",
+      "epoch": 1770441558.9084895,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.12%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:19.944611",
+      "epoch": 1770441559.9446216,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.08%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:20.987018",
+      "epoch": 1770441560.987029,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.04%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:22.034026",
+      "epoch": 1770441562.0340374,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.00%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:23.086504",
+      "epoch": 1770441563.0865295,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.96%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:24.131157",
+      "epoch": 1770441564.131168,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.92%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:25.178192",
+      "epoch": 1770441565.178204,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:26.220745",
+      "epoch": 1770441566.2207708,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.84%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:27.268026",
+      "epoch": 1770441567.2680395,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:28.305991",
+      "epoch": 1770441568.3060198,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.76%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:29.360521",
+      "epoch": 1770441569.3605323,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.72%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:30.407385",
+      "epoch": 1770441570.407396,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:31.450066",
+      "epoch": 1770441571.4500766,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.65%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:32.493469",
+      "epoch": 1770441572.4934797,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.61%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:33.532014",
+      "epoch": 1770441573.5320249,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.58%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:34.574476",
+      "epoch": 1770441574.5744846,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.54%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:35.607635",
+      "epoch": 1770441575.6076458,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:36.647768",
+      "epoch": 1770441576.6477785,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.47%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:37.697226",
+      "epoch": 1770441577.6972346,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.44%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:38.742458",
+      "epoch": 1770441578.7424676,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:39.788502",
+      "epoch": 1770441579.7885122,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.37%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:40.841169",
+      "epoch": 1770441580.8411782,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.34%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:41.891313",
+      "epoch": 1770441581.8913238,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.30%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:42.938391",
+      "epoch": 1770441582.9384017,
+      "mem_usage": "255.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.27%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:43.978906",
+      "epoch": 1770441583.9789307,
+      "mem_usage": "422.4MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "6.38%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:45.025894",
+      "epoch": 1770441585.0259044,
+      "mem_usage": "422.4MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "6.35%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:46.065934",
+      "epoch": 1770441586.0659587,
+      "mem_usage": "422.4MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "6.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:47.103362",
+      "epoch": 1770441587.1033754,
+      "mem_usage": "422.4MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "6.28%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:48.148080",
+      "epoch": 1770441588.1480904,
+      "mem_usage": "422.4MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "6.25%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:49.191002",
+      "epoch": 1770441589.1910112,
+      "mem_usage": "422.5MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "6.22%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:50.227328",
+      "epoch": 1770441590.227338,
+      "mem_usage": "422.9MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "6.20%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:51.264584",
+      "epoch": 1770441591.2645957,
+      "mem_usage": "423.5MB / 134.5GB",
+      "mem_percent": "0.31%",
+      "cpu_percent": "6.19%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:52.304222",
+      "epoch": 1770441592.3042347,
+      "mem_usage": "256.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.20%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:53.342525",
+      "epoch": 1770441593.3425362,
+      "mem_usage": "256.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.21%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:54.380558",
+      "epoch": 1770441594.3805676,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.20%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:55.422380",
+      "epoch": 1770441595.422391,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.18%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:56.461785",
+      "epoch": 1770441596.4617965,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.16%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:57.506451",
+      "epoch": 1770441597.5064619,
+      "mem_usage": "256.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.15%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:58.552554",
+      "epoch": 1770441598.552565,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.13%"
+    },
+    {
+      "timestamp": "2026-02-06T21:19:59.596676",
+      "epoch": 1770441599.5966873,
+      "mem_usage": "258.4MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.11%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:00.642047",
+      "epoch": 1770441600.6420562,
+      "mem_usage": "258.4MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.09%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:01.687580",
+      "epoch": 1770441601.6875904,
+      "mem_usage": "258.4MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.07%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:02.731348",
+      "epoch": 1770441602.7313588,
+      "mem_usage": "258.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.05%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:03.765938",
+      "epoch": 1770441603.7659488,
+      "mem_usage": "258.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.03%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:04.804078",
+      "epoch": 1770441604.8040996,
+      "mem_usage": "258.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.01%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:05.851487",
+      "epoch": 1770441605.8514962,
+      "mem_usage": "258.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.99%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:06.892008",
+      "epoch": 1770441606.89202,
+      "mem_usage": "258.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.97%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:07.938333",
+      "epoch": 1770441607.9383428,
+      "mem_usage": "258.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.96%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:08.979539",
+      "epoch": 1770441608.979548,
+      "mem_usage": "258.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.94%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:10.031042",
+      "epoch": 1770441610.0310516,
+      "mem_usage": "260.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.92%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:11.076748",
+      "epoch": 1770441611.076757,
+      "mem_usage": "262.7MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.90%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:12.117209",
+      "epoch": 1770441612.1172202,
+      "mem_usage": "262.7MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:13.166283",
+      "epoch": 1770441613.1662931,
+      "mem_usage": "433MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.99%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:14.213043",
+      "epoch": 1770441614.2130547,
+      "mem_usage": "433MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.96%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:15.261126",
+      "epoch": 1770441615.2611547,
+      "mem_usage": "433MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.93%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:16.304394",
+      "epoch": 1770441616.3044188,
+      "mem_usage": "433MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.91%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:17.354940",
+      "epoch": 1770441617.354953,
+      "mem_usage": "433MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:18.400111",
+      "epoch": 1770441618.4001203,
+      "mem_usage": "433MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.86%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:19.453647",
+      "epoch": 1770441619.4536593,
+      "mem_usage": "433MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.83%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:20.504273",
+      "epoch": 1770441620.504282,
+      "mem_usage": "433MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:21.550740",
+      "epoch": 1770441621.5507572,
+      "mem_usage": "256MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.82%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:22.595339",
+      "epoch": 1770441622.5953505,
+      "mem_usage": "256.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.82%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:23.646148",
+      "epoch": 1770441623.6461604,
+      "mem_usage": "434.4MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.92%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:24.685424",
+      "epoch": 1770441624.6854365,
+      "mem_usage": "434.7MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.91%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:25.725328",
+      "epoch": 1770441625.7253394,
+      "mem_usage": "435.1MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.90%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:26.765175",
+      "epoch": 1770441626.7651865,
+      "mem_usage": "435.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.89%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:27.810966",
+      "epoch": 1770441627.8109784,
+      "mem_usage": "436MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:28.855259",
+      "epoch": 1770441628.8552713,
+      "mem_usage": "436.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:29.901292",
+      "epoch": 1770441629.9013035,
+      "mem_usage": "437MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.87%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:30.942272",
+      "epoch": 1770441630.9422832,
+      "mem_usage": "450.5MB / 134.5GB",
+      "mem_percent": "0.34%",
+      "cpu_percent": "5.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:31.978720",
+      "epoch": 1770441631.9787364,
+      "mem_usage": "424.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.94%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:33.021329",
+      "epoch": 1770441633.0213406,
+      "mem_usage": "424.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.92%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:34.069579",
+      "epoch": 1770441634.0695882,
+      "mem_usage": "562.3MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "5.98%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:35.115620",
+      "epoch": 1770441635.1156378,
+      "mem_usage": "562.3MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "5.96%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:36.161159",
+      "epoch": 1770441636.161171,
+      "mem_usage": "698.7MB / 134.5GB",
+      "mem_percent": "0.52%",
+      "cpu_percent": "6.03%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:37.210048",
+      "epoch": 1770441637.2100592,
+      "mem_usage": "432.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.13%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:38.253328",
+      "epoch": 1770441638.2533405,
+      "mem_usage": "569.3MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.19%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:39.293758",
+      "epoch": 1770441639.2937698,
+      "mem_usage": "569.3MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.17%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:40.340421",
+      "epoch": 1770441640.3404324,
+      "mem_usage": "569.3MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.15%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:41.380302",
+      "epoch": 1770441641.380313,
+      "mem_usage": "569.3MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.13%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:42.423018",
+      "epoch": 1770441642.423029,
+      "mem_usage": "569.7MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.13%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:43.467354",
+      "epoch": 1770441643.4673648,
+      "mem_usage": "426.4MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.21%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:44.511412",
+      "epoch": 1770441644.5114238,
+      "mem_usage": "426.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.20%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:45.562789",
+      "epoch": 1770441645.5628073,
+      "mem_usage": "563.8MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.26%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:46.612440",
+      "epoch": 1770441646.6124496,
+      "mem_usage": "563.8MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.24%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:47.658582",
+      "epoch": 1770441647.6585932,
+      "mem_usage": "563.8MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.23%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:48.710020",
+      "epoch": 1770441648.7100313,
+      "mem_usage": "564.4MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.22%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:49.756163",
+      "epoch": 1770441649.7561727,
+      "mem_usage": "564.5MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.20%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:50.801516",
+      "epoch": 1770441650.801541,
+      "mem_usage": "441.8MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.29%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:51.849238",
+      "epoch": 1770441651.8492494,
+      "mem_usage": "441.8MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.27%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:52.887336",
+      "epoch": 1770441652.8873472,
+      "mem_usage": "564.8MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:53.937967",
+      "epoch": 1770441653.937981,
+      "mem_usage": "564.8MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.30%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:54.978004",
+      "epoch": 1770441654.9780142,
+      "mem_usage": "564.8MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.28%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:56.026603",
+      "epoch": 1770441656.0266144,
+      "mem_usage": "564.8MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.26%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:57.069441",
+      "epoch": 1770441657.0694559,
+      "mem_usage": "701.7MB / 134.5GB",
+      "mem_percent": "0.52%",
+      "cpu_percent": "6.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:58.118567",
+      "epoch": 1770441658.1185765,
+      "mem_usage": "716MB / 134.5GB",
+      "mem_percent": "0.53%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:20:59.172701",
+      "epoch": 1770441659.1727147,
+      "mem_usage": "428.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.38%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:00.215574",
+      "epoch": 1770441660.2155845,
+      "mem_usage": "428.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.36%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:01.268434",
+      "epoch": 1770441661.2684467,
+      "mem_usage": "428.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.35%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:02.318304",
+      "epoch": 1770441662.3183134,
+      "mem_usage": "565.2MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:03.354542",
+      "epoch": 1770441663.354555,
+      "mem_usage": "565.2MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.39%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:04.402430",
+      "epoch": 1770441664.4024417,
+      "mem_usage": "565.2MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.38%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:05.451710",
+      "epoch": 1770441665.4517212,
+      "mem_usage": "565.3MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.36%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:06.498186",
+      "epoch": 1770441666.4981956,
+      "mem_usage": "565.4MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.34%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:07.543492",
+      "epoch": 1770441667.5435028,
+      "mem_usage": "565.6MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:08.590420",
+      "epoch": 1770441668.590433,
+      "mem_usage": "565.7MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:09.627442",
+      "epoch": 1770441669.627453,
+      "mem_usage": "565.7MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.29%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:10.678433",
+      "epoch": 1770441670.6784437,
+      "mem_usage": "565.7MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.27%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:11.720688",
+      "epoch": 1770441671.7206995,
+      "mem_usage": "305MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "6.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:12.753822",
+      "epoch": 1770441672.7538333,
+      "mem_usage": "431.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.47%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:13.796336",
+      "epoch": 1770441673.7963471,
+      "mem_usage": "431.9MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.45%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:14.839126",
+      "epoch": 1770441674.8391366,
+      "mem_usage": "431.9MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.44%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:15.885789",
+      "epoch": 1770441675.8857985,
+      "mem_usage": "432.1MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.42%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:16.932922",
+      "epoch": 1770441676.9329336,
+      "mem_usage": "432.3MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:17.967098",
+      "epoch": 1770441677.9671092,
+      "mem_usage": "432.4MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.39%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:18.997393",
+      "epoch": 1770441678.9974039,
+      "mem_usage": "435.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.44%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:20.041744",
+      "epoch": 1770441680.041755,
+      "mem_usage": "305.4MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "6.52%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:21.094961",
+      "epoch": 1770441681.0949757,
+      "mem_usage": "434.9MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.58%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:22.142534",
+      "epoch": 1770441682.142544,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.56%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:23.187998",
+      "epoch": 1770441683.1880126,
+      "mem_usage": "435.1MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.55%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:24.230812",
+      "epoch": 1770441684.2308235,
+      "mem_usage": "435.3MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.53%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:25.275935",
+      "epoch": 1770441685.2759454,
+      "mem_usage": "435.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.52%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:26.316401",
+      "epoch": 1770441686.3164122,
+      "mem_usage": "435.7MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:27.360375",
+      "epoch": 1770441687.360385,
+      "mem_usage": "435.9MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.50%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:28.407710",
+      "epoch": 1770441688.407719,
+      "mem_usage": "436.1MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.48%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:29.459131",
+      "epoch": 1770441689.4591506,
+      "mem_usage": "256.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:30.506801",
+      "epoch": 1770441690.506812,
+      "mem_usage": "257.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.50%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:31.548686",
+      "epoch": 1770441691.5486968,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.49%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:32.586418",
+      "epoch": 1770441692.5864296,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.48%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:33.620347",
+      "epoch": 1770441693.620358,
+      "mem_usage": "299.9MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.52%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:34.666516",
+      "epoch": 1770441694.6665251,
+      "mem_usage": "304.1MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "6.72%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:35.698513",
+      "epoch": 1770441695.698524,
+      "mem_usage": "436.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.89%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:36.738756",
+      "epoch": 1770441696.7387717,
+      "mem_usage": "437.1MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:37.776638",
+      "epoch": 1770441697.7766495,
+      "mem_usage": "437.6MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.87%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:38.814379",
+      "epoch": 1770441698.8143897,
+      "mem_usage": "437.7MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.85%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:39.851755",
+      "epoch": 1770441699.851769,
+      "mem_usage": "437.9MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.83%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:40.899629",
+      "epoch": 1770441700.8996434,
+      "mem_usage": "438.1MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.82%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:41.940224",
+      "epoch": 1770441701.9402356,
+      "mem_usage": "438.3MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:42.975235",
+      "epoch": 1770441702.9752595,
+      "mem_usage": "438.5MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.79%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:44.013862",
+      "epoch": 1770441704.013871,
+      "mem_usage": "257.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.79%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:45.058999",
+      "epoch": 1770441705.059025,
+      "mem_usage": "257.6MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:46.106498",
+      "epoch": 1770441706.1065118,
+      "mem_usage": "437.3MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.99%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:47.151823",
+      "epoch": 1770441707.1518338,
+      "mem_usage": "437.3MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.96%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:48.197296",
+      "epoch": 1770441708.1973164,
+      "mem_usage": "437.4MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.94%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:49.241150",
+      "epoch": 1770441709.2411623,
+      "mem_usage": "489.9MB / 134.5GB",
+      "mem_percent": "0.36%",
+      "cpu_percent": "6.97%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:50.289066",
+      "epoch": 1770441710.2890775,
+      "mem_usage": "425.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.99%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:51.336203",
+      "epoch": 1770441711.3362157,
+      "mem_usage": "425.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.97%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:52.380744",
+      "epoch": 1770441712.3807569,
+      "mem_usage": "426MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.96%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:53.425927",
+      "epoch": 1770441713.4259381,
+      "mem_usage": "444.7MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "7.02%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:54.470237",
+      "epoch": 1770441714.4702528,
+      "mem_usage": "478.6MB / 134.5GB",
+      "mem_percent": "0.36%",
+      "cpu_percent": "7.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:55.509569",
+      "epoch": 1770441715.5095794,
+      "mem_usage": "581.9MB / 134.5GB",
+      "mem_percent": "0.43%",
+      "cpu_percent": "7.18%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:56.543163",
+      "epoch": 1770441716.5431747,
+      "mem_usage": "581.9MB / 134.5GB",
+      "mem_percent": "0.43%",
+      "cpu_percent": "7.15%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:57.581411",
+      "epoch": 1770441717.5814254,
+      "mem_usage": "582MB / 134.5GB",
+      "mem_percent": "0.43%",
+      "cpu_percent": "7.14%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:58.625793",
+      "epoch": 1770441718.6258183,
+      "mem_usage": "727.7MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.19%"
+    },
+    {
+      "timestamp": "2026-02-06T21:21:59.677204",
+      "epoch": 1770441719.6772156,
+      "mem_usage": "727.7MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.17%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:00.724523",
+      "epoch": 1770441720.7245338,
+      "mem_usage": "728.2MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.16%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:01.772019",
+      "epoch": 1770441721.7720304,
+      "mem_usage": "728.2MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.14%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:02.818352",
+      "epoch": 1770441722.8183634,
+      "mem_usage": "728.2MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.12%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:03.862831",
+      "epoch": 1770441723.8628418,
+      "mem_usage": "728.2MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.10%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:04.905306",
+      "epoch": 1770441724.9053156,
+      "mem_usage": "728.2MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.09%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:05.947189",
+      "epoch": 1770441725.9471974,
+      "mem_usage": "728.2MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.08%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:06.991256",
+      "epoch": 1770441726.9912653,
+      "mem_usage": "728.2MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:08.033963",
+      "epoch": 1770441728.033975,
+      "mem_usage": "728.3MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:09.082291",
+      "epoch": 1770441729.0823026,
+      "mem_usage": "728.3MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.05%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:10.118347",
+      "epoch": 1770441730.1183586,
+      "mem_usage": "728.3MB / 134.5GB",
+      "mem_percent": "0.54%",
+      "cpu_percent": "7.04%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:11.154309",
+      "epoch": 1770441731.1543198,
+      "mem_usage": "257.6MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.07%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:12.187814",
+      "epoch": 1770441732.1878247,
+      "mem_usage": "258MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.08%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:13.224700",
+      "epoch": 1770441733.2247114,
+      "mem_usage": "258.6MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.07%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:14.271039",
+      "epoch": 1770441734.2710555,
+      "mem_usage": "258.6MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "7.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:15.314290",
+      "epoch": 1770441735.314301,
+      "mem_usage": "424.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.13%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:16.361701",
+      "epoch": 1770441736.3617148,
+      "mem_usage": "424.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.10%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:17.405856",
+      "epoch": 1770441737.4058733,
+      "mem_usage": "424.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.08%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:18.456615",
+      "epoch": 1770441738.4566236,
+      "mem_usage": "424.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:19.495051",
+      "epoch": 1770441739.495062,
+      "mem_usage": "424.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.04%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:20.534207",
+      "epoch": 1770441740.5342162,
+      "mem_usage": "424.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.02%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:21.578147",
+      "epoch": 1770441741.578156,
+      "mem_usage": "424.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "7.00%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:22.614470",
+      "epoch": 1770441742.6144805,
+      "mem_usage": "424.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.98%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:23.659878",
+      "epoch": 1770441743.6598942,
+      "mem_usage": "258.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.98%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:24.700256",
+      "epoch": 1770441744.7002647,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.98%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:25.744138",
+      "epoch": 1770441745.7441492,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.96%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:26.790490",
+      "epoch": 1770441746.7905006,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.94%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:27.831089",
+      "epoch": 1770441747.8311002,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.92%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:28.874648",
+      "epoch": 1770441748.8746583,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.90%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:29.918303",
+      "epoch": 1770441749.9183135,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:30.968313",
+      "epoch": 1770441750.968324,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.86%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:32.010029",
+      "epoch": 1770441752.0100398,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.84%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:33.045378",
+      "epoch": 1770441753.0453887,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.82%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:34.086989",
+      "epoch": 1770441754.0869987,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:35.131832",
+      "epoch": 1770441755.1318429,
+      "mem_usage": "257.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.78%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:36.177944",
+      "epoch": 1770441756.1779556,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.76%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:37.223776",
+      "epoch": 1770441757.2237854,
+      "mem_usage": "290.1MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:38.267826",
+      "epoch": 1770441758.267836,
+      "mem_usage": "437.9MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.91%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:39.310630",
+      "epoch": 1770441759.3106408,
+      "mem_usage": "438MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.90%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:40.353047",
+      "epoch": 1770441760.3530576,
+      "mem_usage": "438.3MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:41.389567",
+      "epoch": 1770441761.3895779,
+      "mem_usage": "425.7MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.94%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:42.434806",
+      "epoch": 1770441762.434817,
+      "mem_usage": "426.1MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.94%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:43.478828",
+      "epoch": 1770441763.4788392,
+      "mem_usage": "426.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.93%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:44.525454",
+      "epoch": 1770441764.5254674,
+      "mem_usage": "426.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.91%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:45.570316",
+      "epoch": 1770441765.5703275,
+      "mem_usage": "426.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.89%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:46.617091",
+      "epoch": 1770441766.6171014,
+      "mem_usage": "426.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:47.662014",
+      "epoch": 1770441767.6620228,
+      "mem_usage": "427MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:48.701105",
+      "epoch": 1770441768.7011187,
+      "mem_usage": "427.3MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.87%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:49.752816",
+      "epoch": 1770441769.7528274,
+      "mem_usage": "427.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.86%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:50.798632",
+      "epoch": 1770441770.7986414,
+      "mem_usage": "427.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.85%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:51.837328",
+      "epoch": 1770441771.837339,
+      "mem_usage": "427.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.84%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:52.880529",
+      "epoch": 1770441772.8805394,
+      "mem_usage": "428.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.84%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:53.923560",
+      "epoch": 1770441773.9235702,
+      "mem_usage": "258.4MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.84%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:54.973448",
+      "epoch": 1770441774.9734592,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.85%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:56.013075",
+      "epoch": 1770441776.0130873,
+      "mem_usage": "424.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.93%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:57.059536",
+      "epoch": 1770441777.0595474,
+      "mem_usage": "424.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.91%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:58.104433",
+      "epoch": 1770441778.1044452,
+      "mem_usage": "424.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.89%"
+    },
+    {
+      "timestamp": "2026-02-06T21:22:59.145480",
+      "epoch": 1770441779.1454904,
+      "mem_usage": "424.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.87%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:00.196400",
+      "epoch": 1770441780.1964107,
+      "mem_usage": "424.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.85%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:01.235159",
+      "epoch": 1770441781.2351701,
+      "mem_usage": "424.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.84%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:02.277477",
+      "epoch": 1770441782.2774873,
+      "mem_usage": "424.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.82%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:03.319123",
+      "epoch": 1770441783.3191352,
+      "mem_usage": "424.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:04.372683",
+      "epoch": 1770441784.3727133,
+      "mem_usage": "258.4MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:05.424118",
+      "epoch": 1770441785.424128,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.81%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:06.471456",
+      "epoch": 1770441786.4714813,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.79%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:07.509818",
+      "epoch": 1770441787.5098288,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.77%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:08.551495",
+      "epoch": 1770441788.5515046,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.76%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:09.599363",
+      "epoch": 1770441789.5993772,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:10.644581",
+      "epoch": 1770441790.6445959,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.72%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:11.688211",
+      "epoch": 1770441791.6882217,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.71%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:12.729567",
+      "epoch": 1770441792.7295773,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:13.778489",
+      "epoch": 1770441793.7784984,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.67%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:14.823875",
+      "epoch": 1770441794.8238826,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.65%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:15.862709",
+      "epoch": 1770441795.8627193,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.64%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:16.914506",
+      "epoch": 1770441796.9145193,
+      "mem_usage": "257.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.62%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:17.947311",
+      "epoch": 1770441797.9473217,
+      "mem_usage": "438.1MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:18.987278",
+      "epoch": 1770441798.987298,
+      "mem_usage": "438.2MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:20.031481",
+      "epoch": 1770441800.0314968,
+      "mem_usage": "438.8MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.65%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:21.072368",
+      "epoch": 1770441801.0723789,
+      "mem_usage": "426.1MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.70%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:22.111473",
+      "epoch": 1770441802.1114814,
+      "mem_usage": "426.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:23.149343",
+      "epoch": 1770441803.1493526,
+      "mem_usage": "427.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:24.197774",
+      "epoch": 1770441804.1977963,
+      "mem_usage": "570.5MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.72%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:25.234823",
+      "epoch": 1770441805.2348342,
+      "mem_usage": "570.6MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.72%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:26.283353",
+      "epoch": 1770441806.283365,
+      "mem_usage": "570.6MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.70%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:27.326612",
+      "epoch": 1770441807.3266234,
+      "mem_usage": "570.6MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:28.366206",
+      "epoch": 1770441808.3662305,
+      "mem_usage": "570.6MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:29.405129",
+      "epoch": 1770441809.40514,
+      "mem_usage": "570.7MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.67%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:30.444382",
+      "epoch": 1770441810.4443903,
+      "mem_usage": "570.7MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:31.488143",
+      "epoch": 1770441811.4881537,
+      "mem_usage": "570.7MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.65%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:32.527490",
+      "epoch": 1770441812.527501,
+      "mem_usage": "570.7MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.64%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:33.572230",
+      "epoch": 1770441813.572241,
+      "mem_usage": "570.7MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.63%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:34.618165",
+      "epoch": 1770441814.6181784,
+      "mem_usage": "259.6MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.65%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:35.656079",
+      "epoch": 1770441815.656095,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:36.698699",
+      "epoch": 1770441816.6987092,
+      "mem_usage": "259.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.65%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:37.745113",
+      "epoch": 1770441817.7451243,
+      "mem_usage": "259.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.65%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:38.787168",
+      "epoch": 1770441818.7871788,
+      "mem_usage": "425.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.71%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:39.825990",
+      "epoch": 1770441819.8259993,
+      "mem_usage": "425.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.70%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:40.863609",
+      "epoch": 1770441820.8636181,
+      "mem_usage": "425.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:41.910316",
+      "epoch": 1770441821.9103258,
+      "mem_usage": "425.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:42.954351",
+      "epoch": 1770441822.9543617,
+      "mem_usage": "425.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.65%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:43.996235",
+      "epoch": 1770441823.9962428,
+      "mem_usage": "425.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.63%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:45.037807",
+      "epoch": 1770441825.0378308,
+      "mem_usage": "425.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.62%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:46.085194",
+      "epoch": 1770441826.0852036,
+      "mem_usage": "425.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.60%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:47.136798",
+      "epoch": 1770441827.1368086,
+      "mem_usage": "259MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.60%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:48.183131",
+      "epoch": 1770441828.1831427,
+      "mem_usage": "259MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.60%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:49.224908",
+      "epoch": 1770441829.2249162,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.58%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:50.270825",
+      "epoch": 1770441830.270835,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.57%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:51.312970",
+      "epoch": 1770441831.3129854,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.55%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:52.363874",
+      "epoch": 1770441832.3638847,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.54%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:53.413664",
+      "epoch": 1770441833.4136727,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.52%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:54.449318",
+      "epoch": 1770441834.449329,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:55.499962",
+      "epoch": 1770441835.4999752,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.49%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:56.550174",
+      "epoch": 1770441836.5501819,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.48%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:57.586623",
+      "epoch": 1770441837.5866473,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.46%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:58.625770",
+      "epoch": 1770441838.625779,
+      "mem_usage": "257.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.45%"
+    },
+    {
+      "timestamp": "2026-02-06T21:23:59.681372",
+      "epoch": 1770441839.6813831,
+      "mem_usage": "258MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.44%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:00.728356",
+      "epoch": 1770441840.7283673,
+      "mem_usage": "309.4MB / 134.5GB",
+      "mem_percent": "0.23%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:01.788468",
+      "epoch": 1770441841.7884762,
+      "mem_usage": "438.8MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.56%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:02.841831",
+      "epoch": 1770441842.8418472,
+      "mem_usage": "438.8MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.56%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:03.884238",
+      "epoch": 1770441843.8842478,
+      "mem_usage": "439.7MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.55%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:04.923442",
+      "epoch": 1770441844.923453,
+      "mem_usage": "439.7MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.53%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:05.974377",
+      "epoch": 1770441845.974388,
+      "mem_usage": "439.7MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.52%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:07.018246",
+      "epoch": 1770441847.0182574,
+      "mem_usage": "439.9MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:08.068548",
+      "epoch": 1770441848.0685596,
+      "mem_usage": "440.1MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:09.113485",
+      "epoch": 1770441849.113495,
+      "mem_usage": "440.4MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.50%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:10.153739",
+      "epoch": 1770441850.1537495,
+      "mem_usage": "258.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.52%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:11.190564",
+      "epoch": 1770441851.1905754,
+      "mem_usage": "259.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.53%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:12.232515",
+      "epoch": 1770441852.2325277,
+      "mem_usage": "259.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.52%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:13.276389",
+      "epoch": 1770441853.2763996,
+      "mem_usage": "259.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:14.331035",
+      "epoch": 1770441854.3310444,
+      "mem_usage": "259.6MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:15.370471",
+      "epoch": 1770441855.3704817,
+      "mem_usage": "259.6MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.50%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:16.421305",
+      "epoch": 1770441856.4213135,
+      "mem_usage": "259.6MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.49%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:17.462479",
+      "epoch": 1770441857.4624891,
+      "mem_usage": "293.9MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:18.508125",
+      "epoch": 1770441858.5081353,
+      "mem_usage": "425.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.61%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:19.552376",
+      "epoch": 1770441859.5523865,
+      "mem_usage": "425.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.60%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:20.591643",
+      "epoch": 1770441860.5916533,
+      "mem_usage": "425.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.58%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:21.632495",
+      "epoch": 1770441861.632505,
+      "mem_usage": "425.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.57%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:22.680068",
+      "epoch": 1770441862.6800761,
+      "mem_usage": "425.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.56%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:23.720419",
+      "epoch": 1770441863.720429,
+      "mem_usage": "425.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.54%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:24.760928",
+      "epoch": 1770441864.7609382,
+      "mem_usage": "425.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.53%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:25.807661",
+      "epoch": 1770441865.8076847,
+      "mem_usage": "425.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:26.847343",
+      "epoch": 1770441866.8473523,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.53%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:27.900208",
+      "epoch": 1770441867.9002237,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.51%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:28.955561",
+      "epoch": 1770441868.9555702,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.50%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:30.004842",
+      "epoch": 1770441870.0048532,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.49%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:31.044622",
+      "epoch": 1770441871.044631,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.47%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:32.089790",
+      "epoch": 1770441872.0898006,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.46%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:33.129056",
+      "epoch": 1770441873.1290662,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.44%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:34.173427",
+      "epoch": 1770441874.1734555,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.43%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:35.225628",
+      "epoch": 1770441875.2256534,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.42%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:36.279310",
+      "epoch": 1770441876.2793202,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:37.330392",
+      "epoch": 1770441877.3304007,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.39%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:38.374345",
+      "epoch": 1770441878.374354,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.38%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:39.415283",
+      "epoch": 1770441879.4152923,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.36%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:40.464295",
+      "epoch": 1770441880.4643111,
+      "mem_usage": "258.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.35%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:41.508168",
+      "epoch": 1770441881.5081797,
+      "mem_usage": "258.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.34%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:42.557145",
+      "epoch": 1770441882.557156,
+      "mem_usage": "258.4MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.33%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:43.599052",
+      "epoch": 1770441883.5990613,
+      "mem_usage": "258.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:44.643973",
+      "epoch": 1770441884.6439838,
+      "mem_usage": "260.3MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:45.682768",
+      "epoch": 1770441885.6827774,
+      "mem_usage": "425.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.36%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:46.724809",
+      "epoch": 1770441886.7248192,
+      "mem_usage": "425.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.35%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:47.763373",
+      "epoch": 1770441887.7633839,
+      "mem_usage": "425.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.34%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:48.811652",
+      "epoch": 1770441888.8116703,
+      "mem_usage": "426.2MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.33%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:49.851305",
+      "epoch": 1770441889.851317,
+      "mem_usage": "426.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:50.885639",
+      "epoch": 1770441890.885651,
+      "mem_usage": "426.9MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:51.928573",
+      "epoch": 1770441891.9285834,
+      "mem_usage": "427.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:52.964931",
+      "epoch": 1770441892.964943,
+      "mem_usage": "428.1MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:54.007814",
+      "epoch": 1770441894.0078242,
+      "mem_usage": "261.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:55.058748",
+      "epoch": 1770441895.0587614,
+      "mem_usage": "260.4MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:56.096606",
+      "epoch": 1770441896.096617,
+      "mem_usage": "425.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.36%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:57.137326",
+      "epoch": 1770441897.137337,
+      "mem_usage": "425.7MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.35%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:58.179113",
+      "epoch": 1770441898.1791253,
+      "mem_usage": "426.3MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.34%"
+    },
+    {
+      "timestamp": "2026-02-06T21:24:59.216294",
+      "epoch": 1770441899.2163053,
+      "mem_usage": "568MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.45%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:00.256148",
+      "epoch": 1770441900.2561595,
+      "mem_usage": "568.1MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.44%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:01.306035",
+      "epoch": 1770441901.3060462,
+      "mem_usage": "568.4MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.43%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:02.357247",
+      "epoch": 1770441902.3572588,
+      "mem_usage": "568.9MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.43%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:03.399041",
+      "epoch": 1770441903.3990526,
+      "mem_usage": "569.1MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.42%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:04.447947",
+      "epoch": 1770441904.4479585,
+      "mem_usage": "569.3MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.42%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:05.482035",
+      "epoch": 1770441905.4820466,
+      "mem_usage": "569.3MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.41%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:06.523257",
+      "epoch": 1770441906.5232666,
+      "mem_usage": "569.3MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:07.565814",
+      "epoch": 1770441907.5658245,
+      "mem_usage": "569.4MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:08.613223",
+      "epoch": 1770441908.61325,
+      "mem_usage": "569.4MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.39%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:09.661864",
+      "epoch": 1770441909.66188,
+      "mem_usage": "569.4MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.39%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:10.704585",
+      "epoch": 1770441910.7045965,
+      "mem_usage": "569.4MB / 134.5GB",
+      "mem_percent": "0.42%",
+      "cpu_percent": "6.38%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:11.742562",
+      "epoch": 1770441911.7425745,
+      "mem_usage": "259.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.39%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:12.785087",
+      "epoch": 1770441912.785098,
+      "mem_usage": "433.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.44%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:13.826141",
+      "epoch": 1770441913.8261516,
+      "mem_usage": "433.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.43%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:14.872373",
+      "epoch": 1770441914.8723922,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.47%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:15.914670",
+      "epoch": 1770441915.9146798,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.46%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:16.952405",
+      "epoch": 1770441916.952416,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.45%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:17.994435",
+      "epoch": 1770441917.9944448,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.43%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:19.043737",
+      "epoch": 1770441919.043748,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.42%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:20.085616",
+      "epoch": 1770441920.0856264,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.41%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:21.127363",
+      "epoch": 1770441921.127373,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.40%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:22.170429",
+      "epoch": 1770441922.17044,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.38%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:23.220038",
+      "epoch": 1770441923.2200477,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.37%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:24.262028",
+      "epoch": 1770441924.2620385,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.36%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:25.308991",
+      "epoch": 1770441925.309001,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.35%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:26.351864",
+      "epoch": 1770441926.3518884,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.34%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:27.400471",
+      "epoch": 1770441927.400482,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:28.443613",
+      "epoch": 1770441928.4436243,
+      "mem_usage": "435MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:29.491437",
+      "epoch": 1770441929.4914572,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.33%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:30.530188",
+      "epoch": 1770441930.530202,
+      "mem_usage": "439.5MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.38%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:31.565032",
+      "epoch": 1770441931.5650442,
+      "mem_usage": "439.6MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.37%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:32.602376",
+      "epoch": 1770441932.6023874,
+      "mem_usage": "440MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.36%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:33.654506",
+      "epoch": 1770441933.6545155,
+      "mem_usage": "440.4MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.35%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:34.696263",
+      "epoch": 1770441934.6962745,
+      "mem_usage": "440.8MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.35%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:35.732099",
+      "epoch": 1770441935.7321105,
+      "mem_usage": "441.5MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.34%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:36.771837",
+      "epoch": 1770441936.7718475,
+      "mem_usage": "441.7MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.33%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:37.808507",
+      "epoch": 1770441937.8085186,
+      "mem_usage": "441.8MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:38.857957",
+      "epoch": 1770441938.857968,
+      "mem_usage": "259.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.33%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:39.897996",
+      "epoch": 1770441939.8980064,
+      "mem_usage": "261.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:40.929962",
+      "epoch": 1770441940.9299734,
+      "mem_usage": "261.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:41.979663",
+      "epoch": 1770441941.979674,
+      "mem_usage": "262.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.30%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:43.026623",
+      "epoch": 1770441943.0266323,
+      "mem_usage": "262.3MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.29%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:44.059766",
+      "epoch": 1770441944.0597749,
+      "mem_usage": "426.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.33%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:45.102154",
+      "epoch": 1770441945.1021662,
+      "mem_usage": "426.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:46.144410",
+      "epoch": 1770441946.144418,
+      "mem_usage": "426.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:47.181751",
+      "epoch": 1770441947.1817613,
+      "mem_usage": "426.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.30%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:48.225566",
+      "epoch": 1770441948.225591,
+      "mem_usage": "426.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.29%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:49.264610",
+      "epoch": 1770441949.26462,
+      "mem_usage": "428MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.34%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:50.318282",
+      "epoch": 1770441950.3182964,
+      "mem_usage": "428.3MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.33%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:51.353787",
+      "epoch": 1770441951.3537974,
+      "mem_usage": "428.7MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.33%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:52.404391",
+      "epoch": 1770441952.4044025,
+      "mem_usage": "428.7MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:53.450799",
+      "epoch": 1770441953.4508088,
+      "mem_usage": "429.1MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:54.499076",
+      "epoch": 1770441954.4990892,
+      "mem_usage": "295.5MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:55.546528",
+      "epoch": 1770441955.5465388,
+      "mem_usage": "295.5MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:56.588160",
+      "epoch": 1770441956.5881848,
+      "mem_usage": "295.5MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:57.637307",
+      "epoch": 1770441957.6373186,
+      "mem_usage": "295.5MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.30%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:58.678345",
+      "epoch": 1770441958.678356,
+      "mem_usage": "295.5MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.30%"
+    },
+    {
+      "timestamp": "2026-02-06T21:25:59.719416",
+      "epoch": 1770441959.7194247,
+      "mem_usage": "295.6MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.29%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:00.764531",
+      "epoch": 1770441960.764542,
+      "mem_usage": "295.1MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.34%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:01.803721",
+      "epoch": 1770441961.803734,
+      "mem_usage": "295.1MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.33%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:02.851656",
+      "epoch": 1770441962.8516715,
+      "mem_usage": "295.1MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.32%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:03.893250",
+      "epoch": 1770441963.89326,
+      "mem_usage": "295.1MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.31%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:04.930003",
+      "epoch": 1770441964.9300172,
+      "mem_usage": "295.1MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.29%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:05.970926",
+      "epoch": 1770441965.970936,
+      "mem_usage": "295.1MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.28%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:07.008512",
+      "epoch": 1770441967.0085213,
+      "mem_usage": "295.1MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.27%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:08.054457",
+      "epoch": 1770441968.0544686,
+      "mem_usage": "295.5MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.27%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:09.100506",
+      "epoch": 1770441969.1005168,
+      "mem_usage": "260.6MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.28%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:10.140578",
+      "epoch": 1770441970.1405897,
+      "mem_usage": "261.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.27%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:11.176551",
+      "epoch": 1770441971.1765609,
+      "mem_usage": "261.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.26%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:12.220655",
+      "epoch": 1770441972.220664,
+      "mem_usage": "261.6MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.26%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:13.271243",
+      "epoch": 1770441973.2712536,
+      "mem_usage": "261.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.25%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:14.321533",
+      "epoch": 1770441974.3215427,
+      "mem_usage": "261.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.25%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:15.359694",
+      "epoch": 1770441975.3597038,
+      "mem_usage": "263.7MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.24%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:16.399399",
+      "epoch": 1770441976.39941,
+      "mem_usage": "263.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.23%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:17.447351",
+      "epoch": 1770441977.447362,
+      "mem_usage": "263.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.23%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:18.484415",
+      "epoch": 1770441978.4844239,
+      "mem_usage": "263.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.22%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:19.517172",
+      "epoch": 1770441979.5171845,
+      "mem_usage": "263.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.21%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:20.563443",
+      "epoch": 1770441980.5634618,
+      "mem_usage": "263.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.20%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:21.603568",
+      "epoch": 1770441981.603579,
+      "mem_usage": "263.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.20%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:22.640769",
+      "epoch": 1770441982.6407783,
+      "mem_usage": "263.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.19%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:23.688194",
+      "epoch": 1770441983.6882055,
+      "mem_usage": "263.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.18%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:24.731637",
+      "epoch": 1770441984.7316484,
+      "mem_usage": "263.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.17%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:25.770036",
+      "epoch": 1770441985.770045,
+      "mem_usage": "263.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.16%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:26.807124",
+      "epoch": 1770441986.8071346,
+      "mem_usage": "263.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.16%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:27.857662",
+      "epoch": 1770441987.8576703,
+      "mem_usage": "267MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.15%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:28.898307",
+      "epoch": 1770441988.8983161,
+      "mem_usage": "267.7MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.14%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:29.940494",
+      "epoch": 1770441989.940504,
+      "mem_usage": "268.1MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.13%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:30.974233",
+      "epoch": 1770441990.9742434,
+      "mem_usage": "268.1MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.13%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:32.027326",
+      "epoch": 1770441992.0273356,
+      "mem_usage": "268.1MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.12%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:33.072481",
+      "epoch": 1770441993.072492,
+      "mem_usage": "268.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.11%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:34.109969",
+      "epoch": 1770441994.109978,
+      "mem_usage": "268.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.11%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:35.158277",
+      "epoch": 1770441995.1582885,
+      "mem_usage": "268.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.10%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:36.198475",
+      "epoch": 1770441996.1984859,
+      "mem_usage": "268.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.09%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:37.247972",
+      "epoch": 1770441997.2479837,
+      "mem_usage": "268.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "6.08%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:38.299077",
+      "epoch": 1770441998.2990887,
+      "mem_usage": "434.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.12%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:39.348473",
+      "epoch": 1770441999.3484821,
+      "mem_usage": "434.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.11%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:40.391945",
+      "epoch": 1770442000.3919585,
+      "mem_usage": "434.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.10%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:41.442367",
+      "epoch": 1770442001.4423754,
+      "mem_usage": "434.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.09%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:42.498215",
+      "epoch": 1770442002.498239,
+      "mem_usage": "434.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.08%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:43.541830",
+      "epoch": 1770442003.5418386,
+      "mem_usage": "434.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.07%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:44.596895",
+      "epoch": 1770442004.5969064,
+      "mem_usage": "434.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:45.644260",
+      "epoch": 1770442005.6442707,
+      "mem_usage": "434.8MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.05%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:46.691285",
+      "epoch": 1770442006.6912937,
+      "mem_usage": "259.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:47.739539",
+      "epoch": 1770442007.739564,
+      "mem_usage": "259.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:48.783503",
+      "epoch": 1770442008.7835138,
+      "mem_usage": "259.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.05%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:49.834527",
+      "epoch": 1770442009.8345368,
+      "mem_usage": "261.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.04%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:50.880732",
+      "epoch": 1770442010.8807445,
+      "mem_usage": "321.7MB / 134.5GB",
+      "mem_percent": "0.24%",
+      "cpu_percent": "6.11%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:51.916913",
+      "epoch": 1770442011.9169233,
+      "mem_usage": "427MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.14%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:52.960732",
+      "epoch": 1770442012.9607432,
+      "mem_usage": "427.3MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.14%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:54.006702",
+      "epoch": 1770442014.0067124,
+      "mem_usage": "427.7MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.13%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:55.057966",
+      "epoch": 1770442015.0579777,
+      "mem_usage": "428.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.13%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:56.098836",
+      "epoch": 1770442016.0988472,
+      "mem_usage": "428.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.12%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:57.137664",
+      "epoch": 1770442017.1376734,
+      "mem_usage": "428.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.11%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:58.187052",
+      "epoch": 1770442018.1870627,
+      "mem_usage": "428.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.10%"
+    },
+    {
+      "timestamp": "2026-02-06T21:26:59.231179",
+      "epoch": 1770442019.2311912,
+      "mem_usage": "428.7MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "6.09%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:00.272266",
+      "epoch": 1770442020.2722764,
+      "mem_usage": "260MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.11%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:01.315091",
+      "epoch": 1770442021.315101,
+      "mem_usage": "261.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.11%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:02.364566",
+      "epoch": 1770442022.3645751,
+      "mem_usage": "261.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.10%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:03.413373",
+      "epoch": 1770442023.4133909,
+      "mem_usage": "261.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.10%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:04.450584",
+      "epoch": 1770442024.4505947,
+      "mem_usage": "261.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.09%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:05.487021",
+      "epoch": 1770442025.4870312,
+      "mem_usage": "261.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.09%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:06.532356",
+      "epoch": 1770442026.5323653,
+      "mem_usage": "261.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.08%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:07.572969",
+      "epoch": 1770442027.5729938,
+      "mem_usage": "261.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.08%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:08.623807",
+      "epoch": 1770442028.623818,
+      "mem_usage": "292.6MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.13%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:09.671988",
+      "epoch": 1770442029.672002,
+      "mem_usage": "292.6MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.12%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:10.718918",
+      "epoch": 1770442030.7189305,
+      "mem_usage": "292.6MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.11%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:11.764458",
+      "epoch": 1770442031.7644694,
+      "mem_usage": "292.6MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.10%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:12.801027",
+      "epoch": 1770442032.8010402,
+      "mem_usage": "292.6MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.09%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:13.842170",
+      "epoch": 1770442033.84218,
+      "mem_usage": "292.6MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.08%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:14.894032",
+      "epoch": 1770442034.8940468,
+      "mem_usage": "292.6MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.07%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:15.928117",
+      "epoch": 1770442035.928126,
+      "mem_usage": "292.6MB / 134.5GB",
+      "mem_percent": "0.22%",
+      "cpu_percent": "6.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:16.973912",
+      "epoch": 1770442036.9739237,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.07%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:18.018236",
+      "epoch": 1770442038.018247,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.06%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:19.067115",
+      "epoch": 1770442039.0671237,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.05%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:20.117990",
+      "epoch": 1770442040.1179996,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.04%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:21.162826",
+      "epoch": 1770442041.1628478,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.03%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:22.211449",
+      "epoch": 1770442042.2114584,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.02%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:23.252637",
+      "epoch": 1770442043.2526476,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.01%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:24.295543",
+      "epoch": 1770442044.2955542,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "6.00%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:25.345417",
+      "epoch": 1770442045.345429,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.99%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:26.392110",
+      "epoch": 1770442046.3921213,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.98%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:27.442255",
+      "epoch": 1770442047.4422643,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.97%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:28.492628",
+      "epoch": 1770442048.4926367,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.96%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:29.541861",
+      "epoch": 1770442049.5418756,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.95%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:30.587292",
+      "epoch": 1770442050.5873022,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.94%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:31.629210",
+      "epoch": 1770442051.6292186,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.94%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:32.674218",
+      "epoch": 1770442052.6742296,
+      "mem_usage": "259.7MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.93%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:33.722656",
+      "epoch": 1770442053.7226665,
+      "mem_usage": "260.4MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.92%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:34.769690",
+      "epoch": 1770442054.7697015,
+      "mem_usage": "260.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.92%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:35.818973",
+      "epoch": 1770442055.818984,
+      "mem_usage": "261.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.91%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:36.871180",
+      "epoch": 1770442056.8711946,
+      "mem_usage": "261.8MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.91%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:37.903066",
+      "epoch": 1770442057.9030771,
+      "mem_usage": "262MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.90%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:38.946876",
+      "epoch": 1770442058.9468873,
+      "mem_usage": "262.5MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.90%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:39.991838",
+      "epoch": 1770442059.99185,
+      "mem_usage": "264.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.90%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:41.035452",
+      "epoch": 1770442061.035461,
+      "mem_usage": "264.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.89%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:42.078082",
+      "epoch": 1770442062.0780907,
+      "mem_usage": "264.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:43.118726",
+      "epoch": 1770442063.1187394,
+      "mem_usage": "264.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.88%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:44.154457",
+      "epoch": 1770442064.154467,
+      "mem_usage": "264.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.87%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:45.198075",
+      "epoch": 1770442065.1980865,
+      "mem_usage": "264.4MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.87%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:46.245617",
+      "epoch": 1770442066.2456272,
+      "mem_usage": "264.4MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.86%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:47.295997",
+      "epoch": 1770442067.2960067,
+      "mem_usage": "264.4MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.86%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:48.333591",
+      "epoch": 1770442068.3336003,
+      "mem_usage": "264.4MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.85%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:49.381615",
+      "epoch": 1770442069.381625,
+      "mem_usage": "264.4MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.84%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:50.423075",
+      "epoch": 1770442070.4230864,
+      "mem_usage": "264.4MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.84%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:51.462374",
+      "epoch": 1770442071.462386,
+      "mem_usage": "264.4MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.83%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:52.501631",
+      "epoch": 1770442072.5016422,
+      "mem_usage": "264.5MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.83%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:53.549348",
+      "epoch": 1770442073.5493596,
+      "mem_usage": "267.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.82%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:54.599173",
+      "epoch": 1770442074.5991836,
+      "mem_usage": "268.6MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.82%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:55.637532",
+      "epoch": 1770442075.6375432,
+      "mem_usage": "268.7MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.81%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:56.690829",
+      "epoch": 1770442076.6908395,
+      "mem_usage": "268.7MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:57.740678",
+      "epoch": 1770442077.7406888,
+      "mem_usage": "268.7MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.80%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:58.787195",
+      "epoch": 1770442078.787204,
+      "mem_usage": "268.7MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.79%"
+    },
+    {
+      "timestamp": "2026-02-06T21:27:59.836933",
+      "epoch": 1770442079.836944,
+      "mem_usage": "268.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.79%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:00.879703",
+      "epoch": 1770442080.879749,
+      "mem_usage": "268.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.78%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:01.929635",
+      "epoch": 1770442081.929646,
+      "mem_usage": "268.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.77%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:02.974607",
+      "epoch": 1770442082.9746172,
+      "mem_usage": "268.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.77%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:04.025161",
+      "epoch": 1770442084.0251725,
+      "mem_usage": "268.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.76%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:05.064459",
+      "epoch": 1770442085.0644698,
+      "mem_usage": "268.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.75%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:06.117059",
+      "epoch": 1770442086.1170707,
+      "mem_usage": "268.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:07.169248",
+      "epoch": 1770442087.169259,
+      "mem_usage": "261.4MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:08.207001",
+      "epoch": 1770442088.2070112,
+      "mem_usage": "261.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.73%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:09.248222",
+      "epoch": 1770442089.248234,
+      "mem_usage": "261.9MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.73%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:10.289246",
+      "epoch": 1770442090.2892683,
+      "mem_usage": "261.5MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.73%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:11.332500",
+      "epoch": 1770442091.3325093,
+      "mem_usage": "261.4MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.72%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:12.367294",
+      "epoch": 1770442092.3673038,
+      "mem_usage": "263MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.72%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:13.409365",
+      "epoch": 1770442093.4093757,
+      "mem_usage": "263.1MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.71%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:14.449744",
+      "epoch": 1770442094.4497561,
+      "mem_usage": "263.1MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.71%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:15.487551",
+      "epoch": 1770442095.4875624,
+      "mem_usage": "441.1MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.75%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:16.535170",
+      "epoch": 1770442096.5351825,
+      "mem_usage": "441.1MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:17.574488",
+      "epoch": 1770442097.5744984,
+      "mem_usage": "441.1MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.73%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:18.615036",
+      "epoch": 1770442098.615047,
+      "mem_usage": "441.1MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.72%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:19.654275",
+      "epoch": 1770442099.6542854,
+      "mem_usage": "441.1MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.71%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:20.695884",
+      "epoch": 1770442100.695894,
+      "mem_usage": "441.1MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.70%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:21.744270",
+      "epoch": 1770442101.7442808,
+      "mem_usage": "441.1MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.70%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:22.793344",
+      "epoch": 1770442102.7933576,
+      "mem_usage": "441.4MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:23.838412",
+      "epoch": 1770442103.8384204,
+      "mem_usage": "262.2MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:24.878805",
+      "epoch": 1770442104.878816,
+      "mem_usage": "262.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.71%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:25.920091",
+      "epoch": 1770442105.9201024,
+      "mem_usage": "262.1MB / 134.5GB",
+      "mem_percent": "0.19%",
+      "cpu_percent": "5.70%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:26.963058",
+      "epoch": 1770442106.9630694,
+      "mem_usage": "262.3MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.70%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:28.007004",
+      "epoch": 1770442108.0070157,
+      "mem_usage": "263.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:29.050230",
+      "epoch": 1770442109.0502412,
+      "mem_usage": "263.2MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:30.100801",
+      "epoch": 1770442110.1008132,
+      "mem_usage": "264MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:31.132075",
+      "epoch": 1770442111.1320858,
+      "mem_usage": "264MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:32.172093",
+      "epoch": 1770442112.1721056,
+      "mem_usage": "264.1MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:33.217388",
+      "epoch": 1770442113.2173996,
+      "mem_usage": "264.4MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.67%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:34.256101",
+      "epoch": 1770442114.2561111,
+      "mem_usage": "264.4MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.67%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:35.303408",
+      "epoch": 1770442115.303418,
+      "mem_usage": "264.4MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:36.345535",
+      "epoch": 1770442116.3455462,
+      "mem_usage": "264.5MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:37.384814",
+      "epoch": 1770442117.3848257,
+      "mem_usage": "441.2MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:38.423152",
+      "epoch": 1770442118.4231625,
+      "mem_usage": "441.6MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:39.469499",
+      "epoch": 1770442119.4695168,
+      "mem_usage": "441.6MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:40.506542",
+      "epoch": 1770442120.5065503,
+      "mem_usage": "429.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.71%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:41.563352",
+      "epoch": 1770442121.563364,
+      "mem_usage": "429.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.70%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:42.594280",
+      "epoch": 1770442122.5942903,
+      "mem_usage": "429.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:43.639843",
+      "epoch": 1770442123.639852,
+      "mem_usage": "429.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.69%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:44.677402",
+      "epoch": 1770442124.6774108,
+      "mem_usage": "429.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.68%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:45.719817",
+      "epoch": 1770442125.7198298,
+      "mem_usage": "429.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.67%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:46.762441",
+      "epoch": 1770442126.7624528,
+      "mem_usage": "429.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:47.806769",
+      "epoch": 1770442127.8067803,
+      "mem_usage": "429.7MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:48.856091",
+      "epoch": 1770442128.8561025,
+      "mem_usage": "430.1MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.65%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:49.895478",
+      "epoch": 1770442129.8954868,
+      "mem_usage": "439.6MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.66%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:50.945896",
+      "epoch": 1770442130.9459207,
+      "mem_usage": "431MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:51.981714",
+      "epoch": 1770442131.9817235,
+      "mem_usage": "431MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:53.024518",
+      "epoch": 1770442133.0245283,
+      "mem_usage": "431MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.73%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:54.077762",
+      "epoch": 1770442134.0777724,
+      "mem_usage": "431.3MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.73%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:55.115313",
+      "epoch": 1770442135.1153243,
+      "mem_usage": "452MB / 134.5GB",
+      "mem_percent": "0.34%",
+      "cpu_percent": "5.77%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:56.165444",
+      "epoch": 1770442136.1654558,
+      "mem_usage": "452MB / 134.5GB",
+      "mem_percent": "0.34%",
+      "cpu_percent": "5.76%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:57.211212",
+      "epoch": 1770442137.2112231,
+      "mem_usage": "452MB / 134.5GB",
+      "mem_percent": "0.34%",
+      "cpu_percent": "5.75%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:58.249441",
+      "epoch": 1770442138.2494507,
+      "mem_usage": "452MB / 134.5GB",
+      "mem_percent": "0.34%",
+      "cpu_percent": "5.75%"
+    },
+    {
+      "timestamp": "2026-02-06T21:28:59.300577",
+      "epoch": 1770442139.3005881,
+      "mem_usage": "452.3MB / 134.5GB",
+      "mem_percent": "0.34%",
+      "cpu_percent": "5.75%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:00.340562",
+      "epoch": 1770442140.340575,
+      "mem_usage": "452.8MB / 134.5GB",
+      "mem_percent": "0.34%",
+      "cpu_percent": "5.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:01.387473",
+      "epoch": 1770442141.3874867,
+      "mem_usage": "453.3MB / 134.5GB",
+      "mem_percent": "0.34%",
+      "cpu_percent": "5.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:02.434507",
+      "epoch": 1770442142.434519,
+      "mem_usage": "453.4MB / 134.5GB",
+      "mem_percent": "0.34%",
+      "cpu_percent": "5.73%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:03.486056",
+      "epoch": 1770442143.4860678,
+      "mem_usage": "262.9MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:04.541189",
+      "epoch": 1770442144.5411992,
+      "mem_usage": "262.8MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:05.595602",
+      "epoch": 1770442145.595614,
+      "mem_usage": "262.8MB / 134.5GB",
+      "mem_percent": "0.20%",
+      "cpu_percent": "5.74%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:06.645733",
+      "epoch": 1770442146.645745,
+      "mem_usage": "435.4MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.77%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:07.682765",
+      "epoch": 1770442147.682776,
+      "mem_usage": "435.4MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.76%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:08.729251",
+      "epoch": 1770442148.729264,
+      "mem_usage": "435.5MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.76%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:09.774801",
+      "epoch": 1770442149.774812,
+      "mem_usage": "436.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.79%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:10.813209",
+      "epoch": 1770442150.8132188,
+      "mem_usage": "436.6MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.78%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:11.863089",
+      "epoch": 1770442151.8630984,
+      "mem_usage": "437MB / 134.5GB",
+      "mem_percent": "0.32%",
+      "cpu_percent": "5.77%"
+    },
+    {
+      "timestamp": "2026-02-06T21:29:12.906062",
+      "epoch": 1770442152.9060724,
+      "mem_usage": "437.5MB / 134.5GB",
+      "mem_percent": "0.33%",
+      "cpu_percent": "5.77%"
+    }
+  ],
+  "summary": {
+    "sample_count": 740,
+    "duration_seconds": 771.1922681331635,
+    "memory_mb": {
+      "min": 12.02,
+      "max": 972.8,
+      "avg": 378.52867567567563
+    },
+    "cpu_percent": {
+      "min": 5.65,
+      "max": 103.79,
+      "avg": 7.240148648648649
+    }
+  }
+}

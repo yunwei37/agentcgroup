@@ -1,0 +1,9 @@
+Now, I'll read the file to understand the current implementation:
+
+<function_calls>
+<invoke name="Read">
+<parameter name="file_path">/testbed/pyirf/sensitivity.py</parameter>
+</invoke>
+=== GIT DIFF ===
+=== DISK USAGE ===
+14	/testbed

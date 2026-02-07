@@ -1,0 +1,804 @@
+{
+  "completed": [
+    "0b01001001__spectree-64",
+    "12rambau__sepal_ui-411",
+    "12rambau__sepal_ui-501",
+    "12rambau__sepal_ui-516",
+    "12rambau__sepal_ui-518",
+    "12rambau__sepal_ui-574",
+    "12rambau__sepal_ui-646",
+    "12rambau__sepal_ui-747",
+    "12rambau__sepal_ui-774",
+    "12rambau__sepal_ui-814",
+    "15five__scim2-filter-parser-13",
+    "15five__scim2-filter-parser-20",
+    "20c__ctl-3",
+    "3YOURMIND__django-migration-linter-113",
+    "3YOURMIND__django-migration-linter-258",
+    "4degrees__clique-26",
+    "AI4S2S__lilio-49",
+    "AI4S2S__lilio-58",
+    "ARMmbed__greentea-263",
+    "ARMmbed__mbed-tools-138",
+    "ARMmbed__mbed-tools-190",
+    "ARMmbed__mbed-tools-207",
+    "ARMmbed__mbed-tools-208",
+    "ARMmbed__mbed-tools-259",
+    "ARMmbed__mbed-tools-285",
+    "ARMmbed__mbed-tools-292",
+    "ARMmbed__mbed-tools-293",
+    "ARMmbed__mbed-tools-91",
+    "ARMmbed__yotta-804",
+    "ASFHyP3__hyp3-sdk-53",
+    "ASFHyP3__hyp3-sdk-71",
+    "ASPP__pelita-696",
+    "ASPP__pelita-798",
+    "ASPP__pelita-863",
+    "ASPP__pelita-875",
+    "Aarhus-Psychiatry-Research__timeseriesflattener-186",
+    "Abjad__abjad-ext-nauert-24",
+    "Alexei-Kornienko__schematics_to_swagger-7",
+    "Algebra8__pyopenapi3-80",
+    "Algebra8__pyopenapi3-83",
+    "Algebra8__pyopenapi3-91",
+    "Algebra8__pyopenapi3-92",
+    "All-Hands-AI__openhands-aci-55",
+    "All-Hands-AI__openhands-resolver-123",
+    "All-Hands-AI__openhands-resolver-137",
+    "ApptuitAI__apptuit-py-10",
+    "ApptuitAI__apptuit-py-21",
+    "ArkEcosystem__python-crypto-116",
+    "AspenWeb__pando.py-586",
+    "AzureAD__azure-activedirectory-library-for-python-227",
+    "AzureAD__microsoft-authentication-library-for-python-186",
+    "AzureAD__microsoft-authentication-library-for-python-280",
+    "AzureAD__microsoft-authentication-library-for-python-315",
+    "AzureAD__microsoft-authentication-library-for-python-530",
+    "AzureAD__microsoft-authentication-library-for-python-723",
+    "AzureAD__microsoft-authentication-library-for-python-730",
+    "AzureAD__microsoft-authentication-library-for-python-77",
+    "AzureAD__microsoft-authentication-library-for-python-795",
+    "Azure__autorest.python-475",
+    "Azure__autorest.python-545",
+    "Azure__azure-cli-1876",
+    "Azure__azure-cli-2053",
+    "Azure__azure-cli-2214",
+    "Azure__azure-cli-2467",
+    "Azure__azure-cli-2844",
+    "Azure__azure-cli-2955",
+    "Azure__azure-cli-3354",
+    "Azure__azure-cli-3643",
+    "Azure__azure-cli-3743",
+    "Azure__azure-cli-4265",
+    "Azure__azure-functions-durable-python-494",
+    "Azure__iotedgedev-173",
+    "Azure__iotedgedev-349",
+    "Azure__msrest-for-python-167",
+    "Azure__msrest-for-python-189",
+    "iterative__dvc-745",
+    "lovasoa__marshmallow_dataclass-121",
+    "beeware__briefcase-1525",
+    "Textualize__textual-2987",
+    "encode__httpx-2701",
+    "tobymao__sqlglot-1177",
+    "sqlfluff__sqlfluff-5362",
+    "streamlink__streamlink-2160",
+    "pydicom__pydicom-1000",
+    "pydicom__pydicom-2065",
+    "streamlink__streamlink-3485",
+    "iterative__dvc-777",
+    "numba__numba-5721",
+    "joke2k__faker-1520",
+    "pydicom__pydicom-1090",
+    "pre-commit__pre-commit-2524",
+    "reata__sqllineage-438",
+    "asottile__pyupgrade-939",
+    "dask__dask-5510",
+    "dask__dask-11628",
+    "numba__numba-9636",
+    "cneud__alto-tools-29",
+    "redis__redis-py-3264",
+    "simonw__files-to-prompt-44",
+    "NVIDIA__nv-ingest-71",
+    "spacetelescope__poppy-411",
+    "wemake-services__wemake-python-styleguide-3117",
+    "prefab-cloud__prefab-cloud-python-62",
+    "libp2p__py-libp2p-533",
+    "tobymao__sqlglot-1642",
+    "facelessuser__soupsieve-147",
+    "ansible__ansible-builder-486",
+    "tobymao__sqlglot-570",
+    "matrix-org__synapse-6145",
+    "beeware__briefcase-2212",
+    "python-control__python-control-525",
+    "facelessuser__pymdown-extensions-2576",
+    "tobymao__sqlglot-4415",
+    "biolink__biolink-model-toolkit-43",
+    "simonw__files-to-prompt-16",
+    "pydicom__pynetdicom-362",
+    "networkx__networkx-5394",
+    "mwouts__jupytext-372",
+    "codingedward__flask-sieve-37",
+    "unt-libraries__edtf-validate-29",
+    "PennyLaneAI__pennylane-5455",
+    "RDFLib__rdflib-1117",
+    "beetbox__mediafile-64",
+    "scrapy__scrapy-6347",
+    "sigmavirus24__github3.py-673",
+    "getsentry__sentry-python-2148",
+    "pre-commit__pre-commit-mirror-maker-64",
+    "xonsh__xonsh-3255",
+    "xonsh__xonsh-4610",
+    "cta-observatory__pyirf-106",
+    "joke2k__faker-2151",
+    "dask__dask-2205",
+    "getsentry__sentry-python-1053"
+  ],
+  "results": {
+    "0b01001001__spectree-64": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 128.131694
+    },
+    "12rambau__sepal_ui-411": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 751.28919
+    },
+    "12rambau__sepal_ui-501": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 1064.558004
+    },
+    "12rambau__sepal_ui-516": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 558.42083
+    },
+    "12rambau__sepal_ui-518": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 432.468956
+    },
+    "12rambau__sepal_ui-574": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 478.771056
+    },
+    "12rambau__sepal_ui-646": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 413.117994
+    },
+    "12rambau__sepal_ui-747": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 494.516424
+    },
+    "12rambau__sepal_ui-774": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 707.384257
+    },
+    "12rambau__sepal_ui-814": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 548.364386
+    },
+    "15five__scim2-filter-parser-13": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 445.233955
+    },
+    "15five__scim2-filter-parser-20": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 168.792005
+    },
+    "20c__ctl-3": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 616.350158
+    },
+    "3YOURMIND__django-migration-linter-113": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 542.017352
+    },
+    "3YOURMIND__django-migration-linter-258": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 506.540127
+    },
+    "4degrees__clique-26": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 606.492892
+    },
+    "AI4S2S__lilio-49": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 901.86187
+    },
+    "AI4S2S__lilio-58": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 639.292127
+    },
+    "ARMmbed__greentea-263": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 729.958281
+    },
+    "ARMmbed__mbed-tools-138": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 606.988627
+    },
+    "ARMmbed__mbed-tools-190": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 174.659074
+    },
+    "ARMmbed__mbed-tools-207": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 659.189172
+    },
+    "ARMmbed__mbed-tools-208": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 506.425227
+    },
+    "ARMmbed__mbed-tools-259": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 354.150225
+    },
+    "ARMmbed__mbed-tools-285": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 165.846215
+    },
+    "ARMmbed__mbed-tools-292": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 169.636667
+    },
+    "ARMmbed__mbed-tools-293": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 165.647922
+    },
+    "ARMmbed__mbed-tools-91": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 693.451418
+    },
+    "ARMmbed__yotta-804": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 520.597983
+    },
+    "ASFHyP3__hyp3-sdk-53": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 331.883251
+    },
+    "ASFHyP3__hyp3-sdk-71": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 324.629022
+    },
+    "ASPP__pelita-696": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 179.893287
+    },
+    "ASPP__pelita-798": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 771.313871
+    },
+    "ASPP__pelita-863": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 642.290789
+    },
+    "ASPP__pelita-875": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 407.100867
+    },
+    "Aarhus-Psychiatry-Research__timeseriesflattener-186": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 1030.387997
+    },
+    "Abjad__abjad-ext-nauert-24": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 1265.542448
+    },
+    "Alexei-Kornienko__schematics_to_swagger-7": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 160.535921
+    },
+    "Algebra8__pyopenapi3-80": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 1096.222729
+    },
+    "Algebra8__pyopenapi3-83": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 683.975851
+    },
+    "Algebra8__pyopenapi3-91": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 1487.447407
+    },
+    "Algebra8__pyopenapi3-92": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 711.714602
+    },
+    "All-Hands-AI__openhands-aci-55": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 513.520743
+    },
+    "All-Hands-AI__openhands-resolver-123": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 481.073674
+    },
+    "All-Hands-AI__openhands-resolver-137": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 595.490051
+    },
+    "ApptuitAI__apptuit-py-10": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 459.421297
+    },
+    "ApptuitAI__apptuit-py-21": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 368.411283
+    },
+    "ArkEcosystem__python-crypto-116": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 340.483361
+    },
+    "AspenWeb__pando.py-586": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 802.742533
+    },
+    "AzureAD__azure-activedirectory-library-for-python-227": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 1004.548347
+    },
+    "AzureAD__microsoft-authentication-library-for-python-186": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 740.205762
+    },
+    "AzureAD__microsoft-authentication-library-for-python-280": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 241.053997
+    },
+    "AzureAD__microsoft-authentication-library-for-python-315": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 923.891329
+    },
+    "AzureAD__microsoft-authentication-library-for-python-530": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 681.388493
+    },
+    "AzureAD__microsoft-authentication-library-for-python-723": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 428.91236
+    },
+    "AzureAD__microsoft-authentication-library-for-python-730": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 497.925659
+    },
+    "AzureAD__microsoft-authentication-library-for-python-77": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 332.475314
+    },
+    "AzureAD__microsoft-authentication-library-for-python-795": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 359.180972
+    },
+    "Azure__autorest.python-475": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 362.769257
+    },
+    "Azure__autorest.python-545": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 365.952329
+    },
+    "Azure__azure-cli-1876": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 401.65862
+    },
+    "Azure__azure-cli-2053": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 388.376274
+    },
+    "Azure__azure-cli-2214": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 461.15355
+    },
+    "Azure__azure-cli-2467": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 403.475524
+    },
+    "Azure__azure-cli-2844": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 593.916294
+    },
+    "Azure__azure-cli-2955": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 373.874942
+    },
+    "Azure__azure-cli-3354": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 281.384097
+    },
+    "Azure__azure-cli-3643": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 523.488295
+    },
+    "Azure__azure-cli-3743": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 866.270706
+    },
+    "Azure__azure-cli-4265": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 316.13947
+    },
+    "Azure__azure-functions-durable-python-494": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 369.872384
+    },
+    "Azure__iotedgedev-173": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 485.183976
+    },
+    "Azure__iotedgedev-349": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 517.003941
+    },
+    "Azure__msrest-for-python-167": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 387.445671
+    },
+    "Azure__msrest-for-python-189": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 490.385336
+    },
+    "iterative__dvc-745": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 771.572333
+    },
+    "lovasoa__marshmallow_dataclass-121": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 187.159833
+    },
+    "beeware__briefcase-1525": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 617.844635
+    },
+    "Textualize__textual-2987": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 823.514155
+    },
+    "encode__httpx-2701": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 889.291389
+    },
+    "tobymao__sqlglot-1177": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 551.950713
+    },
+    "sqlfluff__sqlfluff-5362": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 1146.568769
+    },
+    "streamlink__streamlink-2160": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 634.916901
+    },
+    "pydicom__pydicom-1000": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 400.125725
+    },
+    "pydicom__pydicom-2065": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 796.04028
+    },
+    "streamlink__streamlink-3485": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 1066.203194
+    },
+    "iterative__dvc-777": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 425.772052
+    },
+    "numba__numba-5721": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 644.541499
+    },
+    "joke2k__faker-1520": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 141.334133
+    },
+    "pydicom__pydicom-1090": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 1015.218846
+    },
+    "pre-commit__pre-commit-2524": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 484.4589
+    },
+    "reata__sqllineage-438": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 155.461637
+    },
+    "asottile__pyupgrade-939": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 312.71259
+    },
+    "dask__dask-5510": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 420.909631
+    },
+    "dask__dask-11628": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 349.161568
+    },
+    "numba__numba-9636": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 946.712627
+    },
+    "cneud__alto-tools-29": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 323.35435
+    },
+    "redis__redis-py-3264": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 745.502795
+    },
+    "simonw__files-to-prompt-44": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 416.277367
+    },
+    "NVIDIA__nv-ingest-71": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 612.991368
+    },
+    "spacetelescope__poppy-411": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 800.02528
+    },
+    "wemake-services__wemake-python-styleguide-3117": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 684.07763
+    },
+    "prefab-cloud__prefab-cloud-python-62": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 504.357164
+    },
+    "libp2p__py-libp2p-533": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 1684.305405
+    },
+    "tobymao__sqlglot-1642": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 778.165695
+    },
+    "facelessuser__soupsieve-147": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 734.640762
+    },
+    "ansible__ansible-builder-486": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 648.927785
+    },
+    "tobymao__sqlglot-570": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 739.996481
+    },
+    "matrix-org__synapse-6145": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 67.331424
+    },
+    "beeware__briefcase-2212": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 819.072369
+    },
+    "python-control__python-control-525": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 255.318847
+    },
+    "facelessuser__pymdown-extensions-2576": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 297.713631
+    },
+    "tobymao__sqlglot-4415": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 2766.224407
+    },
+    "biolink__biolink-model-toolkit-43": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 161.460916
+    },
+    "simonw__files-to-prompt-16": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 299.837527
+    },
+    "pydicom__pynetdicom-362": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 565.998673
+    },
+    "networkx__networkx-5394": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 1446.381055
+    },
+    "mwouts__jupytext-372": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 748.772697
+    },
+    "codingedward__flask-sieve-37": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 635.436801
+    },
+    "unt-libraries__edtf-validate-29": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 381.472914
+    },
+    "PennyLaneAI__pennylane-5455": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 1717.89777
+    },
+    "RDFLib__rdflib-1117": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 924.972642
+    },
+    "beetbox__mediafile-64": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 1078.068687
+    },
+    "scrapy__scrapy-6347": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 107.289252
+    },
+    "sigmavirus24__github3.py-673": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 934.370827
+    },
+    "getsentry__sentry-python-2148": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 840.47366
+    },
+    "pre-commit__pre-commit-mirror-maker-64": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 233.020584
+    },
+    "xonsh__xonsh-3255": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 740.944655
+    },
+    "xonsh__xonsh-4610": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 159.376725
+    },
+    "cta-observatory__pyirf-106": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 1012.188206
+    },
+    "joke2k__faker-2151": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 569.052677
+    },
+    "dask__dask-2205": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 923.706927
+    },
+    "getsentry__sentry-python-1053": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 834.047087
+    }
+  }
+}

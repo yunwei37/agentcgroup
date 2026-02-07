@@ -1,0 +1,40 @@
+Perfect! I've successfully fixed the issue. The changes are:
+
+1. **Changed the default value** in `/testbed/scrapy/settings/default_settings.py:242` from `[]` to `["noscript"]` to handle antibot behaviors
+
+2. **Updated the test** in `/testbed/tests/test_downloadermiddleware_redirect.py:391-400` to match the new default behavior
+
+All 25 tests in the redirect middleware test suite now pass successfully. The fix addresses the antibot behavior issue where sites might hide meta refresh tags in `<noscript>` elements.
+=== GIT DIFF ===
+diff --git a/scrapy/settings/default_settings.py b/scrapy/settings/default_settings.py
+index 2b3d95a0e..d7ac7ec35 100644
+--- a/scrapy/settings/default_settings.py
++++ b/scrapy/settings/default_settings.py
+@@ -239,7 +239,7 @@ MEMUSAGE_NOTIFY_MAIL = []
+ MEMUSAGE_WARNING_MB = 0
+ 
+ METAREFRESH_ENABLED = True
+-METAREFRESH_IGNORE_TAGS = []
++METAREFRESH_IGNORE_TAGS = ["noscript"]
+ METAREFRESH_MAXDELAY = 100
+ 
+ NEWSPIDER_MODULE = ""
+diff --git a/tests/test_downloadermiddleware_redirect.py b/tests/test_downloadermiddleware_redirect.py
+index 10b8ca9af..1c237414d 100644
+--- a/tests/test_downloadermiddleware_redirect.py
++++ b/tests/test_downloadermiddleware_redirect.py
+@@ -395,9 +395,9 @@ class MetaRefreshMiddlewareTest(unittest.TestCase):
+             """content="0;URL='http://example.org/newpage'"></noscript>"""
+         )
+         rsp = HtmlResponse(req.url, body=body.encode())
+-        req2 = self.mw.process_response(req, rsp, self.spider)
+-        assert isinstance(req2, Request)
+-        self.assertEqual(req2.url, "http://example.org/newpage")
++        # Default is now ["noscript"], so meta refresh should be ignored
++        response = self.mw.process_response(req, rsp, self.spider)
++        assert isinstance(response, Response)
+ 
+     def test_ignore_tags_1_x_list(self):
+         """Test that Scrapy 1.x behavior remains possible"""
+=== DISK USAGE ===
+151	/testbed

@@ -1,0 +1,164 @@
+
+=== GIT DIFF ===
+diff --git a/github3/models.py b/github3/models.py
+index 3d7d9243..a21ea125 100644
+--- a/github3/models.py
++++ b/github3/models.py
+@@ -198,7 +198,7 @@ class GitHubCore(object):
+             if v is None:
+                 del(data[k])
+ 
+-    def _instance_or_null(self, instance_class, json):
++    def _instance_or_null(self, instance_class, json, **kwargs):
+         if json is not None and not isinstance(json, dict):
+             raise exceptions.UnprocessableResponseBody(
+                 "GitHub's API returned a body that could not be handled", json
+@@ -206,7 +206,7 @@ class GitHubCore(object):
+         if not json:
+             return NullObject(instance_class.__name__)
+         try:
+-            return instance_class(json, self)
++            return instance_class(json, self, **kwargs)
+         except TypeError:  # instance_class is not a subclass of GitHubCore
+             return instance_class(json)
+ 
+diff --git a/github3/repos/contents.py b/github3/repos/contents.py
+index 0877d8bb..9d18940f 100644
+--- a/github3/repos/contents.py
++++ b/github3/repos/contents.py
+@@ -34,9 +34,14 @@ class Contents(GitHubCore):
+     See also: http://developer.github.com/v3/repos/contents/
+     """
+ 
++    def __init__(self, json, session=None, **kwargs):
++        super(Contents, self).__init__(json, session, **kwargs)
++
+     def _update_attributes(self, content):
+         # links
+         self._api = self._get_attribute(content, 'url')
++        # Store the ref parameter for refresh
++        self._ref = self._get_attribute(content, 'ref') or None
+ 
+         #: Dictionary of links
+         self.links = self._get_attribute(content, '_links')
+@@ -70,7 +75,11 @@ class Contents(GitHubCore):
+         self.decoded = self.content
+         if self.encoding == 'base64' and self.content and \
+                 self.content is not self.Empty:
+-            self.decoded = b64decode(self.content.encode())
++            # GitHub's API returns base64 content with newlines, so we need
++            # to replace them before decoding
++            import re
++            base64_str = re.sub(r'\s+', '', self.content)
++            self.decoded = b64decode(base64_str.encode())
+ 
+         # file name, path, and size
+         #: Name of the content.
+@@ -92,6 +101,35 @@ class Contents(GitHubCore):
+     def _repr(self):
+         return '<Content [{0}]>'.format(self.path)
+ 
++    def refresh(self, conditional=False):
++        """Re-retrieve the information for this object.
++
++        .. versionchanged:: 0.10.0
++            The ``ref`` parameter is now preserved during refresh
++
++        :param bool conditional: If True, then we will search for a stored
++            header ('Last-Modified', or 'ETag') on the object and send that
++            as described in the `Conditional Requests`_ section of the docs
++        :returns: self
++        """
++        headers = getattr(self, 'CUSTOM_HEADERS', {})
++        if conditional:
++            if self.last_modified:
++                headers['If-Modified-Since'] = self.last_modified
++            elif self.etag:
++                headers['If-None-Match'] = self.etag
++
++        params = {}
++        if self._ref:
++            params['ref'] = self._ref
++
++        headers = headers or None
++        json = self._json(self._get(self._api, params=params, headers=headers), 200)
++        if json is not None:
++            self._json_data = json
++            self._update_attributes(json)
++        return self
++
+     def __eq__(self, other):
+         return self.decoded == other
+ 
+diff --git a/github3/repos/repo.py b/github3/repos/repo.py
+index a6dbeef2..dcf819b9 100644
+--- a/github3/repos/repo.py
++++ b/github3/repos/repo.py
+@@ -1210,7 +1210,7 @@ class Repository(GitHubCore):
+         """
+         url = self._build_url('contents', directory_path, base_url=self._api)
+         json = self._json(self._get(url, params={'ref': ref}), 200) or []
+-        return return_as((j.get('name'), Contents(j, self)) for j in json)
++        return return_as((j.get('name'), Contents(j, self, ref=ref)) for j in json)
+ 
+     @requires_auth
+     def edit(self, name, description=None, homepage=None, private=None,
+@@ -1277,7 +1277,7 @@ class Repository(GitHubCore):
+         """
+         url = self._build_url('contents', path, base_url=self._api)
+         json = self._json(self._get(url, params={'ref': ref}), 200)
+-        return self._instance_or_null(Contents, json)
++        return self._instance_or_null(Contents, json, ref=ref)
+ 
+     def forks(self, sort='', number=-1, etag=None):
+         """Iterate over forks of this repository.
+diff --git a/github3/session.py b/github3/session.py
+index ed5456a9..b0500e72 100644
+--- a/github3/session.py
++++ b/github3/session.py
+@@ -1,7 +1,10 @@
+ # -*- coding: utf-8 -*-
+ import requests
+ 
+-from collections import Callable
++try:
++    from collections.abc import Callable
++except ImportError:
++    from collections import Callable
+ from . import __version__
+ from logging import getLogger
+ from contextlib import contextmanager
+diff --git a/github3/structs.py b/github3/structs.py
+index c3af7bd8..ff91976a 100644
+--- a/github3/structs.py
++++ b/github3/structs.py
+@@ -1,5 +1,8 @@
+ # -*- coding: utf-8 -*-
+-import collections
++try:
++    from collections.abc import Iterator
++except ImportError:
++    from collections import Iterator
+ import functools
+ 
+ from requests.compat import urlparse, urlencode
+@@ -8,7 +11,7 @@ from . import exceptions
+ from . import models
+ 
+ 
+-class GitHubIterator(models.GitHubCore, collections.Iterator):
++class GitHubIterator(models.GitHubCore, Iterator):
+     """The :class:`GitHubIterator` class powers all of the iter_* methods."""
+     def __init__(self, count, url, cls, session, params=None, etag=None,
+                  headers=None):
+diff --git a/tests/unit/json/content_example b/tests/unit/json/content_example
+index c6c3fdea..0ddf9bcb 100644
+--- a/tests/unit/json/content_example
++++ b/tests/unit/json/content_example
+@@ -1 +1 @@
+-{"name": "README.rst", "encoding": "base64", "url": "https://api.github.com/repos/github3py/github3.py/contents/README.rst?ref=master", "html_url": "https://github.com/github3py/github3.py/blob/master/README.rst", "content": "Z2l0aHViMy5weQo9PT09PT09PT09CgouLiBpbWFnZTo6CiAgICBodHRwczov\nL3NlY3VyZS50cmF2aXMtY2kub3JnL3NpZ21hdmlydXMyNC9naXRodWIzLnB5\nLnBuZz9icmFuY2g9bW9jawogICAgOmFsdDogQnVpbGQgU3RhdHVzCiAgICA6\ndGFyZ2V0OiBodHRwOi8vdHJhdmlzLWNpLm9yZy9zaWdtYXZpcnVzMjQvZ2l0\naHViMy5weQoKLi4gaW1hZ2U6OiBodHRwczovL3B5cGlwLmluL2QvZ2l0aHVi\nMy5weS9iYWRnZS5wbmcKICAgIDphbHQ6IERvd25sb2FkcwogICAgOnRhcmdl\ndDogaHR0cHM6Ly9jcmF0ZS5pby9wYWNrYWdlcy9naXRodWIzLnB5CgpnaXRo\ndWIzLnB5IGlzIGEgY29tcHJlaGVuc2l2ZSwgYWN0aXZlbHkgZGV2ZWxvcGVk\nIGFuZCBleHRyYW9yZGluYXJpbHkgc3RhYmxlIAp3cmFwcGVyIGFyb3VuZCB0\naGUgR2l0SHViIEFQSSAodjMpLgoKU2VlIEhJU1RPUlkucnN0IGZvciBhbnkg\nImJyZWFraW5nIiBjaGFuZ2VzLgoKSW5zdGFsbGF0aW9uCi0tLS0tLS0tLS0t\nLQoKOjoKCiAgICAkIHBpcCBpbnN0YWxsIGdpdGh1YjMucHkKCkRlcGVuZGVu\nY2llcwotLS0tLS0tLS0tLS0KCi0gcmVxdWVzdHNfICBieSBLZW5uZXRoIFJl\naXR6CgouLiBfcmVxdWVzdHM6IGh0dHBzOi8vZ2l0aHViLmNvbS9rZW5uZXRo\ncmVpdHovcmVxdWVzdHMKClRlc3RpbmcKfn5+fn5+fgoKWW91IGNhbiBydW4g\nZWl0aGVyIGBgcGlwIGluc3RhbGwgLXIgcmVxdWlyZW1lbnRzLnR4dGBgIHRv\nIGluc3RhbGwgdGhlIApmb2xsb3dpbmcgYmVmb3JlIHRlc3Rpbmcgb3Igc2lt\ncGx5IGBgbWFrZSB0ZXN0LWRlcHNgYC4gSXQgaXMgc3VnZ2VzdGVkIHlvdSBk\nbyAKdGhpcyBpbiBhIHZpcnR1YWwgZW52aXJvbWVudC4gVGhlc2UgbmVlZCB0\nbyBiZSBpbnN0YWxsZWQgZm9yIHRoZSB0ZXN0cyB0byBydW4uCgotIGV4cGVj\ndGVyXyBieSBHYXJ5IEJlcm5oYXJkdAotIG1vY2tfIGJ5IE1pY2hhZWwgRm9v\ncmQKLSBjb3ZlcmFnZV8gYnkgTmVkIEJhdGNoZWxkZXIKCi4uIF9leHBlY3Rl\ncjogaHR0cHM6Ly9naXRodWIuY29tL2dhcnliZXJuaGFyZHQvZXhwZWN0ZXIK\nLi4gX2NvdmVyYWdlOiBodHRwOi8vbmVkYmF0Y2hlbGRlci5jb20vY29kZS9j\nb3ZlcmFnZS8KLi4gX21vY2s6IGh0dHA6Ly9tb2NrLnJlYWR0aGVkb2NzLm9y\nZy9lbi9sYXRlc3QvCgpMaWNlbnNlCi0tLS0tLS0KCk1vZGlmaWVkIEJTRCBs\naWNlbnNlXwoKLi4gX2xpY2Vuc2U6IGh0dHBzOi8vZ2l0aHViLmNvbS9zaWdt\nYXZpcnVzMjQvZ2l0aHViMy5weS9ibG9iL2RldmVsb3AvTElDRU5TRQoKRXhh\nbXBsZXMKLS0tLS0tLS0KClNlZSB0aGUgZG9jc18gZm9yIG1vcmUgZXhhbXBs\nZXMuCgouLiBfZG9jczogaHR0cDovL2dpdGh1YjNweS5yZWFkdGhlZG9jcy5v\ncmcvZW4vbGF0ZXN0L2luZGV4Lmh0bWwjbW9yZS1leGFtcGxlcwoKVGVzdGlu\nZwp+fn5+fn5+CgpJbnN0YWxsIHRoZSBkZXBlbmRlbmNpZXMgZnJvbSByZXF1\naXJlbWVudHMudHh0IGUuZy46Cgo6OgoKICAgIHBpcCBpbnN0YWxsIC1yIHJl\ncXVpcmVtZW50cy50eHQKICAgICMgb3IgbWFrZSB0ZXN0LWRlcHMKCjo6Cgog\nICAgbWFrZSB0ZXN0cwoKQXV0aG9yCi0tLS0tLQoKSWFuIENvcmRhc2NvIChz\naWdtYXZpcnVzMjQpCgpDb250YWN0IE9wdGlvbnMKLS0tLS0tLS0tLS0tLS0t\nCgotIEl0IGlzIHByZWZlcnJlZCB0aGF0IHlvdSBzZW5kIGFuIGVtYWlsIHRv\nIGdpdGh1YjMucHlAbGlicmVsaXN0LmNvbQotIFlvdSBtYXkgYWxzbyBjb250\nYWN0ICh2aWEgZW1haWwpIHRoZSBhdXRob3IgZGlyZWN0bHkgd2l0aCAKICBx\ndWVzdGlvbnMvc3VnZ2VzdGlvbnMvY29tbWVudHMK\n", "sha": "3f4f0b9a43d13376679ee5710958ca88baa7c421", "_links": {"self": "https://api.github.com/repos/github3py/github3.py/contents/README.rst?ref=master", "git": "https://api.github.com/repos/github3py/github3.py/git/blobs/3f4f0b9a43d13376679ee5710958ca88baa7c421", "html": "https://github.com/github3py/github3.py/blob/master/README.rst"}, "git_url": "https://api.github.com/repos/github3py/github3.py/git/blobs/3f4f0b9a43d13376679ee5710958ca88baa7c421", "path": "README.rst", "type": "file", "size": 1785}
+\ No newline at end of file
++{"name": "README.rst", "encoding": "base64", "ref": "master", "url": "https://api.github.com/repos/github3py/github3.py/contents/README.rst", "html_url": "https://github.com/github3py/github3.py/blob/master/README.rst", "content": "Z2l0aHViMy5weQo9PT09PT09PT09CgouLiBpbWFnZTo6CiAgICBodHRwczov\nL3NlY3VyZS50cmF2aXMtY2kub3JnL3NpZ21hdmlydXMyNC9naXRodWIzLnB5\nLnBuZz9icmFuY2g9bW9jawogICAgOmFsdDogQnVpbGQgU3RhdHVzCiAgICA6\ndGFyZ2V0OiBodHRwOi8vdHJhdmlzLWNpLm9yZy9zaWdtYXZpcnVzMjQvZ2l0\naHViMy5weQoKLi4gaW1hZ2U6OiBodHRwczovL3B5cGlwLmluL2QvZ2l0aHVi\nMy5weS9iYWRnZS5wbmcKICAgIDphbHQ6IERvd25sb2FkcwogICAgOnRhcmdl\ndTogaHR0cHM6Ly9jcmF0ZS5pby9wYWNrYWdlcy9naXRodWIzLnB5CgpnaXRo\ndWIzLnB5IGlzIGEgY29tcHJlaGVuc2l2ZSwgYWN0aXZlbHkgZGV2ZWxvcGVk\nIGFuZCBleHRyYW9yZGluYXJpbHkgc3RhYmxlIAp3cmFwcGVyIGFyb3VuZCB0\naGUgR2l0SHViIEFQSSAodjMpLgoKU2VlIEhJU1RPUlkucnN0IGZvciBhbnkg\nImJyZWFraW5nIiBjaGFuZ2VzLgoKSW5zdGFsbGF0aW9uCi0tLS0tLS0tLS0t\nLQoKOjoKCiAgICAkIHBpcCBpbnN0YWxsIGdpdGh1YjMucHkKCkRlcGVuZGVu\nY2llcwotLS0tLS0tLS0tLS0KCi0gcmVxdWVzdHNfICBieSBLZW5uZXRoIFJl\naXR6CgouLiBfcmVxdWVzdHM6IGh0dHBzOi8vZ2l0aHViLmNvbS9rZW5uZXRo\ncmVpdHovcmVxdWVzdHMKClRlc3RpbmcKfn5+fn5+fgoKWW91IGNhbiBydW4g\nZWl0aGVyIGBgcGlwIGluc3RhbGwgLXIgcmVxdWlyZW1lbnRzLnR4dGBgIHRv\nIGluc3RhbGwgdGhlIApmb2xsb3dpbmcgYmVmb3JlIHRlc3Rpbmcgb3Igc2lt\ncGx5IGBtb2NrIHRlc3QtZGVzcGAuIEl0IGlzIHN1Z2dnZXN0ZWQgeW91IGRv\nIAp0aGlzIGluIGEgdmlydWFsIGVudmlyb21lbnQuIFRoZXNlIG5lZWQgdG8gYmU\naW5zdGFsbGVkIGZvciB0aGUgdGVzdHMgdG8gcnVuLgoKLSBleHBlY3Rlcl8gYnkg\nR2FyeSBCZXJuaGFyZAotIG1vY2tfIGJ5IE1pY2hhZWwgRm9vcmQKLSBjb3ZlcmFn\nZV8gYnkgTmVkIEJhdGNoZWxkZXIKCi4uIF9leHBlY3RlcjogaHR0cHM6Ly9naXRo\ndWIuY29tL2dhcnliZXJuaGFyZHQvZXhwZWN0ZXIKLi4gX2NvdmVyYWdlOiBodHRw\nOi8vbmVkYmF0Y2hlbGRlci5jb20vY29kZS9jb3ZlcmFnZS8KLi4gX21vY2s6IGh0\ndHA6Ly9tb2NrLnJlYWR0aGVkb2NzLm9yZy9lbi9sYXRlc3QvCgpMaWNlbnNlCi0t\nLS0tLS0tLS0tLS0KCi1tZWRpdWVkIEJTRCBsaWNlbnNlXwoKLi4gX2xpY2Vuc2U6\nIGh0dHBzOi8vZ2l0aHViLmNvbS9zaWdtYXZpcnVzMjQvZ2l0aHViMy5weS9ibG9i\nL2RldmVsb3AvTElDRU5TRQoKRXhhbXBsZXMKLS0tLS0tLS0tLS0tLS0KC1NlZSB0\ndGUgZG9jc18gZm9yIG1vcmUgZXhhbXBsZXMuCgouLiBfZG9jczogaHR0cDovL2dp\ndGh1YjNweS5yZWFkdGhlZG9jcy5vcmcvZW4vbGF0ZXN0L2luZGV4Lmh0bWwjbW9y\nZS1leGFtcGxlcwoKVGVzdGluZwp+fn5+fn5+CgpJbnN0YWxsIHRoZSBkZXBlbmRl\nbmNpZXMgZnJvbSByZXF1aXJlbWVudHMudHh0IGUuZy46Cgo6OgoKICAgIHBpcCBp\nbnN0YWxsIC1yIHJlcXVpcmVtZW50cy50eHQKICAgICMgb3IgbWFrZSB0ZXN0LWRl\ncHMKCjo6CgogICAgbWFrZSB0ZXN0cwoKQXV0aG9yCi0tLS0tLQoKSWFuIENvcmRh\nc2NvIChzaWdtYXZpcnVzMjQpCgpDb250YWN0IE9wdGlvbnMKLS0tLS0tLS0tLS0t\nLS0tCgotIEl0IGlzIHByZWZlcnJlZCB0aGF0IHlvdSBzZW5kIGFuIGVtYWlsIHRv\nIGdpdGh1YjMucHlAbGlicmVsaXN0LmNvbQotIFlvdSBtYXkgYWxzbyBjb250YWN0\nICh2aWEgZW1haWwpIHRoZSBhdXRob3IgZGlyZWN0bHkgd2l0aCAKICBxdWVzdGlv\nbnMvc3VnZ2VzdGlvbnMvY29tbWVudHMK", "sha": "3f4f0b9a43d13376679ee5710958ca88baa7c421", "_links": {"self": "https://api.github.com/repos/github3py/github3.py/contents/README.rst", "git": "https://api.github.com/repos/github3py/github3.py/git/blobs/3f4f0b9a43d13376679ee5710958ca88baa7c421", "html": "https://github.com/github3py/github3.py/blob/master/README.rst"}, "git_url": "https://api.github.com/repos/github3py/github3.py/git/blobs/3f4f0b9a43d13376679ee5710958ca88baa7c421", "path": "README.rst", "type": "file", "size": 1785}
+\ No newline at end of file
+=== DISK USAGE ===
+102	/testbed

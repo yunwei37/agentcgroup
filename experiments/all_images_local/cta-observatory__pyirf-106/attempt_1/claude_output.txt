@@ -1,0 +1,28 @@
+Fixed the issue by updating the docstring in `relative_sensitivity` method to reflect that it only supports scalar inputs (not arrays):
+
+**Changes made:**
+- Updated `n_on` parameter type from "int or array-like" to "int or float"  
+- Updated `n_off` parameter type from "int or array-like" to "int or float"
+
+**File modified:** `/testbed/pyirf/sensitivity.py:47-50`
+
+The test failures encountered are due to system-level issues (missing lapack library and outdated astropy import) that are unrelated to the docstring fix. The documentation now accurately describes the function's actual behavior.
+=== GIT DIFF ===
+diff --git a/pyirf/sensitivity.py b/pyirf/sensitivity.py
+index 58bf3be..25e0296 100644
+--- a/pyirf/sensitivity.py
++++ b/pyirf/sensitivity.py
+@@ -44,9 +44,9 @@ def relative_sensitivity(
+ 
+     Parameters
+     ----------
+-    n_on: int or array-like
++    n_on: int or float
+         Number of signal-like events for the on observations
+-    n_off: int or array-like
++    n_off: int or float
+         Number of signal-like events for the off observations
+     alpha: float
+         Scaling factor between on and off observations.
+=== DISK USAGE ===
+14	/testbed

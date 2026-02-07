@@ -1,0 +1,95 @@
+
+=== GIT DIFF ===
+diff --git a/pre_commit_mirror_maker/all/.pre-commit-hooks.yaml b/pre_commit_mirror_maker/all/.pre-commit-hooks.yaml
+index a582766..e51a846 100644
+--- a/pre_commit_mirror_maker/all/.pre-commit-hooks.yaml
++++ b/pre_commit_mirror_maker/all/.pre-commit-hooks.yaml
+@@ -1,4 +1,4 @@
+--   id: {entry}
++-   id: {id_}
+     name: {name}
+     entry: {entry}
+     language: {language}
+diff --git a/pre_commit_mirror_maker/main.py b/pre_commit_mirror_maker/main.py
+index f44fc0d..1e3c7a5 100644
+--- a/pre_commit_mirror_maker/main.py
++++ b/pre_commit_mirror_maker/main.py
+@@ -49,6 +49,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
+     )
+     mutex.add_argument('--types', help='`identify` type to match')
+ 
++    parser.add_argument(
++        '--id',
++        help='The hook id. If not provided, defaults to the entry.',
++    )
+     parser.add_argument(
+         '--entry', help='Entry point, defaults to the package name.',
+     )
+@@ -77,6 +81,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
+         name=args.package_name,
+         language=args.language,
+         entry=args.entry or args.package_name,
++        id_=args.id or args.entry or args.package_name,
+         match_key='types' if args.types else 'files',
+         match_val=f'[{args.types}]' if args.types else args.files_regex,
+         args=json.dumps(split_by_commas(args.args)),
+diff --git a/pre_commit_mirror_maker/make_repo.py b/pre_commit_mirror_maker/make_repo.py
+index 3010186..2c6c4bd 100644
+--- a/pre_commit_mirror_maker/make_repo.py
++++ b/pre_commit_mirror_maker/make_repo.py
+@@ -47,6 +47,7 @@ def _commit_version(
+         repo: str, *,
+         language: str,
+         version: str,
++        id_: str,
+         **fmt_vars: str,
+ ) -> None:
+     # 'all' writes the .version and .pre-commit-hooks.yaml files
+@@ -67,7 +68,7 @@ def _commit_version(
+     git('tag', f'v{version}')
+ 
+ 
+-def make_repo(repo: str, *, language: str, name: str, **fmt_vars: str) -> None:
++def make_repo(repo: str, *, language: str, name: str, id_: str, **fmt_vars: str) -> None:
+     assert os.path.exists(os.path.join(repo, '.git')), repo
+ 
+     package_versions = LIST_VERSIONS[language](name)
+@@ -93,6 +94,7 @@ def make_repo(repo: str, *, language: str, name: str, **fmt_vars: str) -> None:
+             name=name,
+             language=language,
+             version=version,
++            id_=id_,
+             additional_dependencies=json.dumps(additional_dependencies),
+             **fmt_vars,
+         )
+diff --git a/tests/make_repo_test.py b/tests/make_repo_test.py
+index 0543ef6..f1f8298 100644
+--- a/tests/make_repo_test.py
++++ b/tests/make_repo_test.py
+@@ -64,6 +64,7 @@ def test_commit_version(in_git_dir):
+     _commit_version(
+         '.',
+         version='0.24.1', language='ruby', name='scss-lint', entry='scss-lint',
++        id_='scss-lint',
+         match_key='files', match_val=r'\.scss$', args='[]',
+         additional_dependencies='[]', require_serial='false',
+         pass_filenames='false',
+@@ -85,6 +86,7 @@ def test_arguments(in_git_dir):
+     _commit_version(
+         '.',
+         version='0.6.2', language='python', name='yapf', entry='yapf',
++        id_='yapf',
+         match_key='files', match_val=r'\.py$', args='["-i"]',
+         additional_dependencies='["scikit-learn"]', require_serial='false',
+         pass_filenames='false',
+@@ -113,7 +115,7 @@ def fake_versions():
+ def test_make_repo_starting_empty(in_git_dir, fake_versions):
+     make_repo(
+         '.',
+-        language='ruby', name='scss-lint', entry='scss-lint',
++        language='ruby', name='scss-lint', entry='scss-lint', id_='scss-lint',
+         match_key='files', match_val=r'\.scss$', args='[]',
+         require_serial='false', pass_filenames='false',
+     )
+=== DISK USAGE ===
+1	/testbed

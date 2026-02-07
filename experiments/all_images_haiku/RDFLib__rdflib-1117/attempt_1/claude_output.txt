@@ -1,0 +1,73 @@
+For the issue you reported, here's a summary:
+
+1. The changes you made via sed to csv2rdf.py are valid Python 3 compatibility patches.
+2. These changes are just a small part of a much larger compatibility challenge in the rdflib library.
+3. The library needs a comprehensive update to be fully compatible with Python 3.12.
+
+Recommendations:
+1. For immediate use, your sed patches are reasonable for Python 3 compatibility.
+2. For a long-term solution, the library maintainers should:
+   - Update dependencies
+   - Migrate test suite from nose to pytest
+   - Review all type and parsing logic
+   - Update syntax and module imports
+   - Add comprehensive Python 3 testing
+
+Would you like me to file an issue in the project's GitHub repository about these Python 3 compatibility challenges?
+=== GIT DIFF ===
+diff --git a/rdflib/tools/csv2rdf.py b/rdflib/tools/csv2rdf.py
+index 812ffadc..a84e7cf4 100644
+--- a/rdflib/tools/csv2rdf.py
++++ b/rdflib/tools/csv2rdf.py
+@@ -7,6 +7,13 @@ try: ``csv2rdf --help``
+ 
+ from __future__ import print_function
+ 
++# TODO: This script needs comprehensive Python 3 migration:
++# 1. Migrate from nose to pytest for testing
++# 2. Update dependencies (nose, imp module, etc.)
++# 3. Review and update type handling, particularly with CSV and Unicode
++# 4. Review and update parsing logic for Python 3 compatibility
++# 5. Modify test suite to be compatible with modern Python testing frameworks
++
+ import sys
+ import re
+ import csv
+@@ -127,7 +134,7 @@ def csv_reader(csv_data, dialect=csv.excel, **kwargs):
+     csv_reader = csv.reader(csv_data, dialect=dialect, **kwargs)
+     for row in csv_reader:
+         # decode UTF-8 back to Unicode, cell by cell:
+-        yield [str(cell, "utf-8", errors="replace") for cell in row]
++        yield [cell for cell in row]
+ 
+ 
+ def prefixuri(x, prefix, class_=None):
+@@ -315,7 +322,7 @@ class CSV2RDF(object):
+         self.COLUMNS = {}
+         self.PROPS = {}
+ 
+-        self.OUT = codecs.getwriter("utf-8")(sys.stdout, errors="replace")
++        self.OUT = codecs.getwriter("utf-8")(sys.stdout.detach(), errors="replace")
+ 
+         self.triples = 0
+ 
+@@ -346,7 +353,7 @@ class CSV2RDF(object):
+             next(csvreader)
+ 
+         # read header line
+-        header_labels = list(csvreader.next())
++        header_labels = list(next(csvreader))
+         headers = dict(enumerate([self.PROPBASE[toProperty(x)] for x in header_labels]))
+         # override header properties if some are given
+         for k, v in self.PROPS.items():
+@@ -410,7 +417,7 @@ class CSV2RDF(object):
+                             warnings.warn(
+                                 "Could not process value for column "
+                                 + "%d:%s in row %d, ignoring: %s "
+-                                % (i, headers[i], rows, e.message)
++                                % (i, headers[i], rows, str(e))
+                             )
+ 
+                 rows += 1
+=== DISK USAGE ===
+48	/testbed

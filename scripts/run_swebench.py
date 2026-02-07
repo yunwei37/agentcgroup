@@ -20,8 +20,49 @@ import threading
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict
 
+
+# Complete workflow prompt
+WORKFLOW_PROMPT = '''Fix this issue: $(cat /issue.md)
+
+IMPORTANT: You must complete the FULL workflow:
+1. Read and understand the issue thoroughly
+2. Explore the codebase to find relevant files
+3. Implement the fix
+4. Run the test suite to verify your fix
+5. If ANY test fails, analyze the error and fix it
+6. Repeat steps 4-5 until ALL tests pass
+7. Only stop when tests are passing
+
+DO NOT stop until you have:
+- Made code changes that fix the issue
+- Run the tests and confirmed they pass
+- Shown the final git diff
+
+If you encounter test failures, debug and fix them. Keep trying until successful.
+
+CRITICAL REQUIREMENTS FOR TESTING:
+- You MUST run the project's ORIGINAL test suite (pytest, unittest, tox, etc.)
+- Do NOT write custom test scripts or verification scripts to bypass tests
+- Do NOT claim success based on your own "All checks passed" output
+- The test output MUST show real pytest format: "X passed, Y failed in Z seconds"
+- If tests fail with ImportError or collection errors, fix the environment/import issue first
+- Success means the project's actual test suite passes, not custom verification
+
+WHAT COUNTS AS SUCCESS:
+- Real pytest/unittest output showing tests passed
+- Example: "===== 150 passed, 0 failed in 10.5s ====="
+
+WHAT DOES NOT COUNT:
+- Your own verification scripts saying "All checks passed"
+- Manual testing or print statements
+- Skipping tests due to import errors
+
+In the output, you need to summary your change and 
+summary how your test the application to check the fix,
+and what's the test status.
+'''
 
 class ResourceMonitor:
     """Monitor container resource usage in a background thread."""
@@ -150,7 +191,8 @@ class SWEBenchRunner:
         self.container_id: Optional[str] = None
         self.output_dir: Optional[Path] = output_dir
 
-    def run(self, prompt: Optional[str] = None, run_tests: bool = False) -> dict:
+    def run(self, prompt: Optional[str] = None, run_tests: bool = False, model: str = "haiku",
+              extra_env: Optional[Dict[str, str]] = None) -> dict:
         """Run the complete workflow."""
         start_time = time.time()
         results = {
@@ -158,41 +200,56 @@ class SWEBenchRunner:
             "start_time": datetime.now().isoformat(),
             "memory_limit": self.memory_limit,
             "cpu_limit": self.cpu_limit,
+            "model": model,
         }
+
+        # Set environment variables for local model
+        if extra_env:
+            for key, value in extra_env.items():
+                os.environ[key] = value
 
         try:
             # Step 1: Pull image
-            print(f"[1/6] Pulling image: {self.image_name}")
+            print(f"[1/7] Pulling image: {self.image_name}")
             self._pull_image()
             results["pull_time"] = time.time() - start_time
 
             # Step 2: Fix permissions (create modified image)
-            print(f"[2/6] Fixing /testbed permissions...")
+            print(f"[2/7] Fixing /testbed permissions...")
             step_start = time.time()
             self._fix_permissions()
             results["permission_fix_time"] = time.time() - step_start
 
-            # Step 3: Prepare output directory
-            print(f"[3/6] Preparing output directory...")
+            # Step 3: Collect image info
+            print(f"[3/7] Collecting image and disk info...")
+            results["image_info"] = self._get_image_info()
+            print(f"  Image size: {results['image_info'].get('size_mb', 'N/A')} MB")
+
+            # Step 4: Prepare output directory
+            print(f"[4/7] Preparing output directory...")
             if self.output_dir is None:
                 self.output_dir = self._prepare_output_dir()
             results["output_dir"] = str(self.output_dir)
 
             # Step 4: Run Claude Code with monitoring
-            print(f"[4/6] Running Claude Code (haiku) with resource monitoring...")
+            print(f"[4/6] Running Claude Code ({model}) with resource monitoring...")
             step_start = time.time()
-            claude_result, resource_samples = self._run_claude_with_monitoring(prompt, run_tests)
+            claude_result, resource_samples = self._run_claude_with_monitoring(prompt, run_tests, model, extra_env)
             results["claude_time"] = time.time() - step_start
             results["claude_output"] = claude_result
             results["resource_samples"] = resource_samples
 
-            # Step 5: Copy trace logs
-            print(f"[5/6] Collecting trace logs...")
+            # Parse disk usage from output (collected in cmd_script)
+            results["disk_usage"] = self._parse_disk_usage(claude_result.get("stdout", ""))
+            print(f"  Disk usage (/testbed): {results['disk_usage'].get('testbed_mb', 'N/A')} MB")
+
+            # Step 6: Copy trace logs
+            print(f"[6/7] Collecting trace logs...")
             traces = self._collect_traces()
             results["traces"] = traces
 
-            # Step 6: Cleanup
-            print(f"[6/6] Cleaning up...")
+            # Step 7: Cleanup
+            print(f"[7/7] Cleaning up...")
             self._cleanup()
             results["cleaned"] = True
 
@@ -212,6 +269,45 @@ class SWEBenchRunner:
             print(f"\nResults saved to: {results_file}")
 
         return results
+
+    def _get_image_info(self) -> dict:
+        """Get Docker image size and info."""
+        info = {}
+        try:
+            result = subprocess.run(
+                ["podman", "image", "inspect", self.fixed_image_name, "--format", "{{.Size}}"],
+                capture_output=True, text=True
+            )
+            if result.returncode == 0:
+                size_bytes = int(result.stdout.strip())
+                info["size_bytes"] = size_bytes
+                info["size_mb"] = round(size_bytes / (1024 * 1024), 2)
+
+            result = subprocess.run(
+                ["podman", "image", "inspect", self.fixed_image_name, "--format", "{{.Id}}"],
+                capture_output=True, text=True
+            )
+            if result.returncode == 0:
+                info["image_id"] = result.stdout.strip()[:12]
+        except Exception as e:
+            info["error"] = str(e)
+        return info
+
+    def _parse_disk_usage(self, stdout: str) -> dict:
+        """Parse disk usage from container output."""
+        usage = {}
+        try:
+            # Look for "=== DISK USAGE ===" section
+            if "=== DISK USAGE ===" in stdout:
+                lines = stdout.split("=== DISK USAGE ===")[1].strip().split('\n')
+                if lines and lines[0].strip() != "N/A":
+                    # du -sm output: "SIZE /testbed"
+                    parts = lines[0].strip().split()
+                    if parts and parts[0].isdigit():
+                        usage["testbed_mb"] = int(parts[0])
+        except Exception as e:
+            usage["error"] = str(e)
+        return usage
 
     def _pull_image(self):
         """Pull the Docker image."""
@@ -276,15 +372,13 @@ class SWEBenchRunner:
         output_dir.mkdir(parents=True, exist_ok=True)
         return output_dir
 
-    def _run_claude_with_monitoring(self, prompt: Optional[str], run_tests: bool) -> tuple:
+    def _run_claude_with_monitoring(self, prompt: Optional[str], run_tests: bool, model: str,
+                                        extra_env: Optional[Dict[str, str]] = None) -> tuple:
         """Run Claude Code and monitor resources."""
 
         # Build the prompt
         if prompt is None:
-            if run_tests:
-                prompt = 'Fix this issue: $(cat /issue.md). After fixing, run the tests to verify.'
-            else:
-                prompt = 'Fix this issue: $(cat /issue.md)'
+            prompt = WORKFLOW_PROMPT
 
         # Build the command
         cmd_script = f'''
@@ -292,30 +386,39 @@ git config user.email "test@test.com"
 git config user.name "Test"
 git config --add safe.directory /testbed
 
-claude --model haiku --print --dangerously-skip-permissions "{prompt}"
+claude --model {model} --print --dangerously-skip-permissions "{prompt}"
 
 echo "=== GIT DIFF ==="
 git diff
+
+echo "=== DISK USAGE ==="
+du -sm /testbed 2>/dev/null || echo "N/A"
 '''
 
         # Start container
+        # Mount host system for claude binary, libs, SSL certs
+        # Note: Don't mount /etc (conflicts with podman's resolv.conf)
         container_cmd = [
             "podman", "run", "-d",
             "--userns=keep-id",
             "--network=host",
-            "-v", "/usr:/usr:ro",
-            "-v", "/lib:/lib:ro",
-            "-v", "/lib64:/lib64:ro",
-            "-v", "/etc:/etc:ro",
-            "-v", "/bin:/bin:ro",
-            "-v", "/sbin:/sbin:ro",
-            "-v", "/home:/home",
-            "-v", "/tmp:/tmp",
-            "-v", "/var:/var",
+            "-v", "/usr:/usr:ro",      # claude binary, SSL certs, system tools
+            "-v", "/lib:/lib:ro",      # system libraries
+            "-v", "/lib64:/lib64:ro",  # 64-bit libraries
+            "-v", "/bin:/bin:ro",      # basic commands
+            "-v", "/sbin:/sbin:ro",    # system commands
+            "-v", "/home:/home",       # home dir for ~/.claude config
+            "-v", "/tmp:/tmp",         # temp files
+            "-v", "/var:/var",         # var data
             "-w", "/testbed",
             "-e", f"HOME={self.home}",
             "-e", "PATH=/usr/local/bin:/usr/bin:/bin",
         ]
+
+        # Add extra environment variables
+        if extra_env:
+            for key, value in extra_env.items():
+                container_cmd.extend(["-e", f"{key}={value}"])
         # Add resource limits only if specified
         if self.memory_limit:
             container_cmd.extend([f"--memory={self.memory_limit}"])
@@ -409,22 +512,40 @@ git diff
             shutil.copy(latest_trace, dest)
             traces["files"].append(str(dest))
 
-        # Parse trace for tool calls
+        # Parse trace for tool calls with full details
+        pending_tools = {}
         try:
             with open(latest_trace, "r") as f:
                 for line in f:
                     try:
                         entry = json.loads(line)
-                        if entry.get("type") == "assistant" and "message" in entry:
-                            msg = entry["message"]
-                            if "content" in msg:
-                                for block in msg["content"]:
+                        ts = entry.get("timestamp")
+                        msg = entry.get("message", {})
+                        content = msg.get("content", [])
+
+                        if isinstance(content, list):
+                            for block in content:
+                                if isinstance(block, dict):
+                                    # Tool use request
                                     if block.get("type") == "tool_use":
-                                        traces["tool_calls"].append({
-                                            "timestamp": entry.get("timestamp"),
+                                        tool_id = block.get("id")
+                                        pending_tools[tool_id] = {
+                                            "timestamp": ts,
                                             "tool": block.get("name"),
-                                            "id": block.get("id")
-                                        })
+                                            "id": tool_id,
+                                            "input": block.get("input", {})
+                                        }
+                                    # Tool result
+                                    elif block.get("type") == "tool_result":
+                                        tool_id = block.get("tool_use_id")
+                                        if tool_id in pending_tools:
+                                            tool_info = pending_tools.pop(tool_id)
+                                            tool_info["end_timestamp"] = ts
+                                            result = block.get("content", "")
+                                            if isinstance(result, str) and len(result) > 500:
+                                                result = result[:500] + "..."
+                                            tool_info["result_preview"] = result
+                                            traces["tool_calls"].append(tool_info)
                     except json.JSONDecodeError:
                         pass
         except Exception as e:
@@ -484,6 +605,7 @@ Examples:
     parser.add_argument("--run-tests", action="store_true", help="Run tests after fixing")
     parser.add_argument("--memory", default="4g", help="Memory limit (default: 4g)")
     parser.add_argument("--cpus", default="2", help="CPU limit (default: 2)")
+    parser.add_argument("--model", default="haiku", help="Model to use (default: haiku)")
 
     args = parser.parse_args()
 
@@ -493,6 +615,7 @@ Examples:
     print(f"Image: {args.image}")
     print(f"Memory limit: {args.memory}")
     print(f"CPU limit: {args.cpus}")
+    print(f"Model: {args.model}")
     print(f"Run tests: {args.run_tests}")
     print("=" * 60)
 
@@ -502,7 +625,7 @@ Examples:
         cpu_limit=args.cpus
     )
 
-    results = runner.run(prompt=args.prompt, run_tests=args.run_tests)
+    results = runner.run(prompt=args.prompt, run_tests=args.run_tests, model=args.model)
 
     print("\n" + "=" * 60)
     print("Summary")

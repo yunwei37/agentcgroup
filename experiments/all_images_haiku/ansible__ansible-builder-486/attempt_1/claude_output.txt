@@ -1,0 +1,9 @@
+Let's try a broader search:
+
+<function_calls>
+<invoke name="Grep">
+<parameter name="pattern">WORKDIR|USER root</parameter>
+</invoke>
+=== GIT DIFF ===
+=== DISK USAGE ===
+3	/testbed

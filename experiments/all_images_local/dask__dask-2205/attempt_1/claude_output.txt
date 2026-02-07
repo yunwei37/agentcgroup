@@ -1,0 +1,61 @@
+
+=== GIT DIFF ===
+diff --git a/dask/array/rechunk.py b/dask/array/rechunk.py
+index de5da0f68..444a2a39d 100644
+--- a/dask/array/rechunk.py
++++ b/dask/array/rechunk.py
+@@ -124,14 +124,23 @@ def intersect_chunks(old_chunks, new_chunks):
+     new_chunks: iterable of tuples
+         block sizes along each dimension (converts to new_chunks)
+     """
+-    cmo = cumdims_label(old_chunks, 'o')
+-    cmn = cumdims_label(new_chunks, 'n')
+-    sums = [sum(o) for o in old_chunks]
+-    sums2 = [sum(n) for n in old_chunks]
+-    if not sums == sums2:
+-        raise ValueError('Cannot change dimensions from to %r' % sums2)
+-    old_to_new = [_intersect_1d(_breakpoints(cm[0], cm[1]))
+-                  for cm in zip(cmo, cmn)]
++    # Handle empty dimensions
++    # If there are no chunks in a dimension, create a generator with an empty tuple
++    old_to_new = []
++    for cm_old, cm_new in zip(old_chunks, new_chunks):
++        if len(cm_old) == 0 or len(cm_new) == 0:
++            # At least one dimension has no chunks
++            # This means the intersection is empty (no blocks to intersect)
++            old_to_new.append([()])
++        else:
++            cmo = cumdims_label([cm_old], 'o')
++            cmn = cumdims_label([cm_new], 'n')
++            sums = [sum(cm_old)]
++            sums2 = [sum(cm_new)]
++            if not sums == sums2:
++                raise ValueError('Cannot change dimensions from to %r' % sums2)
++            old_to_new.append(_intersect_1d(_breakpoints(cmo[0], cmn[0])))
++
+     cross1 = product(*old_to_new)
+     cross = chain(tuple(product(*cr)) for cr in cross1)
+     return cross
+diff --git a/dask/array/tests/test_reshape.py b/dask/array/tests/test_reshape.py
+index e32dc217d..7a4c46c85 100644
+--- a/dask/array/tests/test_reshape.py
++++ b/dask/array/tests/test_reshape.py
+@@ -43,3 +43,16 @@ def test_contract_tuple():
+     assert contract_tuple((1, 1, 2, 5, 1), 2) == (2, 2, 4, 2)
+     assert contract_tuple((2, 4), 2) == (2, 4)
+     assert contract_tuple((2, 4), 3) == (6,)
++
++
++def test_reshape_empty():
++    # Test reshape with empty dimensions
++    x = da.ones((0, 10), chunks=(5, 5))
++    y = x.reshape((0, 5, 2))
++    assert y.shape == (0, 5, 2)
++    assert_eq(x, x)
++
++    # Test that empty array can be reshaped to another empty array
++    z = da.ones((0, 0, 0), chunks=(5, 5, 5))
++    w = z.reshape((0, 0, 0))
++    assert w.shape == (0, 0, 0)
+=== DISK USAGE ===
+133	/testbed
