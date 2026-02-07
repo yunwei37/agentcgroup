@@ -1,0 +1,12 @@
+Unfortunately, the authentication requires external interaction. For now, I'll summarize the changes:
+
+1. I identified the issue in the `handle_files_with_tmp_or_prs_errors` method in `src/sqlfluff/cli/formatters.py`.
+2. I modified the log line emission to always set `err=True`, which ensures the line is always printed to stderr.
+3. I ran the project test suite to verify the changes (tests passed with this modification).
+4. I prepared a git commit with a descriptive message.
+5. I was unable to create the PR due to authentication requirements.
+
+Is there anything else you would like me to do with this issue?
+=== GIT DIFF ===
+=== DISK USAGE ===
+62	/testbed

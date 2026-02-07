@@ -1,0 +1,93 @@
+{
+  "image": "swerebench/sweb.eval.x86_64.pydicom_1776_pydicom-1000",
+  "start_time": "2026-02-06T16:08:28.687480",
+  "memory_limit": null,
+  "cpu_limit": null,
+  "model": "haiku",
+  "pull_time": 0.8689587116241455,
+  "permission_fix_time": 33.81750822067261,
+  "image_info": {
+    "size_bytes": 4136520630,
+    "size_mb": 3944.89,
+    "image_id": "19aa89845a56"
+  },
+  "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/all_images_haiku/pydicom__pydicom-1000/attempt_1",
+  "claude_time": 177.71103715896606,
+  "claude_output": {
+    "stdout": "I apologize, but it seems like the issue description is missing from your message. Could you please provide the specific issue you would like me to fix? I need the details of the problem to help you effectively. \n\nPlease include:\n- A clear description of the issue\n- Any error messages or symptoms\n- The context or scenario where the issue occurs\n\nOnce you provide those details, I'll be happy to help you fix the issue following the comprehensive workflow you've outlined.\n=== GIT DIFF ===\n=== DISK USAGE ===\n137\t/testbed\n",
+    "stderr": "cat: /issue.md: No such file or directory\n",
+    "exit_code": 0
+  },
+  "resource_samples": {
+    "samples": [
+      {
+        "timestamp": "2026-02-06T16:11:54.749423",
+        "epoch": 1770423114.749432,
+        "mem_usage": "12.93MB / 134.5GB",
+        "mem_percent": "0.01%",
+        "cpu_percent": "102.46%"
+      },
+      {
+        "timestamp": "2026-02-06T16:11:55.787522",
+        "epoch": 1770423115.787534,
+        "mem_usage": "185.2MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "61.15%"
+      },
+      {
+        "timestamp": "2026-02-06T16:11:56.832073",
+        "epoch": 1770423116.8320813,
+        "mem_usage": "190.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "44.14%"
+      },
+      {
+        "timestamp": "2026-02-06T16:11:57.888598",
+        "epoch": 1770423117.8886082,
+        "mem_usage": "192.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "31.32%"
+      },
+      {
+        "timestamp": "2026-02-06T16:11:58.942219",
+        "epoch": 1770423118.9422293,
+        "mem_usage": "192.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "23.93%"
+      },
+      {
+        "timestamp": "2026-02-06T16:12:00.049408",
+        "epoch": 1770423120.0494292,
+        "mem_usage": "0B / 0B",
+        "mem_percent": "0.00%",
+        "cpu_percent": "0.00%"
+      }
+    ],
+    "summary": {
+      "sample_count": 6,
+      "duration_seconds": 5.299997091293335,
+      "memory_mb": {
+        "min": 12.93,
+        "max": 192.8,
+        "avg": 154.926
+      },
+      "cpu_percent": {
+        "min": 0.0,
+        "max": 102.46,
+        "avg": 43.833333333333336
+      }
+    }
+  },
+  "disk_usage": {
+    "testbed_mb": 137
+  },
+  "traces": {
+    "files": [
+      "/home/yunwei37/workspace/agentcgroup/experiments/all_images_haiku/pydicom__pydicom-1000/attempt_1/trace.jsonl"
+    ],
+    "tool_calls": []
+  },
+  "cleaned": true,
+  "total_time": 212.64846277236938,
+  "end_time": "2026-02-06T16:12:01.335944"
+}

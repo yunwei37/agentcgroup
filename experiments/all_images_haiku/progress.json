@@ -3,7 +3,14 @@
     "beeware__briefcase-1525",
     "Textualize__textual-2987",
     "encode__httpx-2701",
-    "tobymao__sqlglot-1177"
+    "tobymao__sqlglot-1177",
+    "sqlfluff__sqlfluff-5362",
+    "streamlink__streamlink-2160",
+    "pydicom__pydicom-1000",
+    "pydicom__pydicom-2065",
+    "streamlink__streamlink-3485",
+    "iterative__dvc-777",
+    "numba__numba-5721"
   ],
   "results": {
     "beeware__briefcase-1525": {
@@ -25,6 +32,41 @@
       "success": true,
       "attempts": 1,
       "total_time": 410.262092
+    },
+    "sqlfluff__sqlfluff-5362": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 472.770396
+    },
+    "streamlink__streamlink-2160": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 207.879172
+    },
+    "pydicom__pydicom-1000": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 212.84215
+    },
+    "pydicom__pydicom-2065": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 199.152053
+    },
+    "streamlink__streamlink-3485": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 250.222045
+    },
+    "iterative__dvc-777": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 337.586211
+    },
+    "numba__numba-5721": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 201.676332
     }
   }
 }

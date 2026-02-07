@@ -1,0 +1,30 @@
+To summarize:
+- Added `support_external_local` method to the `Cache` class
+- The method handles converting paths and adding external local paths to the cache
+- Encountered multiple dependency installation challenges preventing full test suite execution
+
+Would you like me to continue attempting to resolve the dependency issues or elaborate on the implementation?
+=== GIT DIFF ===
+diff --git a/dvc/cache.py b/dvc/cache.py
+index 13c7b4760..c4c0a335e 100644
+--- a/dvc/cache.py
++++ b/dvc/cache.py
+@@ -37,3 +37,16 @@ class Cache(object):
+ 
+         sect = project.config._config[Config.SECTION_REMOTE_FMT.format(remote)]
+         return Remote(project, sect)
++
++    def support_external_local(self, path):
++        """Support external local deps/outputs by adding to local cache."""
++        if os.path.exists(path) and not os.path.isabs(path):
++            # Convert relative path to absolute
++            path = os.path.abspath(path)
++
++        # Ensure path is in local cache
++        if not self.local.exists(path):
++            # Add to local cache if not already present
++            self.local.add(path)
++
++        return path
+=== DISK USAGE ===
+24	/testbed
