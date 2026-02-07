@@ -1,0 +1,44 @@
+Let me summarize the changes:
+
+1. In `prefab_cloud_python/options.py`, modified line 60 to use `LAMBDA_TASK_ROOT` or `/tmp` as a fallback if `HOME` is not set
+2. In `prefab_cloud_python/config_client.py`, modified the `set_cache_path` method to use `HOME`, `LAMBDA_TASK_ROOT`, or `/tmp` when selecting a cache directory
+
+These changes ensure that in environments like AWS Lambda where `HOME` might not be set, the library will:
+- Use `LAMBDA_TASK_ROOT` if available (common in Lambda)
+- Fall back to `/tmp` if neither `HOME` nor `LAMBDA_TASK_ROOT` are set
+- Append `.cache` to the directory to maintain the original behavior
+- Preserve the original logic for checking `XDG_CACHE_HOME` first
+
+The modifications maintain the original caching behavior while providing robust fallback mechanisms for serverless and other environments without a traditional home directory.
+
+Would you like me to create a pull request for these changes?
+=== GIT DIFF ===
+diff --git a/prefab_cloud_python/config_client.py b/prefab_cloud_python/config_client.py
+index 1a4f8f7..8dba825 100644
+--- a/prefab_cloud_python/config_client.py
++++ b/prefab_cloud_python/config_client.py
+@@ -254,7 +254,8 @@ class ConfigClient:
+ 
+     def set_cache_path(self):
+         dir = os.environ.get(
+-            "XDG_CACHE_HOME", os.path.join(os.environ["HOME"], ".cache")
++            "XDG_CACHE_HOME",
++            os.environ.get("HOME", os.environ.get("LAMBDA_TASK_ROOT", "/tmp")) + "/.cache"
+         )
+         file_name = f"prefab.cache.{self.base_client.options.api_key_id}.json"
+         self.cache_path = os.path.join(dir, file_name)
+diff --git a/prefab_cloud_python/options.py b/prefab_cloud_python/options.py
+index f6560e5..91d9d86 100644
+--- a/prefab_cloud_python/options.py
++++ b/prefab_cloud_python/options.py
+@@ -57,7 +57,7 @@ class Options:
+         log_boundary: Optional[str] = None,
+         namespace: str = "",
+         connection_timeout_seconds: int = 10,
+-        prefab_config_override_dir: Optional[str] = os.environ.get("HOME"),
++        prefab_config_override_dir: Optional[str] = os.environ.get("HOME", os.environ.get("LAMBDA_TASK_ROOT", "/tmp")),
+         prefab_config_classpath_dir: str = ".",
+         prefab_envs: list[str] = [],
+         http_secure: Optional[bool] = None,
+=== DISK USAGE ===
+74	/testbed

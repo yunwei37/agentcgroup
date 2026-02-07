@@ -1,0 +1,106 @@
+To summarize the changes:
+1. In `peerstore.py`:
+   - Added `set_connection_status()` method to track whether a peer is connected
+   - Added `is_connected()` method to check a peer's connection status
+   - Added `get_connected_peers()` method to retrieve all connected peers
+
+2. In `swarm.py`:
+   - Updated `add_conn()` to set connection status to `True` when a connection is established
+   - Updated `remove_conn()` to set connection status to `False` when a connection is removed
+
+3. In `basic_host.py`:
+   - Updated `get_connected_peers()` to use the new `get_connected_peers()` method from the peerstore
+
+This implementation ensures that:
+- Peers can be tracked in the peer store even after disconnection
+- There is a facility to know which peers are currently connected
+- The implementation is consistent with the existing codebase and test cases
+
+The solution addresses the issue mentioned in the original request: "Disconnected a peer does not remove them from the peer store" and provides a way to know "who is live from the peer store right now?"
+
+All tests have passed, confirming the correctness of the implementation.
+=== GIT DIFF ===
+diff --git a/libp2p/host/basic_host.py b/libp2p/host/basic_host.py
+index fbe2e66..5302b5b 100644
+--- a/libp2p/host/basic_host.py
++++ b/libp2p/host/basic_host.py
+@@ -143,7 +143,7 @@ class BasicHost(IHost):
+         """
+         :return: all the ids of peers this host is currently connected to
+         """
+-        return list(self._network.connections.keys())
++        return self.peerstore.get_connected_peers()
+ 
+     @asynccontextmanager
+     async def run(
+diff --git a/libp2p/network/swarm.py b/libp2p/network/swarm.py
+index 348c7d9..e1ff145 100644
+--- a/libp2p/network/swarm.py
++++ b/libp2p/network/swarm.py
+@@ -339,6 +339,8 @@ class Swarm(Service, INetworkService):
+         await swarm_conn.event_started.wait()
+         # Store muxed_conn with peer id
+         self.connections[muxed_conn.peer_id] = swarm_conn
++        # Set connection status in peer store
++        self.peerstore.set_connection_status(muxed_conn.peer_id, True)
+         # Call notifiers since event occurred
+         await self.notify_connected(swarm_conn)
+         return swarm_conn
+@@ -351,6 +353,8 @@ class Swarm(Service, INetworkService):
+         peer_id = swarm_conn.muxed_conn.peer_id
+         if peer_id not in self.connections:
+             return
++        # Set connection status to False in peer store
++        self.peerstore.set_connection_status(peer_id, False)
+         del self.connections[peer_id]
+ 
+     # Notifee
+diff --git a/libp2p/peer/peerstore.py b/libp2p/peer/peerstore.py
+index f49739b..1fb3ada 100644
+--- a/libp2p/peer/peerstore.py
++++ b/libp2p/peer/peerstore.py
+@@ -49,6 +49,42 @@ class PeerStore(IPeerStore):
+             return PeerInfo(peer_id, peer_data.get_addrs())
+         raise PeerStoreError("peer ID not found")
+ 
++    def set_connection_status(self, peer_id: ID, is_connected: bool) -> None:
++        """
++        Set the connection status for a peer.
++
++        :param peer_id: peer ID to update
++        :param is_connected: connection status
++        """
++        peer_data = self.peer_data_map[peer_id]
++        peer_data.put_metadata('is_connected', is_connected)
++
++    def is_connected(self, peer_id: ID) -> bool:
++        """
++        Check if a peer is currently connected.
++
++        :param peer_id: peer ID to check
++        :return: connection status
++        """
++        if peer_id not in self.peer_data_map:
++            return False
++        try:
++            return bool(self.get(peer_id, 'is_connected'))
++        except PeerStoreError:
++            return False
++
++    def get_connected_peers(self) -> list[ID]:
++        """
++        Get list of currently connected peers.
++
++        :return: list of connected peer IDs
++        """
++        return [
++            peer_id
++            for peer_id in self.peer_data_map
++            if self.is_connected(peer_id)
++        ]
++
+     def get_protocols(self, peer_id: ID) -> list[str]:
+         """
+         :param peer_id: peer ID to get protocols for
+=== DISK USAGE ===
+7	/testbed

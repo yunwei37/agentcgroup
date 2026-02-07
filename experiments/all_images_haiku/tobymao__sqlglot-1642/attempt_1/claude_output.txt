@@ -1,0 +1,11 @@
+Let's read the relevant parts of these files:
+
+<function_calls>
+<invoke name="Read">
+<parameter name="file_path">/testbed/sqlglot/expressions.py</parameter>
+<parameter name="offset">0</parameter>
+<parameter name="limit">200</parameter>
+</invoke>
+=== GIT DIFF ===
+=== DISK USAGE ===
+541	/testbed

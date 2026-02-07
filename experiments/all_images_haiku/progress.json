@@ -24,7 +24,11 @@
     "simonw__files-to-prompt-44",
     "NVIDIA__nv-ingest-71",
     "spacetelescope__poppy-411",
-    "wemake-services__wemake-python-styleguide-3117"
+    "wemake-services__wemake-python-styleguide-3117",
+    "prefab-cloud__prefab-cloud-python-62",
+    "libp2p__py-libp2p-533",
+    "tobymao__sqlglot-1642",
+    "facelessuser__soupsieve-147"
   ],
   "results": {
     "beeware__briefcase-1525": {
@@ -151,6 +155,26 @@
       "success": false,
       "attempts": 1,
       "total_time": 331.726293
+    },
+    "prefab-cloud__prefab-cloud-python-62": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 89.371256
+    },
+    "libp2p__py-libp2p-533": {
+      "success": true,
+      "attempts": 1,
+      "total_time": 402.404013
+    },
+    "tobymao__sqlglot-1642": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 281.958536
+    },
+    "facelessuser__soupsieve-147": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 258.239584
     }
   }
 }
