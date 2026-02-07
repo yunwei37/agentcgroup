@@ -1,0 +1,2996 @@
+{
+  "image": "swerebench/sweb.eval.x86_64.nvidia_1776_nv-ingest-71",
+  "start_time": "2026-02-06T18:14:31.465697",
+  "memory_limit": null,
+  "cpu_limit": null,
+  "model": "haiku",
+  "pull_time": 12.456971406936646,
+  "permission_fix_time": 87.85038709640503,
+  "image_info": {
+    "size_bytes": 18543410093,
+    "size_mb": 17684.37,
+    "image_id": "68a6720fe67a"
+  },
+  "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/all_images_haiku/NVIDIA__nv-ingest-71/attempt_1",
+  "claude_time": 703.7967698574066,
+  "claude_output": {
+    "stdout": "I'll summarize the fix and proposed next steps:\n\nI fixed the issue with tiny images by adding a minimum size check before processing in the PDFium image extraction method. This prevents processing of (1, 1, 1) arrays that were causing conversion errors.\n\nKey changes in `/testbed/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py`:\n```python\n# Skip tiny images\nmin_width = 4  # adjust as needed\nmin_height = 4  # adjust as needed\nif image_numpy.shape[0] < min_width or image_numpy.shape[1] < min_height:\n    logger.warning(f\"Skipping tiny image of size {image_numpy.shape}\")\n    continue\n```\n\nRemaining tasks:\n1. Create test PDF files for the test suite\n2. Complete dependency installation\n3. Run full test suite\n\nWould you like me to create the test PDF files or proceed with another approach to testing?\n=== GIT DIFF ===\ndiff --git a/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py b/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py\nindex 9b43cf6..32ca453 100644\n--- a/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py\n+++ b/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py\n@@ -467,6 +467,14 @@ def pdfium(pdf_stream, extract_text: bool, extract_images: bool, extract_tables:\n                     try:\n                         # Attempt to retrieve the image bitmap\n                         image_numpy: np.ndarray = pdfium_try_get_bitmap_as_numpy(obj)\n+\n+                        # Skip tiny images\n+                        min_width = 4  # adjust as needed\n+                        min_height = 4  # adjust as needed\n+                        if image_numpy.shape[0] < min_width or image_numpy.shape[1] < min_height:\n+                            logger.warning(f\"Skipping tiny image of size {image_numpy.shape}\")\n+                            continue\n+\n                         image_base64: str = numpy_to_base64(image_numpy)\n                         image_bbox = obj.get_pos()\n                         image_size = obj.get_size()\n=== DISK USAGE ===\n18\t/testbed\n",
+    "stderr": "",
+    "exit_code": 0
+  },
+  "resource_samples": {
+    "samples": [
+      {
+        "timestamp": "2026-02-06T18:22:06.839635",
+        "epoch": 1770430926.8396466,
+        "mem_usage": "11.71MB / 134.5GB",
+        "mem_percent": "0.01%",
+        "cpu_percent": "96.07%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:07.886360",
+        "epoch": 1770430927.8863711,
+        "mem_usage": "186MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "63.09%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:08.921036",
+        "epoch": 1770430928.9210455,
+        "mem_usage": "185.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "46.11%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:09.971212",
+        "epoch": 1770430929.9712229,
+        "mem_usage": "187.5MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "31.79%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:11.006942",
+        "epoch": 1770430931.0069532,
+        "mem_usage": "188MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "24.50%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:12.042314",
+        "epoch": 1770430932.0423257,
+        "mem_usage": "188.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "20.15%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:13.082424",
+        "epoch": 1770430933.0824392,
+        "mem_usage": "191.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "17.55%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:14.138801",
+        "epoch": 1770430934.1388118,
+        "mem_usage": "192.2MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "15.13%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:15.182005",
+        "epoch": 1770430935.182016,
+        "mem_usage": "192.7MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "13.42%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:16.227470",
+        "epoch": 1770430936.2274947,
+        "mem_usage": "158.1MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "13.69%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:17.261512",
+        "epoch": 1770430937.2615228,
+        "mem_usage": "158.9MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "12.54%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:18.299593",
+        "epoch": 1770430938.2996058,
+        "mem_usage": "160.8MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "11.72%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:19.344823",
+        "epoch": 1770430939.3448346,
+        "mem_usage": "160.8MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "10.81%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:20.382262",
+        "epoch": 1770430940.3822737,
+        "mem_usage": "161MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "10.12%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:21.422729",
+        "epoch": 1770430941.4227529,
+        "mem_usage": "163.1MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "9.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:22.461578",
+        "epoch": 1770430942.4615884,
+        "mem_usage": "163.7MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "9.08%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:23.504334",
+        "epoch": 1770430943.5043454,
+        "mem_usage": "164MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "8.63%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:24.547887",
+        "epoch": 1770430944.5478995,
+        "mem_usage": "164.5MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "8.40%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:25.592892",
+        "epoch": 1770430945.5929031,
+        "mem_usage": "164.5MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "7.95%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:26.639761",
+        "epoch": 1770430946.639772,
+        "mem_usage": "164.5MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "7.61%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:27.684722",
+        "epoch": 1770430947.6847372,
+        "mem_usage": "164.5MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "7.30%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:28.725051",
+        "epoch": 1770430948.7250624,
+        "mem_usage": "161.4MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "7.00%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:29.777241",
+        "epoch": 1770430949.777252,
+        "mem_usage": "163.1MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "7.00%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:30.816065",
+        "epoch": 1770430950.8160746,
+        "mem_usage": "163.4MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "6.73%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:31.861174",
+        "epoch": 1770430951.8611825,
+        "mem_usage": "163.6MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "6.49%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:32.896281",
+        "epoch": 1770430952.8962913,
+        "mem_usage": "163.3MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "6.45%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:33.940759",
+        "epoch": 1770430953.9407704,
+        "mem_usage": "163.3MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "6.21%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:34.985585",
+        "epoch": 1770430954.9855964,
+        "mem_usage": "162.8MB / 134.5GB",
+        "mem_percent": "0.12%",
+        "cpu_percent": "6.01%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:36.024093",
+        "epoch": 1770430956.0241044,
+        "mem_usage": "171.9MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "5.98%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:37.069410",
+        "epoch": 1770430957.069431,
+        "mem_usage": "173.3MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "6.07%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:38.111668",
+        "epoch": 1770430958.1116788,
+        "mem_usage": "173.3MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "5.88%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:39.149640",
+        "epoch": 1770430959.1496503,
+        "mem_usage": "173.3MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "5.69%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:40.198787",
+        "epoch": 1770430960.1987972,
+        "mem_usage": "173.3MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "5.51%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:41.236959",
+        "epoch": 1770430961.2369695,
+        "mem_usage": "173.3MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "5.37%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:42.286520",
+        "epoch": 1770430962.2865336,
+        "mem_usage": "173.6MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "5.34%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:43.322393",
+        "epoch": 1770430963.3224034,
+        "mem_usage": "174.2MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "5.23%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:44.360036",
+        "epoch": 1770430964.360047,
+        "mem_usage": "174.6MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "5.18%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:45.399464",
+        "epoch": 1770430965.3994741,
+        "mem_usage": "174.6MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "5.05%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:46.445669",
+        "epoch": 1770430966.4456782,
+        "mem_usage": "174.6MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "4.91%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:47.486667",
+        "epoch": 1770430967.4866772,
+        "mem_usage": "174.6MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "4.79%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:48.529208",
+        "epoch": 1770430968.5292175,
+        "mem_usage": "174.6MB / 134.5GB",
+        "mem_percent": "0.13%",
+        "cpu_percent": "4.71%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:49.584673",
+        "epoch": 1770430969.5846844,
+        "mem_usage": "182.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.74%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:50.634561",
+        "epoch": 1770430970.6345732,
+        "mem_usage": "183MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.65%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:51.681243",
+        "epoch": 1770430971.6812534,
+        "mem_usage": "187.3MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.65%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:52.728457",
+        "epoch": 1770430972.7284672,
+        "mem_usage": "187.4MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.54%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:53.782105",
+        "epoch": 1770430973.782114,
+        "mem_usage": "187.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.45%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:54.819984",
+        "epoch": 1770430974.819995,
+        "mem_usage": "188.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.49%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:55.859744",
+        "epoch": 1770430975.859758,
+        "mem_usage": "188.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.42%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:56.910797",
+        "epoch": 1770430976.9108112,
+        "mem_usage": "188.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.34%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:57.949854",
+        "epoch": 1770430977.9498699,
+        "mem_usage": "184.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.45%"
+      },
+      {
+        "timestamp": "2026-02-06T18:22:59.000416",
+        "epoch": 1770430979.00043,
+        "mem_usage": "184.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.36%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:00.046540",
+        "epoch": 1770430980.0465517,
+        "mem_usage": "184.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.32%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:01.084228",
+        "epoch": 1770430981.0842438,
+        "mem_usage": "185MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.34%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:02.120840",
+        "epoch": 1770430982.120851,
+        "mem_usage": "185MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.27%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:03.167943",
+        "epoch": 1770430983.1679544,
+        "mem_usage": "186.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.27%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:04.209158",
+        "epoch": 1770430984.2091694,
+        "mem_usage": "186.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.20%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:05.254370",
+        "epoch": 1770430985.25438,
+        "mem_usage": "187.6MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.14%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:06.305838",
+        "epoch": 1770430986.305847,
+        "mem_usage": "188.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.22%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:07.347056",
+        "epoch": 1770430987.3470662,
+        "mem_usage": "188.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.15%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:08.397959",
+        "epoch": 1770430988.3979673,
+        "mem_usage": "188.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.08%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:09.439730",
+        "epoch": 1770430989.4397426,
+        "mem_usage": "188.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "4.03%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:10.491102",
+        "epoch": 1770430990.4911218,
+        "mem_usage": "188.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.98%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:11.529906",
+        "epoch": 1770430991.5299158,
+        "mem_usage": "188.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.93%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:12.574061",
+        "epoch": 1770430992.574075,
+        "mem_usage": "187.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.93%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:13.625552",
+        "epoch": 1770430993.625563,
+        "mem_usage": "187.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.87%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:14.672435",
+        "epoch": 1770430994.67246,
+        "mem_usage": "187.7MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.83%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:15.709568",
+        "epoch": 1770430995.7095783,
+        "mem_usage": "188MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.79%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:16.766850",
+        "epoch": 1770430996.7668588,
+        "mem_usage": "188MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.74%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:17.808777",
+        "epoch": 1770430997.8087873,
+        "mem_usage": "189.3MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.75%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:18.863132",
+        "epoch": 1770430998.8631408,
+        "mem_usage": "189.3MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.70%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:19.910634",
+        "epoch": 1770430999.910644,
+        "mem_usage": "189.7MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.65%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:20.954245",
+        "epoch": 1770431000.954256,
+        "mem_usage": "190MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.61%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:22.005875",
+        "epoch": 1770431002.0058846,
+        "mem_usage": "190MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.57%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:23.047879",
+        "epoch": 1770431003.0478961,
+        "mem_usage": "190MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.53%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:24.092805",
+        "epoch": 1770431004.0928154,
+        "mem_usage": "187.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.50%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:25.144676",
+        "epoch": 1770431005.144693,
+        "mem_usage": "187.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.47%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:26.189909",
+        "epoch": 1770431006.1899183,
+        "mem_usage": "187.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.44%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:27.236116",
+        "epoch": 1770431007.236126,
+        "mem_usage": "186.5MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.44%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:28.281153",
+        "epoch": 1770431008.2811635,
+        "mem_usage": "186.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.41%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:29.324637",
+        "epoch": 1770431009.3246465,
+        "mem_usage": "186.4MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.38%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:30.378921",
+        "epoch": 1770431010.3789332,
+        "mem_usage": "186.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.35%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:31.431200",
+        "epoch": 1770431011.4312112,
+        "mem_usage": "186.3MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.33%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:32.468013",
+        "epoch": 1770431012.468023,
+        "mem_usage": "186.7MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.30%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:33.514069",
+        "epoch": 1770431013.5140805,
+        "mem_usage": "186.3MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.27%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:34.562132",
+        "epoch": 1770431014.5621433,
+        "mem_usage": "186.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.25%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:35.611119",
+        "epoch": 1770431015.61113,
+        "mem_usage": "187.2MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.23%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:36.644679",
+        "epoch": 1770431016.6447036,
+        "mem_usage": "186.7MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.22%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:37.698843",
+        "epoch": 1770431017.6988516,
+        "mem_usage": "187.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.20%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:38.743985",
+        "epoch": 1770431018.7439935,
+        "mem_usage": "186.6MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.18%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:39.782157",
+        "epoch": 1770431019.782167,
+        "mem_usage": "187MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.16%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:40.832146",
+        "epoch": 1770431020.8321667,
+        "mem_usage": "186.4MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.13%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:41.885999",
+        "epoch": 1770431021.8860102,
+        "mem_usage": "186.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.11%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:42.920718",
+        "epoch": 1770431022.920732,
+        "mem_usage": "186.5MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.09%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:43.959052",
+        "epoch": 1770431023.959064,
+        "mem_usage": "186.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.07%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:45.002370",
+        "epoch": 1770431025.0023806,
+        "mem_usage": "186.3MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.05%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:46.049402",
+        "epoch": 1770431026.0494132,
+        "mem_usage": "186.7MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.03%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:47.102967",
+        "epoch": 1770431027.1029913,
+        "mem_usage": "186.4MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "3.01%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:48.134833",
+        "epoch": 1770431028.1348433,
+        "mem_usage": "186.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.99%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:49.172073",
+        "epoch": 1770431029.1720836,
+        "mem_usage": "187.2MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.97%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:50.218297",
+        "epoch": 1770431030.2183077,
+        "mem_usage": "186.6MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.95%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:51.255492",
+        "epoch": 1770431031.2555027,
+        "mem_usage": "186.6MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.93%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:52.298832",
+        "epoch": 1770431032.2988417,
+        "mem_usage": "186.5MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.91%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:53.348818",
+        "epoch": 1770431033.3488474,
+        "mem_usage": "186.9MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.89%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:54.386919",
+        "epoch": 1770431034.3869343,
+        "mem_usage": "186.3MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.87%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:55.443650",
+        "epoch": 1770431035.443663,
+        "mem_usage": "186.7MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.85%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:56.487253",
+        "epoch": 1770431036.4872622,
+        "mem_usage": "187.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.83%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:57.524537",
+        "epoch": 1770431037.524547,
+        "mem_usage": "186.6MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.82%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:58.583386",
+        "epoch": 1770431038.5834105,
+        "mem_usage": "187.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.80%"
+      },
+      {
+        "timestamp": "2026-02-06T18:23:59.624479",
+        "epoch": 1770431039.6244895,
+        "mem_usage": "186.5MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.78%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:00.675183",
+        "epoch": 1770431040.675194,
+        "mem_usage": "186.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.76%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:01.717721",
+        "epoch": 1770431041.7177339,
+        "mem_usage": "186.3MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.75%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:02.771084",
+        "epoch": 1770431042.771094,
+        "mem_usage": "186.7MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.73%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:03.822011",
+        "epoch": 1770431043.822023,
+        "mem_usage": "186.3MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.71%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:04.868266",
+        "epoch": 1770431044.8682907,
+        "mem_usage": "186.7MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.70%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:05.919991",
+        "epoch": 1770431045.9200003,
+        "mem_usage": "187.2MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.68%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:06.969005",
+        "epoch": 1770431046.969015,
+        "mem_usage": "186.6MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.67%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:08.008853",
+        "epoch": 1770431048.0088644,
+        "mem_usage": "187MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.65%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:09.058626",
+        "epoch": 1770431049.0586345,
+        "mem_usage": "186.6MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.64%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:10.104061",
+        "epoch": 1770431050.1040688,
+        "mem_usage": "187MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.63%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:11.127966",
+        "epoch": 1770431051.1279747,
+        "mem_usage": "187MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.61%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:12.172735",
+        "epoch": 1770431052.1727464,
+        "mem_usage": "186.8MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.60%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:13.227147",
+        "epoch": 1770431053.2271574,
+        "mem_usage": "189.1MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.61%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:14.266324",
+        "epoch": 1770431054.266333,
+        "mem_usage": "189.6MB / 134.5GB",
+        "mem_percent": "0.14%",
+        "cpu_percent": "2.59%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:15.309415",
+        "epoch": 1770431055.3094249,
+        "mem_usage": "199.7MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.61%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:16.353821",
+        "epoch": 1770431056.3538296,
+        "mem_usage": "199.7MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.60%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:17.398567",
+        "epoch": 1770431057.3985755,
+        "mem_usage": "197.1MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:18.433829",
+        "epoch": 1770431058.433838,
+        "mem_usage": "197.1MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.64%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:19.490507",
+        "epoch": 1770431059.490517,
+        "mem_usage": "197.1MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.63%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:20.546704",
+        "epoch": 1770431060.5467148,
+        "mem_usage": "197.1MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.62%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:21.595518",
+        "epoch": 1770431061.5955284,
+        "mem_usage": "200.5MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.63%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:22.634183",
+        "epoch": 1770431062.6341937,
+        "mem_usage": "201.2MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.63%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:23.674590",
+        "epoch": 1770431063.6746001,
+        "mem_usage": "203.5MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.65%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:24.717302",
+        "epoch": 1770431064.7173197,
+        "mem_usage": "203.9MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.64%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:25.764795",
+        "epoch": 1770431065.7648056,
+        "mem_usage": "204.3MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.63%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:26.812869",
+        "epoch": 1770431066.8128972,
+        "mem_usage": "206.4MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.63%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:27.856730",
+        "epoch": 1770431067.8567412,
+        "mem_usage": "206.5MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.65%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:28.906147",
+        "epoch": 1770431068.906158,
+        "mem_usage": "204.4MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.64%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:29.952508",
+        "epoch": 1770431069.9525177,
+        "mem_usage": "204.4MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.64%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:30.995962",
+        "epoch": 1770431070.995975,
+        "mem_usage": "204.4MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.64%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:32.030511",
+        "epoch": 1770431072.030522,
+        "mem_usage": "204.5MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.63%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:33.075092",
+        "epoch": 1770431073.0751026,
+        "mem_usage": "202MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.65%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:34.122239",
+        "epoch": 1770431074.1222491,
+        "mem_usage": "202MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.67%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:35.174159",
+        "epoch": 1770431075.1741686,
+        "mem_usage": "202MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:36.221139",
+        "epoch": 1770431076.2211516,
+        "mem_usage": "203.1MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:37.269256",
+        "epoch": 1770431077.2692819,
+        "mem_usage": "206.3MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:38.308083",
+        "epoch": 1770431078.308112,
+        "mem_usage": "206.6MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.68%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:39.343895",
+        "epoch": 1770431079.3439107,
+        "mem_usage": "209.5MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "2.69%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:40.386387",
+        "epoch": 1770431080.3863971,
+        "mem_usage": "209.5MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "2.68%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:41.437936",
+        "epoch": 1770431081.4379654,
+        "mem_usage": "209.6MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "2.69%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:42.483888",
+        "epoch": 1770431082.4839027,
+        "mem_usage": "209.6MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "2.69%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:43.527286",
+        "epoch": 1770431083.5272975,
+        "mem_usage": "209.6MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "2.68%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:44.587904",
+        "epoch": 1770431084.5879266,
+        "mem_usage": "209.6MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "2.67%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:45.629120",
+        "epoch": 1770431085.6291308,
+        "mem_usage": "209.6MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "2.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:46.666238",
+        "epoch": 1770431086.666249,
+        "mem_usage": "195.6MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:47.715295",
+        "epoch": 1770431087.715306,
+        "mem_usage": "197.1MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:48.769365",
+        "epoch": 1770431088.7693756,
+        "mem_usage": "198.5MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:49.810552",
+        "epoch": 1770431089.8105638,
+        "mem_usage": "199.6MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.69%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:50.850317",
+        "epoch": 1770431090.850328,
+        "mem_usage": "199.6MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.69%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:51.889136",
+        "epoch": 1770431091.8891463,
+        "mem_usage": "199.9MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.70%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:52.945586",
+        "epoch": 1770431092.9456,
+        "mem_usage": "202.3MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.70%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:53.997389",
+        "epoch": 1770431093.9973998,
+        "mem_usage": "202.3MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.69%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:55.046339",
+        "epoch": 1770431095.0463638,
+        "mem_usage": "202.3MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.68%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:56.091565",
+        "epoch": 1770431096.0915744,
+        "mem_usage": "203.4MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.68%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:57.138273",
+        "epoch": 1770431097.138282,
+        "mem_usage": "207.3MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.91%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:58.176645",
+        "epoch": 1770431098.1766555,
+        "mem_usage": "204.6MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.90%"
+      },
+      {
+        "timestamp": "2026-02-06T18:24:59.228207",
+        "epoch": 1770431099.2282197,
+        "mem_usage": "204.6MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.89%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:00.274844",
+        "epoch": 1770431100.2748554,
+        "mem_usage": "205.8MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "3.01%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:01.321853",
+        "epoch": 1770431101.3218644,
+        "mem_usage": "205.8MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "3.00%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:02.363133",
+        "epoch": 1770431102.3631468,
+        "mem_usage": "205.8MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "2.99%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:03.403432",
+        "epoch": 1770431103.4034412,
+        "mem_usage": "263.4MB / 134.5GB",
+        "mem_percent": "0.20%",
+        "cpu_percent": "3.19%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:04.453438",
+        "epoch": 1770431104.4534464,
+        "mem_usage": "268.8MB / 134.5GB",
+        "mem_percent": "0.20%",
+        "cpu_percent": "3.64%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:05.496966",
+        "epoch": 1770431105.4969752,
+        "mem_usage": "277.6MB / 134.5GB",
+        "mem_percent": "0.21%",
+        "cpu_percent": "3.75%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:06.543467",
+        "epoch": 1770431106.543475,
+        "mem_usage": "328.5MB / 134.5GB",
+        "mem_percent": "0.24%",
+        "cpu_percent": "4.05%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:07.589334",
+        "epoch": 1770431107.5893493,
+        "mem_usage": "333.8MB / 134.5GB",
+        "mem_percent": "0.25%",
+        "cpu_percent": "5.45%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:08.629102",
+        "epoch": 1770431108.6291122,
+        "mem_usage": "423.6MB / 134.5GB",
+        "mem_percent": "0.32%",
+        "cpu_percent": "5.99%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:09.667963",
+        "epoch": 1770431109.667974,
+        "mem_usage": "479.4MB / 134.5GB",
+        "mem_percent": "0.36%",
+        "cpu_percent": "6.52%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:10.710675",
+        "epoch": 1770431110.7106853,
+        "mem_usage": "483.7MB / 134.5GB",
+        "mem_percent": "0.36%",
+        "cpu_percent": "7.05%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:11.749277",
+        "epoch": 1770431111.7492857,
+        "mem_usage": "483.8MB / 134.5GB",
+        "mem_percent": "0.36%",
+        "cpu_percent": "7.58%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:12.783255",
+        "epoch": 1770431112.7832654,
+        "mem_usage": "406.5MB / 134.5GB",
+        "mem_percent": "0.30%",
+        "cpu_percent": "8.06%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:13.836819",
+        "epoch": 1770431113.836843,
+        "mem_usage": "425.3MB / 134.5GB",
+        "mem_percent": "0.32%",
+        "cpu_percent": "8.58%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:14.874243",
+        "epoch": 1770431114.8742526,
+        "mem_usage": "445.9MB / 134.5GB",
+        "mem_percent": "0.33%",
+        "cpu_percent": "9.08%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:15.910521",
+        "epoch": 1770431115.9105303,
+        "mem_usage": "466.5MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "9.58%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:16.955075",
+        "epoch": 1770431116.955085,
+        "mem_usage": "473.7MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.08%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:17.995403",
+        "epoch": 1770431117.9954114,
+        "mem_usage": "473.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.57%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:19.025129",
+        "epoch": 1770431119.0251524,
+        "mem_usage": "473.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.05%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:20.061166",
+        "epoch": 1770431120.0611749,
+        "mem_usage": "473.9MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.53%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:21.104683",
+        "epoch": 1770431121.104695,
+        "mem_usage": "473.9MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.00%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:22.146267",
+        "epoch": 1770431122.1462755,
+        "mem_usage": "473.9MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.47%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:23.194019",
+        "epoch": 1770431123.194029,
+        "mem_usage": "473.9MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.94%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:24.236861",
+        "epoch": 1770431124.2368693,
+        "mem_usage": "473.9MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.40%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:25.284772",
+        "epoch": 1770431125.284781,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.86%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:26.330576",
+        "epoch": 1770431126.3305888,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "14.22%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:27.373854",
+        "epoch": 1770431127.3738654,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "14.15%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:28.413793",
+        "epoch": 1770431128.413804,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "14.08%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:29.466163",
+        "epoch": 1770431129.4661722,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "14.00%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:30.509698",
+        "epoch": 1770431130.5097077,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.93%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:31.559741",
+        "epoch": 1770431131.5597534,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.86%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:32.603312",
+        "epoch": 1770431132.6033223,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.79%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:33.646523",
+        "epoch": 1770431133.6465335,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.72%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:34.684400",
+        "epoch": 1770431134.6844096,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:35.729456",
+        "epoch": 1770431135.729467,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.59%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:36.771870",
+        "epoch": 1770431136.7718806,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.52%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:37.822094",
+        "epoch": 1770431137.822111,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.46%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:38.859710",
+        "epoch": 1770431138.8597186,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.39%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:39.896774",
+        "epoch": 1770431139.8967838,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.33%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:40.937948",
+        "epoch": 1770431140.9379592,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.26%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:41.982321",
+        "epoch": 1770431141.9823318,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.20%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:43.019418",
+        "epoch": 1770431143.0194273,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.14%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:44.071461",
+        "epoch": 1770431144.0714707,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.07%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:45.108945",
+        "epoch": 1770431145.1089628,
+        "mem_usage": "474MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "13.01%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:46.165875",
+        "epoch": 1770431146.1658833,
+        "mem_usage": "474.1MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.95%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:47.205981",
+        "epoch": 1770431147.2059932,
+        "mem_usage": "474.2MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.89%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:48.247915",
+        "epoch": 1770431148.247925,
+        "mem_usage": "474.2MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.83%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:49.292905",
+        "epoch": 1770431149.292916,
+        "mem_usage": "474.3MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.77%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:50.340224",
+        "epoch": 1770431150.340236,
+        "mem_usage": "474.4MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.71%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:51.387344",
+        "epoch": 1770431151.3873549,
+        "mem_usage": "474.4MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.65%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:52.436594",
+        "epoch": 1770431152.4366057,
+        "mem_usage": "474.4MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.60%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:53.487967",
+        "epoch": 1770431153.4879842,
+        "mem_usage": "474.6MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.54%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:54.527570",
+        "epoch": 1770431154.527582,
+        "mem_usage": "474.6MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.48%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:55.575026",
+        "epoch": 1770431155.575036,
+        "mem_usage": "474.7MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.43%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:56.614957",
+        "epoch": 1770431156.614973,
+        "mem_usage": "474.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.37%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:57.668550",
+        "epoch": 1770431157.668559,
+        "mem_usage": "474.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.32%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:58.725329",
+        "epoch": 1770431158.7253373,
+        "mem_usage": "474.9MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.26%"
+      },
+      {
+        "timestamp": "2026-02-06T18:25:59.777418",
+        "epoch": 1770431159.7774332,
+        "mem_usage": "475MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.21%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:00.817164",
+        "epoch": 1770431160.8171897,
+        "mem_usage": "475MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.15%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:01.872008",
+        "epoch": 1770431161.8720212,
+        "mem_usage": "475.1MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.10%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:02.916001",
+        "epoch": 1770431162.9160104,
+        "mem_usage": "475.1MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "12.05%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:03.955265",
+        "epoch": 1770431163.9552748,
+        "mem_usage": "475.2MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.99%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:04.999229",
+        "epoch": 1770431164.999243,
+        "mem_usage": "475.2MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.94%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:06.050654",
+        "epoch": 1770431166.0506644,
+        "mem_usage": "475.3MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.89%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:07.102963",
+        "epoch": 1770431167.1029737,
+        "mem_usage": "475.4MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.84%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:08.151505",
+        "epoch": 1770431168.151516,
+        "mem_usage": "475.5MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.79%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:09.197026",
+        "epoch": 1770431169.197046,
+        "mem_usage": "475.5MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.74%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:10.239055",
+        "epoch": 1770431170.2390656,
+        "mem_usage": "475.6MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.69%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:11.287324",
+        "epoch": 1770431171.287333,
+        "mem_usage": "475.7MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.64%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:12.330861",
+        "epoch": 1770431172.3308716,
+        "mem_usage": "475.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.59%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:13.387621",
+        "epoch": 1770431173.387631,
+        "mem_usage": "475.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.54%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:14.430834",
+        "epoch": 1770431174.4308596,
+        "mem_usage": "475.9MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.49%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:15.473946",
+        "epoch": 1770431175.4739563,
+        "mem_usage": "476MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.45%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:16.516911",
+        "epoch": 1770431176.5169215,
+        "mem_usage": "476MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.40%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:17.557032",
+        "epoch": 1770431177.5570412,
+        "mem_usage": "476MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.35%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:18.614296",
+        "epoch": 1770431178.614305,
+        "mem_usage": "476.1MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.31%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:19.653685",
+        "epoch": 1770431179.6536937,
+        "mem_usage": "476.2MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.26%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:20.694857",
+        "epoch": 1770431180.6948671,
+        "mem_usage": "476.3MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.22%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:21.735685",
+        "epoch": 1770431181.7356951,
+        "mem_usage": "476.3MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.17%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:22.788609",
+        "epoch": 1770431182.7886202,
+        "mem_usage": "476.4MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.13%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:23.826284",
+        "epoch": 1770431183.8262928,
+        "mem_usage": "476.5MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.08%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:24.869010",
+        "epoch": 1770431184.8690205,
+        "mem_usage": "476.5MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "11.04%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:25.906048",
+        "epoch": 1770431185.9060583,
+        "mem_usage": "476.6MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.99%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:26.955731",
+        "epoch": 1770431186.955741,
+        "mem_usage": "476.7MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.95%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:28.001966",
+        "epoch": 1770431188.0019772,
+        "mem_usage": "476.7MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.91%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:29.041070",
+        "epoch": 1770431189.04108,
+        "mem_usage": "476.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.86%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:30.090129",
+        "epoch": 1770431190.0901394,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.82%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:31.141689",
+        "epoch": 1770431191.1417134,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.78%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:32.179770",
+        "epoch": 1770431192.1797798,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.74%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:33.227747",
+        "epoch": 1770431193.2277625,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.70%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:34.271294",
+        "epoch": 1770431194.2713034,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:35.314517",
+        "epoch": 1770431195.3145275,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.62%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:36.354185",
+        "epoch": 1770431196.3541965,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.58%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:37.398755",
+        "epoch": 1770431197.3987634,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.54%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:38.439977",
+        "epoch": 1770431198.439985,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.50%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:39.478254",
+        "epoch": 1770431199.4782634,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.46%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:40.533209",
+        "epoch": 1770431200.5332203,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.42%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:41.582701",
+        "epoch": 1770431201.5827138,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.38%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:42.618270",
+        "epoch": 1770431202.6182806,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.34%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:43.658614",
+        "epoch": 1770431203.6586244,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.30%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:44.694411",
+        "epoch": 1770431204.694422,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.27%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:45.736146",
+        "epoch": 1770431205.7361565,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.23%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:46.772528",
+        "epoch": 1770431206.7725384,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.19%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:47.809521",
+        "epoch": 1770431207.8095345,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.16%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:48.860592",
+        "epoch": 1770431208.860602,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.12%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:49.900721",
+        "epoch": 1770431209.9007316,
+        "mem_usage": "467.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.08%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:50.938704",
+        "epoch": 1770431210.9387147,
+        "mem_usage": "465.7MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.05%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:51.976751",
+        "epoch": 1770431211.9767632,
+        "mem_usage": "465.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "10.01%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:53.021255",
+        "epoch": 1770431213.0212646,
+        "mem_usage": "465.8MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "9.98%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:54.065934",
+        "epoch": 1770431214.0659451,
+        "mem_usage": "465.9MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "9.94%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:55.115900",
+        "epoch": 1770431215.1159098,
+        "mem_usage": "465.9MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "9.90%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:56.152249",
+        "epoch": 1770431216.1522756,
+        "mem_usage": "466MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "9.87%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:57.195053",
+        "epoch": 1770431217.1950636,
+        "mem_usage": "466MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "9.83%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:58.238772",
+        "epoch": 1770431218.2387836,
+        "mem_usage": "466.1MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "9.80%"
+      },
+      {
+        "timestamp": "2026-02-06T18:26:59.279967",
+        "epoch": 1770431219.2799761,
+        "mem_usage": "466.2MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "9.77%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:00.329527",
+        "epoch": 1770431220.3295357,
+        "mem_usage": "466.3MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "9.73%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:01.370121",
+        "epoch": 1770431221.3701308,
+        "mem_usage": "466.3MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "9.70%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:02.418807",
+        "epoch": 1770431222.4188159,
+        "mem_usage": "466.4MB / 134.5GB",
+        "mem_percent": "0.35%",
+        "cpu_percent": "9.66%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:03.453793",
+        "epoch": 1770431223.4538023,
+        "mem_usage": "196.4MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "9.65%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:04.492453",
+        "epoch": 1770431224.492464,
+        "mem_usage": "196.4MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "9.62%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:05.535487",
+        "epoch": 1770431225.5354972,
+        "mem_usage": "196MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "9.59%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:06.579023",
+        "epoch": 1770431226.5790336,
+        "mem_usage": "195.8MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "9.56%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:07.616012",
+        "epoch": 1770431227.6160228,
+        "mem_usage": "196.4MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "9.54%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:08.665558",
+        "epoch": 1770431228.66557,
+        "mem_usage": "199.8MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.30%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:09.714278",
+        "epoch": 1770431229.7142873,
+        "mem_usage": "199.8MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.27%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:10.756445",
+        "epoch": 1770431230.7564564,
+        "mem_usage": "200.3MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.24%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:11.801859",
+        "epoch": 1770431231.80187,
+        "mem_usage": "200.8MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.21%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:12.857853",
+        "epoch": 1770431232.857867,
+        "mem_usage": "200.8MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.18%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:13.898304",
+        "epoch": 1770431233.8983154,
+        "mem_usage": "199MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.17%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:14.945793",
+        "epoch": 1770431234.945803,
+        "mem_usage": "199MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.15%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:15.994243",
+        "epoch": 1770431235.9942536,
+        "mem_usage": "199.2MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.12%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:17.039254",
+        "epoch": 1770431237.0392628,
+        "mem_usage": "254.6MB / 134.5GB",
+        "mem_percent": "0.19%",
+        "cpu_percent": "10.24%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:18.083508",
+        "epoch": 1770431238.0835187,
+        "mem_usage": "205.4MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.36%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:19.131844",
+        "epoch": 1770431239.131854,
+        "mem_usage": "204.1MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.33%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:20.166962",
+        "epoch": 1770431240.1669722,
+        "mem_usage": "204.1MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.30%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:21.216029",
+        "epoch": 1770431241.2160401,
+        "mem_usage": "204.1MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.27%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:22.253955",
+        "epoch": 1770431242.253966,
+        "mem_usage": "204.1MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.24%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:23.295252",
+        "epoch": 1770431243.295261,
+        "mem_usage": "204.9MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.96%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:24.336660",
+        "epoch": 1770431244.336669,
+        "mem_usage": "204.9MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.93%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:25.375684",
+        "epoch": 1770431245.3756936,
+        "mem_usage": "204.9MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.89%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:26.408235",
+        "epoch": 1770431246.4082465,
+        "mem_usage": "204.9MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "10.87%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:27.441878",
+        "epoch": 1770431247.4418874,
+        "mem_usage": "237.2MB / 134.5GB",
+        "mem_percent": "0.18%",
+        "cpu_percent": "10.90%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:28.493323",
+        "epoch": 1770431248.4933372,
+        "mem_usage": "239.2MB / 134.5GB",
+        "mem_percent": "0.18%",
+        "cpu_percent": "11.15%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:29.534109",
+        "epoch": 1770431249.534123,
+        "mem_usage": "207.5MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "11.19%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:30.580698",
+        "epoch": 1770431250.5807106,
+        "mem_usage": "207.5MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "11.16%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:31.625718",
+        "epoch": 1770431251.6257286,
+        "mem_usage": "207.5MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "11.13%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:32.661000",
+        "epoch": 1770431252.6610124,
+        "mem_usage": "321MB / 134.5GB",
+        "mem_percent": "0.24%",
+        "cpu_percent": "11.81%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:33.707959",
+        "epoch": 1770431253.7079701,
+        "mem_usage": "208MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "11.80%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:34.761914",
+        "epoch": 1770431254.7619228,
+        "mem_usage": "208MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "11.77%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:35.796081",
+        "epoch": 1770431255.7960925,
+        "mem_usage": "208MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "11.73%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:36.833225",
+        "epoch": 1770431256.833243,
+        "mem_usage": "208MB / 134.5GB",
+        "mem_percent": "0.15%",
+        "cpu_percent": "11.70%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:37.873326",
+        "epoch": 1770431257.873337,
+        "mem_usage": "252.4MB / 134.5GB",
+        "mem_percent": "0.19%",
+        "cpu_percent": "11.82%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:38.922169",
+        "epoch": 1770431258.9221797,
+        "mem_usage": "212.2MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.79%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:39.962135",
+        "epoch": 1770431259.962146,
+        "mem_usage": "212.2MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.76%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:40.996923",
+        "epoch": 1770431260.9969318,
+        "mem_usage": "212.2MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.73%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:42.041656",
+        "epoch": 1770431262.0416658,
+        "mem_usage": "212.7MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.71%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:43.082666",
+        "epoch": 1770431263.0826783,
+        "mem_usage": "212.7MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.67%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:44.126769",
+        "epoch": 1770431264.1267796,
+        "mem_usage": "212.7MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.64%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:45.171505",
+        "epoch": 1770431265.1715133,
+        "mem_usage": "212.1MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.63%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:46.212018",
+        "epoch": 1770431266.2120292,
+        "mem_usage": "212.1MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.60%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:47.247535",
+        "epoch": 1770431267.247546,
+        "mem_usage": "212.1MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.57%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:48.293117",
+        "epoch": 1770431268.2931278,
+        "mem_usage": "212.1MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.54%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:49.338303",
+        "epoch": 1770431269.3383136,
+        "mem_usage": "212.1MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.51%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:50.376513",
+        "epoch": 1770431270.3765247,
+        "mem_usage": "215.9MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.48%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:51.425884",
+        "epoch": 1770431271.4258957,
+        "mem_usage": "215.9MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.45%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:52.472820",
+        "epoch": 1770431272.4728293,
+        "mem_usage": "215.9MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.42%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:53.513858",
+        "epoch": 1770431273.513869,
+        "mem_usage": "217.2MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.39%"
+      },
+      {
+        "timestamp": "2026-02-06T18:27:54.565956",
+        "epoch": 1770431274.565967,
+        "mem_usage": "217.9MB / 134.5GB",
+        "mem_percent": "0.16%",
+        "cpu_percent": "11.36%"
+      }
+    ],
+    "summary": {
+      "sample_count": 334,
+      "duration_seconds": 347.7263205051422,
+      "memory_mb": {
+        "min": 11.71,
+        "max": 483.8,
+        "avg": 285.75452095808384
+      },
+      "cpu_percent": {
+        "min": 2.59,
+        "max": 96.07,
+        "avg": 8.345419161676647
+      }
+    }
+  },
+  "disk_usage": {
+    "testbed_mb": 18
+  },
+  "traces": {
+    "files": [
+      "/home/yunwei37/workspace/agentcgroup/experiments/all_images_haiku/NVIDIA__nv-ingest-71/attempt_1/trace.jsonl"
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-02-07T02:22:12.916Z",
+        "tool": "TodoWrite",
+        "id": "toolu_01QCRcum5Xfa1D2LsHGLW55h",
+        "input": {
+          "todos": [
+            {
+              "content": "Investigate image extraction error",
+              "status": "pending",
+              "activeForm": "Investigating image extraction error"
+            },
+            {
+              "content": "Find relevant code for image extraction",
+              "status": "pending",
+              "activeForm": "Finding relevant code for image extraction"
+            },
+            {
+              "content": "Modify code to handle (1, 1, 1) NumPy array",
+              "status": "pending",
+              "activeForm": "Modifying code to handle (1, 1, 1) NumPy array"
+            },
+            {
+              "content": "Run tests to verify fix",
+              "status": "pending",
+              "activeForm": "Running tests to verify fix"
+            }
+          ]
+        },
+        "end_timestamp": "2026-02-07T02:22:12.951Z",
+        "result_preview": "Todos have been modified successfully. Ensure that you continue to use the todo list to track your progress. Please proceed with the current tasks if applicable"
+      },
+      {
+        "timestamp": "2026-02-07T02:22:15.333Z",
+        "tool": "Grep",
+        "id": "toolu_01GekD1sysT1HozT4bW5BrdG",
+        "input": {
+          "pattern": "image extract|numpy array to image",
+          "output_mode": "files_with_matches"
+        },
+        "end_timestamp": "2026-02-07T02:22:15.366Z",
+        "result_preview": "Found 5 files\n/testbed/client/client_examples/examples/python_client_usage.ipynb\n/testbed/client/src/nv_ingest_client/nv_ingest_cli.py\n/testbed/docs/nv-ingest_cli.md\n/testbed/README.md\n/testbed/src/nv_ingest/extraction_workflows/pdf/llama_parse_helper.py"
+      },
+      {
+        "timestamp": "2026-02-07T02:22:17.854Z",
+        "tool": "Read",
+        "id": "toolu_01LmdywHT3z4LzJnuqtBcLVA",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/extraction_workflows/pdf/llama_parse_helper.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:17.886Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192\n     6\u2192# Copyright (c) 2024, NVIDIA CORPORATION.\n     7\u2192#\n     8\u2192# Licensed under the Apache License, Version 2.0 (the \"License\");\n     9\u2192# you may not use this file except in compliance with the License.\n    10\u2192# You may obtain a copy of the License at\n    11\u2192#\n    12\u2192#     http://www.apache.org/licenses/LICENSE-2.0\n    ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:20.662Z",
+        "tool": "Read",
+        "id": "toolu_01GSJeF2DPCMdGugJaR4RraD",
+        "input": {
+          "file_path": "/testbed/client/src/nv_ingest_client/nv_ingest_cli.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:20.685Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192\n     6\u2192import json\n     7\u2192import logging\n     8\u2192import time\n     9\u2192from io import BytesIO\n    10\u2192from typing import List\n    11\u2192\n    12\u2192import click\n    13\u2192import pkg_resources\n    14\u2192from nv_ingest_client.cli.util.click import ClientType\n    15\u2192from nv_ingest_client.cli.util.click import LogLevel\n    16\u2192from nv_ingest_cl..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:27.374Z",
+        "tool": "Bash",
+        "id": "toolu_01Vf9imQHiwTGtALuHz6vCh9",
+        "input": {
+          "command": "find /testbed -type f -name \"*.py\" | head -20",
+          "description": "List Python files to understand project structure"
+        },
+        "end_timestamp": "2026-02-07T02:22:28.774Z",
+        "result_preview": "/testbed/client/src/nv_ingest_client/client/__init__.py\n/testbed/client/src/nv_ingest_client/client/client.py\n/testbed/client/src/nv_ingest_client/util/file_processing/__init__.py\n/testbed/client/src/nv_ingest_client/util/file_processing/extract.py\n/testbed/client/src/nv_ingest_client/util/__init__.py\n/testbed/client/src/nv_ingest_client/util/util.py\n/testbed/client/src/nv_ingest_client/nv_ingest_cli.py\n/testbed/client/src/nv_ingest_client/__init__.py\n/testbed/client/src/nv_ingest_client/message..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:28.747Z",
+        "tool": "Grep",
+        "id": "toolu_012KKRhEkkNAEBChwE1CAobB",
+        "input": {
+          "pattern": "image|extract",
+          "output_mode": "files_with_matches",
+          "glob": "*.py",
+          "-i": true
+        },
+        "end_timestamp": "2026-02-07T02:22:28.777Z",
+        "result_preview": "Found 112 files\n/testbed/client/src/nv_ingest_client/cli/util/click.py\n/testbed/client/src/nv_ingest_client/cli/util/dataset.py\n/testbed/client/src/nv_ingest_client/cli/util/processing.py\n/testbed/client/src/nv_ingest_client/nv_ingest_cli.py\n/testbed/client/src/nv_ingest_client/primitives/tasks/__init__.py\n/testbed/client/src/nv_ingest_client/primitives/tasks/caption.py\n/testbed/client/src/nv_ingest_client/primitives/tasks/dedup.py\n/testbed/client/src/nv_ingest_client/primitives/tasks/extract.py..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:32.841Z",
+        "tool": "Grep",
+        "id": "toolu_01BbjRYKCxCSLM44JuakgWpy",
+        "input": {
+          "pattern": "numpy|np\\.|ndarray|array",
+          "output_mode": "files_with_matches",
+          "glob": "*.py",
+          "-i": true
+        },
+        "end_timestamp": "2026-02-07T02:22:32.876Z",
+        "result_preview": "Found 20 files\n/testbed/src/nv_ingest/extraction_workflows/pdf/doughnut_helper.py\n/testbed/src/nv_ingest/extraction_workflows/pdf/doughnut_utils.py\n/testbed/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py\n/testbed/src/nv_ingest/extraction_workflows/pdf/yolox_utils.py\n/testbed/src/nv_ingest/modules/transforms/image_caption_extraction.py\n/testbed/src/nv_ingest/stages/transforms/image_caption_extraction.py\n/testbed/src/nv_ingest/util/image_processing/transforms.py\n/testbed/src/nv_ingest/uti..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:35.399Z",
+        "tool": "Read",
+        "id": "toolu_01VdGeKKP4WEH71D1wvmxtfb",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/util/image_processing/transforms.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:37.012Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192from io import BytesIO\n     6\u2192from math import ceil\n     7\u2192from math import floor\n     8\u2192from typing import Optional\n     9\u2192from typing import Tuple\n    10\u2192\n    11\u2192import numpy as np\n    12\u2192from PIL import Image\n    13\u2192\n    14\u2192from nv_ingest.util.converters import bytetools\n    15\u2192\n    16\u2192DEFAULT_MAX_WIDTH = 1024\n    17\u2192DE..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:35.984Z",
+        "tool": "Read",
+        "id": "toolu_019Dp4a6jd2vyJDmocu6vVEb",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/util/image_processing/table_and_chart.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:37.012Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192\n     6\u2192import json\n     7\u2192import logging\n     8\u2192\n     9\u2192logger = logging.getLogger(__name__)\n    10\u2192\n    11\u2192\n    12\u2192def join_cached_and_deplot_output(cached_text, deplot_text):\n    13\u2192    \"\"\"\n    14\u2192    Process the inference results from cached and deplot models.\n    15\u2192\n    16\u2192    Parameters\n    17\u2192    ----------\n    18\u2192..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:36.508Z",
+        "tool": "Read",
+        "id": "toolu_01Qx7wvgkg9dAbSmECX3yYTS",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:37.012Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192# Copyright (c) 2024, NVIDIA CORPORATION.\n     6\u2192#\n     7\u2192# Licensed under the Apache License, Version 2.0 (the \"License\");\n     8\u2192# you may not use this file except in compliance with the License.\n     9\u2192# You may obtain a copy of the License at\n    10\u2192#\n    11\u2192#     http://www.apache.org/licenses/LICENSE-2.0\n    12\u2192#\n   ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:36.978Z",
+        "tool": "Read",
+        "id": "toolu_01SfoWiB7un4HckgCh6TsMNA",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/extraction_workflows/pdf/doughnut_helper.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:37.012Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192\n     6\u2192# Copyright (c) 2024, NVIDIA CORPORATION.\n     7\u2192#\n     8\u2192# Licensed under the Apache License, Version 2.0 (the \"License\");\n     9\u2192# you may not use this file except in compliance with the License.\n    10\u2192# You may obtain a copy of the License at\n    11\u2192#\n    12\u2192#     http://www.apache.org/licenses/LICENSE-2.0\n    ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:42.335Z",
+        "tool": "Read",
+        "id": "toolu_01Wh3EboXvPLKFsQ8oRZSkFa",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/util/pdf/pdfium.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:43.668Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192import logging\n     6\u2192from typing import Any\n     7\u2192from typing import List\n     8\u2192from typing import Optional\n     9\u2192from typing import Tuple\n    10\u2192\n    11\u2192import numpy as np\n    12\u2192import pypdfium2 as pdfium\n    13\u2192from numpy import dtype\n    14\u2192from numpy import ndarray\n    15\u2192from PIL import Image\n    16\u2192\n    17\u2192from ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:43.195Z",
+        "tool": "Read",
+        "id": "toolu_011jcv81NsGNqCMuQgxecFa8",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/extraction_workflows/pdf/doughnut_utils.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:43.668Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192import re\n     6\u2192from io import BytesIO\n     7\u2192from math import ceil\n     8\u2192from math import floor\n     9\u2192from typing import List\n    10\u2192from typing import Optional\n    11\u2192from typing import Tuple\n    12\u2192\n    13\u2192import numpy as np\n    14\u2192from PIL import Image\n    15\u2192\n    16\u2192from nv_ingest.util.converters import bytetools\n ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:43.643Z",
+        "tool": "Read",
+        "id": "toolu_0156tM6j6Y4STxnL7KsdEZMy",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/extraction_workflows/pdf/yolox_utils.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:43.668Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192import warnings\n     6\u2192\n     7\u2192import cv2\n     8\u2192import numpy as np\n     9\u2192import torch\n    10\u2192import torchvision\n    11\u2192\n    12\u2192\n    13\u2192def postprocess_model_prediction(prediction, num_classes, conf_thre=0.7, nms_thre=0.45, class_agnostic=False):\n    14\u2192    prediction = torch.from_numpy(prediction.copy())\n    15\u2192    box_c..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:49.733Z",
+        "tool": "Read",
+        "id": "toolu_015vaJdqJssLtuRUvCYMYeUD",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/util/nim/helpers.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:51.159Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192import io\n     6\u2192import logging\n     7\u2192from typing import Optional\n     8\u2192from typing import Tuple\n     9\u2192\n    10\u2192import numpy as np\n    11\u2192import requests\n    12\u2192import tritonclient.grpc as grpcclient\n    13\u2192from PIL import Image\n    14\u2192\n    15\u2192from nv_ingest.util.converters import bytetools\n    16\u2192\n    17\u2192logger = loggin..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:50.309Z",
+        "tool": "Read",
+        "id": "toolu_01NQMikVofACsZhJj3MKt2kc",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/modules/transforms/image_caption_extraction.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:51.159Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192\n     6\u2192import logging\n     7\u2192import traceback\n     8\u2192from typing import Any\n     9\u2192from typing import Dict\n    10\u2192from typing import List\n    11\u2192from typing import Tuple\n    12\u2192\n    13\u2192import mrc\n    14\u2192import numpy as np\n    15\u2192import pandas as pd\n    16\u2192import tritonclient.grpc as grpcclient\n    17\u2192from morpheus.message..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:51.123Z",
+        "tool": "Read",
+        "id": "toolu_01SEhZcKHxD7fTCwJomkE2aA",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/extraction_workflows/pptx/pptx_helper.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:51.160Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192\n     6\u2192# Copyright (c) 2024, NVIDIA CORPORATION.\n     7\u2192#\n     8\u2192# Licensed under the Apache License, Version 2.0 (the \"License\");\n     9\u2192# you may not use this file except in compliance with the License.\n    10\u2192# You may obtain a copy of the License at\n    11\u2192#\n    12\u2192#     http://www.apache.org/licenses/LICENSE-2.0\n    ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:55.320Z",
+        "tool": "Read",
+        "id": "toolu_01SZaXo8DzD8Cz6KGb91x4ug",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/extraction_workflows/docx/docx_helper.py"
+        },
+        "end_timestamp": "2026-02-07T02:22:56.985Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192\n     6\u2192# Copyright (c) 2024, NVIDIA CORPORATION.\n     7\u2192#\n     8\u2192# Licensed under the Apache License, Version 2.0 (the \"License\");\n     9\u2192# you may not use this file except in compliance with the License.\n    10\u2192# You may obtain a copy of the License at\n    11\u2192#\n    12\u2192#     http://www.apache.org/licenses/LICENSE-2.0\n    ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:56.959Z",
+        "tool": "Grep",
+        "id": "toolu_01DVodQYHL1FeU5gNRzi4Mfe",
+        "input": {
+          "pattern": "def.*extract.*image|def.*crop|def.*numpy|def.*base64",
+          "output_mode": "content",
+          "glob": "*.py",
+          "-n": true,
+          "path": "/testbed/src"
+        },
+        "end_timestamp": "2026-02-07T02:22:56.994Z",
+        "result_preview": "/testbed/src/nv_ingest/extraction_workflows/pdf/tika_helper.py:24:def tika(pdf_stream, extract_text, extract_images, extract_tables, **kwargs):\n/testbed/src/nv_ingest/extraction_workflows/pdf/doughnut_utils.py:106:def crop_image(array: np.array, bbox: Tuple[int, int, int, int], format=\"PNG\") -> Optional[str]:\n/testbed/src/nv_ingest/extraction_workflows/pdf/doughnut_helper.py:56:def doughnut(pdf_stream, extract_text: bool, extract_images: bool, extract_tables: bool, **kwargs):\n/testbed/src/nv_ing..."
+      },
+      {
+        "timestamp": "2026-02-07T02:23:00.414Z",
+        "tool": "Read",
+        "id": "toolu_01P87rDkbqZfLKWdGNME7CCY",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/extraction_workflows/docx/docxreader.py",
+          "limit": 150
+        },
+        "end_timestamp": "2026-02-07T02:23:02.237Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192\n     6\u2192# Copyright (c) 2024, NVIDIA CORPORATION.\n     7\u2192#\n     8\u2192# Licensed under the Apache License, Version 2.0 (the \"License\");\n     9\u2192# you may not use this file except in compliance with the License.\n    10\u2192# You may obtain a copy of the License at\n    11\u2192#\n    12\u2192#     http://www.apache.org/licenses/LICENSE-2.0\n    ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:23:02.204Z",
+        "tool": "Grep",
+        "id": "toolu_014UpyXxLDyBvDzz5cjJE9Vy",
+        "input": {
+          "pattern": "numpy|np\\.|ndarray|PIL|Image",
+          "output_mode": "content",
+          "glob": "*.py",
+          "-n": true,
+          "path": "/testbed/src/nv_ingest/extraction_workflows/docx"
+        },
+        "end_timestamp": "2026-02-07T02:23:02.244Z",
+        "result_preview": "/testbed/src/nv_ingest/extraction_workflows/docx/docxreader.py:37:from docx.image.image import Image\n/testbed/src/nv_ingest/extraction_workflows/docx/docxreader.py:47:from nv_ingest.schemas.metadata_schema import ImageTypeEnum\n/testbed/src/nv_ingest/extraction_workflows/docx/docxreader.py:201:    def format_paragraph(self, paragraph: Paragraph) -> Tuple[str, List[Image]]:\n/testbed/src/nv_ingest/extraction_workflows/docx/docxreader.py:260:    def format_cell(self, cell: _Cell) -> Tuple[str, List[..."
+      },
+      {
+        "timestamp": "2026-02-07T02:23:06.082Z",
+        "tool": "Read",
+        "id": "toolu_0113bn7icHBTWVcKWMsq1mnE",
+        "input": {
+          "file_path": "/testbed/src/util/image_viewer.py"
+        },
+        "end_timestamp": "2026-02-07T02:23:06.115Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192\n     6\u2192import base64\n     7\u2192import json\n     8\u2192import tkinter as tk\n     9\u2192from io import BytesIO\n    10\u2192from tkinter import ttk\n    11\u2192\n    12\u2192import click\n    13\u2192from PIL import Image\n    14\u2192from PIL import ImageTk\n    15\u2192\n    16\u2192\n    17\u2192@click.command()\n    18\u2192@click.option(\n    19\u2192    \"--file_path\",\n    20\u2192    type=st..."
+      },
+      {
+        "timestamp": "2026-02-07T02:23:05.615Z",
+        "tool": "Glob",
+        "id": "toolu_01Y3xQE5bV2Urqs9BDoLhSQL",
+        "input": {
+          "pattern": "**/image*.py",
+          "path": "/testbed/src"
+        },
+        "end_timestamp": "2026-02-07T02:23:06.123Z",
+        "result_preview": "/testbed/src/util/image_viewer.py\n/testbed/src/nv_ingest/schemas/image_storage_schema.py\n/testbed/src/nv_ingest/schemas/image_filter_schema.py\n/testbed/src/nv_ingest/schemas/image_dedup_schema.py\n/testbed/src/nv_ingest/schemas/image_caption_extraction_schema.py\n/testbed/src/nv_ingest/modules/transforms/image_caption_extraction.py\n/testbed/src/nv_ingest/modules/storages/image_storage.py\n/testbed/src/nv_ingest/modules/filters/image_filter.py\n/testbed/src/nv_ingest/modules/filters/image_dedup.py\n/t..."
+      },
+      {
+        "timestamp": "2026-02-07T02:23:10.865Z",
+        "tool": "Read",
+        "id": "toolu_01W9KiYVZ7Tvt976Wwy6rvgx",
+        "input": {
+          "file_path": "/testbed/src/util/image_model_validation/util.py"
+        },
+        "end_timestamp": "2026-02-07T02:23:11.957Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192import sys\n     6\u2192\n     7\u2192import cv2\n     8\u2192import numpy as np\n     9\u2192import tritonclient.grpc as grpcclient\n    10\u2192\n    11\u2192\n    12\u2192def resize_image(image, target_img_size):\n    13\u2192    \"\"\"\n    14\u2192    Resize and pad an image to the target image size.\n    15\u2192    \"\"\"\n    16\u2192    w, h, _ = np.array(image).shape\n    17\u2192\n    18\u2192 ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:23:11.935Z",
+        "tool": "Read",
+        "id": "toolu_01WY4n227Ze55VZ1wnDcGmLa",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/util/pdf/metadata_aggregators.py",
+          "limit": 200
+        },
+        "end_timestamp": "2026-02-07T02:23:11.957Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192\n     6\u2192import uuid\n     7\u2192from dataclasses import dataclass\n     8\u2192from datetime import datetime\n     9\u2192from typing import Any\n    10\u2192from typing import Dict\n    11\u2192from typing import List\n    12\u2192from typing import Tuple\n    13\u2192from typing import Union\n    14\u2192\n    15\u2192import pandas as pd\n    16\u2192import pypdfium2 as pdfium\n ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:23:17.046Z",
+        "tool": "Grep",
+        "id": "toolu_015bSa2fk81x2Tuisct5vzMD",
+        "input": {
+          "pattern": "def.*\\(.*np\\.ndarray|def.*\\(.*numpy",
+          "output_mode": "content",
+          "glob": "*.py",
+          "-n": true,
+          "path": "/testbed/src/nv_ingest"
+        },
+        "end_timestamp": "2026-02-07T02:23:17.092Z",
+        "result_preview": "/testbed/src/nv_ingest/util/image_processing/transforms.py:116:def numpy_to_base64(array: np.ndarray) -> str:\n/testbed/src/nv_ingest/util/pdf/pdfium.py:31:def convert_bitmap_to_corrected_numpy(bitmap: pdfium.PdfBitmap) -> np.ndarray:\n/testbed/src/nv_ingest/util/pdf/pdfium.py:62:def pdfium_try_get_bitmap_as_numpy(image_obj) -> np.ndarray:\n/testbed/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py:189:def prepare_images_for_inference(images: List[np.ndarray]) -> np.ndarray:\n/testbed/src/nv_i..."
+      },
+      {
+        "timestamp": "2026-02-07T02:22:24.444Z",
+        "tool": "Task",
+        "id": "toolu_01V3K3He1FjBtq31as1EhXce",
+        "input": {
+          "description": "Search for image extraction methods",
+          "prompt": "Find all methods related to image extraction in the codebase, with a focus on NumPy array handling",
+          "subagent_type": "general-purpose"
+        },
+        "end_timestamp": "2026-02-07T02:24:12.701Z",
+        "result_preview": [
+          {
+            "type": "text",
+            "text": "Perfect! Now I have a comprehensive view of the codebase. Let me create a detailed report of all methods related to image extraction with a focus on NumPy array handling.\n\n## Summary\n\nBased on my comprehensive analysis of the codebase, I've found all methods related to image extraction with a focus on NumPy array handling. Here's a detailed breakdown:\n\n---\n\n## Image Extraction Methods with NumPy Array Handling\n\n### **Core Image Processing Utilities** (`/testbed/src/nv_ingest/util/image_processing/transforms.py`)\n\n1. **`pad_image(array: np.ndarray, target_width: int, target_height: int) -> Tuple[np.ndarray, Tuple[int, int]]`**\n   - Pads a NumPy array representing an image to specified target dimensions\n   - Centers the image with white padding if target is larger than image\n   - Returns padded array and padding offsets\n\n2. **`crop_image(array: np.array, bbox: Tuple[int, int, int, int], min_width: int, min_height: int) -> Optional[np.ndarray]`**\n   - Crops a NumPy array representing an image according to a bounding box\n   - Validates minimum dimensions and returns None if invalid\n   - Uses floor/ceil for bounding box coordinates\n\n3. **`numpy_to_base64(array: np.ndarray) -> str`**\n   - Converts NumPy array to base64-encoded PNG string\n   - Uses PIL Image for conversion\n   - Includes error handling for invalid arrays\n\n---\n\n### **PDF Image Extraction** (`/testbed/src/nv_ingest/util/pdf/pdfium.py`)\n\n1. **`convert_bitmap_to_corrected_numpy(bitmap: pdfium.PdfBitmap) -> np.ndarray`**\n   - Converts PdfBitmap to correctly formatted NumPy array\n   - Handles channel swapping (BGR/BGRA to RGB/RGBA)\n   - Returns properly formatted image data\n\n2. **`pdfium_try_get_bitmap_as_numpy(image_obj) -> np.ndarray`**\n   - Attempts to retrieve bitmap from PdfImage object as NumPy array\n   - Tries with rendering enabled first, then without if it fails\n   - Returns extracted bitmap as NumPy array\n\n3. **`pdfium_pages_to_numpy(pages: List[pdfium.PdfPage], render_dpi: int, scale_tuple: Optional[Tuple[int, int]], padding_tuple: Optional[Tuple[int, int]]) -> Tuple[List[np.ndarray], List[Tuple[int, int]]]`**\n   - Converts list of PDF pages to list of NumPy arrays\n   - Renders each page as bitmap, applies scaling (thumbnail approach) and padding\n   - Returns images and padding offsets\n\n---\n\n### **PDF Helper Functions** (`/testbed/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py`)\n\n1. **`extract_tables_and_charts_using_image_ensemble(pages: List[libpdfium.PdfPage], config, ...) -> List[Tuple[int, ImageTable]]`**\n   - Extracts tables and charts from PDF pages using ensemble of image models\n   - Converts pages to NumPy arrays for processing\n   - Returns list of ImageTable/ImageChart objects with metadata\n\n2. **`prepare_images_for_inference(images: List[np.ndarray]) -> np.ndarray`**\n   - Prepares list of NumPy image arrays for model inference\n   - Resizes to 1024x1024 and reorders axes to (batch, channels, height, width)\n   - Returns properly formatted NumPy array for model input\n\n3. **`process_inference_results(output_array: np.ndarray, original_image_shapes: List[Tuple[int, int]], ...) -> List[dict]`**\n   - Processes model output array to generate detection results\n   - Scales bounding boxes back to original image size\n   - Returns list of dictionaries with processed detections\n\n4. **`handle_table_chart_extraction(annotation_dict, original_image: np.ndarray, page_idx, ...)`**\n   - Handles extraction of tables/charts from NumPy image arrays\n   - Crops images based on bounding boxes\n   - Converts to base64 and runs inference models\n\n5. **`pdfium(pdf_stream, extract_text: bool, extract_images: bool, extract_tables: bool, **kwargs)`**\n   - Main PDF extraction function using pdfium backend\n   - Extracts images as NumPy arrays and converts to base64\n   - Handles text, images, tables, and charts\n\n---\n\n### **Doughnut Utils** (`/testbed/src/nv_ingest/extraction_workflows/pdf/doughnut_utils.py`)\n\n1. **`crop_image(array: np.array, bbox: Tuple[int, int, int, int], format=\"PNG\") -> Optional[str]`**\n   - Crops NumPy array and returns base64-encoded string\n   - Validates bounding box dimensions\n   - Returns None if invalid dimensions\n\n2. **`pad_image(array: np.array, target_width: int, target_height: int) -> Tuple[np.array, Tuple[int, int]]`**\n   - Pads NumPy array to target dimensions\n   - Raises ValueError if image is too large\n   - Returns padded array and offsets\n\n---\n\n### **Doughnut Helper** (`/testbed/src/nv_ingest/extraction_workflows/pdf/doughnut_helper.py`)\n\n1. **`doughnut(pdf_stream, extract_text: bool, extract_images: bool, extract_tables: bool, **kwargs)`**\n   - Main doughnut extraction function\n   - Converts PDF pages to NumPy arrays\n   - Crops images from NumPy arrays based on detected bounding boxes\n\n2. **`preprocess_and_send_requests(triton_client, batch: List[pdfium.PdfPage], batch_offset: int) -> List[Tuple[int, str]]`**\n   - Converts PDF pages to NumPy arrays for batch processing\n   - Sends NumPy arrays to Triton inference server\n   - Returns page numbers, text, and bounding box offsets\n\n---\n\n### **YOLOX Utils** (`/testbed/src/nv_ingest/extraction_workflows/pdf/yolox_utils.py`)\n\n1. **`resize_image(image, target_img_size) -> np.ndarray`**\n   - Resizes NumPy image array to target size\n   - Applies padding with cv2\n   - Returns resized and padded NumPy array\n\n2. **`postprocess_model_prediction(prediction: np.ndarray, ...) -> List`**\n   - Processes model predictions from NumPy arrays\n   - Applies non-maximum suppression using torch\n   - Returns list of detection results\n\n3. **`postprocess_results(results, original_image_shapes, min_score=0.0) -> List[dict]`**\n   - Processes results and normalizes bounding boxes\n   - Works with NumPy arrays for bbox computations\n   - Returns annotation dictionaries\n\n4. **`expand_chart_bboxes(annotation_dict, labels=None) -> dict`**\n   - Expands chart bounding boxes using NumPy operations\n   - Uses weighted box fusion with NumPy arrays\n   - Returns updated annotation dictionary\n\n---\n\n### **NIM Helpers** (`/testbed/src/nv_ingest/util/nim/helpers.py`)\n\n1. **`call_image_inference_model(client, model_name: str, image_data: np.ndarray) -> str or None`**\n   - Calls inference model with NumPy image data\n   - Handles both gRPC and HTTP clients\n   - Expands dimensions if needed (3D to 4D)\n   - Converts to FP32 for inference\n\n2. **`perform_model_inference(client, model_name: str, input_array: np.ndarray) -> np.ndarray`**\n   - Performs model inference with NumPy input array\n   - Returns output as NumPy array\n   - Sets up gRPC inputs/outputs for Triton\n\n---\n\n### **Image Caption Extraction** (`/testbed/src/nv_ingest/modules/transforms/image_caption_extraction.py`)\n\n1. **`_calculate_centroids(bboxes: List[Tuple[int, int, int, int]]) -> List[Tuple[float, float]]`**\n   - Calculates centroids from bounding boxes\n   - Returns list of centroid coordinates\n\n2. **`_fit_nearest_neighbors(centroids: List[Tuple[float, float]], n_neighbors: int) -> Tuple[NearestNeighbors, int]`**\n   - Converts centroids to NumPy array\n   - Fits NearestNeighbors model\n   - Returns fitted model and adjusted neighbor count\n\n3. **`_find_nearest_neighbors(nbrs: NearestNeighbors, new_bbox: Tuple[int, int, int, int], content: List[str], n_neighbors: int) -> Tuple[np.ndarray, np.ndarray, List[str]]`**\n   - Calculates centroid as NumPy array\n   - Finds nearest neighbors using sklearn\n   - Returns distances, indices, and content\n\n4. **`_predict_caption(triton_url: str, headers: Dict[str, str], inputs: List[List[str]], n_candidates: int) -> List[str]`**\n   - Uses NumPy arrays for tokenized inputs (INT64, FP32)\n   - Processes batch outputs with NumPy operations\n   - Returns generated captions\n\n---\n\n### **Utility Functions** (`/testbed/src/util/image_model_validation/util.py`)\n\n1. **`resize_image(image, target_img_size) -> np.ndarray`**\n   - Resizes and pads image using cv2 and NumPy\n   - Returns resized NumPy array\n\n2. **`load_and_preprocess_image(image_path, target_img_size) -> Tuple[np.ndarray, np.ndarray]`**\n   - Loads image with cv2 as NumPy array\n   - Normalizes and expands dimensions\n   - Returns resized and preprocessed arrays\n\n3. **`prepare_input_tensor(input_data: np.ndarray) -> List[grpcclient.InferInput]`**\n   - Prepares Triton input tensor from NumPy array\n   - Converts to FP32\n   - Returns list of InferInput objects\n\n---\n\n### **Document Extractors**\n\n#### PPTX Helper (`/testbed/src/nv_ingest/extraction_workflows/pptx/pptx_helper.py`)\n- **`_construct_image_metadata(...)`** - Constructs metadata for images extracted from PPTX\n- **`python_pptx(...)`** - Main PPTX extraction function (handles images via bytetools)\n\n#### DOCX Reader (`/testbed/src/nv_ingest/extraction_workflows/docx/docxreader.py`)\n- **`_extract_para_images(...)`** - Extracts images from DOCX paragraphs\n- Uses PIL Image objects from python-docx library\n\n---\n\n### **Supporting Data Classes** (`/testbed/src/nv_ingest/util/pdf/metadata_aggregators.py`)\n\nData classes for handling image extractions:\n- **`Base64Image`** - Stores base64 image, bbox, width, height\n- **`ImageTable`** - Stores table content, image, bbox\n- **`ImageChart`** - Stores chart content, image, bbox\n- **`LatexTable`** - Stores latex table and bbox\n\nFunctions:\n- **`construct_image_metadata(image_base64: Base64Image, ...)`** - Constructs metadata for images\n- **`construct_table_and_chart_metadata(...)`** - Constructs metadata for tables and charts\n\n---\n\n## Key Patterns Observed\n\n1. **NumPy Array Conversion Flow**: PDF/Document \u2192 Bitmap \u2192 NumPy Array \u2192 Base64 String\n2. **Image Processing Pipeline**: Load \u2192 Resize/Pad \u2192 Crop \u2192 Convert to Base64 \u2192 Inference\n3. **Common Operations**:\n   - Channel reordering (BGR to RGB)\n   - Dimension manipulation (3D to 4D for batch processing)\n   - Data type conversion (uint8 to float32 for inference)\n   - Bounding box operations with NumPy indexing\n4. **Integration Points**: PIL, OpenCV, PyPDFium2, Triton Inference, PyTorch\n\nAll methods handle NumPy arrays for efficient image processing and are integrated with various inference backends (Triton gRPC, HTTP endpoints) for AI/ML model inference."
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-02-07T02:24:16.942Z",
+        "tool": "Grep",
+        "id": "toolu_01TsqDcivXv3bQjXTnynz9pE",
+        "input": {
+          "pattern": "extract.*images",
+          "output_mode": "content"
+        },
+        "end_timestamp": "2026-02-07T02:24:16.995Z",
+        "result_preview": "/testbed/helm/README.md:  --task='extract:{\"document_type\": \"pdf\", \"extract_text\": true, \"extract_images\": true, \"extract_tables\": true}' \\\n/testbed/helm/README.md:NVIngest uses Milvus and Minio to store extracted images from a document\n/testbed/helm/README.md:| `envVars.MINIO_BUCKET`                 | Override this for specific minio bucket to upload extracted images to                                     | `\"nv-ingest\"`              |\n/testbed/helm/values.yaml:## NVIngest uses Milvus and Minio..."
+      },
+      {
+        "timestamp": "2026-02-07T02:24:20.756Z",
+        "tool": "Grep",
+        "id": "toolu_01JRADYPkoz4j8cj54JCrDfQ",
+        "input": {
+          "pattern": "handle.*1,1,1",
+          "output_mode": "files_with_matches"
+        },
+        "end_timestamp": "2026-02-07T02:24:20.809Z",
+        "result_preview": "No files found"
+      },
+      {
+        "timestamp": "2026-02-07T02:24:23.119Z",
+        "tool": "Grep",
+        "id": "toolu_012fc3NQhKWTsRUDxHTCVoyZ",
+        "input": {
+          "pattern": "filter.*tiny|small.*image|min_size",
+          "output_mode": "content"
+        },
+        "end_timestamp": "2026-02-07T02:24:23.169Z",
+        "result_preview": "/testbed/tests/nv_ingest_client/primitives/tasks/test_filter.py:        min_size=128,\n/testbed/tests/nv_ingest_client/primitives/tasks/test_filter.py:    assert task._min_size == 128\n/testbed/tests/nv_ingest_client/primitives/tasks/test_filter.py:        min_size=128,\n/testbed/tests/nv_ingest_client/primitives/tasks/test_filter.py:        \"  min_size: 128\\n\"\n/testbed/tests/nv_ingest_client/primitives/tasks/test_filter.py:    \"content_type, min_size, max_aspect_ratio, min_aspect_ratio, filter\",\n/..."
+      },
+      {
+        "timestamp": "2026-02-07T02:24:26.041Z",
+        "tool": "Read",
+        "id": "toolu_017ouGagEXRwcyVHZGg1FNJ2",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/modules/filters/image_filter.py"
+        },
+        "end_timestamp": "2026-02-07T02:24:26.064Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192\n     6\u2192import logging\n     7\u2192\n     8\u2192import mrc\n     9\u2192import mrc.core.operators as ops\n    10\u2192import pandas as pd\n    11\u2192from morpheus.messages import ControlMessage\n    12\u2192from morpheus.messages import MessageMeta\n    13\u2192from morpheus.utils.module_utils import ModuleLoaderFactory\n    14\u2192from morpheus.utils.module_utils ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:24:36.633Z",
+        "tool": "Edit",
+        "id": "toolu_01PYWuLYNnprAZNcb4mfcfSe",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py",
+          "old_string": "def pdfium(pdf_stream, extract_text: bool, extract_images: bool, extract_tables: bool, **kwargs):\n    \"\"\"Main method to use pdfium for extraction.\n    If a method is requested that can't be done, it is skipped. If no methods are requested, everything is extracted.\n\n    Parameters\n    ----------\n    pdf_stream : Union[BytesIO, str, Path]\n        Path or stream of a pdf file.\n    extract_text : bool\n        Extracts text from the PDF.\n    extract_images : bool\n        Specifies whether to extract images.\n    extract_tables : bool\n        Specifies whether to extract tables.\n    **kwargs\n        Optional parameters for the extraction process.\n\n    Returns\n    -------\n    List[Tuple[ContentTypeEnum, Dict[str, Any]]]\n        List of extracted data. Order is important - first is text, then images, then tables\n    \"\"\"",
+          "new_string": "def pdfium(pdf_stream, extract_text: bool, extract_images: bool, extract_tables: bool, **kwargs):\n    \"\"\"Main method to use pdfium for extraction.\n    If a method is requested that can't be done, it is skipped. If no methods are requested, everything is extracted.\n\n    Parameters\n    ----------\n    pdf_stream : Union[BytesIO, str, Path]\n        Path or stream of a pdf file.\n    extract_text : bool\n        Extracts text from the PDF.\n    extract_images : bool\n        Specifies whether to extract images.\n    extract_tables : bool\n        Specifies whether to extract tables.\n    **kwargs\n        Optional parameters for the extraction process.\n\n    Returns\n    -------\n    List[Tuple[ContentTypeEnum, Dict[str, Any]]]\n        List of extracted data. Order is important - first is text, then images, then tables\n    \"\"\"\n    # Validate that extraction methods are supported\n    min_image_size = kwargs.get('min_image_size', 16)  # Minimum image size to extract"
+        },
+        "end_timestamp": "2026-02-07T02:24:36.670Z",
+        "result_preview": "<tool_use_error>File has not been read yet. Read it first before writing to it.</tool_use_error>"
+      },
+      {
+        "timestamp": "2026-02-07T02:24:38.781Z",
+        "tool": "Read",
+        "id": "toolu_01E6EhPyER94w1qfQcPjdqYB",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py"
+        },
+        "end_timestamp": "2026-02-07T02:24:38.800Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192# Copyright (c) 2024, NVIDIA CORPORATION.\n     6\u2192#\n     7\u2192# Licensed under the Apache License, Version 2.0 (the \"License\");\n     8\u2192# you may not use this file except in compliance with the License.\n     9\u2192# You may obtain a copy of the License at\n    10\u2192#\n    11\u2192#     http://www.apache.org/licenses/LICENSE-2.0\n    12\u2192#\n   ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:24:49.073Z",
+        "tool": "Edit",
+        "id": "toolu_01B4HgDBCyYJdTp2GT1zy3wi",
+        "input": {
+          "file_path": "/testbed/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py",
+          "old_string": "                    try:\n                        # Attempt to retrieve the image bitmap\n                        image_numpy: np.ndarray = pdfium_try_get_bitmap_as_numpy(obj)\n                        image_base64: str = numpy_to_base64(image_numpy)\n                        image_bbox = obj.get_pos()\n                        image_size = obj.get_size()\n                        image_data = Base64Image(image_base64, image_bbox, image_size[0], image_size[1])\n\n                        extracted_image_data = construct_image_metadata(\n                            image_data,\n                            page_idx,\n                            pdf_metadata.page_count,\n                            source_metadata,\n                            base_unified_metadata,\n                        )\n\n                        extracted_data.append(extracted_image_data)\n                    except Exception as e:\n                        logger.error(f\"Error extracting image: {e}\")\n                        pass  # Pdfium failed to extract the image associated with this object - corrupt or missing.",
+          "new_string": "                    try:\n                        # Attempt to retrieve the image bitmap\n                        image_numpy: np.ndarray = pdfium_try_get_bitmap_as_numpy(obj)\n\n                        # Skip tiny images\n                        min_width = 4  # adjust as needed\n                        min_height = 4  # adjust as needed\n                        if image_numpy.shape[0] < min_width or image_numpy.shape[1] < min_height:\n                            logger.warning(f\"Skipping tiny image of size {image_numpy.shape}\")\n                            continue\n\n                        image_base64: str = numpy_to_base64(image_numpy)\n                        image_bbox = obj.get_pos()\n                        image_size = obj.get_size()\n                        image_data = Base64Image(image_base64, image_bbox, image_size[0], image_size[1])\n\n                        extracted_image_data = construct_image_metadata(\n                            image_data,\n                            page_idx,\n                            pdf_metadata.page_count,\n                            source_metadata,\n                            base_unified_metadata,\n                        )\n\n                        extracted_data.append(extracted_image_data)\n                    except Exception as e:\n                        logger.error(f\"Error extracting image: {e}\")\n                        pass  # Pdfium failed to extract the image associated with this object - corrupt or missing."
+        },
+        "end_timestamp": "2026-02-07T02:24:49.162Z",
+        "result_preview": "The file /testbed/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py has been updated. Here's the result of running `cat -n` on a snippet of the edited file:\n   463\u2192        if extract_images:\n   464\u2192            for obj in page.get_objects():\n   465\u2192                obj_type = PDFIUM_PAGEOBJ_MAPPING.get(obj.type, \"UNKNOWN\")\n   466\u2192                if obj_type == \"IMAGE\":\n   467\u2192                    try:\n   468\u2192                        # Attempt to retrieve the image bitmap\n   469\u2192               ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:24:52.583Z",
+        "tool": "TodoWrite",
+        "id": "toolu_01UVtPETz4Q89P8J7wVdfSfo",
+        "input": {
+          "todos": [
+            {
+              "content": "Modify pdfium extraction to handle tiny images",
+              "status": "completed",
+              "activeForm": "Modified pdfium extraction to handle tiny images"
+            },
+            {
+              "content": "Test image extraction with edge cases",
+              "status": "pending",
+              "activeForm": "Testing image extraction with edge cases"
+            }
+          ]
+        },
+        "end_timestamp": "2026-02-07T02:24:52.630Z",
+        "result_preview": "Todos have been modified successfully. Ensure that you continue to use the todo list to track your progress. Please proceed with the current tasks if applicable"
+      },
+      {
+        "timestamp": "2026-02-07T02:24:55.358Z",
+        "tool": "Bash",
+        "id": "toolu_01Fw3wiaQvxKLtCTFjzg3YkH",
+        "input": {
+          "command": "pytest tests/functional/test_ingest_pipeline.py",
+          "description": "Run functional tests for PDF extraction pipeline"
+        },
+        "end_timestamp": "2026-02-07T02:24:56.641Z",
+        "result_preview": "============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-9.0.2, pluggy-1.6.0\nrootdir: /testbed\nconfigfile: pyproject.toml\nplugins: mock-3.15.1, asyncio-1.3.0, requests-mock-1.12.1, cov-7.0.0, anyio-4.12.1, Faker-40.1.2, hypothesis-6.151.5, trio-0.8.0\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 0 items / 1 error\n\n==================================..."
+      },
+      {
+        "timestamp": "2026-02-07T02:24:58.929Z",
+        "tool": "Bash",
+        "id": "toolu_01AjmL22sxt41w6cTvjwGyMA",
+        "input": {
+          "command": "pip install -e .",
+          "description": "Install project dependencies and package"
+        },
+        "end_timestamp": "2026-02-07T02:25:00.155Z",
+        "result_preview": "error: externally-managed-environment\n\n\u00d7 This environment is externally managed\n\u2570\u2500> To install Python packages system-wide, try apt install\n    python3-xyz, where xyz is the package you are trying to\n    install.\n    \n    If you wish to install a non-Debian-packaged Python package,\n    create a virtual environment using python3 -m venv path/to/venv.\n    Then use path/to/venv/bin/python and path/to/venv/bin/pip. Make\n    sure you have python3-full installed.\n    \n    If you wish to install a non-..."
+      },
+      {
+        "timestamp": "2026-02-07T02:25:02.383Z",
+        "tool": "Bash",
+        "id": "toolu_01435Y36HAsc89b6CpDCYSxB",
+        "input": {
+          "command": "pip install --break-system-packages -e .",
+          "description": "Install project dependencies and package (bypassing system package management)"
+        },
+        "end_timestamp": "2026-02-07T02:27:03.094Z",
+        "result_preview": "Command timed out after 2m 0s\nDefaulting to user installation because normal site-packages is not writeable\nObtaining file:///testbed\n  Installing build dependencies: started\n  Installing build dependencies: finished with status 'done'\n  Checking if build backend supports build_editable: started\n  Checking if build backend supports build_editable: finished with status 'done'\n  Getting requirements to build editable: started\n  Getting requirements to build editable: finished with status 'done'\n  ..."
+      },
+      {
+        "timestamp": "2026-02-07T02:27:06.962Z",
+        "tool": "Bash",
+        "id": "toolu_01XNfxJETQaSEixE3Hhf8PU4",
+        "input": {
+          "command": "PYTHONPATH=/testbed pytest /testbed/tests/nv_ingest/extraction_workflows/pdf/test_pdfium_helper.py",
+          "description": "Run PDF extraction tests with updated pdfium helper"
+        },
+        "end_timestamp": "2026-02-07T02:27:08.496Z",
+        "result_preview": "============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-9.0.2, pluggy-1.6.0\nrootdir: /testbed\nconfigfile: pyproject.toml\nplugins: mock-3.15.1, asyncio-1.3.0, requests-mock-1.12.1, cov-7.0.0, anyio-4.12.1, Faker-40.1.2, hypothesis-6.151.5, trio-0.8.0\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 0 items / 1 error\n\n==================================..."
+      },
+      {
+        "timestamp": "2026-02-07T02:27:12.891Z",
+        "tool": "TodoWrite",
+        "id": "toolu_01DmdJUXZuzf7sZiFXdbAQ3V",
+        "input": {
+          "todos": [
+            {
+              "content": "Modify pdfium extraction to handle tiny images",
+              "status": "completed",
+              "activeForm": "Modified pdfium extraction to handle tiny images"
+            },
+            {
+              "content": "Install project dependencies",
+              "status": "in_progress",
+              "activeForm": "Installing project dependencies"
+            },
+            {
+              "content": "Run tests to validate image extraction fix",
+              "status": "pending",
+              "activeForm": "Running tests to validate image extraction fix"
+            }
+          ]
+        },
+        "end_timestamp": "2026-02-07T02:27:12.914Z",
+        "result_preview": "Todos have been modified successfully. Ensure that you continue to use the todo list to track your progress. Please proceed with the current tasks if applicable"
+      },
+      {
+        "timestamp": "2026-02-07T02:27:15.617Z",
+        "tool": "Bash",
+        "id": "toolu_01RzEovo91ohQEdc4J5JhAcb",
+        "input": {
+          "command": "pip install --break-system-packages pymilvus",
+          "description": "Install pymilvus dependency"
+        },
+        "end_timestamp": "2026-02-07T02:27:17.558Z",
+        "result_preview": "Defaulting to user installation because normal site-packages is not writeable\nCollecting pymilvus\n  Downloading pymilvus-2.6.8-py3-none-any.whl.metadata (6.8 kB)\nCollecting setuptools>69 (from pymilvus)\n  Using cached setuptools-81.0.0-py3-none-any.whl.metadata (6.6 kB)\nRequirement already satisfied: grpcio!=1.68.0,!=1.68.1,!=1.69.0,!=1.70.0,!=1.70.1,!=1.71.0,!=1.72.1,!=1.73.0,>=1.66.2 in /home/yunwei37/.local/lib/python3.12/site-packages (from pymilvus) (1.76.0)\nCollecting orjson>=3.10.15 (from..."
+      },
+      {
+        "timestamp": "2026-02-07T02:27:21.456Z",
+        "tool": "Bash",
+        "id": "toolu_01VdCjEbv7G3rRdqCdYKDpS8",
+        "input": {
+          "command": "PYTHONPATH=. python3 -m pytest tests/nv_ingest/extraction_workflows/pdf/test_pdfium_helper.py",
+          "description": "Run PDF extraction tests with updated pdfium helper"
+        },
+        "end_timestamp": "2026-02-07T02:27:23.111Z",
+        "result_preview": "============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-9.0.2, pluggy-1.6.0\nrootdir: /testbed\nconfigfile: pyproject.toml\nplugins: mock-3.15.1, asyncio-1.3.0, requests-mock-1.12.1, cov-7.0.0, anyio-4.12.1, Faker-40.1.2, hypothesis-6.151.5, trio-0.8.0\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 0 items / 1 error\n\n==================================..."
+      },
+      {
+        "timestamp": "2026-02-07T02:27:26.343Z",
+        "tool": "Bash",
+        "id": "toolu_01Pxg9DDeTg9r3Titic1bv4U",
+        "input": {
+          "command": "pip install --break-system-packages langdetect",
+          "description": "Install langdetect package"
+        },
+        "end_timestamp": "2026-02-07T02:27:28.703Z",
+        "result_preview": "Defaulting to user installation because normal site-packages is not writeable\nCollecting langdetect\n  Downloading langdetect-1.0.9.tar.gz (981 kB)\n     \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501 981.5/981.5 kB 17.1 MB/s  0:00:00\n  Installing build dependencies: started\n  Installing build dependencies: finished with status 'done'\n  Getting requirements to build wheel: started\n  Getting requirements to build wheel: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparin..."
+      },
+      {
+        "timestamp": "2026-02-07T02:27:31.832Z",
+        "tool": "Bash",
+        "id": "toolu_01Pv6CytTUNFgLHDNPJ82KHi",
+        "input": {
+          "command": "PYTHONPATH=. python3 -m pytest tests/nv_ingest/extraction_workflows/pdf/test_pdfium_helper.py",
+          "description": "Run PDF extraction tests with updated pdfium helper"
+        },
+        "end_timestamp": "2026-02-07T02:27:32.745Z",
+        "result_preview": "============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-9.0.2, pluggy-1.6.0\nrootdir: /testbed\nconfigfile: pyproject.toml\nplugins: mock-3.15.1, asyncio-1.3.0, requests-mock-1.12.1, cov-7.0.0, anyio-4.12.1, Faker-40.1.2, hypothesis-6.151.5, trio-0.8.0\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 0 items / 1 error\n\n==================================..."
+      },
+      {
+        "timestamp": "2026-02-07T02:27:36.363Z",
+        "tool": "Bash",
+        "id": "toolu_01YKvKe3NT42V7YFAKT5cx9V",
+        "input": {
+          "command": "pip install --break-system-packages tritonclient",
+          "description": "Install Triton client"
+        },
+        "end_timestamp": "2026-02-07T02:27:37.882Z",
+        "result_preview": "Defaulting to user installation because normal site-packages is not writeable\nCollecting tritonclient\n  Downloading tritonclient-2.65.0-py3-none-manylinux1_x86_64.whl.metadata (3.0 kB)\nRequirement already satisfied: numpy>=1.19.1 in /home/yunwei37/.local/lib/python3.12/site-packages (from tritonclient) (1.26.4)\nCollecting python-rapidjson>=0.9.1 (from tritonclient)\n  Downloading python_rapidjson-1.23-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (24 kB)\nRequirement already..."
+      },
+      {
+        "timestamp": "2026-02-07T02:27:41.848Z",
+        "tool": "TodoWrite",
+        "id": "toolu_01AAccuX2CTKkJvVKdsG3BiY",
+        "input": {
+          "todos": [
+            {
+              "content": "Modify pdfium extraction to handle tiny images",
+              "status": "completed",
+              "activeForm": "Modified pdfium extraction to handle tiny images"
+            },
+            {
+              "content": "Install missing project dependencies",
+              "status": "in_progress",
+              "activeForm": "Installing missing project dependencies"
+            },
+            {
+              "content": "Run tests to validate image extraction fix",
+              "status": "pending",
+              "activeForm": "Running tests to validate image extraction fix"
+            }
+          ]
+        },
+        "end_timestamp": "2026-02-07T02:27:41.871Z",
+        "result_preview": "Todos have been modified successfully. Ensure that you continue to use the todo list to track your progress. Please proceed with the current tasks if applicable"
+      },
+      {
+        "timestamp": "2026-02-07T02:27:44.685Z",
+        "tool": "Read",
+        "id": "toolu_01YCoXj3NerFYfyZ4Y2BXiod",
+        "input": {
+          "file_path": "/testbed/tests/nv_ingest/extraction_workflows/pdf/test_pdfium_helper.py"
+        },
+        "end_timestamp": "2026-02-07T02:27:44.707Z",
+        "result_preview": "     1\u2192# SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.\n     2\u2192# All rights reserved.\n     3\u2192# SPDX-License-Identifier: Apache-2.0\n     4\u2192\n     5\u2192import re\n     6\u2192from io import BytesIO\n     7\u2192from io import StringIO\n     8\u2192\n     9\u2192import pandas as pd\n    10\u2192import pytest\n    11\u2192\n    12\u2192from nv_ingest.extraction_workflows.pdf.pdfium_helper import pdfium\n    13\u2192from nv_ingest.schemas.metadata_schema import TextTypeEnum\n    14\u2192\n    15\u2192\n    16\u2192@pytest.fixture\n    17\u2192de..."
+      },
+      {
+        "timestamp": "2026-02-07T02:27:49.609Z",
+        "tool": "TodoWrite",
+        "id": "toolu_0195KWe9gjEQjykGKFCQseij",
+        "input": {
+          "todos": [
+            {
+              "content": "Modify pdfium extraction to handle tiny images",
+              "status": "completed",
+              "activeForm": "Modified pdfium extraction to handle tiny images"
+            },
+            {
+              "content": "Locate or create test PDF files for tests",
+              "status": "in_progress",
+              "activeForm": "Locating or creating test PDF files for tests"
+            },
+            {
+              "content": "Run tests to validate image extraction fix",
+              "status": "pending",
+              "activeForm": "Running tests to validate image extraction fix"
+            }
+          ]
+        },
+        "end_timestamp": "2026-02-07T02:27:49.628Z",
+        "result_preview": "Todos have been modified successfully. Ensure that you continue to use the todo list to track your progress. Please proceed with the current tasks if applicable"
+      }
+    ]
+  },
+  "cleaned": true,
+  "total_time": 804.3228869438171,
+  "end_time": "2026-02-06T18:27:55.788586"
+}

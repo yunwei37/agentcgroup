@@ -21,7 +21,8 @@
     "numba__numba-9636",
     "cneud__alto-tools-29",
     "redis__redis-py-3264",
-    "simonw__files-to-prompt-44"
+    "simonw__files-to-prompt-44",
+    "NVIDIA__nv-ingest-71"
   ],
   "results": {
     "beeware__briefcase-1525": {
@@ -133,6 +134,11 @@
       "success": false,
       "attempts": 1,
       "total_time": 333.751751
+    },
+    "NVIDIA__nv-ingest-71": {
+      "success": false,
+      "attempts": 1,
+      "total_time": 804.513492
     }
   }
 }

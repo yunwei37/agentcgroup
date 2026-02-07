@@ -1,0 +1,42 @@
+I'll summarize the fix and proposed next steps:
+
+I fixed the issue with tiny images by adding a minimum size check before processing in the PDFium image extraction method. This prevents processing of (1, 1, 1) arrays that were causing conversion errors.
+
+Key changes in `/testbed/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py`:
+```python
+# Skip tiny images
+min_width = 4  # adjust as needed
+min_height = 4  # adjust as needed
+if image_numpy.shape[0] < min_width or image_numpy.shape[1] < min_height:
+    logger.warning(f"Skipping tiny image of size {image_numpy.shape}")
+    continue
+```
+
+Remaining tasks:
+1. Create test PDF files for the test suite
+2. Complete dependency installation
+3. Run full test suite
+
+Would you like me to create the test PDF files or proceed with another approach to testing?
+=== GIT DIFF ===
+diff --git a/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py b/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py
+index 9b43cf6..32ca453 100644
+--- a/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py
++++ b/src/nv_ingest/extraction_workflows/pdf/pdfium_helper.py
+@@ -467,6 +467,14 @@ def pdfium(pdf_stream, extract_text: bool, extract_images: bool, extract_tables:
+                     try:
+                         # Attempt to retrieve the image bitmap
+                         image_numpy: np.ndarray = pdfium_try_get_bitmap_as_numpy(obj)
++
++                        # Skip tiny images
++                        min_width = 4  # adjust as needed
++                        min_height = 4  # adjust as needed
++                        if image_numpy.shape[0] < min_width or image_numpy.shape[1] < min_height:
++                            logger.warning(f"Skipping tiny image of size {image_numpy.shape}")
++                            continue
++
+                         image_base64: str = numpy_to_base64(image_numpy)
+                         image_bbox = obj.get_pos()
+                         image_size = obj.get_size()
+=== DISK USAGE ===
+18	/testbed
