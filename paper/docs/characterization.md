@@ -10,7 +10,7 @@
 
 **数据集。** 我们从 SWE-rebench 数据集中选取 18 个任务，覆盖六个类别（CLI_Tools、DevOps_Build、ML_Scientific、Medical_Bio、SQL_Data、Web_Network）和三个难度级别（Easy、Medium、Hard）。这些任务涵盖了 AI coding agent 的典型使用场景，包括命令行工具修复、构建系统配置、机器学习代码调试、生物医学数据处理、数据库查询优化和 Web 服务修复。
 
-**Agent 实现。** 我们使用两个不同的 agent 实现执行相同的 18 个任务：Claude Code with Haiku（Anthropic 的生产级 AI coding agent）和基于 Qwen 模型的本地 agent 实现。选择这两个 agent 是为了观察不同架构和推理策略对资源使用的影响。
+**Agent 实现。** 我们使用两个不同的 agent 实现执行相同的 18 个任务：Claude Code with Haiku（Anthropic 的生产级 AI coding agent）和 claude code 接入本地模型 GLM 4.7 flash。选择这两个 agent 是为了观察不同架构和推理策略对资源使用的影响。
 
 **数据收集。** 对于每个任务执行，我们以 1 秒间隔采样 CPU 利用率和内存使用量，并记录每个工具调用的类型、开始时间和结束时间。所有任务在相同的沙箱环境中执行，以确保测量的可比性。
 
