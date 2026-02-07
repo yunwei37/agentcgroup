@@ -1,0 +1,7 @@
+# Build artifacts
+*.o
+*.bpf.skel.h
+scx_flatcg
+
+# Build directory
+build/
