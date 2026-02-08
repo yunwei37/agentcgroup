@@ -114,27 +114,6 @@ def load_tool_calls(tool_calls_path: Path, start_epoch: float) -> List[Dict]:
     return result
 
 
-def load_disk_usage(attempt_dir: Path) -> Optional[Dict]:
-    """Load disk usage from results.json."""
-    results_path = attempt_dir / "results.json"
-    if not results_path.exists():
-        return None
-    try:
-        with open(results_path, "r") as f:
-            data = json.load(f)
-        # Support both original format (disk_usage) and replay format (disk_usage_before/after)
-        disk_usage = data.get("disk_usage", {})
-        if not disk_usage:
-            disk_usage = data.get("disk_usage_after", data.get("disk_usage_before", {}))
-        image_info = data.get("image_info", {})
-        return {
-            "testbed_mb": disk_usage.get("testbed_mb"),
-            "image_size_mb": image_info.get("size_mb"),
-        }
-    except:
-        return None
-
-
 def plot_resources(
     resources_path: Path,
     tool_calls_path: Optional[Path] = None,
@@ -142,7 +121,6 @@ def plot_resources(
     title: Optional[str] = None,
     memory_limit: Optional[float] = None,
     cpu_limit: Optional[float] = None,
-    disk_usage: Optional[Dict] = None,
 ):
     """Generate resource usage plot."""
 
@@ -162,9 +140,8 @@ def plot_resources(
     if tool_calls_path and tool_calls_path.exists():
         tool_calls = load_tool_calls(tool_calls_path, data["start_epoch"])
 
-    # Create figure with 3 subplots
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(14, 10),
-                                         gridspec_kw={'height_ratios': [2, 2, 1]})
+    # Create figure
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 8), sharex=True)
 
     # Title
     if title:
@@ -211,38 +188,6 @@ def plot_resources(
     ax2.grid(True, alpha=0.3)
     ax2.set_ylim(bottom=0)
 
-    # Disk usage plot (bar chart)
-    disk_labels = []
-    disk_values = []
-    disk_colors = []
-
-    if disk_usage:
-        if disk_usage.get("image_size_mb"):
-            disk_labels.append("Docker Image")
-            disk_values.append(disk_usage["image_size_mb"])
-            disk_colors.append('#2196F3')  # blue
-
-        if disk_usage.get("testbed_mb"):
-            disk_labels.append("/testbed")
-            disk_values.append(disk_usage["testbed_mb"])
-            disk_colors.append('#4CAF50')  # green
-
-    if disk_values:
-        bars = ax3.barh(disk_labels, disk_values, color=disk_colors, alpha=0.7)
-        ax3.set_xlabel('Size (MB)', fontsize=11)
-        ax3.set_title('Disk Usage', fontsize=11)
-        ax3.grid(True, alpha=0.3, axis='x')
-
-        # Add value labels on bars
-        for bar, val in zip(bars, disk_values):
-            ax3.text(val + max(disk_values) * 0.01, bar.get_y() + bar.get_height()/2,
-                    f'{val:.0f} MB', va='center', fontsize=9)
-    else:
-        ax3.text(0.5, 0.5, 'No disk usage data', ha='center', va='center',
-                transform=ax3.transAxes, fontsize=11, color='gray')
-        ax3.set_xlim(0, 1)
-        ax3.axis('off')
-
     # Add tool call markers
     if tool_calls:
         # Group by tool type for coloring
@@ -282,12 +227,6 @@ def plot_resources(
     if tool_calls:
         summary_text.append(f"Tool calls: {len(tool_calls)}")
 
-    if disk_usage:
-        if disk_usage.get("image_size_mb"):
-            summary_text.append(f"Image: {disk_usage['image_size_mb']:.0f} MB")
-        if disk_usage.get("testbed_mb"):
-            summary_text.append(f"Testbed: {disk_usage['testbed_mb']:.0f} MB")
-
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.8)
     fig.text(0.02, 0.02, '\n'.join(summary_text), fontsize=9,
              verticalalignment='bottom', bbox=props, family='monospace')
@@ -317,15 +256,11 @@ def plot_from_attempt_dir(attempt_dir: Path, title: Optional[str] = None) -> Opt
 
     output_path = attempt_dir / "resource_plot.png"
 
-    # Load disk usage from results.json
-    disk_usage = load_disk_usage(attempt_dir)
-
     return plot_resources(
         resources_path=resources_path,
         tool_calls_path=tool_calls_path if tool_calls_path.exists() else None,
         output_path=output_path,
         title=title,
-        disk_usage=disk_usage,
     )
 
 

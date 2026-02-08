@@ -3,22 +3,7 @@
     "Web_Network_Easy",
     "SQL_Data_Easy",
     "CLI_Tools_Easy",
-    "DevOps_Build_Easy",
-    "ML_Scientific_Easy",
-    "Medical_Bio_Easy",
-    "SQL_Data_Medium",
-    "Web_Network_Medium",
-    "DevOps_Build_Medium",
-    "ML_Scientific_Medium",
-    "CLI_Tools_Medium",
-    "Medical_Bio_Medium",
-    "SQL_Data_Hard",
-    "Web_Network_Hard",
-    "DevOps_Build_Hard",
-    "ML_Scientific_Hard",
-    "CLI_Tools_Hard",
-    "Medical_Bio_Hard",
-    "SQL_Data_Easy_2"
+    "DevOps_Build_Easy"
   ],
   "results": {
     "Web_Network_Easy": {
@@ -41,81 +26,6 @@
       "success": true,
       "attempts": 1,
       "total_time": 317.667775
-    },
-    "ML_Scientific_Easy": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 824.772329
-    },
-    "Medical_Bio_Easy": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 470.815418
-    },
-    "SQL_Data_Medium": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 622.227215
-    },
-    "Web_Network_Medium": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 370.206134
-    },
-    "DevOps_Build_Medium": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 633.52587
-    },
-    "ML_Scientific_Medium": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 334.39182
-    },
-    "CLI_Tools_Medium": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 736.717299
-    },
-    "Medical_Bio_Medium": {
-      "success": true,
-      "attempts": 2,
-      "total_time": 802.059104
-    },
-    "SQL_Data_Hard": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 425.345955
-    },
-    "Web_Network_Hard": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 229.524551
-    },
-    "DevOps_Build_Hard": {
-      "success": true,
-      "attempts": 3,
-      "total_time": 1083.95294
-    },
-    "ML_Scientific_Hard": {
-      "success": false,
-      "attempts": 3,
-      "total_time": 1529.777308
-    },
-    "CLI_Tools_Hard": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 292.081287
-    },
-    "Medical_Bio_Hard": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 731.218093
-    },
-    "SQL_Data_Easy_2": {
-      "success": true,
-      "attempts": 1,
-      "total_time": 547.988254
     }
   }
 }

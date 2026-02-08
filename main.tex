@@ -1,0 +1,157 @@
+%%
+%% This is file `main.tex',
+%% AgentCgroup Paper
+%%
+
+\documentclass[sigconf,review,anonymous,nonacm]{acmart}
+
+%% Disable microtype to avoid font expansion issues
+\PassOptionsToPackage{disable}{microtype}
+
+%% Disable ACM-specific requirements for draft
+\settopmatter{printacmref=false}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+
+%% System name macro
+\usepackage{xspace}
+\newcommand{\sys}{\mbox{AgentCgroup}\xspace}
+
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+\begin{document}
+
+\title{\sys: AI Agents Resource Control with eBPF}
+
+\author{Anonymous Author(s)}
+\affiliation{%
+  \institution{Anonymous Institution}
+  \city{Anonymous City}
+  \country{Anonymous Country}
+}
+\email{anonymous@example.com}
+
+\begin{abstract}
+Interactive AI agents dynamically execute diverse tool calls within sandboxed environments, each with distinct resource demands and millisecond-scale bursts. Existing resource controls operate at environment granularity with static budgets, unable to provide the dynamic, fine-grained control that agent workloads require. User-space controllers reacting in tens of milliseconds cannot keep pace with sub-millisecond resource fluctuations, allowing interference to form before control actions take effect. We present \sys, an eBPF-based resource controller that executes control logic at kernel enforcement points via sched\_ext and memcg\_bpf\_ops, enabling microsecond-level reaction and dynamic, fine-grained decisions aligned with agent workload demands. Evaluation demonstrates improved multi-tenant isolation and tail latency management with minimal overhead.
+\end{abstract}
+
+% \begin{CCSXML}
+% <ccs2012>
+%    <concept>
+%        <concept_id>10011007.10011006.10011008.10011009.10011015</concept_id>
+%        <concept_desc>Software and its engineering~Operating systems</concept_desc>
+%        <concept_significance>500</concept_significance>
+%    </concept>
+%    <concept>
+%        <concept_id>10011007.10011006.10011008.10011024</concept_id>
+%        <concept_desc>Software and its engineering~Language features</concept_desc>
+%        <concept_significance>300</concept_significance>
+%    </concept>
+% </ccs2012>
+% \end{CCSXML}
+
+% \ccsdesc[500]{Software and its engineering~Operating systems}
+% \ccsdesc[300]{Software and its engineering~Language features}
+
+% \keywords{cgroup, eBPF, resource isolation, AI agents, operating systems}
+
+\maketitle
+
+\section{Introduction}
+
+Interactive AI agents dynamically execute diverse tool calls within sandboxed environments. These tool calls include compilers, interpreters, browsers, and data processors, each exhibiting distinct resource demands with millisecond-scale bursts. Consider an agent session that first invokes a compiler consuming large amounts of memory, followed by a browser invocation demanding substantial CPU resources. Traditional static controls set at sandbox granularity become either overly conservative, wasting resources during idle periods, or overly aggressive, causing OOM kills or tail latency spikes during bursts.
+
+We identify two fundamental mismatches between existing resource controls and agent workloads. First, \textbf{Domain mismatch.} Current controls set static resource limits at coarse-grained container or sandbox boundaries. In contrast, agent workloads execute rapid sequences of tool calls with varying resource profiles. Each tool call requires fine-grained resource governance, and the transitions between tool calls require dynamic, phase-aware policies rather than fixed budgets. Second, \textbf{Timescale mismatch.} User-space controllers typically operate at 10--100ms timescales, significantly lagging behind sub-millisecond resource fluctuations caused by tool call bursts. By the time a controller observes pressure and adjusts limits, interference has already formed.
+
+We present \sys, an eBPF-based resource controller that addresses both mismatches. \sys uses eBPF (sched\_ext for CPU scheduling, memcg\_bpf\_ops for memory throttling) to execute control logic at kernel enforcement points, enabling microsecond-level reaction and dynamic, fine-grained decisions aligned with agent workload demands.
+
+Experimental evaluation shows improved multi-tenant isolation, reduced tail latency violations, and effective containment of resource contention with minimal overhead.
+
+Key contributions:
+\begin{itemize}
+    \item Identifies two fundamental mismatches: domain mismatch (coarse-grained static limits vs. fine-grained, phase-aware control) and timescale mismatch (user-space latency vs. sub-millisecond bursts).
+    \item Presents \sys, which uses eBPF to execute dynamic, phase-aware policies at kernel enforcement points with microsecond-level reaction.
+    \item Provides evaluation demonstrating improved isolation and tail latency under multi-tenant agent workloads.
+\end{itemize}
+
+\section{Background}
+
+\textbf{Linux cgroup} provides a hierarchical resource governance abstraction where the kernel organizes tasks into a tree of control groups and applies controller-specific accounting and enforcement along that hierarchy~\cite{cgroupv2}. The memory controller exposes two key boundaries: \texttt{memory.high} as a soft throttle point that triggers reclaim pressure without invoking the OOM killer, and \texttt{memory.max} as a hard limit that triggers OOM when exceeded. Cgroup v2 also provides lifecycle controls relevant to agent execution: \texttt{cgroup.freeze} stops all processes in a subtree until explicitly unfrozen, \texttt{cgroup.kill} terminates all processes while handling concurrent forks, and \texttt{memory.oom.group} ensures OOM kills the entire cgroup atomically to avoid partial failures.
+
+\textbf{eBPF} enables Linux to address the tension between standardized interfaces and dynamic workloads by introducing programmable enforcement points, providing a safe and dynamically loadable mechanism for executing control logic inside the kernel~\cite{ebpf-verifier}. On the CPU side, \texttt{sched\_ext} allows scheduling policies to be defined by BPF programs with fail-safe reversion to default behavior on errors~\cite{sched-ext}. On the memory side, \texttt{memcg\_bpf\_ops} introduces hooks such as \texttt{get\_high\_delay\_ms} for custom throttle delays on \texttt{memory.high} breaches~\cite{memcg-bpf}. These primitives enable in-kernel enforcement with microsecond-level reaction times.
+
+\section{Motivation}
+
+Traditional resource management for agent workloads faces two fundamental mismatches.
+
+\textbf{Domain mismatch.} Existing resource controls operate at environment granularity with static budgets, but agent workloads dynamically execute diverse tool calls with distinct resource demands~\cite{nalar}. A static budget applied uniformly is either conservative, wasting resources, or aggressive, causing failures during bursty tool calls. Mixture-of-Schedulers (ASA) shows that \texttt{sched\_ext} enables dynamic scheduling~\cite{asa}, and Nalar proposes two-level control for agent workflows~\cite{nalar}, but neither addresses the OS-level domain gap: resource controls must align with the dynamic, fine-grained nature of agent workloads rather than static environment boundaries.
+
+\textbf{Timescale mismatch.} Agent workloads create short-lived, bursty tool calls such as compilers, interpreters, and browser engines, with resource demands that change at millisecond timescales. User-space controllers that monitor pressure and rewrite cgroup files operate at 10--100ms timescales: by the time the controller observes memory pressure and adjusts limits, the burst has already caused reclaim storms or runqueue inflation. TMO demonstrates pressure-driven memory control at datacenter scale~\cite{tmo}, but its user-space Senpai component cannot react fast enough for agent bursts. This timing gap is fundamental: any approach based on user-space monitoring and cgroup file writes will be too slow.
+
+These mismatches motivate in-kernel enforcement: control logic must support dynamic, fine-grained decisions (addressing domain mismatch) and execute at kernel enforcement points to achieve microsecond-level reaction (addressing timescale mismatch).
+
+\section{Design and Implementation}
+
+\subsection{Overview}
+
+\sys is designed around three goals derived from the two mismatches:
+
+\begin{itemize}
+    \item \textbf{Dynamic, fine-grained resource alignment} (addressing domain mismatch): Resource domains must align with tool-call boundaries, and policies must adapt to phase transitions rather than applying static limits.
+    \item \textbf{Microsecond-level responsiveness} (addressing timescale mismatch): Control logic must react to resource pressure at sub-millisecond timescales, before interference forms.
+    \item \textbf{Safety and compatibility}: The system builds on cgroup v2 and eBPF subsystems, using eBPF verification~\cite{ebpf-verifier} and fail-safe mechanisms~\cite{sched-ext} for safe deployment.
+\end{itemize}
+
+\sys achieves these goals through two complementary mechanisms: a hierarchical cgroup structure that organizes resources around agent workloads and tool calls, and eBPF-based enforcement that executes control logic at kernel enforcement points.
+
+\subsection{Dynamic Resource Domains}
+
+\sys organizes resources using a hierarchical cgroup v2 structure. Each agent workload maps to a cgroup node, with tool calls as child nodes. This enables per-tool-call resource constraints while maintaining overall workload budgets.
+
+For recovery, \sys uses cgroup v2 lifecycle primitives. When a tool call exceeds soft limits, \sys freezes the subtree to allow adaptation. When termination is necessary, \sys kills the subtree atomically.
+
+\subsection{In-Kernel Enforcement via eBPF}
+
+\sys uses eBPF to execute control logic directly at kernel enforcement points, enabling microsecond-level reaction without user-kernel round trips.
+
+On CPU scheduling, \sys uses \texttt{sched\_ext}, which exposes a full scheduling interface to BPF programs~\cite{sched-ext}. The BPF scheduler maintains per-workload and per-tool-call metadata in BPF maps, prioritizing latency-sensitive tool calls and enforcing fairness. The scheduler automatically reverts to the fair-class scheduler on errors.
+
+On memory, \sys uses \texttt{memcg\_bpf\_ops} hooks~\cite{memcg-bpf} to implement custom throttling delays when a cgroup breaches its soft limit (\texttt{memory.high}), with \texttt{memory.max} as the hard limit~\cite{cgroupv2}.
+
+A user-space daemon provides APIs to manage cgroup subtrees and subscribes to events. The daemon updates shared BPF maps that parameterize policy functions. For portability, \sys uses libbpf and BPF CO-RE~\cite{libbpf}.
+
+\section{Evaluation}
+
+Our evaluation is designed to answer three systems questions: (i) does \sys improve isolation and tail latency for multi-tenant agent workloads, (ii) does eBPF-based in-kernel enforcement provide benefits that static knobs and user-space control cannot match, and (iii) what is the overhead and operational risk of deploying such policies.
+
+\subsection{Methodology}
+
+We evaluate \sys on representative agent workloads drawn from common agent sandboxes: a code-oriented workload with compiler/test bursts, a data-analysis workload with working-set swings and memory-intensive operations, and a web/tool workload with mixed CPU and I/O phases. The workloads are executed in a multi-tenant configuration where multiple agent workloads share the same host and contend for CPU and memory. We instrument each workload and tool-call cgroup to collect memory events and scheduler statistics.
+
+Baselines isolate the benefit of in-kernel enforcement: (1) static cgroup v2 knobs with fixed \texttt{cpu.max}, \texttt{memory.high}, and \texttt{memory.max}; (2) a user-space controller similar to TMO's Senpai~\cite{tmo} that monitors pressure and rewrites cgroup files. We also ablate \sys by disabling eBPF enforcement to isolate the contribution of in-kernel execution.
+
+Metrics include tail latency (p95/p99), workload completion rate, interference amplification under noisy neighbors, and resource utilization. We use \texttt{memory.events} to distinguish controlled throttling from hard failures~\cite{cgroupv2}.
+
+\subsection{Isolation, Latency, and Efficiency}
+
+We measure isolation by comparing tail latency violations across configurations under noisy-neighbor scenarios. For latency, we compare policy reaction time between in-kernel enforcement and user-space monitoring. For efficiency, we compare throughput and memory footprint against static over-provisioning.
+
+\subsection{Robustness and Fail-Safe Evaluation}
+
+Robustness is evaluated under adversarial scenarios: CPU spinning loops, fork storms, and memory blow-ups. We test whether containment remains scoped to the correct workload subtree and whether \texttt{cgroup.kill} handles concurrent forks correctly~\cite{cgroupv2}. We also verify that \texttt{memory.oom.group} ensures atomic OOM termination within workload boundaries~\cite{cgroupv2}.
+
+\subsection{Overhead Analysis}
+
+We measure eBPF verification cost, per-operation overhead on scheduling and memory paths, and BPF map memory overhead. We validate \texttt{sched\_ext}'s fail-safe reversion by injecting scheduler errors~\cite{sched-ext}.
+
+\section{Conclusion}
+
+We presented \sys, an eBPF-based resource controller for interactive AI agent workloads. By executing control logic at kernel enforcement points via sched\_ext and memcg\_bpf\_ops, \sys addresses the domain mismatch through dynamic, fine-grained resource control, and the timescale mismatch through microsecond-level reaction. Our results demonstrate that in-kernel enforcement via eBPF is necessary for effective resource management of agent workloads with millisecond-scale bursts.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
