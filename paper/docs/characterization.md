@@ -78,7 +78,7 @@ Agent 工作负载的资源使用呈现剧烈的时间波动特征。可以观�
 
 不同任务和不同 agent 之间的资源需求存在显著差异。在 18 个代表性任务中，峰值内存需求范围从 197MB 到 4GB，变异系数（CV）达到 147%。ML_Scientific 和 Medical_Bio 类别的任务表现出显著高于 CLI_Tools 或 Web_Network 任务的内存需求，但所有任务都在同一个容器中运行。
 
-![不同任务类别的资源需求](../../analysis/haiku_figures/rq2_category_boxplots.png)
+![不同 Agent 的资源使用分布对比](../../analysis/comparison_figures/resource_boxplots_comparison.png)
 
 Haiku 和 GLM agent 在相同任务上表现出显著的 CPU 利用率差异（Haiku 平均 13.2%，GLM 平均 7.6%，差异 1.7 倍）。平均执行时间也存在显著差异（Haiku 352 秒，GLM 664 秒）。这一结果表明，资源需求不仅取决于任务本身，还取决于 agent 的架构和实现。
 

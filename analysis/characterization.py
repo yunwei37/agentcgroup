@@ -495,6 +495,58 @@ def step_phase_comparison_chart(haiku_results, local_results):
 
 
 # ============================================================================
+# Step 6b: Resource distribution boxplots (Haiku vs GLM, single figure)
+# ============================================================================
+
+def step_resource_boxplots(haiku_tasks, local_tasks):
+    """Combined 2x2 boxplots: Haiku vs GLM for avg/peak CPU/Memory.
+
+    Saved to comparison_figures/resource_boxplots_comparison.png
+    """
+    _section("Resource Distribution Boxplots (Haiku vs GLM)")
+
+    if not haiku_tasks or not local_tasks:
+        print("  WARNING: Need both datasets — skipping")
+        return
+
+    h_avg_cpu = [t.cpu_avg for t in haiku_tasks.values() if t.cpu_avg > 0]
+    l_avg_cpu = [t.cpu_avg for t in local_tasks.values() if t.cpu_avg > 0]
+    h_avg_mem = [t.mem_avg for t in haiku_tasks.values() if t.mem_avg > 0]
+    l_avg_mem = [t.mem_avg for t in local_tasks.values() if t.mem_avg > 0]
+    h_peak_cpu = [t.cpu_max for t in haiku_tasks.values() if t.cpu_max > 0]
+    l_peak_cpu = [t.cpu_max for t in local_tasks.values() if t.cpu_max > 0]
+    h_peak_mem = [t.mem_max for t in haiku_tasks.values() if t.mem_max > 0]
+    l_peak_mem = [t.mem_max for t in local_tasks.values() if t.mem_max > 0]
+
+    fig, axes = plt.subplots(2, 2, figsize=(12, 9))
+    colors_list = ["#2196F3", "#4CAF50"]
+
+    panels = [
+        (axes[0, 0], "Average CPU Usage (%)", [h_avg_cpu, l_avg_cpu]),
+        (axes[0, 1], "Average Memory Usage (MB)", [h_avg_mem, l_avg_mem]),
+        (axes[1, 0], "Peak CPU Usage (%)", [h_peak_cpu, l_peak_cpu]),
+        (axes[1, 1], "Peak Memory Usage (MB)", [h_peak_mem, l_peak_mem]),
+    ]
+
+    for ax, title, data_pair in panels:
+        bp = ax.boxplot(data_pair, labels=["Haiku", "GLM"], patch_artist=True,
+                        widths=0.5)
+        for patch, c in zip(bp["boxes"], colors_list):
+            patch.set_facecolor(c)
+            patch.set_alpha(0.6)
+        ax.set_title(title, fontsize=12)
+        ax.grid(axis="y", alpha=0.3)
+
+    fig.suptitle("Resource Usage Distribution: Haiku vs GLM", fontsize=14)
+    plt.tight_layout()
+    os.makedirs(COMPARISON_FIGURES, exist_ok=True)
+    out_path = os.path.join(COMPARISON_FIGURES, "resource_boxplots_comparison.png")
+    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    print(f"  Saved: {out_path}")
+
+
+# ============================================================================
 # Step 7: Tool & Bash breakdown pie charts (all tasks combined)
 # ============================================================================
 
@@ -856,7 +908,13 @@ def main():
         step_phase_comparison_chart(haiku_results, local_results)
 
     # ------------------------------------------------------------------
-    # 1c. Tool & bash breakdown pie charts (combined)
+    # 1c. Resource boxplots comparison (Haiku vs GLM, single figure)
+    # ------------------------------------------------------------------
+    if haiku_tasks and local_tasks:
+        step_resource_boxplots(haiku_tasks, local_tasks)
+
+    # ------------------------------------------------------------------
+    # 1d. Tool & bash breakdown pie charts (combined)
     # ------------------------------------------------------------------
     if haiku_results and local_results:
         step_tool_and_bash_pie_chart(haiku_results, local_results)
