@@ -547,6 +547,119 @@ def step_resource_boxplots(haiku_tasks, local_tasks):
 
 
 # ============================================================================
+# Step 6c: Execution phase chart (tool timeline + memory trajectory)
+# ============================================================================
+
+def step_execution_phase_chart(haiku_tasks, local_tasks):
+    """Combined chart: (a) tool usage over execution timeline, (b) memory trajectory.
+
+    Both X axes are normalized execution progress (0-100%).
+    Data from all tasks in both datasets combined.
+    Saved to comparison_figures/execution_phase.png
+    """
+    _section("Execution Phase Chart (Tool Timeline + Memory Trajectory)")
+
+    all_tasks = {}
+    if haiku_tasks:
+        all_tasks.update(haiku_tasks)
+    if local_tasks:
+        all_tasks.update(local_tasks)
+
+    if not all_tasks:
+        print("  WARNING: No task data — skipping")
+        return
+
+    # ---- Compute tool timeline bins ----
+    n_bins = 10
+    tool_types = ["Bash", "Read", "Edit", "Grep", "Glob", "Write", "TodoWrite"]
+    timeline_data = {t: np.zeros(n_bins) for t in tool_types}
+    timeline_data["Other"] = np.zeros(n_bins)
+
+    for task in all_tasks.values():
+        if not task.tool_calls or not task.resource_samples:
+            continue
+        # Use resource sample span as execution span
+        t_start = task.resource_samples[0].epoch
+        t_end = task.resource_samples[-1].epoch
+        span = t_end - t_start
+        if span <= 0:
+            continue
+        for tc in task.tool_calls:
+            if tc.start_time is None:
+                continue
+            tc_epoch = tc.start_time.timestamp()
+            norm_pos = (tc_epoch - t_start) / span
+            norm_pos = max(0.0, min(norm_pos, 0.999))
+            b = int(norm_pos * n_bins)
+            tname = tc.tool if tc.tool in timeline_data else "Other"
+            timeline_data[tname][b] += 1
+
+    # ---- Compute aggregated memory trajectory ----
+    n_points = 100
+    all_mem_interp = []
+    for task in all_tasks.values():
+        traj = [s.mem_usage_mb for s in task.resource_samples]
+        if len(traj) >= 10:
+            x_orig = np.linspace(0, 1, len(traj))
+            x_new = np.linspace(0, 1, n_points)
+            interp = np.interp(x_new, x_orig, traj)
+            all_mem_interp.append(interp)
+
+    if not all_mem_interp:
+        print("  WARNING: No memory trajectory data — skipping")
+        return
+
+    mem_matrix = np.array(all_mem_interp)
+    mean_mem = np.mean(mem_matrix, axis=0)
+    p25 = np.percentile(mem_matrix, 25, axis=0)
+    p75 = np.percentile(mem_matrix, 75, axis=0)
+    p10 = np.percentile(mem_matrix, 10, axis=0)
+    p90 = np.percentile(mem_matrix, 90, axis=0)
+
+    # ---- Plot ----
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
+
+    # (a) Tool timeline (stacked area)
+    x_bins = np.arange(n_bins)
+    x_labels = [f"{i * 10}-{(i + 1) * 10}%" for i in range(n_bins)]
+    cmap = plt.cm.tab10
+    active_tools = [t for t in tool_types + ["Other"] if timeline_data[t].sum() > 0]
+    stacks = [timeline_data[t] for t in active_tools]
+    colors = [cmap(i) for i in range(len(active_tools))]
+
+    ax1.stackplot(x_bins, *stacks, labels=active_tools, colors=colors, alpha=0.8)
+    ax1.set_xticks(x_bins)
+    ax1.set_xticklabels(x_labels, fontsize=10)
+    ax1.set_xlabel("Normalized Execution Time", fontsize=12)
+    ax1.set_ylabel("Tool Call Count", fontsize=12)
+    ax1.set_title("(a) Tool Usage Over Execution Timeline", fontsize=13)
+    ax1.legend(loc="upper right", fontsize=9, ncol=2)
+    ax1.grid(alpha=0.3)
+
+    # (b) Aggregated memory trajectory
+    x_mem = np.linspace(0, 100, n_points)
+    ax2.fill_between(x_mem, p10, p90, alpha=0.15, color="#2196F3", label="P10–P90")
+    ax2.fill_between(x_mem, p25, p75, alpha=0.3, color="#2196F3", label="P25–P75")
+    ax2.plot(x_mem, mean_mem, color="#2196F3", linewidth=2, label="Mean")
+    ax2.set_xlabel("Execution Progress (%)", fontsize=12)
+    ax2.set_ylabel("Memory Usage (MB)", fontsize=12)
+    ax2.set_title(f"(b) Aggregated Memory Trajectory (n={len(all_mem_interp)} tasks)",
+                  fontsize=13)
+    ax2.legend(fontsize=10)
+    ax2.grid(alpha=0.3)
+
+    plt.tight_layout()
+    os.makedirs(COMPARISON_FIGURES, exist_ok=True)
+    out_path = os.path.join(COMPARISON_FIGURES, "execution_phase.png")
+    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    print(f"  Saved: {out_path}")
+    print(f"  Tool timeline: {sum(int(s.sum()) for s in stacks)} total calls from "
+          f"{len(all_tasks)} tasks")
+    print(f"  Memory trajectory: {len(all_mem_interp)} tasks with ≥10 samples")
+
+
+# ============================================================================
 # Step 7: Tool & Bash breakdown pie charts (all tasks combined)
 # ============================================================================
 
@@ -914,13 +1027,19 @@ def main():
         step_resource_boxplots(haiku_tasks, local_tasks)
 
     # ------------------------------------------------------------------
-    # 1d. Tool & bash breakdown pie charts (combined)
+    # 1d. Execution phase chart (tool timeline + memory trajectory)
+    # ------------------------------------------------------------------
+    if haiku_tasks or local_tasks:
+        step_execution_phase_chart(haiku_tasks, local_tasks)
+
+    # ------------------------------------------------------------------
+    # 1e. Tool & bash breakdown pie charts (combined)
     # ------------------------------------------------------------------
     if haiku_results and local_results:
         step_tool_and_bash_pie_chart(haiku_results, local_results)
 
     # ------------------------------------------------------------------
-    # 1d. Setup overhead charts (image size, exec time)
+    # 1f. Setup overhead charts (image size, exec time)
     # ------------------------------------------------------------------
     step_setup_overhead_chart()
 
