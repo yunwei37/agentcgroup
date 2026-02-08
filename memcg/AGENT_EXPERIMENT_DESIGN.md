@@ -608,6 +608,8 @@ get_high_delay_ms() Triggers
 - **内存波动明显**（max/avg 比值高）
 - Tool calls > 15
 
+**详细组合分析见**: [REPLAY_COMBINATION_ANALYSIS.md](./REPLAY_COMBINATION_ANALYSIS.md)
+
 ### 8.2 候选镜像列表（按波动程度排序）
 
 | 任务 | 镜像大小 | 时长 | 内存 avg | 内存 max | 波动幅度 | max/avg | Tool Calls | 状态 |
