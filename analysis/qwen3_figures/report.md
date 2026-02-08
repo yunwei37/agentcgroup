@@ -1,6 +1,6 @@
 # AgentCgroup SWE-Bench Experiment Analysis Report (qwen3)
 
-Generated: 2026-02-08 08:42:51
+Generated: 2026-02-08 14:13:12
 
 Data source: `/home/yunwei37/workspace/agentcgroup/experiments/all_images_local`
 

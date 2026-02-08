@@ -526,11 +526,11 @@ def step_exec_overview_chart(haiku_results, local_results):
                     label=f"Mean ({statistics.mean(all_time):.1f} min)")
         ax1.axvline(statistics.median(all_time), color="black", ls=":", lw=1.5,
                     label=f"Median ({statistics.median(all_time):.1f} min)")
-    ax1.set_xlabel("Execution Time (minutes)", fontsize=15)
-    ax1.set_ylabel("Number of Tasks", fontsize=15)
-    ax1.set_title("(a) Task Execution Time", fontsize=16)
-    ax1.legend(fontsize=13)
-    ax1.tick_params(axis="both", labelsize=13)
+    ax1.set_xlabel("Execution Time (minutes)", fontsize=22)
+    ax1.set_ylabel("Number of Tasks", fontsize=22)
+    ax1.set_title("(a) Task Execution Time", fontsize=24)
+    ax1.legend(fontsize=20)
+    ax1.tick_params(axis="both", labelsize=20)
     ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
     ax1.grid(alpha=0.3)
 
@@ -555,19 +555,19 @@ def step_exec_overview_chart(haiku_results, local_results):
 
     for i, (tv, lv) in enumerate(zip(tool_vals, llm_vals)):
         ax2.text(i, tv / 2, f"{tv:.1f}%",
-                 ha="center", va="center", fontsize=16,
+                 ha="center", va="center", fontsize=24,
                  fontweight="bold", color="white")
         ax2.text(i, tv + lv / 2, f"{lv:.1f}%",
-                 ha="center", va="center", fontsize=16,
+                 ha="center", va="center", fontsize=24,
                  fontweight="bold", color="white")
 
-    ax2.set_ylabel("Percentage of Execution Time (%)", fontsize=15)
-    ax2.set_title("(b) Execution Phase Breakdown", fontsize=16)
+    ax2.set_ylabel("Percentage of Execution Time (%)", fontsize=22)
+    ax2.set_title("(b) Execution Phase Breakdown", fontsize=24)
     ax2.set_xticks(x)
-    ax2.set_xticklabels(agents, fontsize=14)
+    ax2.set_xticklabels(agents, fontsize=21)
     ax2.set_ylim(0, 108)
-    ax2.legend(loc="upper right", fontsize=13)
-    ax2.tick_params(axis="y", labelsize=13)
+    ax2.legend(loc="upper right", fontsize=20)
+    ax2.tick_params(axis="y", labelsize=20)
     ax2.grid(axis="y", alpha=0.3)
 
     plt.tight_layout()
@@ -626,10 +626,10 @@ def step_resource_boxplots(haiku_tasks, local_tasks):
         for patch, c in zip(bp["boxes"], colors_list):
             patch.set_facecolor(c)
             patch.set_alpha(0.6)
-        ax.set_title(title, fontsize=12)
+        ax.set_title(title, fontsize=18)
         ax.grid(axis="y", alpha=0.3)
 
-    fig.suptitle("Resource Usage Distribution: Haiku vs GLM", fontsize=14)
+    fig.suptitle("Resource Usage Distribution: Haiku vs GLM", fontsize=21)
     plt.tight_layout()
     os.makedirs(COMPARISON_FIGURES, exist_ok=True)
     out_path = os.path.join(COMPARISON_FIGURES, "resource_boxplots_comparison.pdf")
@@ -685,11 +685,11 @@ def step_tool_time_chart(haiku_results, local_results, haiku_tasks, local_tasks)
                     label=f"Mean ({avg:.1f}%)")
         ax1.axvline(x=med, color="black", linestyle=":", linewidth=1.5,
                     label=f"Median ({med:.1f}%)")
-    ax1.set_xlabel("Tool Time Ratio (%)", fontsize=15)
-    ax1.set_ylabel("Number of Tasks", fontsize=15)
-    ax1.set_title("(a) Per-Task Tool Time Ratio", fontsize=16)
-    ax1.legend(fontsize=13)
-    ax1.tick_params(axis="both", labelsize=13)
+    ax1.set_xlabel("Tool Time Ratio (%)", fontsize=22)
+    ax1.set_ylabel("Number of Tasks", fontsize=22)
+    ax1.set_title("(a) Per-Task Tool Time Ratio", fontsize=24)
+    ax1.legend(fontsize=20)
+    ax1.tick_params(axis="both", labelsize=20)
     ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
     ax1.grid(alpha=0.3)
 
@@ -726,11 +726,11 @@ def step_tool_time_chart(haiku_results, local_results, haiku_tasks, local_tasks)
 
     ax2.stackplot(x_bins, *stacks, labels=active_tools, colors=colors, alpha=0.8)
     ax2.set_xticks(x_bins)
-    ax2.set_xticklabels(x_labels, fontsize=10)
-    ax2.set_xlabel("Normalized Execution Time", fontsize=12)
-    ax2.set_ylabel("Tool Call Count", fontsize=12)
-    ax2.set_title("(b) Tool Usage Over Execution Timeline", fontsize=13)
-    ax2.legend(loc="upper right", fontsize=9, ncol=2)
+    ax2.set_xticklabels(x_labels, fontsize=15, rotation=45, ha="right")
+    ax2.set_xlabel("Normalized Execution Time", fontsize=18)
+    ax2.set_ylabel("Tool Call Count", fontsize=18)
+    ax2.set_title("(b) Tool Usage Over Execution Timeline", fontsize=20)
+    ax2.legend(loc="upper right", fontsize=14, ncol=2)
     ax2.grid(alpha=0.3)
 
     plt.tight_layout()
@@ -855,29 +855,29 @@ def step_tool_and_bash_pie_chart(haiku_results, local_results):
         t_sizes, labels=t_names, colors=colors_a, startangle=90,
         autopct=lambda p: f"{p:.1f}%" if p >= 3 else "",
         pctdistance=0.75,
-        textprops={"fontsize": 14})
+        textprops={"fontsize": 21})
     for at in autotexts1:
-        at.set_fontsize(13)
+        at.set_fontsize(20)
         at.set_fontweight("bold")
-    ax1.set_title("(a) Tool Usage by Time", fontsize=18, pad=15)
+    ax1.set_title("(a) Tool Usage by Time", fontsize=27, pad=15)
 
     # ---- (b) Bash category pie ----
     cats = sorted(merged_bash.keys(), key=lambda c: merged_bash[c], reverse=True)
     total_bash = sum(merged_bash[c] for c in cats)
     b_names = list(cats)
     b_sizes = [merged_bash[c] for c in cats]
-    b_names, b_sizes = _group_small(b_names, b_sizes, threshold=2.0)
+    b_names, b_sizes = _group_small(b_names, b_sizes, threshold=4.0)
     colors_b = [cmap(i) for i in range(len(b_names))]
 
     wedges2, texts2, autotexts2 = ax2.pie(
         b_sizes, labels=b_names, colors=colors_b, startangle=90,
         autopct=lambda p: f"{p:.1f}%" if p >= 3 else "",
-        pctdistance=0.75,
-        textprops={"fontsize": 14})
+        pctdistance=0.75, labeldistance=1.15,
+        textprops={"fontsize": 21})
     for at in autotexts2:
-        at.set_fontsize(13)
+        at.set_fontsize(20)
         at.set_fontweight("bold")
-    ax2.set_title("(b) Bash Command Time by Category", fontsize=18, pad=15)
+    ax2.set_title("(b) Bash Command Time by Category", fontsize=27, pad=15)
 
     plt.tight_layout()
     os.makedirs(COMPARISON_FIGURES, exist_ok=True)
@@ -963,11 +963,11 @@ def step_resource_profile_chart(haiku_tasks, local_tasks):
                     label=f"Mean ({avg_img:.1f} GB)")
         ax1.axvline(med_img, color="black", ls=":", lw=1.5,
                     label=f"Median ({med_img:.1f} GB)")
-    ax1.set_xlabel("Image Size (GB)", fontsize=15)
-    ax1.set_ylabel("Number of Tasks", fontsize=15)
-    ax1.set_title(f"(a) Docker Image Size (n={len(unique_img)})", fontsize=16)
-    ax1.legend(fontsize=13)
-    ax1.tick_params(axis="both", labelsize=13)
+    ax1.set_xlabel("Image Size (GB)", fontsize=22)
+    ax1.set_ylabel("Number of Tasks", fontsize=22)
+    ax1.set_title(f"(a) Docker Image Size (n={len(unique_img)})", fontsize=24)
+    ax1.legend(fontsize=20)
+    ax1.tick_params(axis="both", labelsize=20)
     ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
     ax1.grid(alpha=0.3)
 
@@ -995,11 +995,11 @@ def step_resource_profile_chart(haiku_tasks, local_tasks):
         ax2.fill_between(x_mem, p25, p75, alpha=0.3, color="#2196F3", label="P25–P75")
         ax2.plot(x_mem, mean_mem, color="#2196F3", linewidth=2, label="Mean")
 
-    ax2.set_xlabel("Execution Progress (%)", fontsize=12)
-    ax2.set_ylabel("Memory Usage (MB)", fontsize=12)
+    ax2.set_xlabel("Execution Progress (%)", fontsize=18)
+    ax2.set_ylabel("Memory Usage (MB)", fontsize=18)
     ax2.set_title(f"(b) Aggregated Memory Trajectory (n={len(all_mem_interp)} tasks)",
-                  fontsize=13)
-    ax2.legend(fontsize=10)
+                  fontsize=20)
+    ax2.legend(fontsize=15)
     ax2.grid(alpha=0.3)
 
     plt.tight_layout()
