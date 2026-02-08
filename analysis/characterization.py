@@ -399,29 +399,52 @@ def print_summary(haiku_tasks, haiku_results, local_tasks, local_results,
 
 
 # ============================================================================
-# Step 6: Phase breakdown comparison chart
+# Step 6: Execution overview chart (exec time + phase breakdown)
 # ============================================================================
 
-def step_phase_comparison_chart(haiku_results, local_results):
-    """Generate the phase division comparison chart with 2 subplots.
+def step_exec_overview_chart(haiku_results, local_results):
+    """Generate execution overview figure (2 subplots).
 
-    Left:  Stacked bars — Haiku vs GLM, colored by tool / LLM proportion.
-    Right: Histogram of per-task tool-time ratio across ALL tasks (both datasets).
+    (a) Execution time distribution (Haiku vs GLM)
+    (b) Execution phase breakdown (LLM vs Tool time, stacked bars)
 
-    Saved to comparison_figures/phase_breakdown_comparison.png
+    Saved to comparison_figures/exec_overview.png
     """
-    _section("Phase Breakdown Comparison Chart")
+    _section("Execution Overview Chart")
 
+    haiku = _scan_setup_data(HAIKU_DIR)
+    local = _scan_setup_data(LOCAL_DIR)
     haiku_ratios = haiku_results.get("tools", {}).get("tool_vs_thinking_ratio", [])
     local_ratios = local_results.get("tools", {}).get("tool_vs_thinking_ratio", [])
 
-    if not haiku_ratios and not local_ratios:
-        print("  WARNING: No tool ratio data available — skipping")
-        return
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+    # ---- (a) Execution time distribution ----
+    h_time = [r["claude_time"] / 60 for r in haiku]
+    l_time = [r["claude_time"] / 60 for r in local]
+    max_min = max((max(h_time) if h_time else 0), (max(l_time) if l_time else 0))
+    bins_time = np.linspace(0, min(max_min + 2, 50), 21)
+    if h_time:
+        ax1.hist(h_time, bins=bins_time, alpha=0.55, color="#2196F3",
+                 label=f"Haiku (n={len(h_time)})", edgecolor="white")
+    if l_time:
+        ax1.hist(l_time, bins=bins_time, alpha=0.55, color="#4CAF50",
+                 label=f"GLM (n={len(l_time)})", edgecolor="white")
+    all_time = h_time + l_time
+    if all_time:
+        ax1.axvline(statistics.mean(all_time), color="red", ls="--", lw=1.5,
+                    label=f"Mean ({statistics.mean(all_time):.1f} min)")
+        ax1.axvline(statistics.median(all_time), color="black", ls=":", lw=1.5,
+                    label=f"Median ({statistics.median(all_time):.1f} min)")
+    ax1.set_xlabel("Execution Time (minutes)", fontsize=15)
+    ax1.set_ylabel("Number of Tasks", fontsize=15)
+    ax1.set_title("(a) Task Execution Time", fontsize=16)
+    ax1.legend(fontsize=13)
+    ax1.tick_params(axis="both", labelsize=13)
+    ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
+    ax1.grid(alpha=0.3)
 
-    # ---- Left: stacked bar chart ----
+    # ---- (b) Phase breakdown stacked bars ----
     haiku_tool_avg = statistics.mean(haiku_ratios) if haiku_ratios else 0
     local_tool_avg = statistics.mean(local_ratios) if local_ratios else 0
     haiku_llm_avg = 100 - haiku_tool_avg
@@ -435,63 +458,42 @@ def step_phase_comparison_chart(haiku_results, local_results):
     x = np.arange(len(agents))
     width = 0.5
 
-    ax1.bar(x, tool_vals, width, label="Tool Execution",
+    ax2.bar(x, tool_vals, width, label="Tool Execution",
             color="#2196F3", alpha=0.85)
-    ax1.bar(x, llm_vals, width, bottom=tool_vals, label="LLM Thinking",
+    ax2.bar(x, llm_vals, width, bottom=tool_vals, label="LLM Thinking",
             color="#FF9800", alpha=0.85)
 
     for i, (tv, lv) in enumerate(zip(tool_vals, llm_vals)):
-        ax1.text(i, tv / 2, f"{tv:.1f}%",
+        ax2.text(i, tv / 2, f"{tv:.1f}%",
                  ha="center", va="center", fontsize=16,
                  fontweight="bold", color="white")
-        ax1.text(i, tv + lv / 2, f"{lv:.1f}%",
+        ax2.text(i, tv + lv / 2, f"{lv:.1f}%",
                  ha="center", va="center", fontsize=16,
                  fontweight="bold", color="white")
 
-    ax1.set_ylabel("Percentage of Execution Time (%)", fontsize=15)
-    ax1.set_title("(a) Execution Phase Breakdown", fontsize=16)
-    ax1.set_xticks(x)
-    ax1.set_xticklabels(agents, fontsize=14)
-    ax1.set_ylim(0, 108)
-    ax1.legend(loc="upper right", fontsize=13)
-    ax1.tick_params(axis="y", labelsize=13)
-    ax1.grid(axis="y", alpha=0.3)
-
-    # ---- Right: histogram of per-task tool ratio ----
-    bins = np.linspace(0, 80, 17)
-
-    if haiku_ratios:
-        ax2.hist(haiku_ratios, bins=bins, alpha=0.55,
-                 color="#2196F3", label=f"Haiku (n={len(haiku_ratios)})",
-                 edgecolor="white")
-    if local_ratios:
-        ax2.hist(local_ratios, bins=bins, alpha=0.55,
-                 color="#4CAF50", label=f"GLM (n={len(local_ratios)})",
-                 edgecolor="white")
-
-    all_ratios = haiku_ratios + local_ratios
-    if all_ratios:
-        avg = statistics.mean(all_ratios)
-        med = statistics.median(all_ratios)
-        ax2.axvline(x=avg, color="red", linestyle="--", linewidth=1.5,
-                    label=f"Mean ({avg:.1f}%)")
-        ax2.axvline(x=med, color="black", linestyle=":", linewidth=1.5,
-                    label=f"Median ({med:.1f}%)")
-
-    ax2.set_xlabel("Tool Time Ratio (%)", fontsize=15)
-    ax2.set_ylabel("Number of Tasks", fontsize=15)
-    ax2.set_title("(b) Per-Task Tool Time Ratio", fontsize=16)
-    ax2.legend(fontsize=13)
-    ax2.tick_params(axis="both", labelsize=13)
-    ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
-    ax2.grid(alpha=0.3)
+    ax2.set_ylabel("Percentage of Execution Time (%)", fontsize=15)
+    ax2.set_title("(b) Execution Phase Breakdown", fontsize=16)
+    ax2.set_xticks(x)
+    ax2.set_xticklabels(agents, fontsize=14)
+    ax2.set_ylim(0, 108)
+    ax2.legend(loc="upper right", fontsize=13)
+    ax2.tick_params(axis="y", labelsize=13)
+    ax2.grid(axis="y", alpha=0.3)
 
     plt.tight_layout()
     os.makedirs(COMPARISON_FIGURES, exist_ok=True)
-    out_path = os.path.join(COMPARISON_FIGURES, "phase_breakdown_comparison.png")
+    out_path = os.path.join(COMPARISON_FIGURES, "exec_overview.png")
     fig.savefig(out_path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
+
+    # Print summary
+    for tag, rows in [("Haiku", haiku), ("Local", local)]:
+        times = [r["claude_time"] for r in rows]
+        if times:
+            print(f"  [{tag}] Execution time (n={len(times)}):")
+            print(f"    Mean: {statistics.mean(times):.0f}s ({statistics.mean(times)/60:.1f} min),  "
+                  f"Median: {statistics.median(times):.0f}s")
 
 
 # ============================================================================
@@ -547,17 +549,21 @@ def step_resource_boxplots(haiku_tasks, local_tasks):
 
 
 # ============================================================================
-# Step 6c: Execution phase chart (tool timeline + memory trajectory)
+# Step 6c: Tool time pattern chart (ratio histogram + timeline)
 # ============================================================================
 
-def step_execution_phase_chart(haiku_tasks, local_tasks):
-    """Combined chart: (a) tool usage over execution timeline, (b) memory trajectory.
+def step_tool_time_chart(haiku_results, local_results, haiku_tasks, local_tasks):
+    """Generate tool time pattern figure (2 subplots).
 
-    Both X axes are normalized execution progress (0-100%).
-    Data from all tasks in both datasets combined.
-    Saved to comparison_figures/execution_phase.png
+    (a) Per-task tool time ratio distribution (histogram)
+    (b) Tool usage over normalized execution timeline (stacked area)
+
+    Saved to comparison_figures/tool_time_pattern.png
     """
-    _section("Execution Phase Chart (Tool Timeline + Memory Trajectory)")
+    _section("Tool Time Pattern Chart")
+
+    haiku_ratios = haiku_results.get("tools", {}).get("tool_vs_thinking_ratio", [])
+    local_ratios = local_results.get("tools", {}).get("tool_vs_thinking_ratio", [])
 
     all_tasks = {}
     if haiku_tasks:
@@ -565,11 +571,39 @@ def step_execution_phase_chart(haiku_tasks, local_tasks):
     if local_tasks:
         all_tasks.update(local_tasks)
 
-    if not all_tasks:
-        print("  WARNING: No task data — skipping")
+    if not haiku_ratios and not local_ratios:
+        print("  WARNING: No tool ratio data — skipping")
         return
 
-    # ---- Compute tool timeline bins ----
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
+
+    # ---- (a) Tool time ratio histogram ----
+    bins = np.linspace(0, 80, 17)
+    if haiku_ratios:
+        ax1.hist(haiku_ratios, bins=bins, alpha=0.55,
+                 color="#2196F3", label=f"Haiku (n={len(haiku_ratios)})",
+                 edgecolor="white")
+    if local_ratios:
+        ax1.hist(local_ratios, bins=bins, alpha=0.55,
+                 color="#4CAF50", label=f"GLM (n={len(local_ratios)})",
+                 edgecolor="white")
+    all_ratios = haiku_ratios + local_ratios
+    if all_ratios:
+        avg = statistics.mean(all_ratios)
+        med = statistics.median(all_ratios)
+        ax1.axvline(x=avg, color="red", linestyle="--", linewidth=1.5,
+                    label=f"Mean ({avg:.1f}%)")
+        ax1.axvline(x=med, color="black", linestyle=":", linewidth=1.5,
+                    label=f"Median ({med:.1f}%)")
+    ax1.set_xlabel("Tool Time Ratio (%)", fontsize=15)
+    ax1.set_ylabel("Number of Tasks", fontsize=15)
+    ax1.set_title("(a) Per-Task Tool Time Ratio", fontsize=16)
+    ax1.legend(fontsize=13)
+    ax1.tick_params(axis="both", labelsize=13)
+    ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
+    ax1.grid(alpha=0.3)
+
+    # ---- (b) Tool timeline (stacked area) ----
     n_bins = 10
     tool_types = ["Bash", "Read", "Edit", "Grep", "Glob", "Write", "TodoWrite"]
     timeline_data = {t: np.zeros(n_bins) for t in tool_types}
@@ -578,7 +612,6 @@ def step_execution_phase_chart(haiku_tasks, local_tasks):
     for task in all_tasks.values():
         if not task.tool_calls or not task.resource_samples:
             continue
-        # Use resource sample span as execution span
         t_start = task.resource_samples[0].epoch
         t_end = task.resource_samples[-1].epoch
         span = t_end - t_start
@@ -594,32 +627,6 @@ def step_execution_phase_chart(haiku_tasks, local_tasks):
             tname = tc.tool if tc.tool in timeline_data else "Other"
             timeline_data[tname][b] += 1
 
-    # ---- Compute aggregated memory trajectory ----
-    n_points = 100
-    all_mem_interp = []
-    for task in all_tasks.values():
-        traj = [s.mem_usage_mb for s in task.resource_samples]
-        if len(traj) >= 10:
-            x_orig = np.linspace(0, 1, len(traj))
-            x_new = np.linspace(0, 1, n_points)
-            interp = np.interp(x_new, x_orig, traj)
-            all_mem_interp.append(interp)
-
-    if not all_mem_interp:
-        print("  WARNING: No memory trajectory data — skipping")
-        return
-
-    mem_matrix = np.array(all_mem_interp)
-    mean_mem = np.mean(mem_matrix, axis=0)
-    p25 = np.percentile(mem_matrix, 25, axis=0)
-    p75 = np.percentile(mem_matrix, 75, axis=0)
-    p10 = np.percentile(mem_matrix, 10, axis=0)
-    p90 = np.percentile(mem_matrix, 90, axis=0)
-
-    # ---- Plot ----
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
-
-    # (a) Tool timeline (stacked area)
     x_bins = np.arange(n_bins)
     x_labels = [f"{i * 10}-{(i + 1) * 10}%" for i in range(n_bins)]
     cmap = plt.cm.tab10
@@ -627,36 +634,23 @@ def step_execution_phase_chart(haiku_tasks, local_tasks):
     stacks = [timeline_data[t] for t in active_tools]
     colors = [cmap(i) for i in range(len(active_tools))]
 
-    ax1.stackplot(x_bins, *stacks, labels=active_tools, colors=colors, alpha=0.8)
-    ax1.set_xticks(x_bins)
-    ax1.set_xticklabels(x_labels, fontsize=10)
-    ax1.set_xlabel("Normalized Execution Time", fontsize=12)
-    ax1.set_ylabel("Tool Call Count", fontsize=12)
-    ax1.set_title("(a) Tool Usage Over Execution Timeline", fontsize=13)
-    ax1.legend(loc="upper right", fontsize=9, ncol=2)
-    ax1.grid(alpha=0.3)
-
-    # (b) Aggregated memory trajectory
-    x_mem = np.linspace(0, 100, n_points)
-    ax2.fill_between(x_mem, p10, p90, alpha=0.15, color="#2196F3", label="P10–P90")
-    ax2.fill_between(x_mem, p25, p75, alpha=0.3, color="#2196F3", label="P25–P75")
-    ax2.plot(x_mem, mean_mem, color="#2196F3", linewidth=2, label="Mean")
-    ax2.set_xlabel("Execution Progress (%)", fontsize=12)
-    ax2.set_ylabel("Memory Usage (MB)", fontsize=12)
-    ax2.set_title(f"(b) Aggregated Memory Trajectory (n={len(all_mem_interp)} tasks)",
-                  fontsize=13)
-    ax2.legend(fontsize=10)
+    ax2.stackplot(x_bins, *stacks, labels=active_tools, colors=colors, alpha=0.8)
+    ax2.set_xticks(x_bins)
+    ax2.set_xticklabels(x_labels, fontsize=10)
+    ax2.set_xlabel("Normalized Execution Time", fontsize=12)
+    ax2.set_ylabel("Tool Call Count", fontsize=12)
+    ax2.set_title("(b) Tool Usage Over Execution Timeline", fontsize=13)
+    ax2.legend(loc="upper right", fontsize=9, ncol=2)
     ax2.grid(alpha=0.3)
 
     plt.tight_layout()
     os.makedirs(COMPARISON_FIGURES, exist_ok=True)
-    out_path = os.path.join(COMPARISON_FIGURES, "execution_phase.png")
+    out_path = os.path.join(COMPARISON_FIGURES, "tool_time_pattern.png")
     fig.savefig(out_path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
     print(f"  Tool timeline: {sum(int(s.sum()) for s in stacks)} total calls from "
           f"{len(all_tasks)} tasks")
-    print(f"  Memory trajectory: {len(all_mem_interp)} tasks with ≥10 samples")
 
 
 # ============================================================================
@@ -817,7 +811,7 @@ def step_tool_and_bash_pie_chart(haiku_results, local_results):
 
 
 # ============================================================================
-# Step 8: Setup overhead charts (image size + execution time)
+# Step 8: Resource profile chart (image size + memory trajectory) — for RQ2
 # ============================================================================
 
 def _scan_setup_data(base_dir):
@@ -842,29 +836,28 @@ def _scan_setup_data(base_dir):
     return rows
 
 
-def step_setup_overhead_chart():
-    """Generate setup overhead figure (2 subplots).
+def step_resource_profile_chart(haiku_tasks, local_tasks):
+    """Generate resource profile figure for RQ2 (2 subplots).
 
     (a) Docker image size distribution (deduplicated across datasets)
-    (b) Execution time distribution (Haiku vs GLM)
+    (b) Aggregated memory trajectory over execution progress
 
-    Also prints numerical summary for characterization.md.
-    Saved to comparison_figures/setup_overhead.png
+    Saved to comparison_figures/resource_profile.png
     """
-    _section("Setup Overhead Charts")
+    _section("Resource Profile Chart (RQ2)")
 
     haiku = _scan_setup_data(HAIKU_DIR)
     local = _scan_setup_data(LOCAL_DIR)
-    print(f"  Haiku: {len(haiku)} tasks,  Local: {len(local)} tasks")
 
-    if not haiku and not local:
-        print("  WARNING: No data — skipping")
-        return {}
+    all_tasks = {}
+    if haiku_tasks:
+        all_tasks.update(haiku_tasks)
+    if local_tasks:
+        all_tasks.update(local_tasks)
 
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5.5))
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
 
     # ---- (a) Image size distribution (deduplicated by task name) ----
-    ax = axes[0]
     seen_tasks = {}
     for r in haiku + local:
         if r["task"] not in seen_tasks and r["image_mb"] > 0:
@@ -872,75 +865,67 @@ def step_setup_overhead_chart():
     unique_img = list(seen_tasks.values())
     bins_img = np.linspace(0, 20, 21)
     if unique_img:
-        ax.hist(unique_img, bins=bins_img, alpha=0.75, color="#2196F3",
-                edgecolor="white")
+        ax1.hist(unique_img, bins=bins_img, alpha=0.75, color="#2196F3",
+                 edgecolor="white")
         avg_img = statistics.mean(unique_img)
         med_img = statistics.median(unique_img)
-        ax.axvline(avg_img, color="red", ls="--", lw=1.5,
-                   label=f"Mean ({avg_img:.1f} GB)")
-        ax.axvline(med_img, color="black", ls=":", lw=1.5,
-                   label=f"Median ({med_img:.1f} GB)")
-    ax.set_xlabel("Image Size (GB)", fontsize=15)
-    ax.set_ylabel("Number of Tasks", fontsize=15)
-    ax.set_title(f"(a) Docker Image Size (n={len(unique_img)})", fontsize=16)
-    ax.legend(fontsize=13)
-    ax.tick_params(axis="both", labelsize=13)
-    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-    ax.grid(alpha=0.3)
+        ax1.axvline(avg_img, color="red", ls="--", lw=1.5,
+                    label=f"Mean ({avg_img:.1f} GB)")
+        ax1.axvline(med_img, color="black", ls=":", lw=1.5,
+                    label=f"Median ({med_img:.1f} GB)")
+    ax1.set_xlabel("Image Size (GB)", fontsize=15)
+    ax1.set_ylabel("Number of Tasks", fontsize=15)
+    ax1.set_title(f"(a) Docker Image Size (n={len(unique_img)})", fontsize=16)
+    ax1.legend(fontsize=13)
+    ax1.tick_params(axis="both", labelsize=13)
+    ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
+    ax1.grid(alpha=0.3)
 
-    # ---- (b) Execution time distribution ----
-    ax = axes[1]
-    h_time = [r["claude_time"] / 60 for r in haiku]
-    l_time = [r["claude_time"] / 60 for r in local]
-    max_min = max((max(h_time) if h_time else 0), (max(l_time) if l_time else 0))
-    bins_time = np.linspace(0, min(max_min + 2, 50), 21)
-    if h_time:
-        ax.hist(h_time, bins=bins_time, alpha=0.55, color="#2196F3",
-                label=f"Haiku (n={len(h_time)})", edgecolor="white")
-    if l_time:
-        ax.hist(l_time, bins=bins_time, alpha=0.55, color="#4CAF50",
-                label=f"GLM (n={len(l_time)})", edgecolor="white")
-    all_time = h_time + l_time
-    if all_time:
-        ax.axvline(statistics.mean(all_time), color="red", ls="--", lw=1.5,
-                   label=f"Mean ({statistics.mean(all_time):.1f} min)")
-        ax.axvline(statistics.median(all_time), color="black", ls=":", lw=1.5,
-                   label=f"Median ({statistics.median(all_time):.1f} min)")
-    ax.set_xlabel("Execution Time (minutes)", fontsize=15)
-    ax.set_ylabel("Number of Tasks", fontsize=15)
-    ax.set_title("(b) Task Execution Time", fontsize=16)
-    ax.legend(fontsize=13)
-    ax.tick_params(axis="both", labelsize=13)
-    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-    ax.grid(alpha=0.3)
+    # ---- (b) Aggregated memory trajectory ----
+    n_points = 100
+    all_mem_interp = []
+    for task in all_tasks.values():
+        traj = [s.mem_usage_mb for s in task.resource_samples]
+        if len(traj) >= 10:
+            x_orig = np.linspace(0, 1, len(traj))
+            x_new = np.linspace(0, 1, n_points)
+            interp = np.interp(x_new, x_orig, traj)
+            all_mem_interp.append(interp)
+
+    if all_mem_interp:
+        mem_matrix = np.array(all_mem_interp)
+        mean_mem = np.mean(mem_matrix, axis=0)
+        p25 = np.percentile(mem_matrix, 25, axis=0)
+        p75 = np.percentile(mem_matrix, 75, axis=0)
+        p10 = np.percentile(mem_matrix, 10, axis=0)
+        p90 = np.percentile(mem_matrix, 90, axis=0)
+
+        x_mem = np.linspace(0, 100, n_points)
+        ax2.fill_between(x_mem, p10, p90, alpha=0.15, color="#2196F3", label="P10–P90")
+        ax2.fill_between(x_mem, p25, p75, alpha=0.3, color="#2196F3", label="P25–P75")
+        ax2.plot(x_mem, mean_mem, color="#2196F3", linewidth=2, label="Mean")
+
+    ax2.set_xlabel("Execution Progress (%)", fontsize=12)
+    ax2.set_ylabel("Memory Usage (MB)", fontsize=12)
+    ax2.set_title(f"(b) Aggregated Memory Trajectory (n={len(all_mem_interp)} tasks)",
+                  fontsize=13)
+    ax2.legend(fontsize=10)
+    ax2.grid(alpha=0.3)
 
     plt.tight_layout()
     os.makedirs(COMPARISON_FIGURES, exist_ok=True)
-    out_path = os.path.join(COMPARISON_FIGURES, "setup_overhead.png")
+    out_path = os.path.join(COMPARISON_FIGURES, "resource_profile.png")
     fig.savefig(out_path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
 
-    # ---- Print numerical summary ----
-    summary = {}
+    # Print summary
     if unique_img:
-        summary["image"] = {
-            "min": min(unique_img), "max": max(unique_img),
-            "mean": statistics.mean(unique_img), "median": statistics.median(unique_img),
-            "total_gb": sum(unique_img), "count": len(unique_img),
-        }
         print(f"\n  Unique images (n={len(unique_img)}, deduplicated by task):")
         print(f"    Range: {min(unique_img):.1f} – {max(unique_img):.1f} GB")
         print(f"    Mean:  {statistics.mean(unique_img):.1f} GB,  Median: {statistics.median(unique_img):.1f} GB")
         print(f"    Total: {sum(unique_img):.0f} GB")
-    for tag, rows in [("Haiku", haiku), ("Local", local)]:
-        times = [r["claude_time"] for r in rows]
-        if times:
-            print(f"\n  [{tag}] Execution time (n={len(times)}):")
-            print(f"    Mean: {statistics.mean(times):.0f}s ({statistics.mean(times)/60:.1f} min),  "
-                  f"Median: {statistics.median(times):.0f}s")
-            print(f"    Range: {min(times):.0f} – {max(times):.0f}s")
-    return summary
+    print(f"  Memory trajectory: {len(all_mem_interp)} tasks with ≥10 samples")
 
 
 # ============================================================================
@@ -1015,33 +1000,34 @@ def main():
             "qwen3", LOCAL_DIR, QWEN3_FIGURES)
 
     # ------------------------------------------------------------------
-    # 1b. Phase breakdown comparison chart (needs both datasets)
+    # 1b. RQ1 Fig-exec: Execution overview (exec time + phase breakdown)
     # ------------------------------------------------------------------
     if haiku_results and local_results:
-        step_phase_comparison_chart(haiku_results, local_results)
+        step_exec_overview_chart(haiku_results, local_results)
 
     # ------------------------------------------------------------------
-    # 1c. Resource boxplots comparison (Haiku vs GLM, single figure)
+    # 1c. RQ1 Fig-tool-time: Tool time pattern (ratio + timeline)
     # ------------------------------------------------------------------
-    if haiku_tasks and local_tasks:
-        step_resource_boxplots(haiku_tasks, local_tasks)
+    if haiku_results and local_results and (haiku_tasks or local_tasks):
+        step_tool_time_chart(haiku_results, local_results, haiku_tasks, local_tasks)
 
     # ------------------------------------------------------------------
-    # 1d. Execution phase chart (tool timeline + memory trajectory)
-    # ------------------------------------------------------------------
-    if haiku_tasks or local_tasks:
-        step_execution_phase_chart(haiku_tasks, local_tasks)
-
-    # ------------------------------------------------------------------
-    # 1e. Tool & bash breakdown pie charts (combined)
+    # 1d. RQ1 Fig-tool-type: Tool & bash breakdown pie charts
     # ------------------------------------------------------------------
     if haiku_results and local_results:
         step_tool_and_bash_pie_chart(haiku_results, local_results)
 
     # ------------------------------------------------------------------
-    # 1f. Setup overhead charts (image size, exec time)
+    # 1e. RQ2 Fig-resource: Resource profile (image size + memory traj)
     # ------------------------------------------------------------------
-    step_setup_overhead_chart()
+    if haiku_tasks or local_tasks:
+        step_resource_profile_chart(haiku_tasks, local_tasks)
+
+    # ------------------------------------------------------------------
+    # 1f. Resource boxplots (optional, kept for reference)
+    # ------------------------------------------------------------------
+    if haiku_tasks and local_tasks:
+        step_resource_boxplots(haiku_tasks, local_tasks)
 
     # ------------------------------------------------------------------
     # 2. analyze_tool_time_ratio  →  chart_01 … chart_14
