@@ -1,0 +1,32 @@
+{
+  "name": "no",
+  "pid": 214199,
+  "size_mb": 10.0,
+  "iterations": 300,
+  "timestamp": 1770587687.1662016,
+  "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+  "alloc_latency": {
+    "count": 300,
+    "min_ns": 254219,
+    "max_ns": 17567300,
+    "avg_ns": 1201015.1966666668,
+    "p50_ns": 390501,
+    "p90_ns": 1003722,
+    "p95_ns": 9316476,
+    "p99_ns": 15941213,
+    "p999_ns": 17567300,
+    "avg_ms": 1.2010151966666667,
+    "p50_ms": 0.390501,
+    "p95_ms": 9.316476,
+    "p99_ms": 15.941213,
+    "max_ms": 17.5673
+  },
+  "throughput": {
+    "allocations": 11748,
+    "duration_sec": 5.000094645001809,
+    "throughput_per_sec": 2349.5555252626123,
+    "mb_per_sec": 23495.555252626124
+  },
+  "end_timestamp": 1770587692.8673272,
+  "total_duration_sec": 5.701125621795654
+}

@@ -1,0 +1,32 @@
+{
+  "name": "bpf",
+  "pid": 214770,
+  "size_mb": 10.0,
+  "iterations": 300,
+  "timestamp": 1770587737.65326,
+  "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+  "alloc_latency": {
+    "count": 300,
+    "min_ns": 367591,
+    "max_ns": 17933664,
+    "avg_ns": 1957701.6966666668,
+    "p50_ns": 1075581,
+    "p90_ns": 2884804,
+    "p95_ns": 11655715,
+    "p99_ns": 16033728,
+    "p999_ns": 17933664,
+    "avg_ms": 1.9577016966666667,
+    "p50_ms": 1.075581,
+    "p95_ms": 11.655715,
+    "p99_ms": 16.033728,
+    "max_ms": 17.933664
+  },
+  "throughput": {
+    "allocations": 3346,
+    "duration_sec": 5.000484429001517,
+    "throughput_per_sec": 669.135170303514,
+    "mb_per_sec": 6691.3517030351395
+  },
+  "end_timestamp": 1770587743.6807115,
+  "total_duration_sec": 6.027451515197754
+}

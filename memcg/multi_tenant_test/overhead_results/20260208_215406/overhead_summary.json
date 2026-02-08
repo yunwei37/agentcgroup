@@ -1,0 +1,548 @@
+{
+  "microbenchmark": {
+    "bpf": [
+      {
+        "name": "bpf",
+        "pid": 213780,
+        "size_mb": 10.0,
+        "iterations": 300,
+        "timestamp": 1770587661.2270865,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "alloc_latency": {
+          "count": 300,
+          "min_ns": 296128,
+          "max_ns": 20689781,
+          "avg_ns": 1576666.82,
+          "p50_ns": 562429,
+          "p90_ns": 2598638,
+          "p95_ns": 10034377,
+          "p99_ns": 18132982,
+          "p999_ns": 20689781,
+          "avg_ms": 1.57666682,
+          "p50_ms": 0.562429,
+          "p95_ms": 10.034377,
+          "p99_ms": 18.132982,
+          "max_ms": 20.689781
+        },
+        "throughput": {
+          "allocations": 7541,
+          "duration_sec": 5.000256690997048,
+          "throughput_per_sec": 1508.1225757024745,
+          "mb_per_sec": 15081.225757024744
+        },
+        "end_timestamp": 1770587667.1731167,
+        "total_duration_sec": 5.946030139923096
+      },
+      {
+        "name": "bpf",
+        "pid": 214337,
+        "size_mb": 10.0,
+        "iterations": 300,
+        "timestamp": 1770587699.3019924,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "alloc_latency": {
+          "count": 300,
+          "min_ns": 239114,
+          "max_ns": 15578344,
+          "avg_ns": 1189239.34,
+          "p50_ns": 369346,
+          "p90_ns": 1733382,
+          "p95_ns": 8257252,
+          "p99_ns": 10664235,
+          "p999_ns": 15578344,
+          "avg_ms": 1.18923934,
+          "p50_ms": 0.369346,
+          "p95_ms": 8.257252,
+          "p99_ms": 10.664235,
+          "max_ms": 15.578344
+        },
+        "throughput": {
+          "allocations": 8655,
+          "duration_sec": 5.000473532003525,
+          "throughput_per_sec": 1730.8360787447716,
+          "mb_per_sec": 17308.360787447717
+        },
+        "end_timestamp": 1770587704.9797804,
+        "total_duration_sec": 5.677788019180298
+      },
+      {
+        "name": "bpf",
+        "pid": 214770,
+        "size_mb": 10.0,
+        "iterations": 300,
+        "timestamp": 1770587737.65326,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "alloc_latency": {
+          "count": 300,
+          "min_ns": 367591,
+          "max_ns": 17933664,
+          "avg_ns": 1957701.6966666668,
+          "p50_ns": 1075581,
+          "p90_ns": 2884804,
+          "p95_ns": 11655715,
+          "p99_ns": 16033728,
+          "p999_ns": 17933664,
+          "avg_ms": 1.9577016966666667,
+          "p50_ms": 1.075581,
+          "p95_ms": 11.655715,
+          "p99_ms": 16.033728,
+          "max_ms": 17.933664
+        },
+        "throughput": {
+          "allocations": 3346,
+          "duration_sec": 5.000484429001517,
+          "throughput_per_sec": 669.135170303514,
+          "mb_per_sec": 6691.3517030351395
+        },
+        "end_timestamp": 1770587743.6807115,
+        "total_duration_sec": 6.027451515197754
+      }
+    ],
+    "no": [
+      {
+        "name": "no",
+        "pid": 213670,
+        "size_mb": 10.0,
+        "iterations": 300,
+        "timestamp": 1770587648.9109335,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "alloc_latency": {
+          "count": 300,
+          "min_ns": 268464,
+          "max_ns": 33062984,
+          "avg_ns": 1542044.52,
+          "p50_ns": 494841,
+          "p90_ns": 2868589,
+          "p95_ns": 9112581,
+          "p99_ns": 18267646,
+          "p999_ns": 33062984,
+          "avg_ms": 1.54204452,
+          "p50_ms": 0.494841,
+          "p95_ms": 9.112581,
+          "p99_ms": 18.267646,
+          "max_ms": 33.062984
+        },
+        "throughput": {
+          "allocations": 8257,
+          "duration_sec": 5.000053313997341,
+          "throughput_per_sec": 1651.3823916407125,
+          "mb_per_sec": 16513.823916407124
+        },
+        "end_timestamp": 1770587654.8106966,
+        "total_duration_sec": 5.899763107299805
+      },
+      {
+        "name": "no",
+        "pid": 214199,
+        "size_mb": 10.0,
+        "iterations": 300,
+        "timestamp": 1770587687.1662016,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "alloc_latency": {
+          "count": 300,
+          "min_ns": 254219,
+          "max_ns": 17567300,
+          "avg_ns": 1201015.1966666668,
+          "p50_ns": 390501,
+          "p90_ns": 1003722,
+          "p95_ns": 9316476,
+          "p99_ns": 15941213,
+          "p999_ns": 17567300,
+          "avg_ms": 1.2010151966666667,
+          "p50_ms": 0.390501,
+          "p95_ms": 9.316476,
+          "p99_ms": 15.941213,
+          "max_ms": 17.5673
+        },
+        "throughput": {
+          "allocations": 11748,
+          "duration_sec": 5.000094645001809,
+          "throughput_per_sec": 2349.5555252626123,
+          "mb_per_sec": 23495.555252626124
+        },
+        "end_timestamp": 1770587692.8673272,
+        "total_duration_sec": 5.701125621795654
+      },
+      {
+        "name": "no",
+        "pid": 214649,
+        "size_mb": 10.0,
+        "iterations": 300,
+        "timestamp": 1770587725.122176,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "alloc_latency": {
+          "count": 300,
+          "min_ns": 343713,
+          "max_ns": 31680459,
+          "avg_ns": 2406422.7133333334,
+          "p50_ns": 1116470,
+          "p90_ns": 4715569,
+          "p95_ns": 12181429,
+          "p99_ns": 20317178,
+          "p999_ns": 31680459,
+          "avg_ms": 2.4064227133333334,
+          "p50_ms": 1.11647,
+          "p95_ms": 12.181429,
+          "p99_ms": 20.317178,
+          "max_ms": 31.680459
+        },
+        "throughput": {
+          "allocations": 3531,
+          "duration_sec": 5.000656694006466,
+          "throughput_per_sec": 706.1072607187928,
+          "mb_per_sec": 7061.072607187928
+        },
+        "end_timestamp": 1770587731.270626,
+        "total_duration_sec": 6.148450136184692
+      }
+    ]
+  },
+  "trace_replay": {
+    "bpf": [
+      {
+        "name": "bpf",
+        "trace_path": "/home/yunwei37/agentcgroup/experiments/all_images_haiku/dask__dask-11628/attempt_1/resources.json",
+        "speed_factor": 50.0,
+        "base_memory_mb": 100.0,
+        "pid": 214097,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "events_before": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "trace_samples": 95,
+        "trace_duration_sec": 98.33840608596802,
+        "trace_mem_avg_mb": 197.8943154184442,
+        "trace_mem_max_mb": 320.8999996185303,
+        "start_time": 1770587680.518011,
+        "completion_time_sec": 1.9674780368804932,
+        "peak_memory_bytes": 441345638,
+        "peak_memory_mb": 420.8999996185303,
+        "oom_count": 0,
+        "samples_processed": 95,
+        "allocation_events_count": 81,
+        "latency_stats": {
+          "count": 61,
+          "min_ms": 0.02765655517578125,
+          "max_ms": 255.8286190032959,
+          "avg_ms": 13.815719573224177,
+          "p50_ms": 1.0509490966796875,
+          "p95_ms": 66.41173362731934,
+          "p99_ms": 255.8286190032959
+        },
+        "end_time": 1770587682.6672168,
+        "total_time": 2.1492056846618652,
+        "events_after": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "events_delta": {
+          "sock_throttled": 0,
+          "low": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "max": 0,
+          "high": 0
+        }
+      },
+      {
+        "name": "bpf",
+        "trace_path": "/home/yunwei37/agentcgroup/experiments/all_images_haiku/dask__dask-11628/attempt_1/resources.json",
+        "speed_factor": 50.0,
+        "base_memory_mb": 100.0,
+        "pid": 214551,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "events_before": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "trace_samples": 95,
+        "trace_duration_sec": 98.33840608596802,
+        "trace_mem_avg_mb": 197.8943154184442,
+        "trace_mem_max_mb": 320.8999996185303,
+        "start_time": 1770587718.362978,
+        "completion_time_sec": 1.9671826362609863,
+        "peak_memory_bytes": 441345638,
+        "peak_memory_mb": 420.8999996185303,
+        "oom_count": 0,
+        "samples_processed": 95,
+        "allocation_events_count": 81,
+        "latency_stats": {
+          "count": 61,
+          "min_ms": 0.02193450927734375,
+          "max_ms": 148.3170986175537,
+          "avg_ms": 11.800140631003458,
+          "p50_ms": 1.1096000671386719,
+          "p95_ms": 56.06985092163086,
+          "p99_ms": 148.3170986175537
+        },
+        "end_time": 1770587720.5207422,
+        "total_time": 2.157764196395874,
+        "events_after": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "events_delta": {
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0,
+          "low": 0,
+          "sock_throttled": 0,
+          "max": 0,
+          "high": 0
+        }
+      },
+      {
+        "name": "bpf",
+        "trace_path": "/home/yunwei37/agentcgroup/experiments/all_images_haiku/dask__dask-11628/attempt_1/resources.json",
+        "speed_factor": 50.0,
+        "base_memory_mb": 100.0,
+        "pid": 214989,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "events_before": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "trace_samples": 95,
+        "trace_duration_sec": 98.33840608596802,
+        "trace_mem_avg_mb": 197.8943154184442,
+        "trace_mem_max_mb": 320.8999996185303,
+        "start_time": 1770587757.0458586,
+        "completion_time_sec": 1.9674196243286133,
+        "peak_memory_bytes": 441345638,
+        "peak_memory_mb": 420.8999996185303,
+        "oom_count": 0,
+        "samples_processed": 95,
+        "allocation_events_count": 81,
+        "latency_stats": {
+          "count": 61,
+          "min_ms": 0.015974044799804688,
+          "max_ms": 141.831636428833,
+          "avg_ms": 10.750403169725763,
+          "p50_ms": 0.9655952453613281,
+          "p95_ms": 44.37756538391113,
+          "p99_ms": 141.831636428833
+        },
+        "end_time": 1770587759.1938941,
+        "total_time": 2.1480355262756348,
+        "events_after": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "events_delta": {
+          "oom_kill": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "max": 0,
+          "sock_throttled": 0,
+          "high": 0,
+          "low": 0
+        }
+      }
+    ],
+    "no": [
+      {
+        "name": "no",
+        "trace_path": "/home/yunwei37/agentcgroup/experiments/all_images_haiku/dask__dask-11628/attempt_1/resources.json",
+        "speed_factor": 50.0,
+        "base_memory_mb": 100.0,
+        "pid": 213981,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "events_before": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "trace_samples": 95,
+        "trace_duration_sec": 98.33840608596802,
+        "trace_mem_avg_mb": 197.8943154184442,
+        "trace_mem_max_mb": 320.8999996185303,
+        "start_time": 1770587671.6812785,
+        "completion_time_sec": 2.032167673110962,
+        "peak_memory_bytes": 441345638,
+        "peak_memory_mb": 420.8999996185303,
+        "oom_count": 0,
+        "samples_processed": 95,
+        "allocation_events_count": 81,
+        "latency_stats": {
+          "count": 61,
+          "min_ms": 0.03528594970703125,
+          "max_ms": 317.0156478881836,
+          "avg_ms": 18.6936972571201,
+          "p50_ms": 0.9441375732421875,
+          "p95_ms": 79.56957817077637,
+          "p99_ms": 317.0156478881836
+        },
+        "end_time": 1770587674.021435,
+        "total_time": 2.3401565551757812,
+        "events_after": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "events_delta": {
+          "max": 0,
+          "sock_throttled": 0,
+          "high": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "low": 0,
+          "oom_group_kill": 0
+        }
+      },
+      {
+        "name": "no",
+        "trace_path": "/home/yunwei37/agentcgroup/experiments/all_images_haiku/dask__dask-11628/attempt_1/resources.json",
+        "speed_factor": 50.0,
+        "base_memory_mb": 100.0,
+        "pid": 214470,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "events_before": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "trace_samples": 95,
+        "trace_duration_sec": 98.33840608596802,
+        "trace_mem_avg_mb": 197.8943154184442,
+        "trace_mem_max_mb": 320.8999996185303,
+        "start_time": 1770587709.570823,
+        "completion_time_sec": 1.967698097229004,
+        "peak_memory_bytes": 441345638,
+        "peak_memory_mb": 420.8999996185303,
+        "oom_count": 0,
+        "samples_processed": 95,
+        "allocation_events_count": 81,
+        "latency_stats": {
+          "count": 61,
+          "min_ms": 0.022172927856445312,
+          "max_ms": 284.26098823547363,
+          "avg_ms": 13.334446266049245,
+          "p50_ms": 0.9794235229492188,
+          "p95_ms": 53.162574768066406,
+          "p99_ms": 284.26098823547363
+        },
+        "end_time": 1770587711.7516608,
+        "total_time": 2.180837869644165,
+        "events_after": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "events_delta": {
+          "oom": 0,
+          "max": 0,
+          "oom_kill": 0,
+          "sock_throttled": 0,
+          "oom_group_kill": 0,
+          "low": 0,
+          "high": 0
+        }
+      },
+      {
+        "name": "no",
+        "trace_path": "/home/yunwei37/agentcgroup/experiments/all_images_haiku/dask__dask-11628/attempt_1/resources.json",
+        "speed_factor": 50.0,
+        "base_memory_mb": 100.0,
+        "pid": 214896,
+        "cgroup": "/sys/fs/cgroup/overhead_test/test_session",
+        "events_before": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "trace_samples": 95,
+        "trace_duration_sec": 98.33840608596802,
+        "trace_mem_avg_mb": 197.8943154184442,
+        "trace_mem_max_mb": 320.8999996185303,
+        "start_time": 1770587748.2623632,
+        "completion_time_sec": 1.970046043395996,
+        "peak_memory_bytes": 441345638,
+        "peak_memory_mb": 420.8999996185303,
+        "oom_count": 0,
+        "samples_processed": 95,
+        "allocation_events_count": 81,
+        "latency_stats": {
+          "count": 61,
+          "min_ms": 0.015974044799804688,
+          "max_ms": 248.85797500610352,
+          "avg_ms": 15.051912088863185,
+          "p50_ms": 1.0373592376708984,
+          "p95_ms": 59.11874771118164,
+          "p99_ms": 248.85797500610352
+        },
+        "end_time": 1770587750.5022805,
+        "total_time": 2.239917278289795,
+        "events_after": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "sock_throttled": 0
+        },
+        "events_delta": {
+          "high": 0,
+          "low": 0,
+          "sock_throttled": 0,
+          "max": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0,
+          "oom": 0
+        }
+      }
+    ]
+  }
+}
