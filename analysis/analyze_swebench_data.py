@@ -498,9 +498,10 @@ def _plot_dynamics(tasks: Dict[str, TaskData], results: Dict):
         mem_vals = [s.mem_usage_mb for s in samples]
 
         ax1.plot(times, cpu_vals, 'b-', linewidth=1, label='CPU %')
-        ax1.set_ylabel('CPU Usage (%)')
-        ax1.set_title(f'Resource Usage Over Time - {sample_task.name[:50]}')
-        ax1.legend()
+        ax1.set_ylabel('CPU Usage (%)', fontsize=15)
+        ax1.set_title(f'Resource Usage Over Time - {sample_task.name[:50]}', fontsize=16)
+        ax1.legend(fontsize=13)
+        ax1.tick_params(axis='both', labelsize=13)
         ax1.grid(True, alpha=0.3)
 
         # Mark burst events
@@ -509,9 +510,10 @@ def _plot_dynamics(tasks: Dict[str, TaskData], results: Dict):
             ax1.axvline(x=burst_time, color='r', linestyle='--', alpha=0.5)
 
         ax2.plot(times, mem_vals, 'g-', linewidth=1, label='Memory (MB)')
-        ax2.set_xlabel('Time (seconds)')
-        ax2.set_ylabel('Memory Usage (MB)')
-        ax2.legend()
+        ax2.set_xlabel('Time (seconds)', fontsize=15)
+        ax2.set_ylabel('Memory Usage (MB)', fontsize=15)
+        ax2.legend(fontsize=13)
+        ax2.tick_params(axis='both', labelsize=13)
         ax2.grid(True, alpha=0.3)
 
         for burst in sample_task.bursts:
@@ -531,19 +533,21 @@ def _plot_dynamics(tasks: Dict[str, TaskData], results: Dict):
     if cpu_rates:
         ax1.hist(cpu_rates, bins=50, edgecolor='black', alpha=0.7)
         ax1.axvline(x=CPU_BURST_THRESHOLD, color='r', linestyle='--', label=f'Burst threshold ({CPU_BURST_THRESHOLD}%/s)')
-        ax1.set_xlabel('CPU Change Rate (%/sec)')
-        ax1.set_ylabel('Frequency')
-        ax1.set_title('Distribution of CPU Change Rates')
-        ax1.legend()
+        ax1.set_xlabel('CPU Change Rate (%/sec)', fontsize=15)
+        ax1.set_ylabel('Frequency', fontsize=15)
+        ax1.set_title('Distribution of CPU Change Rates', fontsize=16)
+        ax1.legend(fontsize=13)
+        ax1.tick_params(axis='both', labelsize=13)
         ax1.set_yscale('log')
 
     if mem_rates:
         ax2.hist(mem_rates, bins=50, edgecolor='black', alpha=0.7)
         ax2.axvline(x=MEM_BURST_THRESHOLD, color='r', linestyle='--', label=f'Burst threshold ({MEM_BURST_THRESHOLD}MB/s)')
-        ax2.set_xlabel('Memory Change Rate (MB/sec)')
-        ax2.set_ylabel('Frequency')
-        ax2.set_title('Distribution of Memory Change Rates')
-        ax2.legend()
+        ax2.set_xlabel('Memory Change Rate (MB/sec)', fontsize=15)
+        ax2.set_ylabel('Frequency', fontsize=15)
+        ax2.set_title('Distribution of Memory Change Rates', fontsize=16)
+        ax2.legend(fontsize=13)
+        ax2.tick_params(axis='both', labelsize=13)
         ax2.set_yscale('log')
 
     plt.tight_layout()
@@ -699,27 +703,31 @@ def _plot_categories(tasks: Dict[str, TaskData], results: Dict, categories: List
 
     if cpu_data and all(d for d in cpu_data):
         axes[0, 0].boxplot(cpu_data, labels=short_names)
-        axes[0, 0].set_ylabel('Average CPU (%)')
-        axes[0, 0].set_title('Average CPU Usage by Category')
-        axes[0, 0].tick_params(axis='x', rotation=45)
+        axes[0, 0].set_ylabel('Average CPU (%)', fontsize=15)
+        axes[0, 0].set_title('Average CPU Usage by Category', fontsize=16)
+        axes[0, 0].tick_params(axis='x', rotation=45, labelsize=13)
+        axes[0, 0].tick_params(axis='y', labelsize=13)
 
     if mem_data and all(d for d in mem_data):
         axes[0, 1].boxplot(mem_data, labels=short_names)
-        axes[0, 1].set_ylabel('Average Memory (MB)')
-        axes[0, 1].set_title('Average Memory Usage by Category')
-        axes[0, 1].tick_params(axis='x', rotation=45)
+        axes[0, 1].set_ylabel('Average Memory (MB)', fontsize=15)
+        axes[0, 1].set_title('Average Memory Usage by Category', fontsize=16)
+        axes[0, 1].tick_params(axis='x', rotation=45, labelsize=13)
+        axes[0, 1].tick_params(axis='y', labelsize=13)
 
     if cpu_max_data and all(d for d in cpu_max_data):
         axes[1, 0].boxplot(cpu_max_data, labels=short_names)
-        axes[1, 0].set_ylabel('Peak CPU (%)')
-        axes[1, 0].set_title('Peak CPU Usage by Category')
-        axes[1, 0].tick_params(axis='x', rotation=45)
+        axes[1, 0].set_ylabel('Peak CPU (%)', fontsize=15)
+        axes[1, 0].set_title('Peak CPU Usage by Category', fontsize=16)
+        axes[1, 0].tick_params(axis='x', rotation=45, labelsize=13)
+        axes[1, 0].tick_params(axis='y', labelsize=13)
 
     if mem_max_data and all(d for d in mem_max_data):
         axes[1, 1].boxplot(mem_max_data, labels=short_names)
-        axes[1, 1].set_ylabel('Peak Memory (MB)')
-        axes[1, 1].set_title('Peak Memory Usage by Category')
-        axes[1, 1].tick_params(axis='x', rotation=45)
+        axes[1, 1].set_ylabel('Peak Memory (MB)', fontsize=15)
+        axes[1, 1].set_title('Peak Memory Usage by Category', fontsize=16)
+        axes[1, 1].tick_params(axis='x', rotation=45, labelsize=13)
+        axes[1, 1].tick_params(axis='y', labelsize=13)
 
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / "rq2_category_boxplots.png", dpi=150)
@@ -971,34 +979,36 @@ def _plot_overprovisioning(tasks: Dict[str, TaskData], results: Dict):
         axes[0, 0].hist(cpu_ratios, bins=15, edgecolor='black', alpha=0.7)
         axes[0, 0].axvline(x=statistics.mean(cpu_ratios), color='r', linestyle='--',
                            label=f'Mean ({statistics.mean(cpu_ratios):.2f}x)')
-        axes[0, 0].set_xlabel('Peak/Average CPU Ratio')
-        axes[0, 0].set_ylabel('Number of Tasks')
-        axes[0, 0].set_title('Distribution of CPU Over-provisioning Factor')
-        axes[0, 0].legend()
+        axes[0, 0].set_xlabel('Peak/Average CPU Ratio', fontsize=15)
+        axes[0, 0].set_ylabel('Number of Tasks', fontsize=15)
+        axes[0, 0].set_title('CPU Over-provisioning Factor', fontsize=16)
+        axes[0, 0].legend(fontsize=13)
+        axes[0, 0].tick_params(axis='both', labelsize=13)
 
     # Histogram of Memory peak/avg ratios
     if mem_ratios:
         axes[0, 1].hist(mem_ratios, bins=15, edgecolor='black', alpha=0.7)
         axes[0, 1].axvline(x=statistics.mean(mem_ratios), color='r', linestyle='--',
                            label=f'Mean ({statistics.mean(mem_ratios):.2f}x)')
-        axes[0, 1].set_xlabel('Peak/Average Memory Ratio')
-        axes[0, 1].set_ylabel('Number of Tasks')
-        axes[0, 1].set_title('Distribution of Memory Over-provisioning Factor')
-        axes[0, 1].legend()
+        axes[0, 1].set_xlabel('Peak/Average Memory Ratio', fontsize=15)
+        axes[0, 1].set_ylabel('Number of Tasks', fontsize=15)
+        axes[0, 1].set_title('Memory Over-provisioning Factor', fontsize=16)
+        axes[0, 1].legend(fontsize=13)
+        axes[0, 1].tick_params(axis='both', labelsize=13)
 
     # Scatter plot: avg vs max memory
     if results["per_task"]:
         for stat in results["per_task"]:
             axes[1, 0].scatter(stat["mem_avg"], stat["mem_max"], s=50, alpha=0.7)
 
-        # Add diagonal line (y=x, meaning no over-provisioning needed)
         max_val = max(max([s["mem_max"] for s in results["per_task"]]),
                       max([s["mem_avg"] for s in results["per_task"]]))
         axes[1, 0].plot([0, max_val], [0, max_val], 'k--', alpha=0.3, label='y=x (no waste)')
-        axes[1, 0].set_xlabel('Average Memory (MB)')
-        axes[1, 0].set_ylabel('Peak Memory (MB)')
-        axes[1, 0].set_title('Average vs Peak Memory Usage')
-        axes[1, 0].legend()
+        axes[1, 0].set_xlabel('Average Memory (MB)', fontsize=15)
+        axes[1, 0].set_ylabel('Peak Memory (MB)', fontsize=15)
+        axes[1, 0].set_title('Average vs Peak Memory Usage', fontsize=16)
+        axes[1, 0].legend(fontsize=13)
+        axes[1, 0].tick_params(axis='both', labelsize=13)
 
     # Distribution summary
     if cpu_ratios and mem_ratios:
@@ -1011,11 +1021,12 @@ def _plot_overprovisioning(tasks: Dict[str, TaskData], results: Dict):
 
         axes[1, 1].bar(x - width/2, means, width, label='Mean')
         axes[1, 1].bar(x + width/2, medians, width, label='Median')
-        axes[1, 1].set_ylabel('Over-provisioning Factor (x)')
-        axes[1, 1].set_title('Summary: Over-provisioning Factors')
+        axes[1, 1].set_ylabel('Over-provisioning Factor (x)', fontsize=15)
+        axes[1, 1].set_title('Summary: Over-provisioning Factors', fontsize=16)
         axes[1, 1].set_xticks(x)
-        axes[1, 1].set_xticklabels(labels)
-        axes[1, 1].legend()
+        axes[1, 1].set_xticklabels(labels, fontsize=14)
+        axes[1, 1].legend(fontsize=13)
+        axes[1, 1].tick_params(axis='y', labelsize=13)
         axes[1, 1].axhline(y=1, color='r', linestyle='--', alpha=0.5)
 
     plt.tight_layout()
