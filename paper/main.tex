@@ -103,11 +103,13 @@ We conducted the first systematic measurement study of resource usage patterns i
 
 \subsection{Experimental Setup}
 
+\textbf{Testbed.} All experiments run on a single machine equipped with an Intel Core Ultra 9 285K processor (24 cores, up to 5.8\,GHz), 128\,GB DDR5 RAM, running Ubuntu 24.04.3 LTS with Linux kernel 6.15.11 (cgroup v2 enabled). Each task executes inside an isolated Podman container built from the SWE-rebench Docker images (2.9--17.7\,GB per image). No resource limits are applied during the characterization experiments so that measurements reflect unconstrained resource demand.
+
 \textbf{Dataset.} We selected 18 tasks from the SWE-rebench dataset, covering six categories (CLI\_Tools, DevOps\_Build, ML\_Scientific, Medical\_Bio, SQL\_Data, Web\_Network) and three difficulty levels (Easy, Medium, Hard). These tasks cover typical use cases for AI coding agents, including command-line tool fixes, build system configuration, machine learning code debugging, biomedical data processing, database query optimization, and web service fixes.
 
-\textbf{Agent Implementation.} We used two different agent implementations to execute the same 18 tasks: Claude Code with Haiku (Anthropic's production AI coding agent) and Claude Code connected to a local model GLM 4.7 flash. These two agents were chosen to observe the impact of different architectures and reasoning strategies on resource usage.
+\textbf{Agent Implementation.} We used two different agent implementations to execute the same 18 tasks: (1)~Claude Code with Haiku, a cloud-based agent that calls the Anthropic API for LLM inference, and (2)~Claude Code connected to a local model GLM 4.7 flash, which performs on-device inference via GPU. These two agents were chosen to observe the impact of different architectures (remote API inference vs.\ local GPU inference) and reasoning strategies on resource usage.
 
-\textbf{Data Collection.} For each task execution, we sampled CPU utilization and memory usage at 1-second intervals and recorded the type, start time, and end time of each tool call. All tasks were executed in the same sandbox environment to ensure measurement comparability.
+\textbf{Data Collection.} For each task execution, we sampled CPU utilization and memory usage at 1-second intervals via \texttt{podman stats} (\texttt{--no-stream} mode) and recorded the type, start time, and end time of each tool call. All tasks were executed in the same sandbox environment to ensure measurement comparability.
 
 \subsection{RQ1: Agent Execution Model}
 
