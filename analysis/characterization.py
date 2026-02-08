@@ -866,7 +866,7 @@ def step_tool_and_bash_pie_chart(haiku_results, local_results):
     total_bash = sum(merged_bash[c] for c in cats)
     b_names = list(cats)
     b_sizes = [merged_bash[c] for c in cats]
-    b_names, b_sizes = _group_small(b_names, b_sizes, threshold=4.0)
+    b_names, b_sizes = _group_small(b_names, b_sizes, threshold=2.0)
     colors_b = [cmap(i) for i in range(len(b_names))]
 
     wedges2, texts2, autotexts2 = ax2.pie(
@@ -877,6 +877,17 @@ def step_tool_and_bash_pie_chart(haiku_results, local_results):
     for at in autotexts2:
         at.set_fontsize(20)
         at.set_fontweight("bold")
+    # Spread overlapping labels apart vertically
+    positions = [(txt.get_position(), i) for i, txt in enumerate(texts2)]
+    positions.sort(key=lambda p: -p[0][1])  # sort by y descending
+    min_gap = 0.14
+    for j in range(1, len(positions)):
+        (x_prev, y_prev), _ = positions[j - 1]
+        (x_cur, y_cur), idx = positions[j]
+        if y_prev - y_cur < min_gap and abs(x_prev - x_cur) < 0.5:
+            new_y = y_prev - min_gap
+            texts2[idx].set_position((x_cur, new_y))
+            positions[j] = ((x_cur, new_y), idx)
     ax2.set_title("(b) Bash Command Time by Category", fontsize=27, pad=15)
 
     plt.tight_layout()

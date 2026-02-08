@@ -1,6 +1,6 @@
 # AgentCgroup SWE-Bench Experiment Analysis Report (haiku)
 
-Generated: 2026-02-08 14:13:10
+Generated: 2026-02-08 14:15:23
 
 Data source: `/home/yunwei37/workspace/agentcgroup/experiments/all_images_haiku`
 
