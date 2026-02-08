@@ -14,8 +14,8 @@
 *.snm
 *.vrb
 comment.cut
-# PDF output
-*.pdf
+# PDF output (only compiled LaTeX, keep figure PDFs)
+paper/main.pdf
 
 # Editor files
 *.swp
