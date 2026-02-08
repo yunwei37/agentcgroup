@@ -122,7 +122,10 @@ def load_disk_usage(attempt_dir: Path) -> Optional[Dict]:
     try:
         with open(results_path, "r") as f:
             data = json.load(f)
+        # Support both original format (disk_usage) and replay format (disk_usage_before/after)
         disk_usage = data.get("disk_usage", {})
+        if not disk_usage:
+            disk_usage = data.get("disk_usage_after", data.get("disk_usage_before", {}))
         image_info = data.get("image_info", {})
         return {
             "testbed_mb": disk_usage.get("testbed_mb"),
