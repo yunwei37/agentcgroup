@@ -651,6 +651,47 @@ setup_bpf_isolation() {
 - 使用固定比例（如 total/4）可能导致阈值过低
 - 建议：根据 trace 分析结果动态设置阈值，或使用 trace 峰值 × 1.2 作为阈值
 
+### 内存压力场景：验证 BPF 防止 OOM (2026-02-08)
+
+**核心发现：BPF 可以在内存压力下防止 OOM，这是该机制最重要的实用价值。**
+
+#### 实验配置
+
+```bash
+HIGH_TRACE="dask__dask-11628"           # peak=421MB
+LOW1_TRACE="sigmavirus24__github3.py-673"  # peak=406MB
+LOW2_TRACE="sigmavirus24__github3.py-673"  # peak=406MB
+TOTAL_MEMORY_MB=1100  # 总需求 ~1233MB > 限制 1100MB (内存压力)
+SPEED_FACTOR=50
+BPF_DELAY_MS=50
+
+# BPF 阈值
+HIGH: memory.high=max (无限制)
+LOW: memory.high=400MB (略低于峰值)
+```
+
+#### 对比结果
+
+| 策略 | HIGH | LOW1 | LOW2 | 进程存活率 |
+|------|------|------|------|------------|
+| **no_isolation** | 2.12s ✓ | **OOM killed** ✗ | 2.17s ✓ | 66% (2/3) |
+| **BPF** | 2.18s ✓ | 4.40s ✓ | 4.39s ✓ | **100%** (3/3) |
+
+#### 关键结论
+
+1. **BPF 防止 OOM**: 在内存压力下，no_isolation 随机杀死进程，BPF 通过延迟让所有进程完成
+2. **HIGH 优先级不受影响**: 两种策略下 HIGH 完成时间相同 (~2.1s)
+3. **LOW 性能权衡**: 从 ~2s 延长到 ~4.4s (2x)，但存活比死亡更重要
+4. **BPF 活跃度**: LOW1 触发 239 次 high events，证明延迟机制在工作
+
+#### 实用场景
+
+- **SLA 保障**: 高优先级任务 (付费用户) 不受影响
+- **稳定性**: 低优先级任务不会被 OOM 杀死，而是优雅降级
+- **资源效率**: 所有任务最终完成，无需重试 OOM 被杀的任务
+
+**这是 BPF memcg struct_ops 最有价值的应用场景：在资源紧张时，通过延迟而非杀死来管理低优先级任务。**
+
 ## 参考链接
 
 - 补丁讨论：https://lore.kernel.org/all/cover.1738292406.git.teawater@antgroup.com/

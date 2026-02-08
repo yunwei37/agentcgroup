@@ -359,3 +359,107 @@ OOM 风险:            低             无 (动态调节)
 ```
 
 **结论**: BPF memcg struct_ops 可以有效实现 AI agent 工作负载的内存优先级隔离。
+
+---
+
+## 阶段 5: 内存压力场景 - 验证 BPF 防止 OOM (2026-02-08)
+
+### 实验目标
+
+验证 BPF 的核心价值：在内存压力下防止 OOM，而不是让进程被杀死。
+
+### 新配置
+
+选择更平衡的 trace 组合，制造真实内存压力：
+
+```bash
+HIGH_TRACE="dask__dask-11628"           # peak=421MB (含 100MB base)
+LOW1_TRACE="sigmavirus24__github3.py-673"  # peak=406MB
+LOW2_TRACE="sigmavirus24__github3.py-673"  # peak=406MB
+TOTAL_MEMORY_MB=1100  # 总需求 ~1233MB > 限制 1100MB
+SPEED_FACTOR=50
+BPF_DELAY_MS=50  # 更轻量的延迟
+```
+
+### BPF 阈值配置
+
+```bash
+# HIGH session: 无限制
+echo "max" > $CGROUP_ROOT/high_session/memory.high
+
+# LOW sessions: 略低于峰值，触发 BPF 延迟
+echo "400M" > $CGROUP_ROOT/low_session_1/memory.high
+echo "400M" > $CGROUP_ROOT/low_session_2/memory.high
+```
+
+### 实验结果
+
+#### no_isolation (1100MB)
+```
+HIGH: 2.12s, peak=421MB, OOM=0 ✓
+LOW2: 2.17s, peak=406MB, OOM=0 ✓
+LOW1: **OOM killed** (无结果文件) ✗
+```
+
+#### BPF (1100MB)
+```
+HIGH: 2.18s, peak=421MB, OOM=0 ✓
+LOW1: 4.40s, peak=406MB, OOM=0 ✓ (high_events=239)
+LOW2: 4.39s, peak=406MB, OOM=0 ✓
+```
+
+### 核心发现
+
+| 指标 | no_isolation | BPF | 结论 |
+|------|--------------|-----|------|
+| HIGH 完成时间 | 2.12s | 2.18s | 相同 (HIGH 不受影响) |
+| LOW1 完成 | OOM killed ✗ | 4.40s ✓ | **BPF 防止 OOM** |
+| LOW2 完成 | 2.17s | 4.39s | LOW 被延迟但存活 |
+| 进程存活率 | 2/3 (66%) | 3/3 (100%) | **BPF 提升 50%** |
+
+### 关键结论
+
+1. **BPF 防止 OOM**: 在内存压力下，no_isolation 随机杀死一个进程，BPF 则通过延迟让所有进程完成
+2. **HIGH 优先级保护**: HIGH 进程完成时间在两种策略下几乎相同 (~2.1s)
+3. **LOW 性能权衡**: LOW 进程从 ~2s 延长到 ~4.4s (2x)，但**存活比死亡更重要**
+4. **BPF 活跃度**: LOW1 触发 239 次 high events，说明 BPF 延迟机制积极工作
+
+### 实用场景
+
+这个结果证明了 BPF memcg struct_ops 在多租户 AI agent 场景的价值：
+
+- **SLA 保障**: 高优先级任务 (付费用户) 不受低优先级任务影响
+- **稳定性**: 低优先级任务不会被 OOM 杀死，而是优雅降级 (变慢)
+- **资源效率**: 所有任务最终完成，无需重试 OOM 被杀的任务
+
+### 问题记录
+
+1. **旧 BPF loader 残留**: 发现两个 BPF loader 同时运行导致 LOW 进程卡死
+   - 原因: 旧的 loader (delay=2000ms) 未被杀死
+   - 解决: `sudo pkill -f memcg_priority` 清理后重启
+
+2. **memory.high 阈值过低**: 最初设置 275MB (total/4)，但 trace 需要 406MB
+   - 原因: LOW 永远超过阈值，被持续延迟
+   - 解决: 设置为 400MB，只在峰值时触发延迟
+
+### 修复的脚本配置
+
+```bash
+# run_isolation_comparison.sh 修改
+
+# BPF 延迟减少到 50ms (原 100ms)
+BPF_DELAY_MS=50
+
+# setup_bpf_isolation() 函数
+# HIGH 无限制
+local high_session_threshold="max"
+# LOW 略低于峰值，只在峰值时触发
+local low_session_threshold=400
+```
+
+### 文件更新
+
+- `run_isolation_comparison.sh`: 修复 BPF 阈值计算逻辑
+- 新结果目录:
+  - `bpf_run1_20260208_183115/` - BPF 成功 (全部完成)
+  - `no_isolation_run1_20260208_183138/` - 无隔离 (LOW1 OOM)
