@@ -33,3 +33,10 @@ data/
 
 # Linux kernel source/build (too large for GitHub)
 memcg/linux/
+
+# BPF loader build artifacts
+memcg/multi_tenant_test/bpf_loader/vmlinux.h
+memcg/multi_tenant_test/bpf_loader/*.bpf.o
+memcg/multi_tenant_test/bpf_loader/*.bpf.skel.h
+memcg/multi_tenant_test/bpf_loader/memcg_priority
+memcg/multi_tenant_test/bpf_loader/bpf/

@@ -1,0 +1,9 @@
+{
+    "experiment": "bpf",
+    "total_memory_mb": 500,
+    "per_process_mb": 200,
+    "memory_high_mb": 150,
+    "hold_seconds": 5,
+    "bpf_enabled": true,
+    "bpf_delay_ms": 2000
+}

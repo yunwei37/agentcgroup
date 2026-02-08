@@ -187,6 +187,14 @@ run_bpf() {
     log_info "Running BPF experiment (with memcg BPF struct_ops)"
     log_info "Results will be saved to: $exp_dir"
 
+    # Check for BPF loader
+    local BPF_LOADER="$SCRIPT_DIR/bpf_loader/memcg_priority"
+    if [ ! -x "$BPF_LOADER" ]; then
+        log_error "BPF loader not found at $BPF_LOADER"
+        log_error "Please build it first: cd bpf_loader && make"
+        exit 1
+    fi
+
     setup_cgroups
 
     # 记录实验参数
@@ -202,18 +210,41 @@ run_bpf() {
 }
 EOF
 
-    # 附加 BPF struct_ops
-    log_info "Attaching BPF struct_ops..."
-    log_info "  HIGH session: high_mcg_ops (protected)"
+    # 启动 BPF loader 在后台
+    log_info "Starting BPF loader..."
+    log_info "  HIGH session: high_mcg_ops (protected, below_low=true)"
     log_info "  LOW sessions: low_mcg_ops (delay=${BPF_DELAY_MS}ms)"
 
-    # TODO: 实现 BPF 附加
-    # 目前使用 test_progs 中的方式，或者需要一个专门的加载器
-    log_warn "BPF attachment not yet implemented - using placeholder"
-    log_warn "For now, this will run the same as baseline"
+    "$BPF_LOADER" \
+        --high "$CGROUP_ROOT/high_session" \
+        --low "$CGROUP_ROOT/low_session_1" \
+        --low "$CGROUP_ROOT/low_session_2" \
+        --delay-ms $BPF_DELAY_MS \
+        --threshold 1 \
+        --below-low \
+        --verbose \
+        > "$exp_dir/bpf_loader.log" 2>&1 &
+    local bpf_pid=$!
+
+    # Wait a moment for BPF to attach
+    sleep 2
+
+    # Check if BPF loader is still running
+    if ! kill -0 $bpf_pid 2>/dev/null; then
+        log_error "BPF loader failed to start. Check $exp_dir/bpf_loader.log"
+        cat "$exp_dir/bpf_loader.log"
+        cleanup_cgroups
+        exit 1
+    fi
+
+    log_info "BPF loader started (PID: $bpf_pid)"
 
     # 并发启动 3 个内存压力进程
     log_info "Starting 3 concurrent memory stress processes..."
+    log_info "  HIGH: $PER_PROCESS_MB MB"
+    log_info "  LOW1: $PER_PROCESS_MB MB"
+    log_info "  LOW2: $PER_PROCESS_MB MB"
+    log_info "  Total demand: $((PER_PROCESS_MB * 3)) MB"
 
     local start_time=$(date +%s.%N)
 
@@ -242,18 +273,38 @@ EOF
     local pid_low2=$!
 
     log_info "Waiting for processes to complete..."
+    log_info "  HIGH PID: $pid_high"
+    log_info "  LOW1 PID: $pid_low1"
+    log_info "  LOW2 PID: $pid_low2"
 
-    wait $pid_high $pid_low1 $pid_low2
+    # Wait for memory stress processes
+    wait $pid_high
+    local high_exit=$?
+    wait $pid_low1
+    local low1_exit=$?
+    wait $pid_low2
+    local low2_exit=$?
 
     local end_time=$(date +%s.%N)
     local total_time=$(echo "$end_time - $start_time" | bc)
 
     log_info "All processes completed in ${total_time}s"
+    log_info "  HIGH exit: $high_exit"
+    log_info "  LOW1 exit: $low1_exit"
+    log_info "  LOW2 exit: $low2_exit"
+
+    # Stop BPF loader
+    log_info "Stopping BPF loader..."
+    kill $bpf_pid 2>/dev/null
+    wait $bpf_pid 2>/dev/null
 
     # 收集 memory.events
     for name in high_session low_session_1 low_session_2; do
         cat $CGROUP_ROOT/$name/memory.events > "$exp_dir/${name}_memory_events.txt" 2>/dev/null || true
     done
+
+    # 收集 dmesg 中的 OOM 信息
+    dmesg | grep -i "oom\|kill" | tail -20 > "$exp_dir/dmesg_oom.txt" 2>/dev/null || true
 
     cleanup_cgroups
 
