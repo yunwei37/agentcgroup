@@ -397,7 +397,7 @@ def generate_rq_charts(base_dir, figures_dir, dataset_name):
 
     fig.suptitle(f"RQ1: Timescale Mismatch - {dataset_name}", fontsize=14, y=1.02)
     fig.tight_layout()
-    path = os.path.join(figures_dir, "rq1_timescale_mismatch.png")
+    path = os.path.join(figures_dir, "rq1_timescale_mismatch.pdf")
     fig.savefig(path, dpi=CHART_DPI, bbox_inches="tight", facecolor="white")
     plt.close(fig)
     print(f"  [CHART] Saved: {path}")
@@ -416,7 +416,7 @@ def generate_rq_charts(base_dir, figures_dir, dataset_name):
         ax.legend()
         ax.grid(alpha=0.3)
 
-        path = os.path.join(figures_dir, "rq2_domain_mismatch.png")
+        path = os.path.join(figures_dir, "rq2_domain_mismatch.pdf")
         fig.savefig(path, dpi=CHART_DPI, bbox_inches="tight", facecolor="white")
         plt.close(fig)
         print(f"  [CHART] Saved: {path}")
@@ -454,7 +454,7 @@ def generate_rq_charts(base_dir, figures_dir, dataset_name):
                         fontsize=14, y=1.02)
             fig.tight_layout()
 
-            path = os.path.join(figures_dir, "rq4_overprovisioning.png")
+            path = os.path.join(figures_dir, "rq4_overprovisioning.pdf")
             fig.savefig(path, dpi=CHART_DPI, bbox_inches="tight", facecolor="white")
             plt.close(fig)
             print(f"  [CHART] Saved: {path}")

@@ -558,7 +558,7 @@ def _plot_dynamics(tasks: Dict[str, TaskData], results: Dict):
         ax2.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig(OUTPUT_DIR / "rq1_resource_timeseries.png", dpi=150)
+    plt.savefig(OUTPUT_DIR / "rq1_resource_timeseries.pdf", bbox_inches="tight")
     plt.close()
 
     # Plot 2: Distribution of change rates
@@ -588,10 +588,10 @@ def _plot_dynamics(tasks: Dict[str, TaskData], results: Dict):
         ax2.set_yscale('log')
 
     plt.tight_layout()
-    plt.savefig(OUTPUT_DIR / "rq1_change_rate_distribution.png", dpi=150)
+    plt.savefig(OUTPUT_DIR / "rq1_change_rate_distribution.pdf", bbox_inches="tight")
     plt.close()
 
-    print(f"\n  Figures saved to: {OUTPUT_DIR}/rq1_*.png")
+    print(f"\n  Figures saved to: {OUTPUT_DIR}/rq1_*.pdf")
 
 
 # =============================================================================
@@ -767,7 +767,7 @@ def _plot_categories(tasks: Dict[str, TaskData], results: Dict, categories: List
         axes[1, 1].tick_params(axis='y', labelsize=13)
 
     plt.tight_layout()
-    plt.savefig(OUTPUT_DIR / "rq2_category_boxplots.png", dpi=150)
+    plt.savefig(OUTPUT_DIR / "rq2_category_boxplots.pdf", bbox_inches="tight")
     plt.close()
 
     print(f"\n  Figures saved to: {OUTPUT_DIR}/rq2_*.png")
@@ -914,7 +914,7 @@ def _plot_tools(tasks: Dict[str, TaskData], results: Dict):
         axes[1, 1].tick_params(axis='x', rotation=45)
 
     plt.tight_layout()
-    plt.savefig(OUTPUT_DIR / "rq3_tool_analysis.png", dpi=150)
+    plt.savefig(OUTPUT_DIR / "rq3_tool_analysis.pdf", bbox_inches="tight")
     plt.close()
 
     print(f"\n  Figures saved to: {OUTPUT_DIR}/rq3_*.png")
@@ -1073,7 +1073,7 @@ def _plot_overprovisioning(tasks: Dict[str, TaskData], results: Dict):
         axes[1, 1].axhline(y=1, color='r', linestyle='--', alpha=0.5)
 
     plt.tight_layout()
-    plt.savefig(OUTPUT_DIR / "rq4_overprovisioning.png", dpi=150)
+    plt.savefig(OUTPUT_DIR / "rq4_overprovisioning.pdf", bbox_inches="tight")
     plt.close()
 
     print(f"\n  Figures saved to: {OUTPUT_DIR}/rq4_*.png")

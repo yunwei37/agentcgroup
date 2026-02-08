@@ -154,8 +154,11 @@ def categorize_bash_command(cmd):
 def save_chart(fig, name, chart_dir):
     """Save a matplotlib figure to the specified directory."""
     os.makedirs(chart_dir, exist_ok=True)
+    # Output PDF instead of PNG for paper quality
+    if name.endswith(".png"):
+        name = name[:-4] + ".pdf"
     path = os.path.join(chart_dir, name)
-    fig.savefig(path, dpi=CHART_DPI, bbox_inches="tight", facecolor="white")
+    fig.savefig(path, bbox_inches="tight", facecolor="white")
     plt.close(fig)
     print(f"  [CHART] Saved: {path}")
 

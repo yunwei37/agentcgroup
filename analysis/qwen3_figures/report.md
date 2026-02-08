@@ -1,6 +1,6 @@
 # AgentCgroup SWE-Bench Experiment Analysis Report (qwen3)
 
-Generated: 2026-02-07 18:08:21
+Generated: 2026-02-08 07:52:40
 
 Data source: `/home/yunwei37/workspace/agentcgroup/experiments/all_images_local`
 
@@ -71,7 +71,7 @@ Total tasks analyzed: 111
 | WebSearch | 2 | 13.59 | 6.79 |
 | Write | 71 | 6.82 | 0.10 |
 
-**Tool Time Ratio**: Mean 25.5%, Median 23.1%
+**Tool Time Ratio**: Mean 36.4%, Median 36.5%
 
 ![Tool Analysis](rq3_tool_analysis.png)
 

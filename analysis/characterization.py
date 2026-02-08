@@ -482,8 +482,8 @@ def step_exec_overview_chart(haiku_results, local_results):
 
     plt.tight_layout()
     os.makedirs(COMPARISON_FIGURES, exist_ok=True)
-    out_path = os.path.join(COMPARISON_FIGURES, "exec_overview.png")
-    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    out_path = os.path.join(COMPARISON_FIGURES, "exec_overview.pdf")
+    fig.savefig(out_path, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
 
@@ -542,8 +542,8 @@ def step_resource_boxplots(haiku_tasks, local_tasks):
     fig.suptitle("Resource Usage Distribution: Haiku vs GLM", fontsize=14)
     plt.tight_layout()
     os.makedirs(COMPARISON_FIGURES, exist_ok=True)
-    out_path = os.path.join(COMPARISON_FIGURES, "resource_boxplots_comparison.png")
-    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    out_path = os.path.join(COMPARISON_FIGURES, "resource_boxplots_comparison.pdf")
+    fig.savefig(out_path, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
 
@@ -645,8 +645,8 @@ def step_tool_time_chart(haiku_results, local_results, haiku_tasks, local_tasks)
 
     plt.tight_layout()
     os.makedirs(COMPARISON_FIGURES, exist_ok=True)
-    out_path = os.path.join(COMPARISON_FIGURES, "tool_time_pattern.png")
-    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    out_path = os.path.join(COMPARISON_FIGURES, "tool_time_pattern.pdf")
+    fig.savefig(out_path, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
     print(f"  Tool timeline: {sum(int(s.sum()) for s in stacks)} total calls from "
@@ -709,24 +709,24 @@ def _load_bash_categories(base_dir):
 
 
 def step_tool_and_bash_pie_chart(haiku_results, local_results):
-    """Generate a single figure with 2 pie subplots (Haiku only).
+    """Generate a single figure with 2 pie subplots (GLM agent).
 
     (a) Tool usage breakdown by total time
     (b) Bash command category breakdown by total time
 
-    Saved to comparison_figures/tool_bash_breakdown.png
+    Saved to comparison_figures/tool_bash_breakdown.pdf
     """
-    _section("Tool & Bash Breakdown Pie Charts (Haiku)")
+    _section("Tool & Bash Breakdown Pie Charts (GLM)")
 
-    # ---- Use Haiku tool_stats only ----
+    # ---- Use GLM (Local) tool_stats ----
     from collections import defaultdict
     merged_tool = defaultdict(lambda: {"count": 0, "total_time": 0.0})
-    for tname, stats in haiku_results.get("tools", {}).get("tool_stats", {}).items():
+    for tname, stats in local_results.get("tools", {}).get("tool_stats", {}).items():
         merged_tool[tname]["count"] += stats["count"]
         merged_tool[tname]["total_time"] += stats["total_time"]
 
-    # ---- Haiku bash categories only ----
-    merged_bash = _load_bash_categories(HAIKU_DIR)
+    # ---- GLM bash categories ----
+    merged_bash = _load_bash_categories(LOCAL_DIR)
 
     if not merged_tool and not merged_bash:
         print("  WARNING: No data — skipping")
@@ -791,8 +791,8 @@ def step_tool_and_bash_pie_chart(haiku_results, local_results):
 
     plt.tight_layout()
     os.makedirs(COMPARISON_FIGURES, exist_ok=True)
-    out_path = os.path.join(COMPARISON_FIGURES, "tool_bash_breakdown.png")
-    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    out_path = os.path.join(COMPARISON_FIGURES, "tool_bash_breakdown.pdf")
+    fig.savefig(out_path, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
 
@@ -914,8 +914,8 @@ def step_resource_profile_chart(haiku_tasks, local_tasks):
 
     plt.tight_layout()
     os.makedirs(COMPARISON_FIGURES, exist_ok=True)
-    out_path = os.path.join(COMPARISON_FIGURES, "resource_profile.png")
-    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    out_path = os.path.join(COMPARISON_FIGURES, "resource_profile.pdf")
+    fig.savefig(out_path, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
 
@@ -951,8 +951,8 @@ def _list_generated_figures():
     for d in [HAIKU_FIGURES, QWEN3_FIGURES, COMPARISON_FIGURES]:
         if not os.path.exists(d):
             continue
-        pngs = sorted(f for f in os.listdir(d) if f.endswith(".png"))
-        print(f"\n  {d}/  ({len(pngs)} PNG)")
+        pngs = sorted(f for f in os.listdir(d) if f.endswith(".pdf") or f.endswith(".png"))
+        print(f"\n  {d}/  ({len(pngs)} figures)")
         for p in pngs:
             print(f"    {p}")
 

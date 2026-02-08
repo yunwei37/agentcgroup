@@ -1,6 +1,6 @@
 # AgentCgroup SWE-Bench Experiment Analysis Report (haiku)
 
-Generated: 2026-02-07 18:08:19
+Generated: 2026-02-08 07:52:38
 
 Data source: `/home/yunwei37/workspace/agentcgroup/experiments/all_images_haiku`
 
@@ -71,7 +71,7 @@ Total tasks analyzed: 33
 | TodoWrite | 94 | 3.46 | 0.04 |
 | Write | 26 | 1.27 | 0.05 |
 
-**Tool Time Ratio**: Mean 25.9%, Median 22.1%
+**Tool Time Ratio**: Mean 42.5%, Median 34.7%
 
 ![Tool Analysis](rq3_tool_analysis.png)
 
