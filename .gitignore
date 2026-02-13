@@ -40,3 +40,8 @@ memcg/multi_tenant_test/bpf_loader/*.bpf.o
 memcg/multi_tenant_test/bpf_loader/*.bpf.skel.h
 memcg/multi_tenant_test/bpf_loader/memcg_priority
 memcg/multi_tenant_test/bpf_loader/bpf/
+
+# scx_flatcg build artifacts
+scx_flatcg/scx_flatcg
+scx_flatcg/*.bpf.o
+scx_flatcg/*.bpf.skel.h
