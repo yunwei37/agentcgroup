@@ -1,0 +1,11 @@
+{
+    "strategy": "no_isolation",
+    "run": 3,
+    "total_memory_mb": 1300,
+    "speed_factor": 50,
+    "base_memory_mb": 100,
+    "bpf_delay_ms": 50,
+    "high_trace": "dask__dask-11628",
+    "low1_trace": "sigmavirus24__github3.py-673",
+    "low2_trace": "sigmavirus24__github3.py-673"
+}

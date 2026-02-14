@@ -1,0 +1,48 @@
+{
+  "name": "LOW1",
+  "trace_path": "/home/yunwei37/agentcgroup/experiments/all_images_haiku/dask__dask-11628/attempt_1/resources.json",
+  "speed_factor": 100.0,
+  "base_memory_mb": 100.0,
+  "pid": 185612,
+  "cgroup": "/sys/fs/cgroup/isolation_test/low_session_1",
+  "events_before": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0,
+    "sock_throttled": 0
+  },
+  "trace_samples": 95,
+  "trace_duration_sec": 98.33840608596802,
+  "trace_mem_avg_mb": 197.8943154184442,
+  "trace_mem_max_mb": 320.8999996185303,
+  "start_time": 1770573371.3639584,
+  "completion_time_sec": 0.9837019443511963,
+  "peak_memory_bytes": 441345638,
+  "peak_memory_mb": 420.8999996185303,
+  "oom_count": 0,
+  "samples_processed": 95,
+  "allocation_events_count": 81,
+  "end_time": 1770573383.6347845,
+  "total_time": 12.2708261013031,
+  "events_after": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0,
+    "sock_throttled": 0
+  },
+  "events_delta": {
+    "oom": 0,
+    "low": 0,
+    "sock_throttled": 0,
+    "oom_group_kill": 0,
+    "max": 0,
+    "oom_kill": 0,
+    "high": 0
+  }
+}

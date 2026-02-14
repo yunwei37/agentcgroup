@@ -1,0 +1,48 @@
+{
+  "name": "LOW2",
+  "trace_path": "/home/yunwei37/agentcgroup/experiments/all_images_haiku/sigmavirus24__github3.py-673/attempt_1/resources.json",
+  "speed_factor": 100.0,
+  "base_memory_mb": 100.0,
+  "pid": 187051,
+  "cgroup": "/sys/fs/cgroup/isolation_test/low_session_2",
+  "events_before": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0,
+    "sock_throttled": 0
+  },
+  "trace_samples": 100,
+  "trace_duration_sec": 102.71278190612793,
+  "trace_mem_avg_mb": 211.29199959754945,
+  "trace_mem_max_mb": 305.5,
+  "start_time": 1770574062.174478,
+  "completion_time_sec": 1.033949613571167,
+  "peak_memory_bytes": 425197568,
+  "peak_memory_mb": 405.5,
+  "oom_count": 0,
+  "samples_processed": 100,
+  "allocation_events_count": 68,
+  "end_time": 1770574063.3375568,
+  "total_time": 1.163078784942627,
+  "events_after": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0,
+    "sock_throttled": 0
+  },
+  "events_delta": {
+    "sock_throttled": 0,
+    "oom_kill": 0,
+    "oom": 0,
+    "low": 0,
+    "oom_group_kill": 0,
+    "high": 0,
+    "max": 0
+  }
+}

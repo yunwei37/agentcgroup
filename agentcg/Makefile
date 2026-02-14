@@ -1,7 +1,7 @@
 # agentcg - Integrated eBPF agent cgroup management
 # Top-level Makefile that delegates to three sub-components
 
-.PHONY: all scheduler memcg process clean clean-all test help
+.PHONY: all scheduler memcg process clean clean-all test eval-workload help
 
 all: scheduler process
 	@echo ""
@@ -21,6 +21,9 @@ clean:
 	$(MAKE) -C scheduler clean
 	$(MAKE) -C memcg clean
 	$(MAKE) -C process clean
+
+eval-workload:
+	$(MAKE) -C scheduler/eval/workload
 
 test:
 	python3 -m unittest test_agentcgroupd -v

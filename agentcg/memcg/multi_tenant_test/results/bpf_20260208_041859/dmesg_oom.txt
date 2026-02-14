@@ -1,0 +1,20 @@
+[ 5700.449940] test_progs invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=0
+[ 5700.450002]  oom_kill_process.cold+0xb/0xaf
+[ 5700.450346] [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+[ 5700.450355] oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=memcg_ops_test,mems_allowed=0,oom_memcg=/cgroup-test-work-dir61847/memcg_ops_test,task_memcg=/cgroup-test-work-dir61847/memcg_ops_test/low,task=test_progs,pid=61889,uid=0
+[ 5700.450379] Memory cgroup out of memory: Killed process 61889 (test_progs) total-vm:142536kB, anon-rss:6812kB, file-rss:1248kB, shmem-rss:0kB, UID:0 pgtables:100kB oom_score_adj:0
+[25046.046016] python3 invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=0
+[25046.050979]  oom_kill_process.cold+0xb/0xaf
+[25046.055992] [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+[25046.056007] oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=memcg_bpf_test,mems_allowed=0,oom_memcg=/memcg_bpf_test,task_memcg=/memcg_bpf_test/high_session,task=python3,pid=111889,uid=0
+[25046.056334] Memory cgroup out of memory: Killed process 111889 (python3) total-vm:216992kB, anon-rss:199168kB, file-rss:7148kB, shmem-rss:0kB, UID:0 pgtables:464kB oom_score_adj:0
+[25089.534904] python3 invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=0
+[25089.535010]  oom_kill_process.cold+0xb/0xaf
+[25089.542309] [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+[25089.542334] oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=memcg_bpf_test,mems_allowed=0,oom_memcg=/memcg_bpf_test,task_memcg=/memcg_bpf_test/low_session_2,task=python3,pid=112127,uid=0
+[25089.542351] Memory cgroup out of memory: Killed process 112127 (python3) total-vm:282532kB, anon-rss:209792kB, file-rss:7060kB, shmem-rss:0kB, UID:0 pgtables:480kB oom_score_adj:0
+[26215.243011] python3 invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=0
+[26215.243058]  oom_kill_process.cold+0xb/0xaf
+[26215.256007] [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+[26215.256075] oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=memcg_bpf_test,mems_allowed=0,oom_memcg=/memcg_bpf_test,task_memcg=/memcg_bpf_test/low_session_2,task=python3,pid=114297,uid=0
+[26215.256106] Memory cgroup out of memory: Killed process 114297 (python3) total-vm:216992kB, anon-rss:175488kB, file-rss:7060kB, shmem-rss:0kB, UID:0 pgtables:416kB oom_score_adj:0

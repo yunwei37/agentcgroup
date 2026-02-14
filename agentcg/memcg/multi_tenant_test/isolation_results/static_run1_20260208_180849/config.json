@@ -1,0 +1,11 @@
+{
+    "strategy": "static",
+    "run": 1,
+    "total_memory_mb": 1536,
+    "speed_factor": 100,
+    "base_memory_mb": 100,
+    "bpf_delay_ms": 100,
+    "high_trace": "dask__dask-11628",
+    "low1_trace": "joke2k__faker-1520",
+    "low2_trace": "sigmavirus24__github3.py-673"
+}

@@ -1,0 +1,11 @@
+{
+    "strategy": "no_isolation",
+    "run": 1,
+    "total_memory_mb": 2560,
+    "speed_factor": 100,
+    "base_memory_mb": 100,
+    "bpf_delay_ms": 100,
+    "high_trace": "pre-commit__pre-commit-2524",
+    "low1_trace": "dask__dask-11628",
+    "low2_trace": "joke2k__faker-1520"
+}

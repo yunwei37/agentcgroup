@@ -1,0 +1,39 @@
+{
+  "name": "LOW1",
+  "cgroup": "/sys/fs/cgroup/memcg_bpf_test/low_session_1",
+  "target_mb": 256,
+  "hold_seconds": 5,
+  "pid": 112126,
+  "events_before": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0,
+    "sock_throttled": 0
+  },
+  "start_time": 1770521310.662274,
+  "allocated_mb": 256.0,
+  "allocation_time": 500.6858115196228,
+  "end_time": 1770521816.3711348,
+  "total_time": 505.708860874176,
+  "events_after": {
+    "low": 0,
+    "high": 6265,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0,
+    "sock_throttled": 0
+  },
+  "events_delta": {
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "high": 6265
+  }
+}

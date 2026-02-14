@@ -1,0 +1,48 @@
+{
+  "name": "LOW2",
+  "trace_path": "/home/yunwei37/agentcgroup/experiments/all_images_haiku/joke2k__faker-1520/attempt_1/resources.json",
+  "speed_factor": 100.0,
+  "base_memory_mb": 100.0,
+  "pid": 185181,
+  "cgroup": "/sys/fs/cgroup/isolation_test/low_session_2",
+  "events_before": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0,
+    "sock_throttled": 0
+  },
+  "trace_samples": 119,
+  "trace_duration_sec": 123.21522426605225,
+  "trace_mem_avg_mb": 189.68414251343543,
+  "trace_mem_max_mb": 272.79999923706055,
+  "start_time": 1770573314.5818975,
+  "completion_time_sec": 1.2545299530029297,
+  "peak_memory_bytes": 390909132,
+  "peak_memory_mb": 372.79999923706055,
+  "oom_count": 0,
+  "samples_processed": 119,
+  "allocation_events_count": 101,
+  "end_time": 1770573326.5141087,
+  "total_time": 11.93221116065979,
+  "events_after": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0,
+    "sock_throttled": 0
+  },
+  "events_delta": {
+    "high": 0,
+    "oom_group_kill": 0,
+    "oom": 0,
+    "sock_throttled": 0,
+    "low": 0,
+    "max": 0,
+    "oom_kill": 0
+  }
+}

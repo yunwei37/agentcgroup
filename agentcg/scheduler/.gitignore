@@ -1,0 +1,14 @@
+# Build artifacts
+*.o
+*.bpf.skel.h
+scx_flatcg
+
+# Build directory
+build/
+
+# Eval workload binaries
+eval/workload/cpu_burn
+eval/workload/latency_test
+
+# Eval results
+eval/results/

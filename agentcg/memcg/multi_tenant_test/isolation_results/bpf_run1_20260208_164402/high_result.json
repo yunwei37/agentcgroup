@@ -1,0 +1,48 @@
+{
+  "name": "HIGH",
+  "trace_path": "/home/yunwei37/agentcgroup/experiments/all_images_haiku/pre-commit__pre-commit-2524/attempt_1/resources.json",
+  "speed_factor": 100.0,
+  "base_memory_mb": 100.0,
+  "pid": 164831,
+  "cgroup": "/sys/fs/cgroup/isolation_test/high_session",
+  "events_before": {
+    "low": 0,
+    "high": 9179,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0,
+    "sock_throttled": 0
+  },
+  "trace_samples": 315,
+  "trace_duration_sec": 327.3038372993469,
+  "trace_mem_avg_mb": 306.1817583538237,
+  "trace_mem_max_mb": 1906.6879997253418,
+  "start_time": 1770569044.6005585,
+  "completion_time_sec": 10.969201564788818,
+  "peak_memory_bytes": 2104164876,
+  "peak_memory_mb": 2006.6879997253418,
+  "oom_count": 0,
+  "samples_processed": 315,
+  "allocation_events_count": 297,
+  "end_time": 1770569055.8640137,
+  "total_time": 11.263455152511597,
+  "events_after": {
+    "low": 0,
+    "high": 9179,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0,
+    "sock_throttled": 0
+  },
+  "events_delta": {
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0,
+    "high": 0,
+    "max": 0,
+    "low": 0
+  }
+}

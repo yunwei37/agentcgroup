@@ -1,0 +1,8 @@
+{
+    "experiment": "baseline",
+    "total_memory_mb": 500,
+    "per_process_mb": 200,
+    "memory_high_mb": 150,
+    "hold_seconds": 5,
+    "bpf_enabled": false
+}
