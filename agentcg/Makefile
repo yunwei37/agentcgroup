@@ -1,7 +1,7 @@
 # agentcg - Integrated eBPF agent cgroup management
 # Top-level Makefile that delegates to three sub-components
 
-.PHONY: all scheduler memcg process clean clean-all help
+.PHONY: all scheduler memcg process clean clean-all test help
 
 all: scheduler process
 	@echo ""
@@ -22,6 +22,9 @@ clean:
 	$(MAKE) -C memcg clean
 	$(MAKE) -C process clean
 
+test:
+	python3 -m unittest test_agentcgroupd -v
+
 clean-all:
 	$(MAKE) -C scheduler clean-all
 	$(MAKE) -C memcg clean-all
@@ -40,8 +43,9 @@ help:
 	@echo "  make scheduler - Build CPU scheduler only"
 	@echo "  make memcg     - Build memory isolation only"
 	@echo "  make process   - Build process monitor only"
+	@echo "  make test      - Run agentcgroupd unit tests"
 	@echo "  make clean     - Clean all build artifacts"
 	@echo "  make clean-all - Clean everything including vmlinux.h"
 	@echo ""
 	@echo "Usage:"
-	@echo "  sudo ./agentcgroupd [CGROUP_ROOT]"
+	@echo "  sudo python3 agentcgroupd.py [--cgroup-root PATH]"
