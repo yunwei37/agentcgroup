@@ -60,21 +60,28 @@ def cgroup_assign_pid(cgroup_path: str, pid: int) -> bool:
 
 
 def setup_cgroup_hierarchy(root: str) -> bool:
-    """Create the cgroup hierarchy with session_high and session_low."""
+    """Create the cgroup hierarchy with session_high and session_low.
+
+    Enables subtree_control on session_high to allow per-tool-call
+    child cgroups created by the bash wrapper.
+    """
     high = os.path.join(root, "session_high")
     low = os.path.join(root, "session_low")
 
     if not cgroup_create(high) or not cgroup_create(low):
         return False
 
-    # Enable controllers
+    # Enable controllers on root
     cgroup_write(root, "cgroup.subtree_control", "+memory +cpu")
+
+    # Enable subtree_control on session_high for per-tool-call child cgroups
+    cgroup_write(high, "cgroup.subtree_control", "+memory +cpu")
 
     # Set CPU weights (higher = more CPU time)
     cgroup_write(high, "cpu.weight", "150")
     cgroup_write(low, "cpu.weight", "50")
 
-    log.info("Cgroup hierarchy ready at %s", root)
+    log.info("Cgroup hierarchy ready at %s (per-tool-call subtree enabled)", root)
     return True
 
 
@@ -95,17 +102,20 @@ def parse_process_event(line: str) -> Optional[dict]:
 
 
 def handle_event(event: dict, cgroup_root: str) -> None:
-    """React to a process monitor event."""
+    """React to a process monitor event.
+
+    Note: With the bash wrapper active, per-tool-call cgroup assignment is
+    handled by the wrapper itself. The daemon logs events for observability
+    and can optionally adjust child cgroup limits.
+    """
     event_type = event.get("event")
     pid = event.get("pid")
     comm = event.get("comm", "?")
 
     if event_type == "EXEC":
-        high_path = os.path.join(cgroup_root, "session_high")
-        if pid and cgroup_assign_pid(high_path, pid):
-            log.info("EXEC: %s (%d) -> session_high", comm, pid)
-        else:
-            log.warning("EXEC: %s (%s) - failed to assign cgroup", comm, pid)
+        # With bash wrapper, tool-call processes self-assign to child cgroups.
+        # Daemon only logs the event for observability.
+        log.info("EXEC: %s (%d) - tool call detected", comm, pid)
 
     elif event_type == "EXIT":
         duration = event.get("duration_ms")
@@ -195,6 +205,18 @@ class AgentCGroupDaemon:
     def _signal_handler(self, signum, frame):
         log.info("Received signal %d, shutting down...", signum)
         self._running = False
+
+    def scan_tool_cgroups(self) -> list:
+        """Scan session_high for per-tool-call child cgroups created by bash wrapper."""
+        high_path = os.path.join(self.cgroup_root, "session_high")
+        tool_cgroups = []
+        try:
+            for entry in os.scandir(high_path):
+                if entry.is_dir() and entry.name.startswith("tool_"):
+                    tool_cgroups.append(entry.path)
+        except OSError:
+            pass
+        return tool_cgroups
 
     def _bin_path(self, *parts: str) -> str:
         return os.path.join(self.script_dir, *parts)

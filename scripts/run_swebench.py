@@ -182,10 +182,11 @@ class SWEBenchRunner:
     """Run Claude Code on SWE-bench tasks with monitoring."""
 
     def __init__(self, image_name: str, memory_limit: Optional[str] = "4g", cpu_limit: Optional[str] = "2",
-                 output_dir: Optional[Path] = None):
+                 output_dir: Optional[Path] = None, enable_wrapper: bool = False):
         self.image_name = image_name
         self.memory_limit = memory_limit  # None means no limit
         self.cpu_limit = cpu_limit  # None means no limit
+        self.enable_wrapper = enable_wrapper
         self.home = os.environ.get("HOME", f"/home/{os.environ.get('USER', 'user')}")
         self.fixed_image_name: Optional[str] = None
         self.container_id: Optional[str] = None
@@ -381,7 +382,20 @@ class SWEBenchRunner:
             prompt = WORKFLOW_PROMPT
 
         # Build the command
-        cmd_script = f'''
+        # If wrapper is enabled, install it before running Claude Code
+        wrapper_setup = ""
+        if self.enable_wrapper:
+            wrapper_setup = '''
+# Install AgentCgroup bash wrapper for per-tool-call resource tracking
+if [ -f /tmp/agentcg/bash_wrapper.sh ]; then
+    cp /usr/bin/bash /usr/bin/real-bash 2>/dev/null || true
+    cp /tmp/agentcg/bash_wrapper.sh /usr/bin/bash 2>/dev/null || true
+    chmod +x /usr/bin/bash 2>/dev/null || true
+    export AGENTCG_LOG="/tmp/agentcg_tools.jsonl"
+    echo "[AgentCgroup] Bash wrapper installed for per-tool-call tracking"
+fi
+'''
+        cmd_script = f'''{wrapper_setup}
 git config user.email "test@test.com"
 git config user.name "Test"
 git config --add safe.directory /testbed
@@ -393,6 +407,9 @@ git diff
 
 echo "=== DISK USAGE ==="
 du -sm /testbed 2>/dev/null || echo "N/A"
+
+echo "=== TOOL CALL LOG ==="
+cat /tmp/agentcg_tools.jsonl 2>/dev/null || echo "No tool call log"
 '''
 
         # Start container
@@ -414,6 +431,12 @@ du -sm /testbed 2>/dev/null || echo "N/A"
             "-e", f"HOME={self.home}",
             "-e", "PATH=/usr/local/bin:/usr/bin:/bin",
         ]
+
+        # Mount bash wrapper if enabled
+        if self.enable_wrapper:
+            wrapper_path = Path(__file__).resolve().parent.parent / "agentcg" / "bash_wrapper.sh"
+            if wrapper_path.exists():
+                container_cmd.extend(["-v", f"{wrapper_path}:/tmp/agentcg/bash_wrapper.sh:ro"])
 
         # Add extra environment variables
         if extra_env:
@@ -606,6 +629,8 @@ Examples:
     parser.add_argument("--memory", default="4g", help="Memory limit (default: 4g)")
     parser.add_argument("--cpus", default="2", help="CPU limit (default: 2)")
     parser.add_argument("--model", default="haiku", help="Model to use (default: haiku)")
+    parser.add_argument("--enable-wrapper", action="store_true",
+                        help="Enable bash wrapper for per-tool-call cgroup tracking")
 
     args = parser.parse_args()
 
@@ -622,7 +647,8 @@ Examples:
     runner = SWEBenchRunner(
         image_name=args.image,
         memory_limit=args.memory,
-        cpu_limit=args.cpus
+        cpu_limit=args.cpus,
+        enable_wrapper=args.enable_wrapper,
     )
 
     results = runner.run(prompt=args.prompt, run_tests=args.run_tests, model=args.model)

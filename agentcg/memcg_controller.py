@@ -225,6 +225,7 @@ class CgroupMemcgController(MemcgController):
         self._last_psi_total: int = 0
         self._activation_count: int = 0
         self._last_trigger: str = ""
+        self._known_tool_cgroups: set = set()
 
     @property
     def backend_name(self) -> str:
@@ -304,12 +305,16 @@ class CgroupMemcgController(MemcgController):
             self._last_trigger = trigger
             log.info("Memory pressure detected [%s], activating protection", trigger)
 
+        # Scan for per-tool-call child cgroups created by bash wrapper
+        self._manage_tool_cgroups()
+
     def get_stats(self) -> dict:
         return {
             "backend": "cgroup",
             "protection_active": self._protection_active,
             "activations": self._activation_count,
             "last_trigger": self._last_trigger,
+            "known_tool_cgroups": len(self._known_tool_cgroups),
         }
 
     # -- internal --
@@ -344,6 +349,29 @@ class CgroupMemcgController(MemcgController):
         _cgroup_write(self._config.high_cgroup, "memory.low", str(high_low))
         for low in self._config.low_cgroups:
             _cgroup_write(low, "memory.high", str(low_high))
+
+    def _manage_tool_cgroups(self) -> None:
+        """Scan for per-tool-call child cgroups and track them.
+
+        The bash wrapper creates child cgroups under session_high for each
+        tool call. This method discovers new ones for monitoring/stats.
+        Stale entries (already removed by wrapper) are pruned.
+        """
+        if not self._config:
+            return
+        high_path = self._config.high_cgroup
+        try:
+            current = set()
+            for entry in os.scandir(high_path):
+                if entry.is_dir() and entry.name.startswith("tool_"):
+                    current.add(entry.path)
+                    if entry.path not in self._known_tool_cgroups:
+                        self._known_tool_cgroups.add(entry.path)
+                        log.debug("New tool cgroup: %s", entry.path)
+            # Prune stale entries
+            self._known_tool_cgroups &= current
+        except OSError:
+            pass
 
     @staticmethod
     def _read_memory_limit(cgroup_path: str) -> Optional[int]:

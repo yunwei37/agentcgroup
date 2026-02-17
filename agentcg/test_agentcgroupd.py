@@ -3,6 +3,7 @@
 
 import json
 import os
+import shutil
 import tempfile
 import unittest
 from unittest.mock import patch, MagicMock
@@ -65,7 +66,6 @@ class TestCgroupHelpers(unittest.TestCase):
         self.tmpdir = tempfile.mkdtemp(prefix="agentcg_test_")
 
     def tearDown(self):
-        import shutil
         shutil.rmtree(self.tmpdir, ignore_errors=True)
 
     def test_cgroup_create(self):
@@ -99,7 +99,7 @@ class TestCgroupHelpers(unittest.TestCase):
             self.assertEqual(f.read(), "12345")
 
     def test_setup_cgroup_hierarchy(self):
-        """Test full hierarchy creation."""
+        """Test full hierarchy creation with subtree_control."""
         root = os.path.join(self.tmpdir, "agentcg")
         self.assertTrue(setup_cgroup_hierarchy(root))
         self.assertTrue(os.path.isdir(os.path.join(root, "session_high")))
@@ -111,9 +111,26 @@ class TestCgroupHelpers(unittest.TestCase):
         with open(os.path.join(root, "session_low", "cpu.weight")) as f:
             self.assertEqual(f.read(), "50")
 
+    def test_setup_cgroup_hierarchy_enables_subtree_control(self):
+        """setup_cgroup_hierarchy should enable subtree_control on root and session_high."""
+        root = os.path.join(self.tmpdir, "agentcg")
+        setup_cgroup_hierarchy(root)
+
+        # Root subtree_control
+        with open(os.path.join(root, "cgroup.subtree_control")) as f:
+            self.assertEqual(f.read(), "+memory +cpu")
+
+        # session_high subtree_control (for per-tool-call child cgroups)
+        with open(os.path.join(root, "session_high", "cgroup.subtree_control")) as f:
+            self.assertEqual(f.read(), "+memory +cpu")
+
 
 class TestHandleEvent(unittest.TestCase):
-    """Test event handling logic."""
+    """Test event handling logic.
+
+    With the bash wrapper active, handle_event no longer writes PIDs to cgroups.
+    It only logs events for observability.
+    """
 
     def setUp(self):
         self.tmpdir = tempfile.mkdtemp(prefix="agentcg_test_")
@@ -121,27 +138,21 @@ class TestHandleEvent(unittest.TestCase):
         setup_cgroup_hierarchy(self.cgroup_root)
 
     def tearDown(self):
-        import shutil
         shutil.rmtree(self.tmpdir, ignore_errors=True)
 
-    def test_exec_event_assigns_cgroup(self):
-        """EXEC event should write PID to session_high/cgroup.procs."""
+    def test_exec_event_no_crash(self):
+        """EXEC event should be handled without crashing (logging only)."""
+        event = {"event": "EXEC", "pid": 9999, "comm": "python"}
+        handle_event(event, self.cgroup_root)  # should not raise
+
+    def test_exec_event_does_not_write_cgroup_procs(self):
+        """EXEC event should NOT write cgroup.procs (wrapper handles this now)."""
         event = {"event": "EXEC", "pid": 9999, "comm": "python"}
         handle_event(event, self.cgroup_root)
 
         procs_file = os.path.join(self.cgroup_root, "session_high", "cgroup.procs")
-        with open(procs_file) as f:
-            self.assertEqual(f.read(), "9999")
-
-    def test_exec_event_multiple_pids(self):
-        """Multiple EXEC events should overwrite cgroup.procs (like real cgroup)."""
-        handle_event({"event": "EXEC", "pid": 100, "comm": "a"}, self.cgroup_root)
-        handle_event({"event": "EXEC", "pid": 200, "comm": "b"}, self.cgroup_root)
-
-        # In a real cgroup, both PIDs would be present.
-        # In our test with regular files, only the last write is visible.
-        procs_file = os.path.join(self.cgroup_root, "session_high", "cgroup.procs")
-        self.assertTrue(os.path.exists(procs_file))
+        # cgroup.procs should not exist because handle_event no longer writes it
+        self.assertFalse(os.path.exists(procs_file))
 
     def test_exit_event_no_crash(self):
         """EXIT event should not crash."""
@@ -158,6 +169,58 @@ class TestHandleEvent(unittest.TestCase):
         """Events with missing fields should not crash."""
         handle_event({"event": "EXEC"}, self.cgroup_root)
         handle_event({}, self.cgroup_root)
+
+
+class TestScanToolCgroups(unittest.TestCase):
+    """Test AgentCGroupDaemon.scan_tool_cgroups()."""
+
+    def setUp(self):
+        self.tmpdir = tempfile.mkdtemp(prefix="agentcg_test_")
+        self.cgroup_root = os.path.join(self.tmpdir, "agentcg")
+        setup_cgroup_hierarchy(self.cgroup_root)
+
+    def tearDown(self):
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+
+    def test_scan_empty(self):
+        """scan_tool_cgroups should return empty list when no tool cgroups exist."""
+        daemon = AgentCGroupDaemon(
+            cgroup_root=self.cgroup_root,
+            script_dir=self.tmpdir,
+        )
+        cgroups = daemon.scan_tool_cgroups()
+        self.assertEqual(cgroups, [])
+
+    def test_scan_finds_tool_cgroups(self):
+        """scan_tool_cgroups should find tool_* directories under session_high."""
+        high = os.path.join(self.cgroup_root, "session_high")
+        os.makedirs(os.path.join(high, "tool_1234_1000"))
+        os.makedirs(os.path.join(high, "tool_5678_2000"))
+        # Non-tool directories should be ignored
+        os.makedirs(os.path.join(high, "other_dir"))
+
+        daemon = AgentCGroupDaemon(
+            cgroup_root=self.cgroup_root,
+            script_dir=self.tmpdir,
+        )
+        cgroups = daemon.scan_tool_cgroups()
+        self.assertEqual(len(cgroups), 2)
+        names = [os.path.basename(c) for c in cgroups]
+        self.assertIn("tool_1234_1000", names)
+        self.assertIn("tool_5678_2000", names)
+
+    def test_scan_ignores_non_tool_dirs(self):
+        """scan_tool_cgroups should ignore directories not starting with tool_."""
+        high = os.path.join(self.cgroup_root, "session_high")
+        os.makedirs(os.path.join(high, "not_a_tool"))
+        os.makedirs(os.path.join(high, "framework"))
+
+        daemon = AgentCGroupDaemon(
+            cgroup_root=self.cgroup_root,
+            script_dir=self.tmpdir,
+        )
+        cgroups = daemon.scan_tool_cgroups()
+        self.assertEqual(cgroups, [])
 
 
 class TestSubprocessManager(unittest.TestCase):
@@ -199,7 +262,7 @@ class TestSubprocessManager(unittest.TestCase):
 
 
 class TestEventLoopIntegration(unittest.TestCase):
-    """Integration test: feed JSON lines through a pipe, verify cgroup assignment."""
+    """Integration test: feed JSON lines through a pipe, verify handling."""
 
     def setUp(self):
         self.tmpdir = tempfile.mkdtemp(prefix="agentcg_test_")
@@ -207,7 +270,6 @@ class TestEventLoopIntegration(unittest.TestCase):
         setup_cgroup_hierarchy(self.cgroup_root)
 
     def tearDown(self):
-        import shutil
         shutil.rmtree(self.tmpdir, ignore_errors=True)
 
     def test_stream_of_events(self):
@@ -230,11 +292,7 @@ class TestEventLoopIntegration(unittest.TestCase):
             parsed = parse_process_event(line)
             self.assertIsNotNone(parsed)
             handle_event(parsed, self.cgroup_root)
-
-        # Verify cgroup.procs was written
-        procs_file = os.path.join(self.cgroup_root, "session_high",
-                                  "cgroup.procs")
-        self.assertTrue(os.path.exists(procs_file))
+            # Should not crash for any event type
 
 
 # ---------------------------------------------------------------------------
@@ -267,7 +325,6 @@ class TestCgroupMemcgController(unittest.TestCase):
         )
 
     def tearDown(self):
-        import shutil
         shutil.rmtree(self.tmpdir, ignore_errors=True)
 
     def _write_memory_events(self, path, high_count):
@@ -372,13 +429,94 @@ class TestCgroupMemcgController(unittest.TestCase):
         with open(os.path.join(self.low, "memory.high")) as f:
             self.assertEqual(f.read(), "max")
 
-    def test_get_stats(self):
-        """get_stats() should return correct backend and counters."""
+    def test_get_stats_includes_tool_cgroups(self):
+        """get_stats() should include known_tool_cgroups count."""
         ctrl = CgroupMemcgController()
         stats = ctrl.get_stats()
         self.assertEqual(stats["backend"], "cgroup")
         self.assertFalse(stats["protection_active"])
         self.assertEqual(stats["activations"], 0)
+        self.assertEqual(stats["known_tool_cgroups"], 0)
+
+
+class TestToolCgroupManagement(unittest.TestCase):
+    """Test CgroupMemcgController._manage_tool_cgroups()."""
+
+    def setUp(self):
+        self.tmpdir = tempfile.mkdtemp(prefix="agentcg_tool_test_")
+        self.high = os.path.join(self.tmpdir, "session_high")
+        self.low = os.path.join(self.tmpdir, "session_low")
+        os.makedirs(self.high)
+        os.makedirs(self.low)
+        self.config = MemcgConfig(
+            high_cgroup=self.high,
+            low_cgroups=[self.low],
+            threshold=1,
+            protection_window_s=0.1,
+        )
+
+    def tearDown(self):
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+
+    def test_discover_new_tool_cgroups(self):
+        """_manage_tool_cgroups should discover new tool_* directories."""
+        self._write_memory_events(self.high, 0)
+        ctrl = CgroupMemcgController()
+        ctrl.attach(self.config)
+
+        # Create tool cgroup directories (simulating what bash_wrapper does)
+        os.makedirs(os.path.join(self.high, "tool_1234_1000"))
+        os.makedirs(os.path.join(self.high, "tool_5678_2000"))
+
+        ctrl._manage_tool_cgroups()
+
+        self.assertEqual(len(ctrl._known_tool_cgroups), 2)
+
+    def test_prune_stale_tool_cgroups(self):
+        """_manage_tool_cgroups should prune entries for removed directories."""
+        self._write_memory_events(self.high, 0)
+        ctrl = CgroupMemcgController()
+        ctrl.attach(self.config)
+
+        # Create and discover
+        tool_path = os.path.join(self.high, "tool_1234_1000")
+        os.makedirs(tool_path)
+        ctrl._manage_tool_cgroups()
+        self.assertEqual(len(ctrl._known_tool_cgroups), 1)
+
+        # Remove and re-scan
+        os.rmdir(tool_path)
+        ctrl._manage_tool_cgroups()
+        self.assertEqual(len(ctrl._known_tool_cgroups), 0)
+
+    def test_ignore_non_tool_dirs(self):
+        """_manage_tool_cgroups should ignore non-tool_* directories."""
+        self._write_memory_events(self.high, 0)
+        ctrl = CgroupMemcgController()
+        ctrl.attach(self.config)
+
+        os.makedirs(os.path.join(self.high, "framework"))
+        os.makedirs(os.path.join(self.high, "other"))
+
+        ctrl._manage_tool_cgroups()
+        self.assertEqual(len(ctrl._known_tool_cgroups), 0)
+
+    def test_poll_calls_manage_tool_cgroups(self):
+        """poll() should call _manage_tool_cgroups and find new cgroups."""
+        self._write_memory_events(self.high, 0)
+        ctrl = CgroupMemcgController()
+        ctrl.attach(self.config)
+
+        os.makedirs(os.path.join(self.high, "tool_9999_3000"))
+
+        ctrl.poll()
+
+        stats = ctrl.get_stats()
+        self.assertEqual(stats["known_tool_cgroups"], 1)
+
+    def _write_memory_events(self, path, high_count):
+        with open(os.path.join(path, "memory.events"), "w") as f:
+            f.write(f"low 0\nhigh {high_count}\nmax 0\noom 0\noom_kill 0\n")
 
 
 class TestBpfMemcgController(unittest.TestCase):
@@ -448,7 +586,6 @@ class TestAutoDetection(unittest.TestCase):
             self.assertIsInstance(ctrl, BpfMemcgController)
             self.assertEqual(ctrl.backend_name, "bpf")
         finally:
-            import shutil
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_falls_back_to_cgroup(self):
@@ -459,7 +596,6 @@ class TestAutoDetection(unittest.TestCase):
             self.assertIsInstance(ctrl, CgroupMemcgController)
             self.assertEqual(ctrl.backend_name, "cgroup")
         finally:
-            import shutil
             shutil.rmtree(tmpdir, ignore_errors=True)
 
 
