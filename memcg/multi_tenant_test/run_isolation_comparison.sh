@@ -16,7 +16,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CGROUP_ROOT="/sys/fs/cgroup/isolation_test"
 RESULTS_DIR="$SCRIPT_DIR/isolation_results"
-TRACES_DIR="/home/yunwei37/agentcgroup/experiments/all_images_haiku"
+TRACES_DIR="$SCRIPT_DIR/../../experiments/all_images_haiku"
 
 # 默认参数
 TOTAL_MEMORY_MB=1024       # 总内存限制 1GB
