@@ -16,7 +16,8 @@ from typing import List, Dict, Tuple
 import itertools
 
 # Trace 数据目录
-EXPERIMENTS_DIR = "/home/yunwei37/agentcgroup/experiments/all_images_haiku"
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+EXPERIMENTS_DIR = os.path.join(_SCRIPT_DIR, "..", "experiments", "all_images_haiku")
 
 @dataclass
 class TraceInfo:
@@ -641,7 +642,7 @@ if __name__ == '__main__':
     report = generate_markdown_report(all_results, traces)
 
     # 保存报告
-    report_path = "/home/yunwei37/agentcgroup/memcg/REPLAY_COMBINATION_ANALYSIS.md"
+    report_path = os.path.join(_SCRIPT_DIR, "REPLAY_COMBINATION_ANALYSIS.md")
     with open(report_path, 'w') as f:
         f.write(report)
     print(f"Report saved to: {report_path}")

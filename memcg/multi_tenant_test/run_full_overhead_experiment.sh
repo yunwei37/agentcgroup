@@ -29,7 +29,7 @@ MICRO_WARMUP=50
 MICRO_THROUGHPUT_DURATION=5
 
 # Trace replay settings
-TRACE="/home/yunwei37/agentcgroup/experiments/all_images_haiku/dask__dask-11628/attempt_1/resources.json"
+TRACE="$SCRIPT_DIR/../../experiments/all_images_haiku/dask__dask-11628/attempt_1/resources.json"
 SPEED_FACTOR=50
 BASE_MEMORY_MB=100
 

@@ -13,7 +13,13 @@ Our work includes:
 
 ```
 agentcgroup/
-├── scx_flatcg/          # eBPF sched_ext CPU scheduler for cgroup-level isolation
+├── agentcg/             # AgentCgroup controller: daemon, bash wrapper, eBPF components
+│   ├── agentcgroupd.py  # Python daemon coordinating eBPF tools and cgroup lifecycle
+│   ├── bash_wrapper.sh  # Per-tool-call cgroup wrapper (container deployment)
+│   ├── scheduler/       # scx_flatcg CPU scheduler (sched_ext)
+│   ├── memcg/           # memcg_priority memory isolation (memcg_bpf_ops)
+│   └── process/         # Process lifecycle monitor
+├── scx_flatcg/          # eBPF sched_ext CPU scheduler (standalone)
 │   └── eval/            # Evaluation framework: tests, workloads, benchmarks
 ├── memcg/               # eBPF memory controller (memcg struct_ops) + experiments
 │   └── multi_tenant_test/  # Multi-tenant isolation experiments & BPF loader
@@ -22,8 +28,7 @@ agentcgroup/
 ├── experiments/         # Raw experiment data (SWE-bench traces, resource logs)
 ├── docs/                # Design documents, experiment methodology, setup guides
 ├── third_party/         # Git submodules: scx, bpftool
-├── paper-repo/          # LaTeX paper source (separate submodule)
-└── logs/                # Experiment execution logs
+└── paper-repo/          # LaTeX paper source (separate submodule)
 ```
 
 ## Getting Started
@@ -65,6 +70,22 @@ make
 cd memcg/multi_tenant_test/bpf_loader
 make
 ```
+
+### Building the AgentCgroup Controller
+
+```bash
+cd agentcg
+make           # builds scheduler, memcg, and process monitor
+```
+
+### Running the AgentCgroup Daemon
+
+```bash
+cd agentcg
+sudo python3 agentcgroupd.py [--cgroup-root PATH] [--no-scheduler] [--no-memcg]
+```
+
+See [agentcg/README.md](agentcg/README.md) for full usage details including the bash wrapper and per-tool-call resource negotiation.
 
 ## Reproducing Paper Experiments
 
