@@ -42,6 +42,9 @@ def get_model_env_vars(model: str) -> Tuple[Dict[str, str], str]:
     if model == "haiku":
         # Use Anthropic's haiku (default, no env vars needed)
         return {}, "haiku"
+    elif model == "sonnet":
+        # Use Anthropic's sonnet (recommended default for coding workloads)
+        return {}, "sonnet"
     elif model == "qwen3":
         # Use local llama-server
         env_vars = {
@@ -325,8 +328,8 @@ def main():
                         help="Limit number of tasks to run")
     parser.add_argument("--resume", action="store_true",
                         help="Resume from progress (skip completed tasks)")
-    parser.add_argument("--model", default="qwen3", choices=["haiku", "qwen3"],
-                        help="Model to use: haiku (default) or qwen3 (local llama-server)")
+    parser.add_argument("--model", default="haiku", choices=["sonnet", "haiku", "qwen3"],
+                        help="Model to use: haiku (default), sonnet, or qwen3 (local llama-server)")
 
     # Task list options
     parser.add_argument("--generate-task-list", metavar="FILE",

@@ -1,0 +1,43 @@
+============================================================
+SWE-bench Runner with Resource Monitoring
+============================================================
+Image: swerebench/sweb.eval.x86_64.encode_1776_starlette-1147
+Memory limit: 4g
+CPU limit: 2
+Model: haiku
+Run tests: False
+============================================================
+[1/7] Pulling image: swerebench/sweb.eval.x86_64.encode_1776_starlette-1147
+[2/7] Fixing /testbed permissions...
+  Using existing fixed image: swebench-fixed-swerebench_sweb.eval.x86_64.encode_1776_starlette-1147
+[3/7] Collecting image and disk info...
+  Image size: 3493.17 MB
+[4/7] Preparing output directory...
+[4/6] Running Claude Code (haiku) with resource monitoring...
+  Container started: db07ff0e9798
+  Waiting for Claude Code to complete...
+  Collected 7 resource samples
+  Memory: avg=271.8MB, max=332.7MB
+  CPU: avg=62.0%, max=129.5%
+  Disk usage (/testbed): 9 MB
+[6/7] Collecting trace logs...
+  Found trace: f2512af5-8e16-4426-8309-92be4eb1a1ae.jsonl
+  Found 1 tool calls in trace
+[7/7] Cleaning up...
+  Removed container: db07ff0e9798
+  Note: Original image kept for faster reruns. To remove:
+    podman rmi docker.io/swerebench/sweb.eval.x86_64.encode_1776_starlette-1147
+    podman rmi swebench-fixed-swerebench_sweb.eval.x86_64.encode_1776_starlette-1147
+
+Results saved to: /home/yunwei37/agentcgroup/experiments/sweb.eval.x86_64.encode_1776_starlette-1147_20260304_201101/results.json
+
+============================================================
+Summary
+============================================================
+Total time: 8.5s
+Resource samples: 7
+Memory (MB): min=75.3, max=332.7, avg=271.8
+CPU (%): min=26.6, max=129.5, avg=62.0
+Tool calls: 1
+
+Output directory: /home/yunwei37/agentcgroup/experiments/sweb.eval.x86_64.encode_1776_starlette-1147_20260304_201101

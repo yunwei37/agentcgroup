@@ -2,7 +2,7 @@
 """
 SWE-bench Runner with Resource Monitoring
 
-Downloads a SWE-bench Docker image, runs Claude Code haiku to solve the issue,
+Downloads a SWE-bench Docker image, runs Claude Code to solve the issue,
 monitors resource usage (memory/CPU) every second, and collects traces.
 
 Usage:
@@ -59,7 +59,7 @@ WHAT DOES NOT COUNT:
 - Manual testing or print statements
 - Skipping tests due to import errors
 
-In the output, you need to summary your change and 
+In the output, you need to summary your change and
 summary how your test the application to check the fix,
 and what's the test status.
 '''
@@ -202,6 +202,7 @@ class SWEBenchRunner:
             "memory_limit": self.memory_limit,
             "cpu_limit": self.cpu_limit,
             "model": model,
+            "model_requested": model,
         }
 
         # Set environment variables for local model
@@ -235,8 +236,13 @@ class SWEBenchRunner:
             # Step 4: Run Claude Code with monitoring
             print(f"[4/6] Running Claude Code ({model}) with resource monitoring...")
             step_start = time.time()
-            claude_result, resource_samples = self._run_claude_with_monitoring(prompt, run_tests, model, extra_env)
+            claude_result, resource_samples = self._run_claude_with_monitoring(
+                prompt, run_tests, model, extra_env
+            )
             results["claude_time"] = time.time() - step_start
+
+            results["model_actual"] = model
+            results["model"] = model
             results["claude_output"] = claude_result
             results["resource_samples"] = resource_samples
 
@@ -400,7 +406,13 @@ git config user.email "test@test.com"
 git config user.name "Test"
 git config --add safe.directory /testbed
 
-claude --model {model} --print --dangerously-skip-permissions "{prompt}"
+if [ -x "$HOME/.local/bin/claude" ]; then
+    CLAUDE_BIN="$HOME/.local/bin/claude"
+else
+    CLAUDE_BIN="$(command -v claude)"
+fi
+echo "[Runner] Claude binary: $CLAUDE_BIN"
+"$CLAUDE_BIN" --model {model} --print --dangerously-skip-permissions "{prompt}"
 
 echo "=== GIT DIFF ==="
 git diff
@@ -429,7 +441,8 @@ cat /tmp/agentcg_tools.jsonl 2>/dev/null || echo "No tool call log"
             "-v", "/var:/var",         # var data
             "-w", "/testbed",
             "-e", f"HOME={self.home}",
-            "-e", "PATH=/usr/local/bin:/usr/bin:/bin",
+            # Prefer per-user Claude Code binary (typically newer than /usr/local/bin/claude).
+            "-e", f"PATH={self.home}/.local/bin:/usr/local/bin:/usr/bin:/bin",
         ]
 
         # Mount bash wrapper if enabled
@@ -590,6 +603,7 @@ cat /tmp/agentcg_tools.jsonl 2>/dev/null || echo "No tool call log"
             subprocess.run(["podman", "stop", self.container_id], capture_output=True)
             subprocess.run(["podman", "rm", self.container_id], capture_output=True)
             print(f"  Removed container: {self.container_id[:12]}")
+            self.container_id = None
 
         # Remove the fixed image (optional - keep for faster reruns)
         # if self.fixed_image_name:

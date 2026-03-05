@@ -1,0 +1,58 @@
+{
+  "start_time": "2026-03-05T00:48:21.623375",
+  "image": "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+  "model": "haiku",
+  "task_name": "sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004821",
+  "output_root": "experiments/branchfs_motivation",
+  "trace_bin": "./agentsight/bpf/process_new",
+  "trace_mode": 2,
+  "trace_commands": "python,node,bash,sh,pip,pytest,git,claude",
+  "argv": [
+    "scripts/run_swebench_new.py",
+    "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+    "--output-root",
+    "experiments/branchfs_motivation",
+    "--model",
+    "haiku",
+    "--run-tests",
+    "--trace-all",
+    "--trace-cgroup-children"
+  ],
+  "container_id": "4cb34db5df2cb0ee6b8aefe95f7124f49990a2cc0fbf99913eed0161e2d11b57",
+  "container_cgroup_path": "/user.slice/user-1000.slice/user@1000.service/user.slice/libpod-4cb34db5df2cb0ee6b8aefe95f7124f49990a2cc0fbf99913eed0161e2d11b57.scope",
+  "trace_cgroup_filter_effective": "/user.slice/user-1000.slice/user@1000.service/user.slice/libpod-4cb34db5df2cb0ee6b8aefe95f7124f49990a2cc0fbf99913eed0161e2d11b57.scope",
+  "trace_cgroup_filter_source": "auto",
+  "trace_cgroup_children": true,
+  "trace_ready_timeout": 8.0,
+  "trace_ready_elapsed_s": 0.20023083686828613,
+  "trace_cmd": [
+    "sudo",
+    "./agentsight/bpf/process_new",
+    "-m",
+    "2",
+    "-c",
+    "python,node,bash,sh,pip,pytest,git,claude",
+    "--trace-all",
+    "--cgroup-filter",
+    "/user.slice/user-1000.slice/user@1000.service/user.slice/libpod-4cb34db5df2cb0ee6b8aefe95f7124f49990a2cc0fbf99913eed0161e2d11b57.scope",
+    "--cgroup-filter-children"
+  ],
+  "trace_pid": 1083225,
+  "trace_pid_file": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004821/ebpf_trace.pid",
+  "trace_stop": {
+    "pid": 1083225,
+    "stop_method": "sigint",
+    "exit_code": 0,
+    "timeout": false
+  },
+  "swebench": {
+    "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004821/swebench",
+    "error": null,
+    "total_time": 94.60958194732666,
+    "tool_calls": 26,
+    "claude_exit_code": 0
+  },
+  "error": null,
+  "end_time": "2026-03-05T00:49:56.233435",
+  "total_time": 94.61030721664429
+}

@@ -1,0 +1,106 @@
+{
+  "image": "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+  "start_time": "2026-03-04T23:02:43.234448",
+  "memory_limit": "4g",
+  "cpu_limit": "2",
+  "model": "haiku",
+  "model_requested": "haiku",
+  "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/smoke_new_auto_20260304_230243/swebench",
+  "pull_time": 0.8645131587982178,
+  "permission_fix_time": 0.06746673583984375,
+  "image_info": {
+    "size_bytes": 3662855836,
+    "size_mb": 3493.17,
+    "image_id": "77c3f1078bbf"
+  },
+  "claude_time": 6.443770170211792,
+  "model_actual": "haiku",
+  "claude_output": {
+    "stdout": "[Runner] Claude binary: /home/yunwei37/.local/bin/claude\nDONE\n=== GIT DIFF ===\n=== DISK USAGE ===\n9\t/testbed\n=== TOOL CALL LOG ===\nNo tool call log\n",
+    "stderr": "",
+    "exit_code": 0
+  },
+  "resource_samples": {
+    "samples": [
+      {
+        "timestamp": "2026-03-04T23:02:45.162811",
+        "epoch": 1772694165.162826,
+        "mem_usage": "692.2kB / 4.295GB",
+        "mem_percent": "0.02%",
+        "cpu_percent": "7.75%"
+      },
+      {
+        "timestamp": "2026-03-04T23:02:46.203630",
+        "epoch": 1772694166.2036424,
+        "mem_usage": "478.6MB / 4.295GB",
+        "mem_percent": "11.14%",
+        "cpu_percent": "83.26%"
+      },
+      {
+        "timestamp": "2026-03-04T23:02:47.253069",
+        "epoch": 1772694167.2530801,
+        "mem_usage": "288.8MB / 4.295GB",
+        "mem_percent": "6.73%",
+        "cpu_percent": "57.14%"
+      },
+      {
+        "timestamp": "2026-03-04T23:02:48.351813",
+        "epoch": 1772694168.3518255,
+        "mem_usage": "293MB / 4.295GB",
+        "mem_percent": "6.82%",
+        "cpu_percent": "42.74%"
+      },
+      {
+        "timestamp": "2026-03-04T23:02:49.416765",
+        "epoch": 1772694169.4167776,
+        "mem_usage": "307MB / 4.295GB",
+        "mem_percent": "7.15%",
+        "cpu_percent": "38.58%"
+      },
+      {
+        "timestamp": "2026-03-04T23:02:50.476065",
+        "epoch": 1772694170.4760773,
+        "mem_usage": "307.6MB / 4.295GB",
+        "mem_percent": "7.16%",
+        "cpu_percent": "32.31%"
+      }
+    ],
+    "summary": {
+      "sample_count": 6,
+      "duration_seconds": 5.313251256942749,
+      "memory_mb": {
+        "min": 0.6922,
+        "max": 478.6,
+        "avg": 279.28203333333335
+      },
+      "cpu_percent": {
+        "min": 7.75,
+        "max": 83.26,
+        "avg": 43.63
+      }
+    }
+  },
+  "disk_usage": {
+    "testbed_mb": 9
+  },
+  "traces": {
+    "files": [
+      "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/smoke_new_auto_20260304_230243/swebench/trace.jsonl"
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-03-05T07:02:48.334Z",
+        "tool": "Bash",
+        "id": "toolu_01NiDtjN9xsnSt5X6hzZBDQr",
+        "input": {
+          "command": "echo AUTO_CGROUP_OK && pwd && ls -1 | head -3",
+          "description": "Run echo, pwd, and list first 3 items"
+        },
+        "end_timestamp": "2026-03-05T07:02:49.337Z",
+        "result_preview": "AUTO_CGROUP_OK\n/testbed\nLICENSE.md\nMANIFEST.in\nREADME.md"
+      }
+    ]
+  },
+  "total_time": 19.76909327507019,
+  "end_time": "2026-03-04T23:03:03.002161"
+}

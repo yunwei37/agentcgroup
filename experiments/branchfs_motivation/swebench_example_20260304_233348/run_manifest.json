@@ -1,0 +1,60 @@
+{
+  "start_time": "2026-03-04T23:33:48.719879",
+  "image": "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+  "model": "haiku",
+  "task_name": "swebench_example_20260304_233348",
+  "output_root": "experiments/branchfs_motivation",
+  "trace_bin": "./agentsight/bpf/process_new",
+  "trace_mode": 2,
+  "trace_commands": "python,node,bash,sh,pip,pytest,git,claude",
+  "argv": [
+    "scripts/run_swebench_new.py",
+    "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+    "--task-name",
+    "swebench_example_20260304_233348",
+    "--output-root",
+    "experiments/branchfs_motivation",
+    "--model",
+    "haiku",
+    "--run-tests",
+    "--trace-all",
+    "--trace-cgroup-children"
+  ],
+  "container_id": "748ede4e69e8f065ba369fd8df1e2b4ef76158db4789d05f28d3bf954fb756cf",
+  "container_cgroup_path": "/user.slice/user-1000.slice/user@1000.service/user.slice/libpod-748ede4e69e8f065ba369fd8df1e2b4ef76158db4789d05f28d3bf954fb756cf.scope",
+  "trace_cgroup_filter_effective": "/user.slice/user-1000.slice/user@1000.service/user.slice/libpod-748ede4e69e8f065ba369fd8df1e2b4ef76158db4789d05f28d3bf954fb756cf.scope",
+  "trace_cgroup_filter_source": "auto",
+  "trace_cgroup_children": true,
+  "trace_ready_timeout": 8.0,
+  "trace_ready_elapsed_s": 0.20046615600585938,
+  "trace_cmd": [
+    "sudo",
+    "./agentsight/bpf/process_new",
+    "-m",
+    "2",
+    "-c",
+    "python,node,bash,sh,pip,pytest,git,claude",
+    "--trace-all",
+    "--cgroup-filter",
+    "/user.slice/user-1000.slice/user@1000.service/user.slice/libpod-748ede4e69e8f065ba369fd8df1e2b4ef76158db4789d05f28d3bf954fb756cf.scope",
+    "--cgroup-filter-children"
+  ],
+  "trace_pid": 999633,
+  "trace_pid_file": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/swebench_example_20260304_233348/ebpf_trace.pid",
+  "trace_stop": {
+    "pid": 999633,
+    "stop_method": "sigint",
+    "exit_code": 0,
+    "timeout": false
+  },
+  "swebench": {
+    "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/swebench_example_20260304_233348/swebench",
+    "error": null,
+    "total_time": 127.26733803749084,
+    "tool_calls": 37,
+    "claude_exit_code": 0
+  },
+  "error": null,
+  "end_time": "2026-03-04T23:35:55.988018",
+  "total_time": 127.2682991027832
+}

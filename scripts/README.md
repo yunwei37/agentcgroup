@@ -12,6 +12,8 @@ Orchestration scripts for SWE-bench trace collection, replay, and resource monit
 | `replay_trace.py` | Replay collected traces in containers, preserving original timing (supports concurrent replay) |
 | `run_trace_in_container.py` | Execute a trace inside a SWE-rebench Docker container |
 | `plot_resources.py` | Plot resource usage (memory/CPU) from monitoring data |
+| `analyze_ebpf_cross.py` | Cross-analyze `ebpf_trace.jsonl` with `tool_calls.json` and `resources.json`, generate multi-figure report |
+| `analyze_bottleneck_attribution.py` | Phase-level bottleneck attribution (time/events/write) with paper-style ranking and score |
 | `parse_claude_trace.py` | Parse Claude Code trace files, extract tool calls and timing info |
 | `convert_sweagent_trace.py` | Convert SWE-agent trajectories to unified Trace IR format |
 | `verify_sample_tasks.py` | Verify that sample tasks are valid and runnable |
@@ -33,4 +35,18 @@ python scripts/replay_trace.py experiments/all_images_haiku/dask__dask-11628/att
 
 # Plot resource usage
 python scripts/plot_resources.py experiments/batch_swebench_18tasks/SQL_Data_Easy/attempt_1/resources.json
+
+# Cross-analyze eBPF + tool/resource traces
+python scripts/analyze_ebpf_cross.py \
+  --run-dir experiments/branchfs_motivation/swebench_example_20260304_233348 \
+  --run-dir experiments/branchfs_motivation/sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004649 \
+  --output-dir experiments/branchfs_motivation/analysis_starlette1147_cross
+
+# Phase-level bottleneck attribution
+python scripts/analyze_bottleneck_attribution.py \
+  --run-dir experiments/branchfs_motivation/swebench_example_20260304_233348 \
+  --run-dir experiments/branchfs_motivation/sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004649 \
+  --run-dir experiments/branchfs_motivation/sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004821 \
+  --run-dir experiments/branchfs_motivation/sweb.eval.x86_64.encode_1776_starlette-1147_20260305_005002 \
+  --output-dir experiments/branchfs_motivation/analysis_starlette1147_bottleneck_4runs_20260305
 ```

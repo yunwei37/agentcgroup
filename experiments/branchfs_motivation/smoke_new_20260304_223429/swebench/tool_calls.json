@@ -1,0 +1,13 @@
+[
+  {
+    "timestamp": "2026-03-05T06:34:35.261Z",
+    "tool": "Bash",
+    "id": "toolu_01WKjb38uJGtZSwqq6xhZWgo",
+    "input": {
+      "command": "echo TOOL_SMOKE_OK && pwd && ls -1 | head -5",
+      "description": "Verify bash tool and show current directory"
+    },
+    "end_timestamp": "2026-03-05T06:34:35.379Z",
+    "result_preview": "TOOL_SMOKE_OK\n/testbed\nLICENSE.md\nMANIFEST.in\nREADME.md\ndocs\nmkdocs.yml"
+  }
+]

@@ -1,0 +1,47 @@
+{
+  "start_time": "2026-03-04T22:34:29.324679",
+  "image": "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+  "model": "haiku",
+  "task_name": "smoke_new_20260304_223429",
+  "output_root": "experiments/branchfs_motivation",
+  "trace_bin": "./agentsight/bpf/process_new",
+  "trace_mode": 2,
+  "trace_commands": "python,node,bash,sh,pip,pytest,git,claude",
+  "argv": [
+    "scripts/run_swebench_new.py",
+    "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+    "--task-name",
+    "smoke_new_20260304_223429",
+    "--model",
+    "haiku",
+    "--prompt",
+    "Use bash to run: echo TOOL_SMOKE_OK && pwd && ls -1 | head -5 . Then reply with one line DONE.",
+    "--trace-all"
+  ],
+  "trace_cmd": [
+    "sudo",
+    "./agentsight/bpf/process_new",
+    "-m",
+    "2",
+    "-c",
+    "python,node,bash,sh,pip,pytest,git,claude",
+    "--trace-all"
+  ],
+  "trace_pid": 885357,
+  "trace_pid_file": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/smoke_new_20260304_223429/ebpf_trace.pid",
+  "trace_stop": {
+    "pid": 885357,
+    "stop_method": "sigint",
+    "exit_code": 0,
+    "timeout": false
+  },
+  "swebench": {
+    "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/smoke_new_20260304_223429/swebench",
+    "error": null,
+    "total_time": 8.51875615119934,
+    "tool_calls": 1
+  },
+  "error": null,
+  "end_time": "2026-03-04T22:34:39.960624",
+  "total_time": 10.635964632034302
+}

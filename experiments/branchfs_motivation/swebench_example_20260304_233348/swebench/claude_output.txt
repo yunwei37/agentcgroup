@@ -1,0 +1,106 @@
+[Runner] Claude binary: /home/yunwei37/.local/bin/claude
+Perfect! All tests pass. Let me create a final summary of the complete fix:
+
+## Summary
+
+I have successfully fixed the session cookie issue. Here's what was done:
+
+### Changes Made:
+
+1. **Modified `/testbed/starlette/middleware/sessions.py`**:
+   - Changed the session cookie path from hardcoded `/` to use the ASGI `root_path`
+   - Line 52: Added `path = scope.get("root_path", "") or "/"` to extract the ASGI root path
+   - Line 57-58: Updated the cookie header to use the `path` variable instead of hardcoded `/`
+   - Line 71: Updated the cookie expiration header to use the `path` variable
+
+2. **Added test in `/testbed/tests/middleware/test_session.py`**:
+   - Created `test_session_cookie_subpath()` test that verifies the session cookie path correctly matches the ASGI root path when the application is mounted under a sub-path
+
+3. **Updated `/testbed/setup.cfg`**:
+   - Added filter for Python 3.12+ asyncio deprecation warning
+   - Added filter for python-multipart pending deprecation warning
+
+### Test Results:
+
+All 4 session middleware tests **PASS**:
+- ✅ `test_session`
+- ✅ `test_session_expires`
+- ✅ `test_secure_session`
+- ✅ `test_session_cookie_subpath` (new test verifying the fix)
+
+### How it Works:
+
+The fix ensures that when an ASGI application is mounted at a sub-path (e.g., `/api/v1`), the session cookie's path will correctly be set to `/api/v1` instead of always `/`. This prevents cookies from being sent to unrelated paths and allows the session to work correctly for submounted applications.
+
+The logic is:
+- If `root_path` exists in the ASGI scope, use it
+- If `root_path` is an empty string, fall back to `/` (the default)
+- Otherwise, use the `root_path` value
+=== GIT DIFF ===
+diff --git a/setup.cfg b/setup.cfg
+index 51f2aad..1719781 100644
+--- a/setup.cfg
++++ b/setup.cfg
+@@ -34,3 +34,7 @@ filterwarnings=
+     ignore: Using or importing the ABCs from 'collections' instead of from 'collections\.abc' is deprecated.*:DeprecationWarning
+     ignore: The 'context' alias has been deprecated. Please use 'context_value' instead\.:DeprecationWarning
+     ignore: The 'variables' alias has been deprecated. Please use 'variable_values' instead\.:DeprecationWarning
++    # https://github.com/python/cpython/issues/100528 (Python 3.12+)
++    ignore: There is no current event loop.*:DeprecationWarning
++    # python-multipart pending deprecation
++    ignore: Please use `import python_multipart` instead\.:PendingDeprecationWarning
+diff --git a/starlette/middleware/sessions.py b/starlette/middleware/sessions.py
+index d1b1d5a..a13ec5c 100644
+--- a/starlette/middleware/sessions.py
++++ b/starlette/middleware/sessions.py
+@@ -49,14 +49,16 @@ class SessionMiddleware:
+ 
+         async def send_wrapper(message: Message) -> None:
+             if message["type"] == "http.response.start":
++                path = scope.get("root_path", "") or "/"
+                 if scope["session"]:
+                     # We have session data to persist.
+                     data = b64encode(json.dumps(scope["session"]).encode("utf-8"))
+                     data = self.signer.sign(data)
+                     headers = MutableHeaders(scope=message)
+-                    header_value = "%s=%s; path=/; Max-Age=%d; %s" % (
++                    header_value = "%s=%s; path=%s; Max-Age=%d; %s" % (
+                         self.session_cookie,
+                         data.decode("utf-8"),
++                        path,
+                         self.max_age,
+                         self.security_flags,
+                     )
+@@ -66,7 +68,7 @@ class SessionMiddleware:
+                     headers = MutableHeaders(scope=message)
+                     header_value = "{}={}; {}".format(
+                         self.session_cookie,
+-                        "null; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;",
++                        f"null; path={path}; expires=Thu, 01 Jan 1970 00:00:00 GMT;",
+                         self.security_flags,
+                     )
+                     headers.append("Set-Cookie", header_value)
+diff --git a/tests/middleware/test_session.py b/tests/middleware/test_session.py
+index 3f71232..68cf36d 100644
+--- a/tests/middleware/test_session.py
++++ b/tests/middleware/test_session.py
+@@ -101,3 +101,15 @@ def test_secure_session():
+ 
+     response = secure_client.get("/view_session")
+     assert response.json() == {"session": {}}
++
++
++def test_session_cookie_subpath():
++    app = create_app()
++    second_app = create_app()
++    second_app.add_middleware(SessionMiddleware, secret_key="example")
++    app.mount("/second_app", second_app)
++    client = TestClient(app, base_url="http://testserver/second_app")
++    response = client.post("second_app/update_session", json={"some": "data"})
++    cookie = response.headers["set-cookie"]
++    cookie_path = re.search(r"; path=(\S+);", cookie).groups()[0]
++    assert cookie_path == "/second_app"
+=== DISK USAGE ===
+10	/testbed
+=== TOOL CALL LOG ===
+No tool call log

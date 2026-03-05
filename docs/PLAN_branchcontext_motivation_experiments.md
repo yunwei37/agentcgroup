@@ -258,6 +258,67 @@ Pilot 结论：
 - 小样本已经能验证数据链路正确，并能区分不同类型 workload 的 syscall 副作用模式。  
 - 在进入大批量之前，应加入一个轻量质量门槛：`tool_calls>0` 且出现预期 marker/事件类型，否则自动重试或标记无效样本。
 
+### eBPF 交叉分析（2026-03-05）
+
+已新增脚本：`scripts/analyze_ebpf_cross.py`  
+用途：把 `ebpf_trace.jsonl` 与 `tool_calls.json`/`resources.json` 做时间对齐和交叉分析，自动输出多图与报告。
+
+4-run 同条件样本（starlette-1147, haiku, `--trace-all --trace-cgroup-children`）：
+
+- `swebench_example_20260304_233348`
+- `sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004649`
+- `sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004821`
+- `sweb.eval.x86_64.encode_1776_starlette-1147_20260305_005002`
+
+报告目录：
+
+- `experiments/branchfs_motivation/analysis_starlette1147_cross_4runs_20260305/report.md`
+- `experiments/branchfs_motivation/analysis_starlette1147_cross_4runs_20260305/plots/`
+
+核心统计（4 runs）：
+
+| 指标 | mean | stddev | CV |
+|------|------|--------|----|
+| duration_s | 93.6868 | 16.1004 | 0.1719 |
+| event_count_total | 4728.5 | 1187.1046 | 0.2511 |
+| summary_count_total | 9262.25 | 2837.8677 | 0.3064 |
+| summary_write_mb_total | 24.478 | 6.4869 | 0.2650 |
+| tool_calls_total | 28.25 | 5.4943 | 0.1945 |
+
+解读：
+
+1. 同一任务多次运行的 syscall 规模存在中等波动（CV ~0.19-0.31），说明“探索路径/执行长度”对 run-to-run 差异敏感。  
+2. 工具调用窗口与 eBPF 活动可以完成对齐并做交叉统计（每 tool 的事件速率、写入速率、热点进程/路径）。  
+3. 当前链路已经可用于 Section 2 的“存在性与多维副作用”证据生产；但如果要做严格因果归因，还需进一步细化事件与 agent phase 标注。
+
+### 阶段级瓶颈归因（paper-style，2026-03-05）
+
+已新增脚本：`scripts/analyze_bottleneck_attribution.py`  
+用途：按 phase（`discovery/editing/testing/build_install/vcs_revert/runtime_probe/other`）归因
+
+- wall-clock 工具活跃时间占比
+- eBPF 事件占比
+- eBPF 写入字节占比
+- 综合瓶颈分数 `score = 0.5*time_share + 0.3*event_share + 0.2*write_share`
+
+4-run 结果目录：
+
+- `experiments/branchfs_motivation/analysis_starlette1147_bottleneck_4runs_20260305/bottleneck_report.md`
+- `experiments/branchfs_motivation/analysis_starlette1147_bottleneck_4runs_20260305/bottleneck_metrics.json`
+
+聚合排名（按 `score_mean`）：
+
+1. `testing`（0.697658）
+2. `discovery`（0.189788）
+3. `build_install`（0.064904）
+4. `other` / `runtime_probe` / `editing` / `vcs_revert`
+
+要点：
+
+1. 该任务族的主瓶颈明确在测试回路（时间、事件、写入三维都占主导）。  
+2. `discovery` 次之，说明“检索/定位上下文”仍有明显成本。  
+3. `build_install` 在个别 run 突出（高 CV），提示环境准备路径存在 run-to-run 差异。
+
 ### 当前还差什么（process_new 直连版）
 
 当前链路已经可以支撑**动机实验的主证据采集**，但要达到论文可复现/可量化标准，仍有以下缺口：
@@ -265,8 +326,8 @@ Pilot 结论：
 1. **WRITE 路径仍是 best-effort**：已支持 `/proc/<pid>/fd/<fd>` 解析路径（`detail` + `fd` + `path_resolved`），但短生命周期 FD/进程退出后仍可能回退到 `fd=N`。
 2. **子 cgroup 刷新有时间窗**：`--cgroup-filter-children` 通过 userspace 周期刷新子树 inode 集合实现，极短生命周期子 cgroup 仍可能在刷新间隙漏掉部分事件。
 3. **容器内背景噪声仍在**：虽然宿主机噪声已通过 cgroup 过滤大幅下降，但容器内部辅助进程（如 `git`、shell helper）仍会进入 trace，需要分析阶段做语义去噪。
-4. **时间对齐自动化缺失**：`CLOCK_SYNC` 锚点已具备，但尚缺统一脚本把 `ebpf_trace.jsonl` 与 `trace.jsonl`/`tool_calls.json` 做批量对时归一化。
-5. **每 tool-call 的资源归因未自动打通**：当前是“容器级资源采样 + syscall 聚合”，尚未形成稳定的 tool-call 级归因流水线。
+4. **时间对齐自动化已补一版（仍可增强）**：已新增 `scripts/analyze_ebpf_cross.py`，可基于 `CLOCK_SYNC` 对齐 `ebpf_trace.jsonl` 与 `tool_calls.json`/`resources.json` 并批量出图；尚未与 `trace.jsonl` 的语义 phase 完整打通。
+5. **每 tool-call 的资源归因已具备统计版（仍是近似）**：当前支持按 tool call 时间窗计算 eBPF 事件速率/写入速率，但并发调用和 SUMMARY 聚合会引入归因误差。
 
 > 结论：  
 > 对 Section 2 Motivation（证明“探索存在 + 副作用广泛 + 现有机制不足”）已经**够用**。  

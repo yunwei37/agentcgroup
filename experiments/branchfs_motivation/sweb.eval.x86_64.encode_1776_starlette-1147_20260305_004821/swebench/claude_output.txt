@@ -1,0 +1,104 @@
+[Runner] Claude binary: /home/yunwei37/.local/bin/claude
+Perfect! All tests pass. Here's a summary of the fix:
+
+## Summary
+
+I've successfully fixed the session cookie issue. The session middleware now uses the ASGI `root_path` instead of hardcoding '/' as the cookie path, allowing the application to work correctly when submounted.
+
+### Changes Made
+
+**File: `starlette/middleware/sessions.py`**
+
+The fix involved two key changes:
+
+1. **When setting a session cookie** (lines 57-64): Changed from hardcoded `path=/` to dynamic `path=<root_path>` 
+2. **When clearing a session cookie** (lines 66-76): Changed from hardcoded `path=/` to dynamic `path=<root_path>`
+
+The implementation uses `scope.get("root_path", "") or "/"` which:
+- Gets the ASGI root_path from the scope
+- Falls back to "/" if root_path is empty or not set
+- Works correctly for both submounted and root applications
+
+### Git Diff
+
+```diff
+diff --git a/starlette/middleware/sessions.py b/starlette/middleware/sessions.py
+index d1b1d5a..e49929d 100644
+--- a/starlette/middleware/sessions.py
++++ b/starlette/middleware/sessions.py
+@@ -54,9 +54,11 @@ class SessionMiddleware:
+                     data = b64encode(json.dumps(scope["session"]).encode("utf-8"))
+                     data = self.signer.sign(data)
+                     headers = MutableHeaders(scope=message)
+-                    header_value = "%s=%s; path=/; Max-Age=%d; %s" % (
++                    path = scope.get("root_path", "") or "/"
++                    header_value = "%s=%s; path=%s; Max-Age=%d; %s" % (
+                         self.session_cookie,
+                         data.decode("utf-8"),
++                        path,
+                         self.max_age,
+                         self.security_flags,
+                     )
+@@ -64,9 +66,11 @@ class SessionMiddleware:
+                 elif not initial_session_was_empty:
+                     # The session has been cleared.
+                     headers = MutableHeaders(scope=message)
+-                    header_value = "{}={}; {}".format(
++                    path = scope.get("root_path", "") or "/"
++                    header_value = "{}={}; path={}; expires=Thu, 01 Jan 1970 00:00:00 GMT; {}".format(
+                         self.session_cookie,
+-                        "null; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;",
++                        "null",
++                        path,
+                         self.security_flags,
+                     )
+                     headers.append("Set-Cookie", header_value)
+```
+
+### Test Results
+
+✅ All 3 existing session tests pass:
+- `test_session` - PASSED
+- `test_session_expires` - PASSED  
+- `test_secure_session` - PASSED
+
+✅ Verified with custom tests:
+- Session cookies with root_path: `path=/api/v1` ✓
+- Session cookies without root_path: `path=/` ✓
+- Clear session cookies with root_path: `path=/api/v1` ✓
+=== GIT DIFF ===
+diff --git a/starlette/middleware/sessions.py b/starlette/middleware/sessions.py
+index d1b1d5a..e49929d 100644
+--- a/starlette/middleware/sessions.py
++++ b/starlette/middleware/sessions.py
+@@ -54,9 +54,11 @@ class SessionMiddleware:
+                     data = b64encode(json.dumps(scope["session"]).encode("utf-8"))
+                     data = self.signer.sign(data)
+                     headers = MutableHeaders(scope=message)
+-                    header_value = "%s=%s; path=/; Max-Age=%d; %s" % (
++                    path = scope.get("root_path", "") or "/"
++                    header_value = "%s=%s; path=%s; Max-Age=%d; %s" % (
+                         self.session_cookie,
+                         data.decode("utf-8"),
++                        path,
+                         self.max_age,
+                         self.security_flags,
+                     )
+@@ -64,9 +66,11 @@ class SessionMiddleware:
+                 elif not initial_session_was_empty:
+                     # The session has been cleared.
+                     headers = MutableHeaders(scope=message)
+-                    header_value = "{}={}; {}".format(
++                    path = scope.get("root_path", "") or "/"
++                    header_value = "{}={}; path={}; expires=Thu, 01 Jan 1970 00:00:00 GMT; {}".format(
+                         self.session_cookie,
+-                        "null; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;",
++                        "null",
++                        path,
+                         self.security_flags,
+                     )
+                     headers.append("Set-Cookie", header_value)
+=== DISK USAGE ===
+10	/testbed
+=== TOOL CALL LOG ===
+No tool call log

@@ -1,0 +1,74 @@
+{
+  "image": "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+  "start_time": "2026-03-04T22:31:57.584115",
+  "memory_limit": "4g",
+  "cpu_limit": "2",
+  "model": "haiku",
+  "model_requested": "haiku",
+  "pull_time": 0.7885911464691162,
+  "permission_fix_time": 0.0434415340423584,
+  "image_info": {
+    "size_bytes": 3662855836,
+    "size_mb": 3493.17,
+    "image_id": "77c3f1078bbf"
+  },
+  "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/smoke_new_20260304_223156/swebench",
+  "claude_time": 3.4720818996429443,
+  "model_actual": "haiku",
+  "claude_output": {
+    "stdout": "[Runner] Claude binary: /home/yunwei37/.local/bin/claude\nSMOKE_OK\n=== GIT DIFF ===\n=== DISK USAGE ===\n9\t/testbed\n=== TOOL CALL LOG ===\nNo tool call log\n",
+    "stderr": "",
+    "exit_code": 0
+  },
+  "resource_samples": {
+    "samples": [
+      {
+        "timestamp": "2026-03-04T22:31:58.754080",
+        "epoch": 1772692318.7540894,
+        "mem_usage": "90.02MB / 4.295GB",
+        "mem_percent": "2.10%",
+        "cpu_percent": "126.71%"
+      },
+      {
+        "timestamp": "2026-03-04T22:31:59.791303",
+        "epoch": 1772692319.7913127,
+        "mem_usage": "296.4MB / 4.295GB",
+        "mem_percent": "6.90%",
+        "cpu_percent": "113.05%"
+      },
+      {
+        "timestamp": "2026-03-04T22:32:00.892571",
+        "epoch": 1772692320.8925853,
+        "mem_usage": "0B / 0B",
+        "mem_percent": "0.00%",
+        "cpu_percent": "0.00%"
+      }
+    ],
+    "summary": {
+      "sample_count": 3,
+      "duration_seconds": 2.138495922088623,
+      "memory_mb": {
+        "min": 90.02,
+        "max": 296.4,
+        "avg": 193.20999999999998
+      },
+      "cpu_percent": {
+        "min": 0.0,
+        "max": 126.71,
+        "avg": 79.92
+      }
+    }
+  },
+  "disk_usage": {
+    "testbed_mb": 9
+  },
+  "traces": {
+    "files": [
+      "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/smoke_new_20260304_223156/swebench/trace.jsonl"
+    ],
+    "tool_calls": []
+  },
+  "cleaned": true,
+  "total_time": 4.516326904296875,
+  "end_time": "2026-03-04T22:32:02.100441"
+}

@@ -1,0 +1,1495 @@
+{
+  "runs": [
+    {
+      "run_name": "swebench_example_20260304_233348",
+      "run_dir": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/swebench_example_20260304_233348",
+      "totals": {
+        "tool_calls": 37,
+        "tool_time_s": 22.017999,
+        "events_in_tool_windows": 5695,
+        "write_mb_in_tool_windows": 15.042855
+      },
+      "phase_stats": {
+        "discovery": {
+          "tool_calls": 16,
+          "tool_time_s": 0.382,
+          "time_share": 0.017349,
+          "event_n": 1478,
+          "event_share": 0.259526,
+          "summary_count": 614,
+          "write_mb": 5.07123,
+          "write_share": 0.337119,
+          "exec_n": 41,
+          "bottleneck_score": 0.153956,
+          "top_comm_summary": [
+            [
+              "zsh",
+              318
+            ],
+            [
+              "HTTP Client",
+              101
+            ],
+            [
+              "claude",
+              72
+            ],
+            [
+              "git",
+              32
+            ],
+            [
+              "2.1.69",
+              16
+            ],
+            [
+              "mkdir",
+              12
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "WRITE",
+              322
+            ],
+            [
+              "PROC_FORK",
+              127
+            ],
+            [
+              "MMAP_SHARED",
+              44
+            ],
+            [
+              "SIGNAL_SEND",
+              40
+            ],
+            [
+              "NET_CONNECT",
+              28
+            ],
+            [
+              "CHDIR",
+              24
+            ],
+            [
+              "DIR_CREATE",
+              17
+            ],
+            [
+              "FILE_DELETE",
+              12
+            ]
+          ]
+        },
+        "editing": {
+          "tool_calls": 4,
+          "tool_time_s": 0.077,
+          "time_share": 0.003497,
+          "event_n": 15,
+          "event_share": 0.002634,
+          "summary_count": 11,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.002539,
+          "top_comm_summary": [
+            [
+              "claude",
+              11
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "DIR_CREATE",
+              4
+            ],
+            [
+              "FILE_TRUNCATE",
+              4
+            ],
+            [
+              "FILE_RENAME",
+              3
+            ]
+          ]
+        },
+        "testing": {
+          "tool_calls": 13,
+          "tool_time_s": 17.733999,
+          "time_share": 0.805432,
+          "event_n": 2369,
+          "event_share": 0.415979,
+          "summary_count": 7180,
+          "write_mb": 3.878285,
+          "write_share": 0.257816,
+          "exec_n": 59,
+          "bottleneck_score": 0.579073,
+          "top_comm_summary": [
+            [
+              "python",
+              6255
+            ],
+            [
+              "Bun Pool 1",
+              193
+            ],
+            [
+              "Bun Pool 4",
+              180
+            ],
+            [
+              "Bun Pool 2",
+              170
+            ],
+            [
+              "zsh",
+              116
+            ],
+            [
+              "pip",
+              104
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "DIR_CREATE",
+              2861
+            ],
+            [
+              "FILE_TRUNCATE",
+              2006
+            ],
+            [
+              "WRITE",
+              1799
+            ],
+            [
+              "PROC_FORK",
+              129
+            ],
+            [
+              "FILE_DELETE",
+              118
+            ],
+            [
+              "CHDIR",
+              88
+            ],
+            [
+              "FILE_RENAME",
+              79
+            ],
+            [
+              "NET_CONNECT",
+              38
+            ]
+          ]
+        },
+        "build_install": {
+          "tool_calls": 3,
+          "tool_time_s": 3.78,
+          "time_share": 0.171678,
+          "event_n": 1761,
+          "event_share": 0.309219,
+          "summary_count": 2387,
+          "write_mb": 6.09322,
+          "write_share": 0.405057,
+          "exec_n": 31,
+          "bottleneck_score": 0.259616,
+          "top_comm_summary": [
+            [
+              "pip",
+              1230
+            ],
+            [
+              "python3",
+              953
+            ],
+            [
+              "Bun Pool 2",
+              108
+            ],
+            [
+              "lsb_release",
+              35
+            ],
+            [
+              "zsh",
+              26
+            ],
+            [
+              "claude",
+              14
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "FILE_DELETE",
+              1005
+            ],
+            [
+              "WRITE",
+              925
+            ],
+            [
+              "DIR_CREATE",
+              189
+            ],
+            [
+              "FILE_RENAME",
+              144
+            ],
+            [
+              "PROC_FORK",
+              54
+            ],
+            [
+              "NET_CONNECT",
+              42
+            ],
+            [
+              "MMAP_SHARED",
+              12
+            ],
+            [
+              "NET_BIND",
+              6
+            ]
+          ]
+        },
+        "vcs_revert": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        },
+        "runtime_probe": {
+          "tool_calls": 1,
+          "tool_time_s": 0.045,
+          "time_share": 0.002044,
+          "event_n": 72,
+          "event_share": 0.012643,
+          "summary_count": 9,
+          "write_mb": 0.00012,
+          "write_share": 8e-06,
+          "exec_n": 2,
+          "bottleneck_score": 0.004816,
+          "top_comm_summary": [
+            [
+              "zsh",
+              4
+            ],
+            [
+              "python",
+              3
+            ],
+            [
+              "Bun Pool 1",
+              1
+            ],
+            [
+              "claude",
+              1
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "WRITE",
+              3
+            ],
+            [
+              "SIGNAL_SEND",
+              2
+            ],
+            [
+              "PROC_FORK",
+              2
+            ],
+            [
+              "FILE_DELETE",
+              2
+            ]
+          ]
+        },
+        "other": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        }
+      }
+    },
+    {
+      "run_name": "sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004649",
+      "run_dir": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004649",
+      "totals": {
+        "tool_calls": 22,
+        "tool_time_s": 7.264,
+        "events_in_tool_windows": 2704,
+        "write_mb_in_tool_windows": 2.606988
+      },
+      "phase_stats": {
+        "discovery": {
+          "tool_calls": 8,
+          "tool_time_s": 0.199,
+          "time_share": 0.027395,
+          "event_n": 1103,
+          "event_share": 0.407914,
+          "summary_count": 405,
+          "write_mb": 0.298342,
+          "write_share": 0.114439,
+          "exec_n": 31,
+          "bottleneck_score": 0.15896,
+          "top_comm_summary": [
+            [
+              "zsh",
+              270
+            ],
+            [
+              "claude",
+              61
+            ],
+            [
+              "mkdir",
+              12
+            ],
+            [
+              "head",
+              11
+            ],
+            [
+              "sed",
+              10
+            ],
+            [
+              "grep",
+              9
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "WRITE",
+              193
+            ],
+            [
+              "PROC_FORK",
+              98
+            ],
+            [
+              "MMAP_SHARED",
+              36
+            ],
+            [
+              "SIGNAL_SEND",
+              31
+            ],
+            [
+              "NET_CONNECT",
+              14
+            ],
+            [
+              "DIR_CREATE",
+              13
+            ],
+            [
+              "CHDIR",
+              13
+            ],
+            [
+              "FILE_DELETE",
+              7
+            ]
+          ]
+        },
+        "editing": {
+          "tool_calls": 1,
+          "tool_time_s": 0.027,
+          "time_share": 0.003717,
+          "event_n": 4,
+          "event_share": 0.001479,
+          "summary_count": 3,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.002302,
+          "top_comm_summary": [
+            [
+              "claude",
+              3
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "FILE_RENAME",
+              1
+            ],
+            [
+              "DIR_CREATE",
+              1
+            ],
+            [
+              "FILE_TRUNCATE",
+              1
+            ]
+          ]
+        },
+        "testing": {
+          "tool_calls": 8,
+          "tool_time_s": 6.497,
+          "time_share": 0.894411,
+          "event_n": 1185,
+          "event_share": 0.43824,
+          "summary_count": 3318,
+          "write_mb": 2.304172,
+          "write_share": 0.883844,
+          "exec_n": 33,
+          "bottleneck_score": 0.755446,
+          "top_comm_summary": [
+            [
+              "python",
+              2920
+            ],
+            [
+              "HTTP Client",
+              237
+            ],
+            [
+              "zsh",
+              72
+            ],
+            [
+              "ldconfig.real",
+              56
+            ],
+            [
+              "claude",
+              15
+            ],
+            [
+              "Bun Pool 2",
+              5
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "DIR_CREATE",
+              1838
+            ],
+            [
+              "WRITE",
+              851
+            ],
+            [
+              "FILE_TRUNCATE",
+              378
+            ],
+            [
+              "FILE_RENAME",
+              55
+            ],
+            [
+              "CHDIR",
+              54
+            ],
+            [
+              "FILE_DELETE",
+              46
+            ],
+            [
+              "PROC_FORK",
+              39
+            ],
+            [
+              "MMAP_SHARED",
+              17
+            ]
+          ]
+        },
+        "build_install": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        },
+        "vcs_revert": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        },
+        "runtime_probe": {
+          "tool_calls": 5,
+          "tool_time_s": 0.541,
+          "time_share": 0.074477,
+          "event_n": 412,
+          "event_share": 0.152367,
+          "summary_count": 233,
+          "write_mb": 0.004475,
+          "write_share": 0.001716,
+          "exec_n": 10,
+          "bottleneck_score": 0.083292,
+          "top_comm_summary": [
+            [
+              "HTTP Client",
+              137
+            ],
+            [
+              "zsh",
+              47
+            ],
+            [
+              "python",
+              21
+            ],
+            [
+              "claude",
+              17
+            ],
+            [
+              "Bun Pool 1",
+              3
+            ],
+            [
+              "Bun Pool 5",
+              3
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "WRITE",
+              153
+            ],
+            [
+              "PROC_FORK",
+              22
+            ],
+            [
+              "MMAP_SHARED",
+              10
+            ],
+            [
+              "NET_CONNECT",
+              10
+            ],
+            [
+              "SIGNAL_SEND",
+              10
+            ],
+            [
+              "FILE_DELETE",
+              10
+            ],
+            [
+              "CHDIR",
+              8
+            ],
+            [
+              "NET_BIND",
+              5
+            ]
+          ]
+        },
+        "other": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        }
+      }
+    },
+    {
+      "run_name": "sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004821",
+      "run_dir": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/sweb.eval.x86_64.encode_1776_starlette-1147_20260305_004821",
+      "totals": {
+        "tool_calls": 26,
+        "tool_time_s": 8.859,
+        "events_in_tool_windows": 2959,
+        "write_mb_in_tool_windows": 17.281661
+      },
+      "phase_stats": {
+        "discovery": {
+          "tool_calls": 10,
+          "tool_time_s": 0.585,
+          "time_share": 0.066035,
+          "event_n": 1035,
+          "event_share": 0.34978,
+          "summary_count": 543,
+          "write_mb": 14.606133,
+          "write_share": 0.845181,
+          "exec_n": 29,
+          "bottleneck_score": 0.306988,
+          "top_comm_summary": [
+            [
+              "zsh",
+              258
+            ],
+            [
+              "HTTP Client",
+              148
+            ],
+            [
+              "2.1.69",
+              56
+            ],
+            [
+              "claude",
+              12
+            ],
+            [
+              "mkdir",
+              12
+            ],
+            [
+              "sed",
+              10
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "WRITE",
+              355
+            ],
+            [
+              "PROC_FORK",
+              78
+            ],
+            [
+              "MMAP_SHARED",
+              31
+            ],
+            [
+              "SIGNAL_SEND",
+              30
+            ],
+            [
+              "NET_CONNECT",
+              16
+            ],
+            [
+              "DIR_CREATE",
+              13
+            ],
+            [
+              "CHDIR",
+              11
+            ],
+            [
+              "FILE_DELETE",
+              9
+            ]
+          ]
+        },
+        "editing": {
+          "tool_calls": 1,
+          "tool_time_s": 0.018,
+          "time_share": 0.002032,
+          "event_n": 4,
+          "event_share": 0.001352,
+          "summary_count": 3,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.001421,
+          "top_comm_summary": [
+            [
+              "claude",
+              3
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "DIR_CREATE",
+              1
+            ],
+            [
+              "FILE_TRUNCATE",
+              1
+            ],
+            [
+              "FILE_RENAME",
+              1
+            ]
+          ]
+        },
+        "testing": {
+          "tool_calls": 9,
+          "tool_time_s": 7.557,
+          "time_share": 0.853031,
+          "event_n": 1400,
+          "event_share": 0.473133,
+          "summary_count": 3468,
+          "write_mb": 2.671247,
+          "write_share": 0.154571,
+          "exec_n": 39,
+          "bottleneck_score": 0.599369,
+          "top_comm_summary": [
+            [
+              "python",
+              3264
+            ],
+            [
+              "zsh",
+              87
+            ],
+            [
+              "ldconfig.real",
+              72
+            ],
+            [
+              "claude",
+              21
+            ],
+            [
+              "Bun Pool 3",
+              7
+            ],
+            [
+              "head",
+              4
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "DIR_CREATE",
+              2091
+            ],
+            [
+              "WRITE",
+              695
+            ],
+            [
+              "FILE_TRUNCATE",
+              390
+            ],
+            [
+              "FILE_RENAME",
+              65
+            ],
+            [
+              "CHDIR",
+              61
+            ],
+            [
+              "PROC_FORK",
+              52
+            ],
+            [
+              "FILE_DELETE",
+              48
+            ],
+            [
+              "MMAP_SHARED",
+              21
+            ]
+          ]
+        },
+        "build_install": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        },
+        "vcs_revert": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        },
+        "runtime_probe": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        },
+        "other": {
+          "tool_calls": 6,
+          "tool_time_s": 0.699,
+          "time_share": 0.078903,
+          "event_n": 520,
+          "event_share": 0.175735,
+          "summary_count": 397,
+          "write_mb": 0.004282,
+          "write_share": 0.000248,
+          "exec_n": 12,
+          "bottleneck_score": 0.092221,
+          "top_comm_summary": [
+            [
+              "Bun Pool 1",
+              287
+            ],
+            [
+              "zsh",
+              57
+            ],
+            [
+              "python3",
+              25
+            ],
+            [
+              "claude",
+              18
+            ],
+            [
+              "Bun Pool 5",
+              3
+            ],
+            [
+              "Bun Pool 4",
+              2
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "WRITE",
+              301
+            ],
+            [
+              "PROC_FORK",
+              27
+            ],
+            [
+              "MMAP_SHARED",
+              12
+            ],
+            [
+              "NET_CONNECT",
+              12
+            ],
+            [
+              "SIGNAL_SEND",
+              12
+            ],
+            [
+              "FILE_DELETE",
+              11
+            ],
+            [
+              "CHDIR",
+              10
+            ],
+            [
+              "NET_BIND",
+              6
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "run_name": "sweb.eval.x86_64.encode_1776_starlette-1147_20260305_005002",
+      "run_dir": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/sweb.eval.x86_64.encode_1776_starlette-1147_20260305_005002",
+      "totals": {
+        "tool_calls": 28,
+        "tool_time_s": 11.605,
+        "events_in_tool_windows": 3394,
+        "write_mb_in_tool_windows": 4.167665
+      },
+      "phase_stats": {
+        "discovery": {
+          "tool_calls": 11,
+          "tool_time_s": 0.226,
+          "time_share": 0.019474,
+          "event_n": 1302,
+          "event_share": 0.383618,
+          "summary_count": 614,
+          "write_mb": 0.300647,
+          "write_share": 0.072138,
+          "exec_n": 36,
+          "bottleneck_score": 0.13925,
+          "top_comm_summary": [
+            [
+              "zsh",
+              297
+            ],
+            [
+              "HTTP Client",
+              169
+            ],
+            [
+              "claude",
+              65
+            ],
+            [
+              "git",
+              13
+            ],
+            [
+              "mkdir",
+              12
+            ],
+            [
+              "head",
+              11
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "WRITE",
+              367
+            ],
+            [
+              "PROC_FORK",
+              105
+            ],
+            [
+              "MMAP_SHARED",
+              41
+            ],
+            [
+              "SIGNAL_SEND",
+              35
+            ],
+            [
+              "CHDIR",
+              21
+            ],
+            [
+              "NET_CONNECT",
+              20
+            ],
+            [
+              "DIR_CREATE",
+              15
+            ],
+            [
+              "FILE_DELETE",
+              10
+            ]
+          ]
+        },
+        "editing": {
+          "tool_calls": 5,
+          "tool_time_s": 0.056,
+          "time_share": 0.004826,
+          "event_n": 18,
+          "event_share": 0.005303,
+          "summary_count": 13,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.004004,
+          "top_comm_summary": [
+            [
+              "claude",
+              13
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "DIR_CREATE",
+              5
+            ],
+            [
+              "FILE_TRUNCATE",
+              5
+            ],
+            [
+              "FILE_RENAME",
+              3
+            ]
+          ]
+        },
+        "testing": {
+          "tool_calls": 12,
+          "tool_time_s": 11.323,
+          "time_share": 0.9757,
+          "event_n": 2074,
+          "event_share": 0.611078,
+          "summary_count": 7577,
+          "write_mb": 3.867019,
+          "write_share": 0.927862,
+          "exec_n": 51,
+          "bottleneck_score": 0.856746,
+          "top_comm_summary": [
+            [
+              "python",
+              6485
+            ],
+            [
+              "Bun Pool 5",
+              337
+            ],
+            [
+              "Bun Pool 0",
+              222
+            ],
+            [
+              "HTTP Client",
+              143
+            ],
+            [
+              "zsh",
+              108
+            ],
+            [
+              "Bun Pool 1",
+              103
+            ]
+          ],
+          "top_summary_type": [
+            [
+              "DIR_CREATE",
+              2820
+            ],
+            [
+              "WRITE",
+              2294
+            ],
+            [
+              "FILE_TRUNCATE",
+              1998
+            ],
+            [
+              "PROC_FORK",
+              114
+            ],
+            [
+              "FILE_DELETE",
+              111
+            ],
+            [
+              "CHDIR",
+              82
+            ],
+            [
+              "FILE_RENAME",
+              71
+            ],
+            [
+              "MMAP_SHARED",
+              27
+            ]
+          ]
+        },
+        "build_install": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        },
+        "vcs_revert": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        },
+        "runtime_probe": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        },
+        "other": {
+          "tool_calls": 0,
+          "tool_time_s": 0.0,
+          "time_share": 0.0,
+          "event_n": 0,
+          "event_share": 0.0,
+          "summary_count": 0,
+          "write_mb": 0.0,
+          "write_share": 0.0,
+          "exec_n": 0,
+          "bottleneck_score": 0.0,
+          "top_comm_summary": [],
+          "top_summary_type": []
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "phase_aggregate": {
+      "discovery": {
+        "time_share": {
+          "mean": 0.032563,
+          "stddev": 0.019684,
+          "cv": 0.604491
+        },
+        "event_share": {
+          "mean": 0.35021,
+          "stddev": 0.05628,
+          "cv": 0.160703
+        },
+        "write_share": {
+          "mean": 0.342219,
+          "stddev": 0.307337,
+          "cv": 0.898071
+        },
+        "bottleneck_score": {
+          "mean": 0.189788,
+          "stddev": 0.068052,
+          "cv": 0.358567
+        },
+        "tool_time_s": {
+          "mean": 0.348,
+          "stddev": 0.153631,
+          "cv": 0.441469
+        },
+        "event_n": {
+          "mean": 1229.5,
+          "stddev": 173.810961,
+          "cv": 0.141367
+        },
+        "write_mb": {
+          "mean": 5.069088,
+          "stddev": 5.840661,
+          "cv": 1.152211
+        },
+        "tool_calls": {
+          "mean": 11.25,
+          "stddev": 2.947457,
+          "cv": 0.261996
+        }
+      },
+      "editing": {
+        "time_share": {
+          "mean": 0.003518,
+          "stddev": 0.000995,
+          "cv": 0.282796
+        },
+        "event_share": {
+          "mean": 0.002692,
+          "stddev": 0.001588,
+          "cv": 0.589916
+        },
+        "write_share": {
+          "mean": 0.0,
+          "stddev": 0.0,
+          "cv": 0.0
+        },
+        "bottleneck_score": {
+          "mean": 0.002566,
+          "stddev": 0.000929,
+          "cv": 0.361821
+        },
+        "tool_time_s": {
+          "mean": 0.0445,
+          "stddev": 0.023436,
+          "cv": 0.526654
+        },
+        "event_n": {
+          "mean": 10.25,
+          "stddev": 6.339361,
+          "cv": 0.618474
+        },
+        "write_mb": {
+          "mean": 0.0,
+          "stddev": 0.0,
+          "cv": 0.0
+        },
+        "tool_calls": {
+          "mean": 2.75,
+          "stddev": 1.785357,
+          "cv": 0.649221
+        }
+      },
+      "testing": {
+        "time_share": {
+          "mean": 0.882143,
+          "stddev": 0.062521,
+          "cv": 0.070874
+        },
+        "event_share": {
+          "mean": 0.484608,
+          "stddev": 0.075806,
+          "cv": 0.156428
+        },
+        "write_share": {
+          "mean": 0.556023,
+          "stddev": 0.352073,
+          "cv": 0.633199
+        },
+        "bottleneck_score": {
+          "mean": 0.697658,
+          "stddev": 0.114424,
+          "cv": 0.164012
+        },
+        "tool_time_s": {
+          "mean": 10.77775,
+          "stddev": 4.39843,
+          "cv": 0.408103
+        },
+        "event_n": {
+          "mean": 1757.0,
+          "stddev": 482.095945,
+          "cv": 0.274386
+        },
+        "write_mb": {
+          "mean": 3.180181,
+          "stddev": 0.704539,
+          "cv": 0.221541
+        },
+        "tool_calls": {
+          "mean": 10.5,
+          "stddev": 2.061553,
+          "cv": 0.196338
+        }
+      },
+      "build_install": {
+        "time_share": {
+          "mean": 0.042919,
+          "stddev": 0.074339,
+          "cv": 1.732051
+        },
+        "event_share": {
+          "mean": 0.077305,
+          "stddev": 0.133896,
+          "cv": 1.732051
+        },
+        "write_share": {
+          "mean": 0.101264,
+          "stddev": 0.175395,
+          "cv": 1.732051
+        },
+        "bottleneck_score": {
+          "mean": 0.064904,
+          "stddev": 0.112417,
+          "cv": 1.732051
+        },
+        "tool_time_s": {
+          "mean": 0.945,
+          "stddev": 1.636788,
+          "cv": 1.732051
+        },
+        "event_n": {
+          "mean": 440.25,
+          "stddev": 762.535368,
+          "cv": 1.732051
+        },
+        "write_mb": {
+          "mean": 1.523305,
+          "stddev": 2.638442,
+          "cv": 1.732051
+        },
+        "tool_calls": {
+          "mean": 0.75,
+          "stddev": 1.299038,
+          "cv": 1.732051
+        }
+      },
+      "vcs_revert": {
+        "time_share": {
+          "mean": 0.0,
+          "stddev": 0.0,
+          "cv": 0.0
+        },
+        "event_share": {
+          "mean": 0.0,
+          "stddev": 0.0,
+          "cv": 0.0
+        },
+        "write_share": {
+          "mean": 0.0,
+          "stddev": 0.0,
+          "cv": 0.0
+        },
+        "bottleneck_score": {
+          "mean": 0.0,
+          "stddev": 0.0,
+          "cv": 0.0
+        },
+        "tool_time_s": {
+          "mean": 0.0,
+          "stddev": 0.0,
+          "cv": 0.0
+        },
+        "event_n": {
+          "mean": 0.0,
+          "stddev": 0.0,
+          "cv": 0.0
+        },
+        "write_mb": {
+          "mean": 0.0,
+          "stddev": 0.0,
+          "cv": 0.0
+        },
+        "tool_calls": {
+          "mean": 0.0,
+          "stddev": 0.0,
+          "cv": 0.0
+        }
+      },
+      "runtime_probe": {
+        "time_share": {
+          "mean": 0.01913,
+          "stddev": 0.031965,
+          "cv": 1.670932
+        },
+        "event_share": {
+          "mean": 0.041252,
+          "stddev": 0.064359,
+          "cv": 1.560131
+        },
+        "write_share": {
+          "mean": 0.000431,
+          "stddev": 0.000742,
+          "cv": 1.721351
+        },
+        "bottleneck_score": {
+          "mean": 0.022027,
+          "stddev": 0.035426,
+          "cv": 1.608297
+        },
+        "tool_time_s": {
+          "mean": 0.1465,
+          "stddev": 0.228504,
+          "cv": 1.559757
+        },
+        "event_n": {
+          "mean": 121.0,
+          "stddev": 170.56084,
+          "cv": 1.409594
+        },
+        "write_mb": {
+          "mean": 0.001149,
+          "stddev": 0.001921,
+          "cv": 1.672284
+        },
+        "tool_calls": {
+          "mean": 1.5,
+          "stddev": 2.061553,
+          "cv": 1.374369
+        }
+      },
+      "other": {
+        "time_share": {
+          "mean": 0.019726,
+          "stddev": 0.034166,
+          "cv": 1.732051
+        },
+        "event_share": {
+          "mean": 0.043934,
+          "stddev": 0.076095,
+          "cv": 1.732051
+        },
+        "write_share": {
+          "mean": 6.2e-05,
+          "stddev": 0.000107,
+          "cv": 1.732051
+        },
+        "bottleneck_score": {
+          "mean": 0.023055,
+          "stddev": 0.039933,
+          "cv": 1.732051
+        },
+        "tool_time_s": {
+          "mean": 0.17475,
+          "stddev": 0.302676,
+          "cv": 1.732051
+        },
+        "event_n": {
+          "mean": 130.0,
+          "stddev": 225.166605,
+          "cv": 1.732051
+        },
+        "write_mb": {
+          "mean": 0.001071,
+          "stddev": 0.001854,
+          "cv": 1.732051
+        },
+        "tool_calls": {
+          "mean": 1.5,
+          "stddev": 2.598076,
+          "cv": 1.732051
+        }
+      }
+    },
+    "phase_rank_by_score": [
+      "testing",
+      "discovery",
+      "build_install",
+      "other",
+      "runtime_probe",
+      "editing",
+      "vcs_revert"
+    ]
+  }
+}

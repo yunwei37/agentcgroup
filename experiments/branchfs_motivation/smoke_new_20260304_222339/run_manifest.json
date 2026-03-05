@@ -1,0 +1,42 @@
+{
+  "start_time": "2026-03-04T22:23:39.166255",
+  "image": "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+  "model": "haiku",
+  "task_name": "smoke_new_20260304_222339",
+  "output_root": "experiments/branchfs_motivation",
+  "trace_bin": "./agentsight/bpf/process_new",
+  "trace_mode": 2,
+  "trace_commands": "python,node,bash,sh,pip,pytest,git,claude",
+  "argv": [
+    "scripts/run_swebench_new.py",
+    "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+    "--task-name",
+    "smoke_new_20260304_222339",
+    "--model",
+    "haiku",
+    "--prompt",
+    "Reply exactly: SMOKE_OK",
+    "--trace-all"
+  ],
+  "trace_cmd": [
+    "sudo",
+    "./agentsight/bpf/process_new",
+    "-m",
+    "2",
+    "-c",
+    "python,node,bash,sh,pip,pytest,git,claude",
+    "--trace-all"
+  ],
+  "trace_pid": 869434,
+  "trace_pid_file": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/smoke_new_20260304_222339/ebpf_trace.pid",
+  "trace_stop": {
+    "pid": 869434,
+    "stop_method": "already_exited",
+    "exit_code": 1,
+    "timeout": false
+  },
+  "swebench": null,
+  "error": "process_new exited early with code 1; see ebpf_trace.stderr",
+  "end_time": "2026-03-04T22:23:40.167257",
+  "total_time": 1.0010173320770264
+}

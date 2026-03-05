@@ -14,7 +14,7 @@ Usage:
     python scripts/batch_test_swebench.py --category "SQL/Data"   # Run one category
     python scripts/batch_test_swebench.py --difficulty Easy       # Run one difficulty
     python scripts/batch_test_swebench.py --resume                # Resume from progress
-    python scripts/batch_test_swebench.py --model sonnet          # Use specific model
+    python scripts/batch_test_swebench.py --model haiku           # Use specific model
     python scripts/batch_test_swebench.py --local-model qwen3     # Use local model
 """
 

@@ -1,0 +1,47 @@
+{
+  "start_time": "2026-03-04T20:43:13.254434",
+  "image": "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+  "model": "haiku",
+  "task_name": "smoke_new_20260304_204313",
+  "output_root": "experiments/branchfs_motivation",
+  "trace_bin": "./agentsight/bpf/process_new",
+  "trace_mode": 2,
+  "trace_commands": "python,node,bash,sh,pip,pytest,git,claude",
+  "argv": [
+    "scripts/run_swebench_new.py",
+    "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+    "--task-name",
+    "smoke_new_20260304_204313",
+    "--model",
+    "haiku",
+    "--prompt",
+    "Say OK",
+    "--trace-all"
+  ],
+  "trace_cmd": [
+    "sudo",
+    "./agentsight/bpf/process_new",
+    "-m",
+    "2",
+    "-c",
+    "python,node,bash,sh,pip,pytest,git,claude",
+    "--trace-all"
+  ],
+  "trace_pid": 679326,
+  "trace_pid_file": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/smoke_new_20260304_204313/ebpf_trace.pid",
+  "trace_stop": {
+    "pid": 679326,
+    "stop_method": "sigint",
+    "exit_code": 0,
+    "timeout": false
+  },
+  "swebench": {
+    "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/smoke_new_20260304_204313/swebench",
+    "error": null,
+    "total_time": 4.3686299324035645,
+    "tool_calls": 0
+  },
+  "error": null,
+  "end_time": "2026-03-04T20:43:19.539754",
+  "total_time": 6.28533411026001
+}

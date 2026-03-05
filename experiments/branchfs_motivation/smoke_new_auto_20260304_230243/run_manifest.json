@@ -1,0 +1,59 @@
+{
+  "start_time": "2026-03-04T23:02:43.234419",
+  "image": "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+  "model": "haiku",
+  "task_name": "smoke_new_auto_20260304_230243",
+  "output_root": "experiments/branchfs_motivation",
+  "trace_bin": "./agentsight/bpf/process_new",
+  "trace_mode": 2,
+  "trace_commands": "python,node,bash,sh,pip,pytest,git,claude",
+  "argv": [
+    "scripts/run_swebench_new.py",
+    "swerebench/sweb.eval.x86_64.encode_1776_starlette-1147",
+    "--task-name",
+    "smoke_new_auto_20260304_230243",
+    "--model",
+    "haiku",
+    "--prompt",
+    "Use bash to run: echo AUTO_CGROUP_OK && pwd && ls -1 | head -3 . Then reply DONE.",
+    "--trace-all",
+    "--trace-cgroup-children"
+  ],
+  "container_id": "2204166a30c85d33a06753e4aa393f7b5c89ed879ec73928f0f6847bbc576a59",
+  "container_cgroup_path": "/user.slice/user-1000.slice/user@1000.service/user.slice/libpod-2204166a30c85d33a06753e4aa393f7b5c89ed879ec73928f0f6847bbc576a59.scope",
+  "trace_cgroup_filter_effective": "/user.slice/user-1000.slice/user@1000.service/user.slice/libpod-2204166a30c85d33a06753e4aa393f7b5c89ed879ec73928f0f6847bbc576a59.scope",
+  "trace_cgroup_filter_source": "auto",
+  "trace_cgroup_children": true,
+  "trace_ready_timeout": 8.0,
+  "trace_ready_elapsed_s": 0.4006638526916504,
+  "trace_cmd": [
+    "sudo",
+    "./agentsight/bpf/process_new",
+    "-m",
+    "2",
+    "-c",
+    "python,node,bash,sh,pip,pytest,git,claude",
+    "--trace-all",
+    "--cgroup-filter",
+    "/user.slice/user-1000.slice/user@1000.service/user.slice/libpod-2204166a30c85d33a06753e4aa393f7b5c89ed879ec73928f0f6847bbc576a59.scope",
+    "--cgroup-filter-children"
+  ],
+  "trace_pid": 950093,
+  "trace_pid_file": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/smoke_new_auto_20260304_230243/ebpf_trace.pid",
+  "trace_stop": {
+    "pid": 950093,
+    "stop_method": "sigint",
+    "exit_code": 0,
+    "timeout": false
+  },
+  "swebench": {
+    "output_dir": "/home/yunwei37/workspace/agentcgroup/experiments/branchfs_motivation/smoke_new_auto_20260304_230243/swebench",
+    "error": null,
+    "total_time": 19.76909327507019,
+    "tool_calls": 1,
+    "claude_exit_code": 0
+  },
+  "error": null,
+  "end_time": "2026-03-04T23:03:03.002617",
+  "total_time": 19.769559144973755
+}
